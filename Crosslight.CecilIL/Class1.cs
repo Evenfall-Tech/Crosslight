@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Crosslight.CecilIL
+namespace Crosslight.CIL
 {
     public class Class1
     {
