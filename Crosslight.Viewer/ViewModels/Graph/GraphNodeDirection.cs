@@ -4,10 +4,15 @@ using System.Text;
 
 namespace Crosslight.Viewer.ViewModels.Graph
 {
-    public enum GraphNodeDirection
+    public struct GraphNodeDirection
     {
-        Right,
-        Down,
-        DownRight,
+        public GraphNodeAlignment Horizontal { get; set; }
+        public GraphNodeAlignment Vertical { get; set; }
+        
+        public static GraphNodeDirection DownRight => new GraphNodeDirection()
+        {
+            Horizontal = GraphNodeAlignment.Highest,
+            Vertical = GraphNodeAlignment.Highest,
+        };
     }
 }

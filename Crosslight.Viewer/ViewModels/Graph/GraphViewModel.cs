@@ -47,7 +47,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
         {
             Dictionary<int, double> layersX = new Dictionary<int, double>();
             Dictionary<int, double> layersY = new Dictionary<int, double>();
-            Dictionary<NodeViewModel, Tuple<int, int>> nodeToLayer = new Dictionary<NodeViewModel, Tuple<int, int>>();
+            Dictionary<NodeViewModel, NodeLayer> nodeToLayer = new Dictionary<NodeViewModel, NodeLayer>();
             layersX[0] = defOffsetX / 2.0;
             layersY[0] = defOffsetY / 2.0;
 
@@ -72,7 +72,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
         /// <param name="horizontalAlignment">Horizontal node alignment inside a layer.</param>
         /// <param name="verticalAlignment">Vertical node alignment inside a layer.</param>
         private void PlaceNodesInsideLayers(
-            [DisallowNull] Dictionary<NodeViewModel, Tuple<int, int>> nodeToLayer,
+            [DisallowNull] Dictionary<NodeViewModel, NodeLayer> nodeToLayer,
             [DisallowNull] Dictionary<int, double> layersX,
             [DisallowNull] Dictionary<int, double> layersY,
             [DisallowNull] GraphNodeAlignment horizontalAlignment,
@@ -84,8 +84,8 @@ namespace Crosslight.Viewer.ViewModels.Graph
 
             foreach (var nodeKVP in nodeToLayer)
             {
-                nodeKVP.Key.Left = layersX[nodeKVP.Value.Item1];
-                nodeKVP.Key.Top = layersY[nodeKVP.Value.Item2];
+                nodeKVP.Key.Left = layersX[nodeKVP.Value.X];
+                nodeKVP.Key.Top = layersY[nodeKVP.Value.Y];
             }
         }
 
@@ -96,26 +96,27 @@ namespace Crosslight.Viewer.ViewModels.Graph
         /// <param name="layersX">Map of horizontal layer offsets.</param>
         /// <param name="layersY">Map of vertical layer offsets.</param>
         private void CalculateLayersPosition(
-            [DisallowNull] Dictionary<NodeViewModel, Tuple<int, int>> nodeToLayer,
+            [DisallowNull] Dictionary<NodeViewModel, NodeLayer> nodeToLayer,
             [DisallowNull] Dictionary<int, double> layersX,
             [DisallowNull] Dictionary<int, double> layersY)
         {
             var uniqueLayers = nodeToLayer.Values.Distinct(new LayerEqualityComparer(true, true));
-            var horizontalLayers = uniqueLayers.Distinct(new LayerEqualityComparer(true, false)).OrderBy(l => l.Item1).ToList();
-            var verticalLayers = uniqueLayers.Distinct(new LayerEqualityComparer(false, true)).OrderBy(l => l.Item2).ToList();
+            var horizontalLayers = uniqueLayers.Distinct(new LayerEqualityComparer(true, false)).OrderBy(l => l.X).ToList();
+            var verticalLayers = uniqueLayers.Distinct(new LayerEqualityComparer(false, true)).OrderBy(l => l.Y).ToList();
 
             // Set horizontal layers.
             {
                 // Find index of zeroth layer.
-                int zeroIndex = horizontalLayers.FindIndex(match => match.Item1 == 0);
+                int zeroIndex = horizontalLayers.FindIndex(match => match.X == 0);
                 double offset = layersX[0];
                 // Set layer size iteratively backwards.
                 for (int i = zeroIndex - 1; i >= 0; --i)
                 {
-                    int currentLayerPos = horizontalLayers[i].Item1;
+                    int currentLayerPos = horizontalLayers[i].X;
                     double biggestNodeSize = nodeToLayer
-                        .Where(e => e.Value.Item1 == currentLayerPos) // Find all nodes of this horizontal layer.
+                        .Where(e => e.Value.X == currentLayerPos) // Find all nodes of this horizontal layer.
                         .Select(e => e.Key.Width)
+                        .DefaultIfEmpty(0.0)
                         .Max();
                     offset -= defOffsetX + biggestNodeSize;
                     layersX[currentLayerPos] = offset;
@@ -125,10 +126,11 @@ namespace Crosslight.Viewer.ViewModels.Graph
 
                 for (int i = zeroIndex + 1; i < horizontalLayers.Count; ++i)
                 {
-                    int currentLayerPos = horizontalLayers[i].Item1;
+                    int currentLayerPos = horizontalLayers[i].X;
                     double biggestNodeSize = nodeToLayer
-                        .Where(e => e.Value.Item1 == currentLayerPos - 1) // Find all nodes of previous horizontal layer.
+                        .Where(e => e.Value.X == currentLayerPos - 1) // Find all nodes of previous horizontal layer.
                         .Select(e => e.Key.Width)
+                        .DefaultIfEmpty(0.0)
                         .Max();
                     offset += biggestNodeSize + defOffsetX;
                     layersX[currentLayerPos] = offset;
@@ -138,15 +140,16 @@ namespace Crosslight.Viewer.ViewModels.Graph
             // Set vertical layers.
             {
                 // Find index of zeroth layer.
-                int zeroIndex = verticalLayers.FindIndex(match => match.Item2 == 0);
+                int zeroIndex = verticalLayers.FindIndex(match => match.Y == 0);
                 double offset = layersY[0];
                 // Set layer size iteratively backwards.
                 for (int j = zeroIndex - 1; j >= 0; --j)
                 {
-                    int currentLayerPos = verticalLayers[j].Item2;
+                    int currentLayerPos = verticalLayers[j].Y;
                     double biggestNodeSize = nodeToLayer
-                        .Where(e => e.Value.Item2 == currentLayerPos) // Find all nodes of this vertical layer.
+                        .Where(e => e.Value.Y == currentLayerPos) // Find all nodes of this vertical layer.
                         .Select(e => e.Key.Height)
+                        .DefaultIfEmpty(0.0)
                         .Max();
                     offset -= defOffsetY + biggestNodeSize;
                     layersY[currentLayerPos] = offset;
@@ -156,10 +159,11 @@ namespace Crosslight.Viewer.ViewModels.Graph
 
                 for (int j = zeroIndex + 1; j < verticalLayers.Count; ++j)
                 {
-                    int currentLayerPos = verticalLayers[j].Item2;
+                    int currentLayerPos = verticalLayers[j].Y;
                     double biggestNodeSize = nodeToLayer
-                        .Where(e => e.Value.Item2 == currentLayerPos - 1) // Find all nodes of previous vertical layer.
+                        .Where(e => e.Value.Y == currentLayerPos - 1) // Find all nodes of previous vertical layer.
                         .Select(e => e.Key.Height)
+                        .DefaultIfEmpty(0.0)
                         .Max();
                     offset += biggestNodeSize + defOffsetY;
                     layersY[currentLayerPos] = offset;
@@ -174,17 +178,18 @@ namespace Crosslight.Viewer.ViewModels.Graph
         /// <param name="nodeToLayer">Map of node-layer assignments.</param>
         private void FillLayersForNodes(
             [DisallowNull] IList<NodeViewModel> nodes,
-            [DisallowNull] Dictionary<NodeViewModel, Tuple<int, int>> nodeToLayer)
+            [DisallowNull] Dictionary<NodeViewModel, NodeLayer> nodeToLayer)
         {
             if (nodes == null || nodeToLayer == null) return;
             List<NodeViewModel> notVisitedNodes = new List<NodeViewModel>(nodes);
-            Stack<Tuple<int, int>> currentLayer = new Stack<Tuple<int, int>>();
-            currentLayer.Push(new Tuple<int, int>(0, 0));
+            Stack<NodeLayer> currentLayer = new Stack<NodeLayer>();
+            currentLayer.Push(new NodeLayer(0, 0));
+            int shift = 0;
 
             while (notVisitedNodes.Count > 0)
             {
                 var node = notVisitedNodes[0];
-                FillLayersForNodeAndRelatives(node, notVisitedNodes, nodeToLayer, currentLayer);
+                FillLayersForNodeAndRelatives(node, notVisitedNodes, nodeToLayer, currentLayer, ref shift);
             }
 
             if (nodes.Count != nodeToLayer.Count)
@@ -199,22 +204,27 @@ namespace Crosslight.Viewer.ViewModels.Graph
         /// <param name="notVisitedNodes">List of not yet visited nodes.</param>
         /// <param name="nodeToLayer">Map of node-layer assignments.</param>
         /// <param name="currentLayer">Current layer stack.</param>
+        /// <param name="shift">Vertical shift of element.</param>
         private void FillLayersForNodeAndRelatives(
             [DisallowNull] NodeViewModel node,
             [DisallowNull] IList<NodeViewModel> notVisitedNodes,
-            [DisallowNull] Dictionary<NodeViewModel, Tuple<int, int>> nodeToLayer,
-            [DisallowNull] Stack<Tuple<int, int>> currentLayer)
+            [DisallowNull] Dictionary<NodeViewModel, NodeLayer> nodeToLayer,
+            [DisallowNull] Stack<NodeLayer> currentLayer,
+            ref int shift)
         {
-            nodeToLayer.Add(node, currentLayer.Peek());
+            var oldLayer = currentLayer.Peek().Clone();
+            oldLayer.Y += shift;
+            nodeToLayer.Add(node, oldLayer);
             currentLayer.Push(GetNextLayer(currentLayer.Peek(), node.Direction));
             notVisitedNodes.Remove(node);
 
-            var relatives = notVisitedNodes.Join(node.Connections, n => n.ID, i => i, (n, i) => n);
+            var relatives = notVisitedNodes.Join(node.Connections, n => n.ID, i => i, (n, i) => n).ToArray();
             foreach (var rel in relatives)
             {
                 if (!nodeToLayer.ContainsKey(rel))
                 {
-                    FillLayersForNodeAndRelatives(rel, notVisitedNodes, nodeToLayer, currentLayer);
+                    FillLayersForNodeAndRelatives(rel, notVisitedNodes, nodeToLayer, currentLayer, ref shift);
+                    shift++;
                 }
             }
 
@@ -226,20 +236,28 @@ namespace Crosslight.Viewer.ViewModels.Graph
         /// </summary>
         /// <param name="currentLayer">Current layer to use as an origin.</param>
         /// <param name="direction">Direction to move to.</param>
-        private Tuple<int, int> GetNextLayer([DisallowNull] Tuple<int, int> currentLayer, [DisallowNull] GraphNodeDirection direction)
+        private NodeLayer GetNextLayer([DisallowNull] NodeLayer currentLayer, [DisallowNull] GraphNodeDirection direction)
         {
-            return direction switch
+            int x = direction.Horizontal switch
             {
-                GraphNodeDirection.Down => new Tuple<int, int>(currentLayer.Item1, currentLayer.Item2 + 1),
-                GraphNodeDirection.Right => new Tuple<int, int>(currentLayer.Item1 + 1, currentLayer.Item2),
-                GraphNodeDirection.DownRight => new Tuple<int, int>(currentLayer.Item1 + 1, currentLayer.Item2 + 1),
+                GraphNodeAlignment.Lowest => currentLayer.X - 1,
+                GraphNodeAlignment.Highest => currentLayer.X + 1,
+                GraphNodeAlignment.Middle => currentLayer.X,
                 _ => throw new NotImplementedException(),
             };
+            int y = direction.Vertical switch
+            {
+                GraphNodeAlignment.Lowest => currentLayer.Y - 1,
+                GraphNodeAlignment.Highest => currentLayer.Y + 1,
+                GraphNodeAlignment.Middle => currentLayer.Y,
+                _ => throw new NotImplementedException(),
+            };
+            return new NodeLayer(x, y);
         }
         /// <summary>
         /// A helper class to compare node layers of a 2d garph.
         /// </summary>
-        private class LayerEqualityComparer : IEqualityComparer<Tuple<int, int>>
+        private class LayerEqualityComparer : IEqualityComparer<NodeLayer>
         {
             private readonly bool compareHorizontal;
             private readonly bool compareVertical;
@@ -249,19 +267,20 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 this.compareHorizontal = compareHorizontal;
                 this.compareVertical = compareVertical;
             }
-            public bool Equals([AllowNull] Tuple<int, int> x, [AllowNull] Tuple<int, int> y)
+            public bool Equals(NodeLayer x, NodeLayer y)
             {
-                if (x == null && y == null) return true;
-                if (x == null || y == null) return false;
                 bool eq = true;
-                if (compareHorizontal) eq = eq && x.Item1 == y.Item1;
-                if (compareVertical) eq = eq && x.Item2 == y.Item2;
+                if (compareHorizontal) eq = eq && x.X == y.X;
+                if (compareVertical) eq = eq && x.Y == y.Y;
                 return eq;
             }
 
-            public int GetHashCode([DisallowNull] Tuple<int, int> obj)
+            public int GetHashCode([DisallowNull] NodeLayer obj)
             {
-                return (obj.Item1 ^ obj.Item2).GetHashCode();
+                int res = 0;
+                if (compareHorizontal) res ^= obj.X;
+                if (compareVertical) res ^= obj.Y;
+                return res.GetHashCode();
             }
         }
     }

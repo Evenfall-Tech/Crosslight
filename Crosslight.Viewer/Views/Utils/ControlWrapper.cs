@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Crosslight.Viewer.ViewModels.Utils
+namespace Crosslight.Viewer.Views.Utils
 {
     public class ControlWrapper
     {
@@ -14,8 +14,9 @@ namespace Crosslight.Viewer.ViewModels.Utils
         public ControlWrapper(Control control, object tag)
         {
             Control = control;
-            Width = control.Bounds.Width;
-            Height = control.Bounds.Height;
+            var size = SizeMeasures.GetMinControlSize(control);
+            Width = size.Width;
+            Height = size.Height;
             Tag = tag;
         }
     }

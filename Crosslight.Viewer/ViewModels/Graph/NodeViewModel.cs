@@ -1,6 +1,5 @@
-﻿using Avalonia.Controls;
-using Crosslight.Viewer.Models.Graph;
-using Crosslight.Viewer.ViewModels.Utils;
+﻿using Crosslight.Viewer.Models.Graph;
+using Crosslight.Viewer.Views.Utils;
 using System.Collections.Generic;
 
 namespace Crosslight.Viewer.ViewModels.Graph
@@ -64,7 +63,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
         }
 
         //TODO: rewrite this with an observable collection
-        public IEnumerable<int> Connections
+        public ICollection<int> Connections
         {
             get => model.Connections;
             set

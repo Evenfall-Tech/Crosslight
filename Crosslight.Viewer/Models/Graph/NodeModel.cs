@@ -6,6 +6,6 @@ namespace Crosslight.Viewer.Models.Graph
     {
         public object Data { get; set; }
         public int ID { get; set; }
-        public IEnumerable<int> Connections { get; set; }
+        public ICollection<int> Connections { get; set; }
     }
 }

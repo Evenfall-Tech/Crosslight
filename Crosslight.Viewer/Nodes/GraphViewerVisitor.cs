@@ -35,7 +35,7 @@ namespace Crosslight.Viewer.Nodes
             var parent = new NodeModel()
             {
                 ID = idGen++,
-                Data = BuildNodeControl(name),
+                Data = GraphNodeControlBuilder.BuildGraphNodeControl(name),
                 Connections = new List<int>(),
             };
             Context.Nodes.Add(parent);
@@ -44,29 +44,10 @@ namespace Crosslight.Viewer.Nodes
                 for (int i = 0; i < node.Children.Count; ++i)
                 {
                     var child = Visit((ViewerNode)node.Children[i]);
-                    child.Connections = new int[] { parent.ID };
-                    parent.Connections.Append(child.ID);
+                    parent.Connections.Add(child.ID);
                 }
             }
             return parent;
-        }
-
-        //TODO: in case this doesn't get refactored, replace with NodeModel or AST Node
-        private ControlWrapper BuildNodeControl(string data)
-        {
-            var text = new TextBlock()
-            {
-                Text = data
-            };
-            var border = new Border()
-            {
-                BorderBrush = Avalonia.Media.Brushes.DarkGray,
-                BorderThickness = new Thickness(1.0, 1.0),
-                CornerRadius = new CornerRadius(2.5),
-                Child = text,
-                Padding = new Thickness(5.0),
-            };
-            return new ControlWrapper(border, GraphNodeDirection.DownRight);
         }
     }
 }
