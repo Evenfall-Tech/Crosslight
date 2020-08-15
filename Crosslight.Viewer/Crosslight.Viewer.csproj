@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.9.11" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\Graph\GraphViewer.axaml.cs">
+      <DependentUpon>GraphViewer.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

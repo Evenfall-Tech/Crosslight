@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.API", "Crosslight.API\Crosslight.API.csproj", "{3970499E-1481-4F25-8715-E3F5145A11F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CIL", "Crosslight.CecilIL\Crosslight.CIL.csproj", "{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CIL", "Crosslight.CIL\Crosslight.CIL.csproj", "{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3970499E-1481-4F25-8715-E3F5145A11F3} = {3970499E-1481-4F25-8715-E3F5145A11F3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosslight.Viewer", "Crosslight.Viewer\Crosslight.Viewer.csproj", "{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3970499E-1481-4F25-8715-E3F5145A11F3} = {3970499E-1481-4F25-8715-E3F5145A11F3}
 	EndProjectSection
@@ -24,6 +29,10 @@ Global
 		{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
