@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Crosslight.Viewer.Nodes
 {
-    public class GraphViewerVisitor : IVisitor
+    public class GraphViewerVisitor : IViewerVisitor
     {
         public GraphModel Context { get; private set; }
         private int idGen;
@@ -25,13 +25,12 @@ namespace Crosslight.Viewer.Nodes
         }
         public object Visit(Node node)
         {
-            if (node is ViewerNode target) return Visit(target);
             return null;
         }
 
-        public NodeModel Visit(ViewerNode node)
+        public object Visit(ViewerNode node)
         {
-            string name = node.ToString() + idGen.ToString();
+            string name = (node.Content ?? node).ToString() + idGen.ToString();
             var parent = new NodeModel()
             {
                 ID = idGen++,
@@ -43,7 +42,7 @@ namespace Crosslight.Viewer.Nodes
             {
                 for (int i = 0; i < node.Children.Count; ++i)
                 {
-                    var child = Visit((ViewerNode)node.Children[i]);
+                    var child = Visit((ViewerNode)node.Children[i]) as NodeModel;
                     parent.Connections.Add(child.ID);
                 }
             }

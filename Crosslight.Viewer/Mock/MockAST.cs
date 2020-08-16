@@ -6,7 +6,7 @@ namespace Crosslight.Viewer.Mock
 {
     public static class MockAST
     {
-        public static Node CreateAST()
+        public static ViewerNode CreateAST()
         {
             Random r = new Random(42);
             ViewerNode result = CreateNode(r.Next(10), r);
@@ -15,7 +15,7 @@ namespace Crosslight.Viewer.Mock
 
         private static ViewerNode CreateNode(int childrenCount, Random random)
         {
-            ViewerNode node = new ViewerNode();
+            ViewerNode node = new ViewerNode(null);
             if (childrenCount > 0)
             {
                 var children = new ViewerNode[childrenCount];
