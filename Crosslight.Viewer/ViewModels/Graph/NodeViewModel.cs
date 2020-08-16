@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-using Crosslight.Viewer.Models.Graph;
-using Crosslight.Viewer.Views.Utils;
+﻿using Crosslight.Viewer.Models.Graph;
 using System.Collections.Generic;
 
 namespace Crosslight.Viewer.ViewModels.Graph
@@ -10,49 +8,10 @@ namespace Crosslight.Viewer.ViewModels.Graph
         private NodeModel model;
         private double left, top, width, height;
 
-        public NodeViewModel(NodeModel model)
+        public NodeViewModel(NodeModel model, GraphNodeDirection direction)
         {
             this.model = model;
-            UpdateSize(model?.Data);
-        }
-
-        public void UpdateSize(object data)
-        {
-            if (data != null)
-            {
-                if (data is ControlWrapper wrapper)
-                {
-                    width = wrapper.Width;
-                    height = wrapper.Height;
-                    if (wrapper.Tag is GraphNodeDirection dir)
-                    {
-                        Direction = dir;
-                    }
-                    else
-                    {
-                        Direction = GraphNodeDirection.DownRight;
-                    }
-                }
-                else if (data is Control control)
-                {
-                    var size = SizeMeasures.GetMinControlSize(control);
-                    Width = size.Width;
-                    Height = size.Height;
-                    Direction = GraphNodeDirection.DownRight;
-                }
-                else
-                {
-                    width = 1.0;
-                    height = 1.0;
-                    Direction = GraphNodeDirection.DownRight;
-                }
-            }
-            else
-            {
-                width = 0.0;
-                height = 0.0;
-                Direction = GraphNodeDirection.DownRight;
-            }
+            Direction = direction;
         }
 
         public NodeModel Model
@@ -96,7 +55,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             }
         }
 
-        public GraphNodeDirection Direction { get; protected set; }
+        public GraphNodeDirection Direction { get; }
 
         public double Left
         {

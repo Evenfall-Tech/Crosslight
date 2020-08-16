@@ -13,7 +13,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             var ast = MockAST.CreateAST();
             var visitor = new GraphViewerVisitor();
             ast.AcceptVisitor(visitor);
-            GraphViewModel = new GraphViewModel(visitor.Context);
+            GraphViewModel = new GraphViewModel(visitor.Context, GraphNodeDirection.Right);
             GraphViewModel.Sort(GraphNodeAlignment.Lowest, GraphNodeAlignment.Lowest);
         }
 

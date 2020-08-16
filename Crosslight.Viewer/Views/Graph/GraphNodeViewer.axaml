@@ -7,7 +7,9 @@
 	<Border
 		CornerRadius="{Binding $parent.ChildBorderCornerRadius}"
 		BorderBrush="{Binding $parent.ChildBorderBrush}"
-		BorderThickness="{Binding $parent.ChildBorderThickness}">
+		BorderThickness="{Binding $parent.ChildBorderThickness}"
+		Padding="{Binding $parent.ChildPadding}"
+		Background="{Binding $parent.ChildBackground}">
 		<TextBlock Text="{Binding Data}"/>
 	</Border>
 </UserControl>

@@ -63,11 +63,11 @@ namespace Crosslight.Viewer.Views.Graph
         {
             return nodes.Select(node =>
             {
-                Control control = GraphNodeControlBuilder.GetGraphNodeControlFromNode(node);
+                Control control = GraphNodeControlBuilder.BuildGraphNodeControl(node);
                 Canvas.SetLeft(control, node.Left);
                 Canvas.SetTop(control, node.Top);
                 return control;
-            });
+            }).ToList();
         }
     }
 }

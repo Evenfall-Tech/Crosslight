@@ -1,5 +1,6 @@
 ﻿using Crosslight.Viewer.Models.Graph;
 using Crosslight.Viewer.ViewModels.Utils;
+using Crosslight.Viewer.Views.Utils;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace Crosslight.Viewer.ViewModels.Graph
         private const double defOffsetX = 20.0, defOffsetY = 20.0;
         private GraphModel model;
 
-        public GraphViewModel(GraphModel model)
+        public GraphViewModel(GraphModel model, GraphNodeDirection graphNodeDirection)
         {
             this.model = model;
-            Nodes = new ObservableViewModelCollection<NodeViewModel, NodeModel>(model.Nodes, new NodeViewModelFactory());
+            Nodes = new ObservableViewModelCollection<NodeViewModel, NodeModel>
+                (model.Nodes, new NodeViewModelFactory(graphNodeDirection));
+            UpdateNodesSize();
         }
 
         public GraphModel Model
@@ -281,6 +284,16 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 if (compareHorizontal) res ^= obj.X;
                 if (compareVertical) res ^= obj.Y;
                 return res.GetHashCode();
+            }
+        }
+
+        private void UpdateNodesSize()
+        {
+            foreach (var node in Nodes)
+            {
+                var size = GraphNodeControlBuilder.GetGraphControlSize(node);
+                node.Width = size.Width;
+                node.Height = size.Height;
             }
         }
     }

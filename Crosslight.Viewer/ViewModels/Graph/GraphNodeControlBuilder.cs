@@ -17,24 +17,8 @@ namespace Crosslight.Viewer.ViewModels.Graph
             Warning,
             Danger,
         }
-        public static Control GetGraphNodeControlFromNode(NodeViewModel node)
-        {
-            if (node == null || node.Data == null) return null;
-            if (node.Data is ControlWrapper wrapper)
-            {
-                return wrapper.Control;
-            }
-            else if (node.Data is Control ctrl)
-            {
-                return ctrl;
-            }
-            else
-            {
-                return BuildGraphNodeControl(node, GraphNodeControlStyle.Normal).Control;
-            }
-        }
 
-        public static ControlWrapper BuildGraphNodeControl(NodeViewModel nodeVM, GraphNodeControlStyle style = GraphNodeControlStyle.Normal)
+        public static Control BuildGraphNodeControl(NodeViewModel nodeVM, GraphNodeControlStyle style = GraphNodeControlStyle.Normal)
         {
             var color = style switch
             {
@@ -51,11 +35,14 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 ChildBorderThickness = new Thickness(2.0, 2.0),
                 ChildBorderCornerRadius = new CornerRadius(5.0),
                 ChildPadding = new Thickness(5.0),
-                Background = Brushes.White,
+                ChildBackground = Brushes.White,
             };
-            var result = new ControlWrapper(view, GraphNodeDirection.Right);
-            nodeVM.UpdateSize(result);
-            return result;
+            return view;
+        }
+
+        public static Size GetGraphControlSize(NodeViewModel nodeVM)
+        {
+            return SizeMeasures.GetMinControlSize(BuildGraphNodeControl(nodeVM));
         }
     }
 }

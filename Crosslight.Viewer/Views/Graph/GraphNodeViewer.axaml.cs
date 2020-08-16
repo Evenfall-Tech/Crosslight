@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 
@@ -12,6 +13,7 @@ namespace Crosslight.Viewer.Views.Graph
             this.InitializeComponent();
 
             AffectsRender<Border>(
+                ChildBackgroundProperty,
                 ChildBorderBrushProperty,
                 ChildBorderThicknessProperty,
                 ChildBorderCornerRadiusProperty
@@ -25,31 +27,46 @@ namespace Crosslight.Viewer.Views.Graph
         }
 
         /// <summary>
-        /// Defines the <see cref="BorderBrush"/> property.
+        /// Defines the <see cref="ChildBackground"/> property.
+        /// </summary>
+        public static readonly StyledProperty<IBrush> ChildBackgroundProperty =
+            AvaloniaProperty.Register<Border, IBrush>(nameof(ChildBackground));
+
+        /// <summary>
+        /// Defines the <see cref="ChildBorderBrush"/> property.
         /// </summary>
         public static readonly StyledProperty<IBrush> ChildBorderBrushProperty =
             AvaloniaProperty.Register<Border, IBrush>(nameof(ChildBorderBrush));
 
         /// <summary>
-        /// Defines the <see cref="BorderThickness"/> property.
+        /// Defines the <see cref="ChildBorderThickness"/> property.
         /// </summary>
         public static readonly StyledProperty<Thickness> ChildBorderThicknessProperty =
             AvaloniaProperty.Register<Border, Thickness>(nameof(ChildBorderThickness));
 
         /// <summary>
-        /// Defines the <see cref="CornerRadius"/> property.
+        /// Defines the <see cref="ChildBorderCornerRadius"/> property.
         /// </summary>
         public static readonly StyledProperty<CornerRadius> ChildBorderCornerRadiusProperty =
             AvaloniaProperty.Register<GraphNodeViewer, CornerRadius>(nameof(ChildBorderCornerRadius));
 
         /// <summary>
-        /// Defines the <see cref="Thickness"/> property.
+        /// Defines the <see cref="ChildPadding"/> property.
         /// </summary>
         public static readonly StyledProperty<Thickness> ChildPaddingProperty =
             AvaloniaProperty.Register<GraphNodeViewer, Thickness>(nameof(ChildPadding));
 
         /// <summary>
-        /// Gets or sets a brush with which to paint the border.
+        /// Gets or sets the brush used to draw the control's child's background.
+        /// </summary>
+        public IBrush ChildBackground
+        {
+            get { return GetValue(ChildBackgroundProperty); }
+            set { SetValue(ChildBackgroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a brush with which to paint the child border.
         /// </summary>
         public IBrush ChildBorderBrush
         {
@@ -58,7 +75,7 @@ namespace Crosslight.Viewer.Views.Graph
         }
 
         /// <summary>
-        /// Gets or sets the thickness of the border.
+        /// Gets or sets the thickness of the child border.
         /// </summary>
         public Thickness ChildBorderThickness
         {
@@ -67,7 +84,7 @@ namespace Crosslight.Viewer.Views.Graph
         }
 
         /// <summary>
-        /// Gets or sets the radius of the border rounded corners.
+        /// Gets or sets the radius of the child border rounded corners.
         /// </summary>
         public CornerRadius ChildBorderCornerRadius
         {
@@ -76,12 +93,24 @@ namespace Crosslight.Viewer.Views.Graph
         }
 
         /// <summary>
-        /// Gets or sets the radius of the border rounded corners.
+        /// Gets or sets the padding placed between the border of the child control and its content.
         /// </summary>
         public Thickness ChildPadding
         {
             get { return GetValue(ChildPaddingProperty); }
             set { SetValue(ChildPaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// Measures the control.
+        /// </summary>
+        /// <param name="availableSize">The available size.</param>
+        /// <returns>The desired size of the control.</returns>
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            if (Content is ILayoutable layoutable)
+                return LayoutHelper.MeasureChild(layoutable, availableSize, Padding, BorderThickness);
+            return base.MeasureOverride(availableSize);
         }
     }
 }

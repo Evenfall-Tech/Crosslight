@@ -9,7 +9,7 @@ namespace Crosslight.Viewer.Mock
         public static Node CreateAST()
         {
             Random r = new Random(42);
-            ViewerNode result = CreateNode(r.Next(5), r);
+            ViewerNode result = CreateNode(r.Next(10), r);
             return result;
         }
 
