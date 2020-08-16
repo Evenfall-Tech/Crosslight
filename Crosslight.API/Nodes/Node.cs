@@ -5,13 +5,13 @@ namespace Crosslight.API.Nodes
 {
     public abstract class Node
     {
-        public Node Parent { get; protected set; } = null;
-        public IEnumerable<Node> Children { get; protected set; } = null;
+        public virtual Node Parent { get; protected set; } = null;
+        public virtual List<Node> Children { get; protected set; } = null;
         public override string ToString()
         {
             return "Node";
         }
-        public virtual object AcceptVisitor(IVisitor visitor)
+        public virtual object AcceptVisitor<TVisitor>(TVisitor visitor) where TVisitor : IVisitor
         {
             return visitor.Visit(this);
         }
