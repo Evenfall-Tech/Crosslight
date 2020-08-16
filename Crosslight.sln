@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.API", "Crosslight.API\Crosslight.API.csproj", "{3970499E-1481-4F25-8715-E3F5145A11F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CIL", "Crosslight.CecilIL\Crosslight.CIL.csproj", "{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CIL", "Crosslight.CIL\Crosslight.CIL.csproj", "{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3970499E-1481-4F25-8715-E3F5145A11F3} = {3970499E-1481-4F25-8715-E3F5145A11F3}
 	EndProjectSection
