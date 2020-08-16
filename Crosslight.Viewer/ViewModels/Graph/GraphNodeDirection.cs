@@ -14,5 +14,17 @@ namespace Crosslight.Viewer.ViewModels.Graph
             Horizontal = GraphNodeAlignment.Highest,
             Vertical = GraphNodeAlignment.Highest,
         };
+
+        public static GraphNodeDirection Down => new GraphNodeDirection()
+        {
+            Horizontal = GraphNodeAlignment.Middle,
+            Vertical = GraphNodeAlignment.Highest,
+        };
+
+        public static GraphNodeDirection Right => new GraphNodeDirection()
+        {
+            Horizontal = GraphNodeAlignment.Highest,
+            Vertical = GraphNodeAlignment.Middle,
+        };
     }
 }

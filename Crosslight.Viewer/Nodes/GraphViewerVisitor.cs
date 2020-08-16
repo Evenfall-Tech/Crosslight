@@ -35,7 +35,7 @@ namespace Crosslight.Viewer.Nodes
             var parent = new NodeModel()
             {
                 ID = idGen++,
-                Data = GraphNodeControlBuilder.BuildGraphNodeControl(name),
+                Data = name,
                 Connections = new List<int>(),
             };
             Context.Nodes.Add(parent);

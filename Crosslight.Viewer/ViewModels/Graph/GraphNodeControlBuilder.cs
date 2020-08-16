@@ -1,6 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using Crosslight.Viewer.Models.Graph;
+using Crosslight.Viewer.Views.Graph;
 using Crosslight.Viewer.Views.Utils;
 using System;
 
@@ -28,16 +30,12 @@ namespace Crosslight.Viewer.ViewModels.Graph
             }
             else
             {
-                return BuildGraphNodeControl(node.Data.ToString(), GraphNodeControlStyle.Warning).Control;
+                return BuildGraphNodeControl(node, GraphNodeControlStyle.Normal).Control;
             }
         }
 
-        public static ControlWrapper BuildGraphNodeControl(string data, GraphNodeControlStyle style = GraphNodeControlStyle.Normal)
+        public static ControlWrapper BuildGraphNodeControl(NodeViewModel nodeVM, GraphNodeControlStyle style = GraphNodeControlStyle.Normal)
         {
-            var text = new TextBlock()
-            {
-                Text = data,
-            };
             var color = style switch
             {
                 GraphNodeControlStyle.Normal => Brushes.DarkGray,
@@ -46,16 +44,18 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 GraphNodeControlStyle.Danger => Brushes.DarkRed,
                 _ => throw new NotImplementedException(),
             };
-            var border = new Border()
+            var view = new GraphNodeViewer()
             {
-                BorderBrush = color,
-                BorderThickness = new Thickness(2.0, 2.0),
-                CornerRadius = new CornerRadius(5.0),
-                Child = text,
-                Padding = new Thickness(5.0),
+                DataContext = nodeVM,
+                ChildBorderBrush = color,
+                ChildBorderThickness = new Thickness(2.0, 2.0),
+                ChildBorderCornerRadius = new CornerRadius(5.0),
+                ChildPadding = new Thickness(5.0),
                 Background = Brushes.White,
             };
-            return new ControlWrapper(border, GraphNodeDirection.DownRight);
+            var result = new ControlWrapper(view, GraphNodeDirection.Right);
+            nodeVM.UpdateSize(result);
+            return result;
         }
     }
 }

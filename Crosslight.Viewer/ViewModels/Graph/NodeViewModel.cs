@@ -1,4 +1,5 @@
-﻿using Crosslight.Viewer.Models.Graph;
+﻿using Avalonia.Controls;
+using Crosslight.Viewer.Models.Graph;
 using Crosslight.Viewer.Views.Utils;
 using System.Collections.Generic;
 
@@ -12,26 +13,48 @@ namespace Crosslight.Viewer.ViewModels.Graph
         public NodeViewModel(NodeModel model)
         {
             this.model = model;
-            if (model != null && model.Data is ControlWrapper wrapper)
+            UpdateSize(model?.Data);
+        }
+
+        public void UpdateSize(object data)
+        {
+            if (data != null)
             {
-                width = wrapper.Width;
-                height = wrapper.Height;
-                if (wrapper.Tag is GraphNodeDirection dir)
+                if (data is ControlWrapper wrapper)
                 {
-                    Direction = dir;
+                    width = wrapper.Width;
+                    height = wrapper.Height;
+                    if (wrapper.Tag is GraphNodeDirection dir)
+                    {
+                        Direction = dir;
+                    }
+                    else
+                    {
+                        Direction = GraphNodeDirection.DownRight;
+                    }
+                }
+                else if (data is Control control)
+                {
+                    var size = SizeMeasures.GetMinControlSize(control);
+                    Width = size.Width;
+                    Height = size.Height;
+                    Direction = GraphNodeDirection.DownRight;
                 }
                 else
                 {
+                    width = 1.0;
+                    height = 1.0;
                     Direction = GraphNodeDirection.DownRight;
                 }
             }
             else
             {
-                width = 1.0;
-                height = 1.0;
+                width = 0.0;
+                height = 0.0;
                 Direction = GraphNodeDirection.DownRight;
             }
         }
+
         public NodeModel Model
         {
             get => model;
@@ -73,7 +96,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             }
         }
 
-        public GraphNodeDirection Direction { get; }
+        public GraphNodeDirection Direction { get; protected set; }
 
         public double Left
         {

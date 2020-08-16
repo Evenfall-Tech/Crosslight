@@ -16,6 +16,7 @@ namespace Crosslight.Viewer.Views.Graph
         public GraphViewer()
         {
             this.InitializeComponent();
+
             canvas = this.FindControl<Canvas>("graphCanvas");
             DataContextChanged += GraphViewer_DataContextChanged;
         }
@@ -24,8 +25,9 @@ namespace Crosslight.Viewer.Views.Graph
         {
             if (!(DataContext is GraphViewerViewModel graphVM)) return;
             canvas.Children.Clear();
-            AddConnections(graphVM.GraphViewModel.Nodes);
-            AddNodes(graphVM.GraphViewModel.Nodes);
+            var cons = AddConnections(graphVM.GraphViewModel.Nodes);
+            var nodes = AddNodes(graphVM.GraphViewModel.Nodes);
+            canvas.Children.AddRange(cons.Concat(nodes));
         }
 
         private void InitializeComponent()
@@ -33,8 +35,9 @@ namespace Crosslight.Viewer.Views.Graph
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void AddConnections(IEnumerable<NodeViewModel> nodes)
+        private IEnumerable<IControl> AddConnections(IEnumerable<NodeViewModel> nodes)
         {
+            List<IControl> result = new List<IControl>();
             Random r = new Random(42);
             foreach (var node in nodes)
             {
@@ -50,20 +53,21 @@ namespace Crosslight.Viewer.Views.Graph
                     };
                     Canvas.SetLeft(line, node.Left);
                     Canvas.SetTop(line, node.Top);
-                    canvas.Children.Add(line);
+                    result.Add(line);
                 }
             }
+            return result;
         }
 
-        private void AddNodes(IEnumerable<NodeViewModel> nodes)
+        private IEnumerable<IControl> AddNodes(IEnumerable<NodeViewModel> nodes)
         {
-            foreach (var node in nodes)
+            return nodes.Select(node =>
             {
                 Control control = GraphNodeControlBuilder.GetGraphNodeControlFromNode(node);
                 Canvas.SetLeft(control, node.Left);
                 Canvas.SetTop(control, node.Top);
-                canvas.Children.Add(control);
-            }
+                return control;
+            });
         }
     }
 }

@@ -128,7 +128,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 {
                     int currentLayerPos = horizontalLayers[i].X;
                     double biggestNodeSize = nodeToLayer
-                        .Where(e => e.Value.X == currentLayerPos - 1) // Find all nodes of previous horizontal layer.
+                        .Where(e => e.Value.X == horizontalLayers[i - 1].X) // Find all nodes of previous horizontal layer.
                         .Select(e => e.Key.Width)
                         .DefaultIfEmpty(0.0)
                         .Max();
@@ -161,7 +161,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 {
                     int currentLayerPos = verticalLayers[j].Y;
                     double biggestNodeSize = nodeToLayer
-                        .Where(e => e.Value.Y == currentLayerPos - 1) // Find all nodes of previous vertical layer.
+                        .Where(e => e.Value.Y == verticalLayers[j - 1].Y) // Find all nodes of previous vertical layer.
                         .Select(e => e.Key.Height)
                         .DefaultIfEmpty(0.0)
                         .Max();
