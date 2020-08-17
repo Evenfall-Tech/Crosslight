@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crosslight.API.Util;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -13,21 +14,11 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class ProjectNode : Node
     {
-        public ObservableCollection<ModuleNode> Modules { get => Modules; set { Modules = value; /*append value to Children*/} }
+        public SyncedList<ModuleNode, Node> Modules { get; protected set; }
         public ProjectNode()
         {
-            Modules = new ObservableCollection<ModuleNode>();
-            Modules.CollectionChanged += Modules_CollectionChanged;
+            Modules = new SyncedList<ModuleNode, Node>(Children);
         }
-
-        private void Modules_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if(e.Action == NotifyCollectionChangedAction.Add)
-            {
-                // append e.NewItems to Children
-            }
-        }
-
         public override string ToString()
         {
             return "ProjectNode";
