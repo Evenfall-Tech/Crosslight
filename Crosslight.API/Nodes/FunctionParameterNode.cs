@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crosslight.API.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes
@@ -8,8 +9,11 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class FunctionParameterNode : Node
     {
+        public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
+        // type, name, (default) value
         public FunctionParameterNode()
         {
+            Attributes = new SyncedList<AttributeNode, Node>(Children);
         }
         public override string ToString()
         {

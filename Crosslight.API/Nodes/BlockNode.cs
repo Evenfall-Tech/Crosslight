@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crosslight.API.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes
@@ -8,10 +9,11 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class BlockNode : Node
     {
-        // statement list
+        public SyncedList<StatementNode, Node> Statements { get; protected set; }
         // scope
         public BlockNode()
         {
+            Statements = new SyncedList<StatementNode, Node>(Children);
         }
         public override string ToString()
         {

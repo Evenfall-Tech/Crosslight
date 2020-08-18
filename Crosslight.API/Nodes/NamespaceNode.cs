@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crosslight.API.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes
@@ -8,8 +9,14 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class NamespaceNode : Node
     {
+        public SyncedList<TypeNode, Node> Types { get; protected set; }
+        public SyncedList<ValueNode, Node> Values { get; protected set; }
+        public SyncedList<FunctionNode, Node> Functions { get; protected set; }
         public NamespaceNode()
         {
+            Types = new SyncedList<TypeNode, Node>(Children);
+            Values = new SyncedList<ValueNode, Node>(Children);
+            Functions = new SyncedList<FunctionNode, Node>(Children);
         }
         public override string ToString()
         {

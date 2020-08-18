@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crosslight.API.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes
@@ -8,8 +9,15 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class FunctionBodyNode : Node
     {
+        private readonly SyncedProperty<BlockNode, Node> block;
+        public BlockNode Block
+        {
+            get => block.Value;
+            set => block.Value = value;
+        }
         public FunctionBodyNode()
         {
+            block = new SyncedProperty<BlockNode, Node>(Children);
         }
         public override string ToString()
         {

@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public abstract class ValueNode : Node
     {
+        // need to keep type and value
         public ValueNode()
         {
         }

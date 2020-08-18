@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class FunctionReturnTypeNode : Node
     {
+        // return type (as child or as field?)
         public FunctionReturnTypeNode()
         {
         }
