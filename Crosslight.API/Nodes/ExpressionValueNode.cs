@@ -8,7 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class ExpressionValueNode : ExpressionNode
     {
-        ValueNode Value { get; set; }
+        public ValueNode Value { get; set; }
         public ExpressionValueNode()
         {
         }

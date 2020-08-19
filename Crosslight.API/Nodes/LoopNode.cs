@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crosslight.API.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes
@@ -8,8 +9,22 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class LoopNode : StatementNode
     {
+        private readonly SyncedProperty<BlockNode, Node> body;
+        private readonly SyncedProperty<ExpressionNode, Node> condition;
+        public BlockNode Body
+        {
+            get => body.Value;
+            set => body.Value = value;
+        }
+        public ExpressionNode Condition
+        {
+            get => condition.Value;
+            set => condition.Value = value;
+        }
         public LoopNode()
         {
+            body = new SyncedProperty<BlockNode, Node>(Children);
+            condition = new SyncedProperty<ExpressionNode, Node>(Children);
         }
         public override string ToString()
         {
