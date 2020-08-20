@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// AttributeNode represents the attribute/annotation abstraction in the language.
+    /// ClassNode represents the class abstraction in the language.
     /// </summary>
-    public class AttributeNode : Node
+    public class ClassNode : TypeNode
     {
-        public override Type Type => typeof(AttributeNode);
-        public AttributeNode()
+        public override Type Type => typeof(ClassNode);
+        public ClassNode()
         {
         }
         public override string ToString()
         {
-            return "AttributeNode";
+            return "ClassNode";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

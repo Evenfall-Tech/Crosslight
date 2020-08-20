@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
     /// ValueNode represents the constant, literal or variable.

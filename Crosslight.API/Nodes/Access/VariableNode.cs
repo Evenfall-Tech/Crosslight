@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// InterfaceNode represents the interface abstraction in the language.
+    /// VariableNode represents the variable abstraction in the language.
     /// </summary>
-    public class InterfaceNode : TypeNode
+    public class VariableNode : ValueNode
     {
-        public override Type Type => typeof(InterfaceNode);
-        public InterfaceNode()
+        public override Type Type => typeof(VariableNode);
+        public VariableNode()
         {
         }
         public override string ToString()
         {
-            return "InterfaceNode";
+            return "VariableNode";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

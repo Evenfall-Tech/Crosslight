@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// ContinueNode represents the continue statement.
+    /// ModifierNode represents the modifier (public, abstract, virtual).
     /// </summary>
-    public class ContinueNode: JumpNode
+    public class ModifierNode : Node
     {
-        public override Type Type => typeof(ContinueNode);
-        public ContinueNode()
+        public override Type Type => typeof(ModifierNode);
+        public ModifierNode()
         {
         }
         public override string ToString()
         {
-            return "ContinueNode";
+            return "ModifierNode";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

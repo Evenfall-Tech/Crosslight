@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Unary
 {
     /// <summary>
     /// UnaryExpressionNode represents the unary expression.

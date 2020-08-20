@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
-    /// VariableNode represents the variable abstraction in the language.
+    /// BreakNode represents the break statement.
     /// </summary>
-    public class VariableNode : ValueNode
+    public class BreakNode : JumpNode
     {
-        public override Type Type => typeof(VariableNode);
-        public VariableNode()
+        public override Type Type => typeof(BreakNode);
+        public BreakNode()
         {
         }
         public override string ToString()
         {
-            return "VariableNode";
+            return "BreakNode";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

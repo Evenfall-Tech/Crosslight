@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
     /// FunctionBodyNode represents the body of the function.

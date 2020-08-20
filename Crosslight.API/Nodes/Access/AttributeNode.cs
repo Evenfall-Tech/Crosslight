@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// ModifierNode represents the modifier (public, abstract, virtual).
+    /// AttributeNode represents the attribute/annotation abstraction in the language.
     /// </summary>
-    public class ModifierNode : Node
+    public class AttributeNode : Node
     {
-        public override Type Type => typeof(ModifierNode);
-        public ModifierNode()
+        public override Type Type => typeof(AttributeNode);
+        public AttributeNode()
         {
         }
         public override string ToString()
         {
-            return "ModifierNode";
+            return "AttributeNode";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

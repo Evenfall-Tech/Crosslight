@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
     /// FunctionNode represents the function abstraction in the language.

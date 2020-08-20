@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
-    /// BreakNode represents the break statement.
+    /// ContinueNode represents the continue statement.
     /// </summary>
-    public class BreakNode : JumpNode
+    public class ContinueNode: JumpNode
     {
-        public override Type Type => typeof(BreakNode);
-        public BreakNode()
+        public override Type Type => typeof(ContinueNode);
+        public ContinueNode()
         {
         }
         public override string ToString()
         {
-            return "BreakNode";
+            return "ContinueNode";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

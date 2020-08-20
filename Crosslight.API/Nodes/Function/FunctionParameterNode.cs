@@ -1,8 +1,9 @@
-﻿using Crosslight.API.Util;
+﻿using Crosslight.API.Nodes.Access;
+using Crosslight.API.Util;
 using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
     /// FunctionParameterNode represents parameters of the function.

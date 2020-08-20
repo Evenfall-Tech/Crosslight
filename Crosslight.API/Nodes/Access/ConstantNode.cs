@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// StructNode represents the struct abstraction in the language.
+    /// ConstantNode represents the constant abstraction in the language.
     /// </summary>
-    public class StructNode : TypeNode
+    public class ConstantNode : ValueNode
     {
-        public override Type Type => typeof(StructNode);
-        public StructNode()
+        public override Type Type => typeof(ConstantNode);
+        public ConstantNode()
         {
         }
         public override string ToString()
         {
-            return "StructNode";
+            return "ConstantNode";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

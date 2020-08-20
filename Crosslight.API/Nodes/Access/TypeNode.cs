@@ -1,8 +1,9 @@
-﻿using Crosslight.API.Util;
+﻿using Crosslight.API.Nodes.Function;
+using Crosslight.API.Util;
 using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
     /// TypeNode represents the type abstraction in the language.
