@@ -9,6 +9,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class FunctionBodyNode : Node
     {
+        public override Type Type => typeof(FunctionBodyNode);
         private readonly SyncedProperty<BlockNode, Node> block;
         public BlockNode Block
         {

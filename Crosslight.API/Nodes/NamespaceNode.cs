@@ -9,6 +9,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class NamespaceNode : Node
     {
+        public override Type Type => typeof(NamespaceNode);
         public SyncedList<TypeNode, Node> Types { get; protected set; }
         public SyncedList<ValueNode, Node> Values { get; protected set; }
         public SyncedList<FunctionNode, Node> Functions { get; protected set; }

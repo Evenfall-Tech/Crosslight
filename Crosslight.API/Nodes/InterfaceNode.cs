@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class InterfaceNode : TypeNode
     {
+        public override Type Type => typeof(InterfaceNode);
         public InterfaceNode()
         {
         }

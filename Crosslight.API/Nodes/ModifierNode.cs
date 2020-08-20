@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class ModifierNode : Node
     {
+        public override Type Type => typeof(ModifierNode);
         public ModifierNode()
         {
         }

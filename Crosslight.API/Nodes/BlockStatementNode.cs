@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class BlockStatementNode : StatementNode
     {
+        public override Type Type => typeof(BlockStatementNode);
         public BlockStatementNode()
         {
         }

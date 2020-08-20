@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class ContinueNode: JumpNode
     {
+        public override Type Type => typeof(ContinueNode);
         public ContinueNode()
         {
         }

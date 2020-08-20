@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class BreakNode : JumpNode
     {
+        public override Type Type => typeof(BreakNode);
         public BreakNode()
         {
         }

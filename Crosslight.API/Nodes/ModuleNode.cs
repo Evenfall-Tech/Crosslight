@@ -11,6 +11,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class ModuleNode : Node
     {
+        public override Type Type => typeof(ModuleNode);
         public SyncedList<NamespaceNode, Node> Namespaces { get; protected set; }
         public ModuleNode()
         {

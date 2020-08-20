@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class ExpressionValueNode : ExpressionNode
     {
+        public override Type Type => typeof(ExpressionValueNode);
         public ValueNode Value { get; set; }
         public ExpressionValueNode()
         {

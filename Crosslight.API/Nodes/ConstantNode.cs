@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class ConstantNode : ValueNode
     {
+        public override Type Type => typeof(ConstantNode);
         public ConstantNode()
         {
         }

@@ -9,6 +9,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class IfNode : StatementNode
     {
+        public override Type Type => typeof(IfNode);
         private readonly SyncedProperty<ExpressionNode, Node> condition;
         private readonly SyncedProperty<BlockNode, Node> ifBlock;
         private readonly SyncedProperty<BlockNode, Node> elseBlock;

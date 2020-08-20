@@ -9,6 +9,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public abstract class BinaryExpressionNode : ExpressionNode
     {
+        public override Type Type => typeof(BinaryExpressionNode);
         private readonly SyncedProperty<ExpressionNode, Node> leftOperand;
         private readonly SyncedProperty<ExpressionNode, Node> rightOperand;
         public ExpressionNode LeftOperand

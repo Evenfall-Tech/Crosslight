@@ -9,6 +9,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class SwitchNode : StatementNode
     {
+        public override Type Type => typeof(SwitchNode);
         private readonly SyncedProperty<ExpressionNode, Node> conditionExpression;
         private readonly SyncedProperty<BlockNode, Node> defaultBlock;
         public SyncedList<ExpressionNode, Node> Cases { get; protected set; }

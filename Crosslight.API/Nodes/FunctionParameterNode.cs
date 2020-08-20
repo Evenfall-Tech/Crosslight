@@ -9,6 +9,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class FunctionParameterNode : Node
     {
+        public override Type Type => typeof(FunctionParameterNode);
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         // type, name, (default) value
         public FunctionParameterNode()

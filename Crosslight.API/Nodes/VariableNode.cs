@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class VariableNode : ValueNode
     {
+        public override Type Type => typeof(VariableNode);
         public VariableNode()
         {
         }

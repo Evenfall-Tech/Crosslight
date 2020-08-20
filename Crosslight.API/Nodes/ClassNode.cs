@@ -8,6 +8,7 @@ namespace Crosslight.API.Nodes
     /// </summary>
     public class ClassNode : TypeNode
     {
+        public override Type Type => typeof(ClassNode);
         public ClassNode()
         {
         }
