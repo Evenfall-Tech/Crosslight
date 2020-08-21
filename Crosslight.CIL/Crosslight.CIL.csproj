@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ICSharpCode.Decompiler" Version="6.1.0.5902" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
   </ItemGroup>
 
