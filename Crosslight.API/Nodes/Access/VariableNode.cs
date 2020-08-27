@@ -9,8 +9,10 @@ namespace Crosslight.API.Nodes.Access
     public class VariableNode : ValueNode
     {
         public override Type Type => typeof(VariableNode);
-        public VariableNode()
+        public string Name { get; }
+        public VariableNode(string name)
         {
+            Name = name;
         }
         public override string ToString()
         {

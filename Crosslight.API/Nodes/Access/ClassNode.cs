@@ -9,7 +9,7 @@ namespace Crosslight.API.Nodes.Access
     public class ClassNode : TypeNode
     {
         public override Type Type => typeof(ClassNode);
-        public ClassNode()
+        public ClassNode(string name) : base(name)
         {
         }
         public override string ToString()

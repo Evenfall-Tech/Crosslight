@@ -17,12 +17,14 @@ namespace Crosslight.API.Nodes.Access
         public SyncedList<MethodNode, Node> Methods { get; protected set; }
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         public SyncedList<ModifierNode, Node> Modifiers { get; protected set; }
-        public TypeNode()
+        public string Name { get; }
+        public TypeNode(string name)
         {
             Fields = new SyncedList<FieldNode, Node>(Children);
             Methods = new SyncedList<MethodNode, Node>(Children);
             Attributes = new SyncedList<AttributeNode, Node>(Children);
             Modifiers = new SyncedList<ModifierNode, Node>(Children);
+            Name = name;
         }
         public override string ToString()
         {

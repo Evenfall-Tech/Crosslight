@@ -9,7 +9,12 @@ namespace Crosslight.API.Nodes.Access
     public abstract class ValueNode : Node
     {
         public override Type Type => typeof(ValueNode);
-        // need to keep type and value
+        /// <summary>
+        /// ValueType is needed to keep the type of the value.
+        /// Concrete implementations may also keep the name (like name
+        /// of the variable) or the value (like value of the literal).
+        /// </summary>
+        public TypeNode ValueType { get; protected set; }
         public ValueNode()
         {
         }

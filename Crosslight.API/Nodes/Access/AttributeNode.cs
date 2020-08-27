@@ -9,8 +9,10 @@ namespace Crosslight.API.Nodes.Access
     public class AttributeNode : Node
     {
         public override Type Type => typeof(AttributeNode);
-        public AttributeNode()
+        public string Name { get; }
+        public AttributeNode(string name)
         {
+            Name = name;
         }
         public override string ToString()
         {

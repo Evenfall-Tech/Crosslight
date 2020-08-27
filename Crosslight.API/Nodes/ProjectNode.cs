@@ -16,9 +16,11 @@ namespace Crosslight.API.Nodes
     {
         public override Type Type => typeof(ProjectNode);
         public SyncedList<ModuleNode, Node> Modules { get; protected set; }
-        public ProjectNode()
+        public string Name { get; }
+        public ProjectNode(string name)
         {
             Modules = new SyncedList<ModuleNode, Node>(Children);
+            Name = name;
         }
         public override string ToString()
         {
