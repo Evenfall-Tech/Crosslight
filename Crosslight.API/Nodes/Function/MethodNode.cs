@@ -14,7 +14,7 @@ namespace Crosslight.API.Nodes.Function
         public TypeNode parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         public SyncedList<ModifierNode, Node> Modifiers { get; protected set; }
-        public MethodNode()
+        public MethodNode(string name) : base(name)
         {
             Attributes = new SyncedList<AttributeNode, Node>(Children);
             Modifiers = new SyncedList<ModifierNode, Node>(Children);

@@ -23,11 +23,13 @@ namespace Crosslight.API.Nodes.Function
             get => body.Value;
             set => body.Value = value;
         }
-        public FunctionNode()
+        public string Name { get; }
+        public FunctionNode(string name)
         {
             Parameters = new SyncedList<FunctionParameterNode, Node>(Children);
             returnType = new SyncedProperty<FunctionReturnTypeNode, Node>(Children);
             body = new SyncedProperty<FunctionBodyNode, Node>(Children);
+            Name = name;
         }
         public override string ToString()
         {

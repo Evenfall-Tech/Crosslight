@@ -8,14 +8,15 @@ namespace Crosslight.API.Nodes.Function
     /// <summary>
     /// FunctionParameterNode represents parameters of the function.
     /// </summary>
-    public class FunctionParameterNode : Node
+    public class FunctionParameterNode : ValueNode // or better keep TypeNode as field?
     {
         public override Type Type => typeof(FunctionParameterNode);
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
-        // type, name, (default) value
-        public FunctionParameterNode()
+        public string Name { get; }
+        public FunctionParameterNode(string name)
         {
             Attributes = new SyncedList<AttributeNode, Node>(Children);
+            Name = name;
         }
         public override string ToString()
         {

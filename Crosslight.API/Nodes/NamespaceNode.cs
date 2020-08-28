@@ -15,11 +15,13 @@ namespace Crosslight.API.Nodes
         public SyncedList<TypeNode, Node> Types { get; protected set; }
         public SyncedList<ValueNode, Node> Values { get; protected set; }
         public SyncedList<FunctionNode, Node> Functions { get; protected set; }
-        public NamespaceNode()
+        public string Name { get; }
+        public NamespaceNode(string name)
         {
             Types = new SyncedList<TypeNode, Node>(Children);
             Values = new SyncedList<ValueNode, Node>(Children);
             Functions = new SyncedList<FunctionNode, Node>(Children);
+            Name = name;
         }
         public override string ToString()
         {
