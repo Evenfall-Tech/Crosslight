@@ -1,8 +1,5 @@
 ﻿using Crosslight.Viewer.Mock;
 using Crosslight.Viewer.Nodes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Crosslight.Viewer.ViewModels.Graph
 {
@@ -10,9 +7,9 @@ namespace Crosslight.Viewer.ViewModels.Graph
     {
         public GraphViewerViewModel()
         {
-            var ast = MockAST.CreateAST();
+            ViewerNode ast = MockAST.CreateAST();
             var visitor = new GraphViewerVisitor();
-            ast.AcceptVisitor(visitor);
+            _ = ast.AcceptVisitor(visitor);
             GraphViewModel = new GraphViewModel(visitor.Context, GraphNodeDirection.Right);
             GraphViewModel.Sort(GraphNodeAlignment.Lowest, GraphNodeAlignment.Lowest);
         }

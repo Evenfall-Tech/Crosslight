@@ -1,6 +1,5 @@
-﻿using Crosslight.API.Util;
+﻿using Crosslight.Common.Util;
 using System;
-using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes.Control
 {
@@ -14,7 +13,7 @@ namespace Crosslight.API.Nodes.Control
         private readonly SyncedProperty<BlockNode, Node> ifBlock;
         private readonly SyncedProperty<BlockNode, Node> elseBlock;
         public SyncedList<ExpressionNode, Node> ElseIfConditions { get; protected set; }
-        public SyncedList<BlockNode, Node> ElseIfBlocks{ get; protected set; }
+        public SyncedList<BlockNode, Node> ElseIfBlocks { get; protected set; }
         public ExpressionNode Condition
         {
             get => condition.Value;
@@ -32,11 +31,11 @@ namespace Crosslight.API.Nodes.Control
         }
         public IfNode()
         {
-            condition= new SyncedProperty<ExpressionNode, Node>(Children);
+            condition = new SyncedProperty<ExpressionNode, Node>(Children);
             ifBlock = new SyncedProperty<BlockNode, Node>(Children);
             elseBlock = new SyncedProperty<BlockNode, Node>(Children);
             ElseIfConditions = new SyncedList<ExpressionNode, Node>(Children);
-            ElseIfBlocks= new SyncedList<BlockNode, Node>(Children);
+            ElseIfBlocks = new SyncedList<BlockNode, Node>(Children);
         }
         public override string ToString()
         {
