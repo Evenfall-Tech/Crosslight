@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Componentization
 {
     /// <summary>
     /// ProjectNode represents the project abstraction in the language.

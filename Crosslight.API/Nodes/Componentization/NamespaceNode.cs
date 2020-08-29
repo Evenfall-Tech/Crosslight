@@ -4,7 +4,7 @@ using Crosslight.API.Util;
 using System;
 using System.Collections.Generic;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Componentization
 {
     /// <summary>
     /// NamespaceNode represents the namespace abstraction in the language.
