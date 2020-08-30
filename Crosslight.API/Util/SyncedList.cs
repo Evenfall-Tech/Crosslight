@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Crosslight.Common.Util
+namespace Crosslight.API.Util
 {
     public class SyncedList<TPub, TSub> : IList<TPub> where TPub : TSub
     {

@@ -8,5 +8,6 @@ namespace Crosslight.API.Lang
     {
         // TODO: replace Node return type with a more specialized root node type
         public abstract Node Decode(Source source);
+        public abstract string Name { get; }
     }
 }

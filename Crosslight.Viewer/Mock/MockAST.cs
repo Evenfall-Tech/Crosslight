@@ -1,10 +1,12 @@
-﻿using Crosslight.API.Nodes;
+﻿using Crosslight.API.IO;
+using Crosslight.API.Lang;
+using Crosslight.API.Nodes;
 using Crosslight.Viewer.Nodes;
 using System;
 
 namespace Crosslight.Viewer.Mock
 {
-    public static class MockAST
+    public class MockAST : InputLanguage
     {
         public static ViewerNode CreateAST()
         {
@@ -27,6 +29,11 @@ namespace Crosslight.Viewer.Mock
                 node.SetChildren(children);
             }
             return node;
+        }
+
+        public override Node Decode(Source source)
+        {
+            return CreateAST();
         }
     }
 }

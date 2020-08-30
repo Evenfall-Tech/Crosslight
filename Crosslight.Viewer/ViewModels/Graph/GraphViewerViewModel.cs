@@ -1,4 +1,5 @@
-﻿using Crosslight.Viewer.Mock;
+﻿using Crosslight.API.Lang;
+using Crosslight.Viewer.Mock;
 using Crosslight.Viewer.Nodes;
 
 namespace Crosslight.Viewer.ViewModels.Graph

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Crosslight.Common.Util
+namespace Crosslight.API.Util
 {
     public class SyncedProperty<TPub, TSub> where TPub : TSub
     {
