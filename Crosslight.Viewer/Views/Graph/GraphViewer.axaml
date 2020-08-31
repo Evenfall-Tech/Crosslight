@@ -5,7 +5,9 @@
 			 xmlns:cnv="clr-namespace:Crosslight.Viewer.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Crosslight.Viewer.Views.Graph.GraphViewer">
-	<ScrollViewer>
+	<ScrollViewer
+		HorizontalScrollBarVisibility="Visible"
+		VerticalScrollBarVisibility="Visible">
 		<cnv:AutoResizeCanvas Name="graphCanvas"/>
 	</ScrollViewer>
 </UserControl>

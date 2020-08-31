@@ -28,19 +28,15 @@ namespace Crosslight.Viewer
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void OnButtonClick(object sender, RoutedEventArgs e)
+        private async void OnButtonClick(object sender, RoutedEventArgs e)
         {
-            var task = Task.Run(async () =>
+            OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                OpenFileDialog openFileDialog = new OpenFileDialog
-                {
-                    Title = "Choose input files",
-                    AllowMultiple = true
-                };
-                var outPathStrings = await openFileDialog.ShowAsync(this).ConfigureAwait(false);
-                viewer.DataContext = new GraphViewerViewModel(outPathStrings);
-                return outPathStrings;
-            });
+                Title = "Choose input files",
+                AllowMultiple = true
+            };
+            var outPathStrings = await openFileDialog.ShowAsync(this);
+            viewer.DataContext = new GraphViewerViewModel(outPathStrings);
         }
     }
 }

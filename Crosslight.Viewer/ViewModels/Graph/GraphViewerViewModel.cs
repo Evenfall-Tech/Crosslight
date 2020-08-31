@@ -21,10 +21,12 @@ namespace Crosslight.Viewer.ViewModels.Graph
             };
 
             Node ast = context.InputLanguage.Decode(source);
-            if (ast != null)
+            if (ast == null)
             {
-                ast = (ViewerNode)ast.AcceptVisitor(new ViewerNodeAdapterVisitor());
+                return;
             }
+            //ViewerNode viewerNode;
+            //viewerNode = (ViewerNode)ast.AcceptVisitor(new ViewerNodeAdapterVisitor());
 
             var visitor = new GraphViewerVisitor();
             _ = ast.AcceptVisitor(visitor);

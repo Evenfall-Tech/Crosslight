@@ -8,7 +8,7 @@
         x:Class="Crosslight.Viewer.MainWindow"
         Title="Crosslight.Viewer">
 	<Grid ColumnDefinitions="100,*">
-		<Button Content="Open" Click="OnButtonClick"/>
+		<Button Content="Open" Click="OnButtonClick" Grid.Column="0"/>
 		<graphv:GraphViewer Name="myGraphViewer" Grid.Column="1"/>
 	</Grid>
 </Window>

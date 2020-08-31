@@ -25,7 +25,31 @@ namespace Crosslight.Viewer.Nodes
         }
         public object Visit(Node node)
         {
-            return null;
+            string name = node.ToString();// + idGen.ToString();
+            var parent = new NodeModel()
+            {
+                ID = idGen++,
+                Data = name,
+                Connections = new List<int>(),
+            };
+            Context.Nodes.Add(parent);
+            if (node.Children != null)
+            {
+                foreach (Node nodeChild in node.Children)
+                {
+                    NodeModel visitResult;
+                    if (nodeChild is ViewerNode viewerNode)
+                    {
+                        visitResult = Visit(viewerNode) as NodeModel;
+                    }
+                    else
+                    {
+                        visitResult = Visit(nodeChild) as NodeModel;
+                    }
+                    parent.Connections.Add(visitResult.ID);
+                }
+            }
+            return parent;
         }
 
         public object Visit(ViewerNode node)

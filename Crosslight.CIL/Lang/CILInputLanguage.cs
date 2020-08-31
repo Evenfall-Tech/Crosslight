@@ -29,7 +29,7 @@ namespace Crosslight.CIL.Lang
 
             CSharpDecompiler decompiler = GetDecompiler(source.Files.FirstOrDefault());
             SyntaxTree tree = decompiler.DecompileWholeModuleAsSingleFile();
-            return tree.AcceptVisitor(new SyntaxTreeVisitor());
+            return tree.AcceptVisitor(new DummySyntaxTreeVisitor());
         }
         // From ICSharpCode.Decompiler.Console
         CSharpDecompiler GetDecompiler(string assemblyFileName)

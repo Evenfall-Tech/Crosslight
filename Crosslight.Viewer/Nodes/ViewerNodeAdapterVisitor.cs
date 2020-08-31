@@ -9,7 +9,12 @@ namespace Crosslight.Viewer.Nodes
     {
         public object Visit(Node node)
         {
-            return new ViewerNode(node);
+            var result = new ViewerNode(node);
+            foreach (var child in node.Children)
+            {
+                result.Children.Add((Node)child.AcceptVisitor(this));
+            }
+            return result;
         }
     }
 }
