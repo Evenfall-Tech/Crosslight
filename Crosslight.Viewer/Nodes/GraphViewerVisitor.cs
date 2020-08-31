@@ -40,9 +40,18 @@ namespace Crosslight.Viewer.Nodes
             Context.Nodes.Add(parent);
             if (node.Children != null)
             {
-                for (int i = 0; i < node.Children.Count; ++i)
+                foreach (Node nodeChild in node.Children)
                 {
-                    var child = Visit((ViewerNode)node.Children[i]) as NodeModel;
+                    ViewerNode viewerNode;
+                    if (nodeChild is ViewerNode)
+                    {
+                        viewerNode = nodeChild as ViewerNode;
+                    }
+                    else
+                    {
+                        viewerNode = new ViewerNode(nodeChild);
+                    }
+                    var child = Visit(viewerNode) as NodeModel;
                     parent.Connections.Add(child.ID);
                 }
             }

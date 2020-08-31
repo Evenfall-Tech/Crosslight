@@ -7,8 +7,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Crosslight.Viewer.MainWindow"
         Title="Crosslight.Viewer">
-	<Window.Resources>
-		<graphvm:GraphViewerViewModel x:Key="vm"/>
-	</Window.Resources>
-	<graphv:GraphViewer DataContext="{StaticResource vm}"/>
+	<Grid ColumnDefinitions="100,*">
+		<Button Content="Open" Click="OnButtonClick"/>
+		<graphv:GraphViewer Name="myGraphViewer" Grid.Column="1"/>
+	</Grid>
 </Window>

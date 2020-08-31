@@ -37,7 +37,7 @@ namespace Crosslight.CLI
             {
                 configuration = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
+                    .AddJsonFile("settings.json")
                     .Build();
 
                 logger = new LoggerConfiguration()
