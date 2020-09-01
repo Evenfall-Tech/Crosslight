@@ -30,7 +30,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
 
             var visitor = new GraphViewerVisitor();
             _ = ast.AcceptVisitor(visitor);
-            GraphViewModel = new GraphViewModel(visitor.Context, GraphNodeDirection.Right);
+            GraphViewModel = new GraphViewModel(visitor.Context, GraphNodeDirection.Left);
             GraphViewModel.Sort(GraphNodeAlignment.Lowest, GraphNodeAlignment.Lowest);
         }
 

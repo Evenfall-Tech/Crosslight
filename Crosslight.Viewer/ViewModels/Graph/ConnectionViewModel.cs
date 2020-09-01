@@ -31,21 +31,16 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 if (from != null)
                 {
                     from.PropertyChanged -= From_PropertyChanged;
-                    from.PropertyChanged -= To_PropertyChanged;
                 }
                 from = value;
                 if (from != null)
                 {
                     from.PropertyChanged += From_PropertyChanged;
-                    from.PropertyChanged += To_PropertyChanged;
                 }
                 OnPropertyChanged(FromProp);
                 OnPropertyChanged(FromXProp);
                 OnPropertyChanged(FromYProp);
                 OnPropertyChanged(FromPointProp);
-                OnPropertyChanged(ToXProp);
-                OnPropertyChanged(ToYProp);
-                OnPropertyChanged(ToPointProp);
             }
         }
 
@@ -72,12 +67,12 @@ namespace Crosslight.Viewer.ViewModels.Graph
 
         public double FromX
         {
-            get => from.Width / 2.0;
+            get => from.Left + from.Width / 2.0;
         }
 
         public double FromY
         {
-            get => from.Height / 2.0;
+            get => from.Top + from.Height / 2.0;
         }
 
         public Avalonia.Point FromPoint
@@ -87,12 +82,12 @@ namespace Crosslight.Viewer.ViewModels.Graph
 
         public double ToX
         {
-            get => to.Left - from.Left + to.Width / 2.0;
+            get => to.Left + to.Width / 2.0;
         }
 
         public double ToY
         {
-            get => to.Top - from.Top + to.Height / 2.0;
+            get => to.Top + to.Height / 2.0;
         }
 
         public Avalonia.Point ToPoint

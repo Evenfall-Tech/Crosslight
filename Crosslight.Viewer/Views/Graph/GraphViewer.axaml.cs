@@ -51,11 +51,11 @@ namespace Crosslight.Viewer.Views.Graph
             return nodes
                 .SelectMany(
                     node => nodes.Join(node.Connections, a => a.ID, b => b, (node, ind) => node),
-                    (node, rel) => new { node, rel }
+                    (node, rel) => new { From = node, To = rel }
                 )
                 .Select(pair => new GraphConnectionViewer()
                 {
-                    DataContext = new ConnectionViewModel(pair.node, pair.rel),
+                    DataContext = new ConnectionViewModel(pair.From, pair.To),
                 });
         }
 

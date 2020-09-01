@@ -184,6 +184,33 @@ namespace Crosslight.Viewer.ViewModels.Graph
                     layersY[currentLayerPos] = offset;
                 }
             }
+
+            // Shift horizontal layers so they are above 0.
+            {
+                double minX = layersX.Min((kvp) => kvp.Value);
+                if (minX < 0)
+                {
+                    var adjusted = layersX
+                        .Select(kvp => new { kvp.Key, Value = kvp.Value - minX })
+                        .ToArray();
+                    layersX.Clear();
+                    foreach (var elem in adjusted)
+                        layersX.Add(elem.Key, elem.Value);
+                }
+            }
+            // Shift vertical layers so they are above 0.
+            {
+                double minY = layersY.Min((kvp) => kvp.Value);
+                if (minY < 0)
+                {
+                    var adjusted = layersY
+                        .Select(kvp => new { kvp.Key, Value = kvp.Value - minY })
+                        .ToArray();
+                    layersY.Clear();
+                    foreach (var elem in adjusted)
+                        layersY.Add(elem.Key, elem.Value);
+                }
+            }
         }
 
         /// <summary>
@@ -228,7 +255,10 @@ namespace Crosslight.Viewer.ViewModels.Graph
             ref int shift)
         {
             var oldLayer = currentLayer.Peek().Clone();
-            oldLayer.Y += shift;
+            if (node.Direction.Horizontal != GraphNodeAlignment.Middle)
+                oldLayer.Y += shift;
+            else
+                oldLayer.X += shift;
             nodeToLayer.Add(node, oldLayer);
             currentLayer.Push(GetNextLayer(currentLayer.Peek(), node.Direction));
             notVisitedNodes.Remove(node);
