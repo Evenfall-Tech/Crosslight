@@ -256,7 +256,10 @@ namespace Crosslight.Viewer.ViewModels.Graph
         {
             var oldLayer = currentLayer.Peek().Clone();
             if (node.Direction.Horizontal != GraphNodeAlignment.Middle)
-                oldLayer.Y += shift;
+                if (node.Direction.Vertical != GraphNodeAlignment.Lowest)
+                    oldLayer.Y += shift;
+                else
+                    oldLayer.Y -= shift;
             else
                 oldLayer.X += shift;
             nodeToLayer.Add(node, oldLayer);
