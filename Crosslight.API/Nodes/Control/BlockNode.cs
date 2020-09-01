@@ -1,7 +1,7 @@
 ﻿using Crosslight.API.Util;
 using System;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
     /// BlockNode represents the block of code.

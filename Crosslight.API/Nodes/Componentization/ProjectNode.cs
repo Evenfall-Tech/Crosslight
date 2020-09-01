@@ -1,7 +1,7 @@
 ﻿using Crosslight.API.Util;
 using System;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Componentization
 {
     /// <summary>
     /// ProjectNode represents the project abstraction in the language.

@@ -3,7 +3,7 @@ using Crosslight.API.Nodes.Function;
 using Crosslight.API.Util;
 using System;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Componentization
 {
     /// <summary>
     /// NamespaceNode represents the namespace abstraction in the language.

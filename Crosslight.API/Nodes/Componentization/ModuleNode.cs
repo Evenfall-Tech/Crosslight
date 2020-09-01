@@ -1,7 +1,7 @@
 ﻿using Crosslight.API.Util;
 using System;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Componentization
 {
     /// <summary>
     /// ModuleNode represents the module abstraction in the language.
