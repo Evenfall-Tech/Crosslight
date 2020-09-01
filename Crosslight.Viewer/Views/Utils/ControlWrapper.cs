@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Crosslight.Viewer.Views.Utils
 {
+    [Obsolete]
     public class ControlWrapper
     {
         public Control Control { get; set; }

@@ -5,6 +5,7 @@ using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Crosslight.Viewer.ViewModels.Graph;
+using Crosslight.Viewer.Views.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Crosslight.Viewer.Views.Graph
     public class GraphViewer : UserControl
     {
         private readonly Canvas canvas;
+        private GraphViewerViewModel dataContext;
         public GraphViewer()
         {
             this.InitializeComponent();
@@ -27,10 +29,13 @@ namespace Crosslight.Viewer.Views.Graph
         private void GraphViewer_DataContextChanged(object sender, System.EventArgs e)
         {
             if (!(DataContext is GraphViewerViewModel graphVM)) return;
+            dataContext = graphVM;
             canvas.Children.Clear();
             var cons = AddConnections(graphVM.GraphViewModel.Nodes);
             var nodes = AddNodes(graphVM.GraphViewModel.Nodes);
-            canvas.Children.AddRange(cons.Concat(nodes));
+            UpdateNodesSize(nodes);
+            graphVM.GraphViewModel.UpdateLayerAndNodePosition();
+            canvas.Children.AddRange(((IEnumerable<IControl>)cons).Concat(nodes));
         }
 
         private void InitializeComponent()
@@ -38,7 +43,7 @@ namespace Crosslight.Viewer.Views.Graph
             AvaloniaXamlLoader.Load(this);
         }
 
-        private IEnumerable<IControl> AddConnections(IEnumerable<NodeViewModel> nodes)
+        private IEnumerable<GraphConnectionViewer> AddConnections(IEnumerable<NodeViewModel> nodes)
         {
             List<IControl> result = new List<IControl>();
             Random r = new Random(42);
@@ -54,13 +59,26 @@ namespace Crosslight.Viewer.Views.Graph
                 });
         }
 
-        private IEnumerable<IControl> AddNodes(IEnumerable<NodeViewModel> nodes)
+        private IEnumerable<GraphNodeViewer> AddNodes(IEnumerable<NodeViewModel> nodes)
         {
             return nodes.Select(node =>
             {
-                Control control = GraphNodeControlBuilder.BuildGraphNodeControl(node);
+                GraphNodeViewer control = GraphNodeControlBuilder.BuildGraphNodeControl(node);
                 return control;
             }).ToList();
+        }
+
+        private void UpdateNodesSize(IEnumerable<GraphNodeViewer> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                var size = SizeMeasures.GetMinControlSize(node);
+                if (node.DataContext is NodeViewModel nodeVM)
+                {
+                    nodeVM.Width = size.Width;
+                    nodeVM.Height = size.Height;
+                }
+            }
         }
     }
 }

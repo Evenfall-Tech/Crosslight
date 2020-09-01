@@ -18,7 +18,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             Danger,
         }
 
-        public static Control BuildGraphNodeControl(NodeViewModel nodeVM, GraphNodeControlStyle style = GraphNodeControlStyle.Normal)
+        public static GraphNodeViewer BuildGraphNodeControl(NodeViewModel nodeVM, GraphNodeControlStyle style = GraphNodeControlStyle.Normal)
         {
             var color = style switch
             {
@@ -40,6 +40,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             return view;
         }
 
+        [Obsolete]
         public static Size GetGraphControlSize(NodeViewModel nodeVM)
         {
             return SizeMeasures.GetMinControlSize(BuildGraphNodeControl(nodeVM));

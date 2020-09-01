@@ -16,12 +16,16 @@ namespace Crosslight.Viewer.ViewModels.Graph
         private const double defOffsetX = 20.0, defOffsetY = 20.0;
         private GraphModel model;
 
+        Dictionary<int, double> _layersX;
+        Dictionary<int, double> _layersY;
+        Dictionary<NodeViewModel, NodeLayer> _nodeToLayer;
+        GraphNodeAlignment _horizontalAlignment, _verticalAlignment;
+
         public GraphViewModel(GraphModel model, GraphNodeDirection graphNodeDirection)
         {
             this.model = model;
             Nodes = new ObservableViewModelCollection<NodeViewModel, NodeModel>
                 (model.Nodes, new NodeViewModelFactory(graphNodeDirection));
-            UpdateNodesSize();
         }
 
         public GraphModel Model
@@ -48,22 +52,30 @@ namespace Crosslight.Viewer.ViewModels.Graph
         /// </summary>
         public void Sort(GraphNodeAlignment horizontalAlignment, GraphNodeAlignment verticalAlignment)
         {
-            Dictionary<int, double> layersX = new Dictionary<int, double>();
-            Dictionary<int, double> layersY = new Dictionary<int, double>();
-            Dictionary<NodeViewModel, NodeLayer> nodeToLayer = new Dictionary<NodeViewModel, NodeLayer>();
-            layersX[0] = defOffsetX / 2.0;
-            layersY[0] = defOffsetY / 2.0;
+            _layersX = new Dictionary<int, double>();
+            _layersY = new Dictionary<int, double>();
+            _nodeToLayer = new Dictionary<NodeViewModel, NodeLayer>();
+            _layersX[0] = defOffsetX / 2.0;
+            _layersY[0] = defOffsetY / 2.0;
+            _horizontalAlignment = horizontalAlignment;
+            _verticalAlignment = verticalAlignment;
 
             // Assign all nodes to layers.
-            FillLayersForNodes(Nodes, nodeToLayer);
+            FillLayersForNodes(Nodes, _nodeToLayer);
 
             //TODO: check for overlaps and shift accordingly.
             //FixNodeOverlaps(nodes, nodeToLayer);
+        }
 
+        /// <summary>
+        /// Update layers and nodes after setting node positions, widths or heights.
+        /// </summary>
+        public void UpdateLayerAndNodePosition()
+        {
             // Calculate layer size and offset based on nodes that it has.
-            CalculateLayersPosition(nodeToLayer, layersX, layersY);
+            CalculateLayersPosition(_nodeToLayer, _layersX, _layersY);
 
-            PlaceNodesInsideLayers(nodeToLayer, layersX, layersY, horizontalAlignment, verticalAlignment);
+            PlaceNodesInsideLayers(_nodeToLayer, _layersX, _layersY, _horizontalAlignment, _verticalAlignment);
         }
 
         /// <summary>
@@ -284,16 +296,6 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 if (compareHorizontal) res ^= obj.X;
                 if (compareVertical) res ^= obj.Y;
                 return res.GetHashCode();
-            }
-        }
-
-        private void UpdateNodesSize()
-        {
-            foreach (var node in Nodes)
-            {
-                var size = GraphNodeControlBuilder.GetGraphControlSize(node);
-                node.Width = size.Width;
-                node.Height = size.Height;
             }
         }
     }
