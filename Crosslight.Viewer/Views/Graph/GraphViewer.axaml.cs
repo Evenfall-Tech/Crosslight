@@ -1,12 +1,15 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
+using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Crosslight.Viewer.ViewModels.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 namespace Crosslight.Viewer.Views.Graph
 {
@@ -39,24 +42,16 @@ namespace Crosslight.Viewer.Views.Graph
         {
             List<IControl> result = new List<IControl>();
             Random r = new Random(42);
-            foreach (var node in nodes)
-            {
-                var relatives = nodes.Join(node.Connections, a => a.ID, b => b, (node, ind) => node);
-                foreach (var rel in relatives)
+
+            return nodes
+                .SelectMany(
+                    node => nodes.Join(node.Connections, a => a.ID, b => b, (node, ind) => node),
+                    (node, rel) => new { node, rel }
+                )
+                .Select(pair => new GraphConnectionViewer()
                 {
-                    Line line = new Line()
-                    {
-                        StartPoint = new Point(node.Width / 2.0, node.Height / 2.0),
-                        EndPoint = new Point(rel.Left + rel.Width / 2.0 - node.Left, rel.Top + rel.Height / 2.0 - node.Top),
-                        StrokeThickness = 5.0,
-                        Stroke = new SolidColorBrush(Color.FromRgb((byte)r.Next(), (byte)r.Next(), (byte)r.Next()), 1.0),
-                    };
-                    Canvas.SetLeft(line, node.Left);
-                    Canvas.SetTop(line, node.Top);
-                    result.Add(line);
-                }
-            }
-            return result;
+                    DataContext = new ConnectionViewModel(pair.node, pair.rel),
+                });
         }
 
         private IEnumerable<IControl> AddNodes(IEnumerable<NodeViewModel> nodes)
@@ -64,8 +59,6 @@ namespace Crosslight.Viewer.Views.Graph
             return nodes.Select(node =>
             {
                 Control control = GraphNodeControlBuilder.BuildGraphNodeControl(node);
-                Canvas.SetLeft(control, node.Left);
-                Canvas.SetTop(control, node.Top);
                 return control;
             }).ToList();
         }

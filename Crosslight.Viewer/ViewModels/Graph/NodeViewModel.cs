@@ -5,6 +5,15 @@ namespace Crosslight.Viewer.ViewModels.Graph
 {
     public class NodeViewModel : ViewModelBase, IViewModelFor<NodeModel>
     {
+        public const string ModelProp = "Model";
+        public const string DataProp = "Data";
+        public const string IDProp = "ID";
+        public const string ConnectionsProp = "Connections";
+        public const string LeftProp = "Left";
+        public const string TopProp = "Top";
+        public const string WidthProp = "Width";
+        public const string HeightProp = "Height";
+
         private NodeModel model;
         private double left, top, width, height;
 
@@ -20,7 +29,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             set
             {
                 model = value;
-                OnPropertyChanged("Model");
+                OnPropertyChanged(ModelProp);
             }
         }
 
@@ -30,7 +39,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             set
             {
                 model.Data = value;
-                OnPropertyChanged("Data");
+                OnPropertyChanged(DataProp);
             }
         }
 
@@ -40,7 +49,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             set
             {
                 model.ID = value;
-                OnPropertyChanged("ID");
+                OnPropertyChanged(IDProp);
             }
         }
 
@@ -51,7 +60,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             set
             {
                 model.Connections = value;
-                OnPropertyChanged("Connections");
+                OnPropertyChanged(ConnectionsProp);
             }
         }
 
@@ -63,7 +72,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             set
             {
                 left = value;
-                OnPropertyChanged("Left");
+                OnPropertyChanged(LeftProp);
             }
         }
 
@@ -73,7 +82,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             set
             {
                 top = value;
-                OnPropertyChanged("Top");
+                OnPropertyChanged(TopProp);
             }
         }
 
@@ -83,7 +92,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             set
             {
                 width = value;
-                OnPropertyChanged("Width");
+                OnPropertyChanged(WidthProp);
             }
         }
 
@@ -93,7 +102,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             set
             {
                 height = value;
-                OnPropertyChanged("Height");
+                OnPropertyChanged(HeightProp);
             }
         }
 
