@@ -1,6 +1,6 @@
 # Crosslight
 
-A language translation / interpretation engine for cross-language compilation / execution. Run crosslight from GUI or CLI, select languages for input and 
+A language translation / interpretation engine for cross-language compilation / execution. Run Crosslight from GUI or CLI, select languages for input and output, specify input and output files and see the magic!
 
 | Language | Input | Output |
 |-|-|-|
