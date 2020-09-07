@@ -10,6 +10,8 @@ namespace Crosslight.Viewer.Lang
     {
         public override string Name => "Viewer";
 
+        public override LanguageOptions Options { get; protected set; }
+
         public override object Encode(Node rootNode)
         {
             throw new NotImplementedException();

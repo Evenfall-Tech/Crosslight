@@ -16,6 +16,8 @@ namespace Crosslight.CIL.Lang
     {
         public override string Name => "CIL";
 
+        public override LanguageOptions Options { get; protected set; }
+
         public override Node Decode(Source source)
         {
             if (!source.HasFiles)

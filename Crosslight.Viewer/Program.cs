@@ -2,6 +2,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Logging.Serilog;
+using Crosslight.Viewer.Avalonia;
 
 namespace Crosslight.Viewer
 {
@@ -15,8 +16,20 @@ namespace Crosslight.Viewer
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
+            => ConfigureDefault()
                 .UsePlatformDetect()
                 .LogToDebug();
+
+        public static AppBuilder ConfigureDefault()
+            => AppBuilder.Configure<App>();
+
+        public static AppBuilder ConfigureLang()
+            => ConfigureDefault()
+                .With(new ApplicationOptions()
+                {
+                    Options = null,
+                    RootNode = null,
+                });
+
     }
 }

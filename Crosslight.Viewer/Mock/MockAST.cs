@@ -10,6 +10,8 @@ namespace Crosslight.Viewer.Mock
     {
         public override string Name => "Mock";
 
+        public override LanguageOptions Options { get; protected set; }
+
         public static ViewerNode CreateAST()
         {
             Random r = new Random(42);

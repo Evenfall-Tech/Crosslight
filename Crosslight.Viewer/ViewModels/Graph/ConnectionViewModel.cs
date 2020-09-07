@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avalonia;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,9 +76,9 @@ namespace Crosslight.Viewer.ViewModels.Graph
             get => from.Top + from.Height / 2.0;
         }
 
-        public Avalonia.Point FromPoint
+        public Point FromPoint
         {
-            get => new Avalonia.Point(FromX, FromY);
+            get => new Point(FromX, FromY);
         }
 
         public double ToX
@@ -90,9 +91,9 @@ namespace Crosslight.Viewer.ViewModels.Graph
             get => to.Top + to.Height / 2.0;
         }
 
-        public Avalonia.Point ToPoint
+        public Point ToPoint
         {
-            get => new Avalonia.Point(ToX, ToY);
+            get => new Point(ToX, ToY);
         }
 
         private static string[] nodeProperties = new string[]
