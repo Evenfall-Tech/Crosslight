@@ -1,7 +1,4 @@
 ﻿using Crosslight.Viewer.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Crosslight.Viewer.ViewModels
 {

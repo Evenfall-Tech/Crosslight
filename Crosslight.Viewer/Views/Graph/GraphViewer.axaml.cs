@@ -1,16 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
-using Avalonia.Data;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using Crosslight.Viewer.ViewModels.Graph;
 using Crosslight.Viewer.Views.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 
 namespace Crosslight.Viewer.Views.Graph
 {

@@ -1,6 +1,5 @@
 ﻿using Crosslight.API.IO;
 using Crosslight.API.Nodes;
-using System;
 
 namespace Crosslight.API.Lang
 {

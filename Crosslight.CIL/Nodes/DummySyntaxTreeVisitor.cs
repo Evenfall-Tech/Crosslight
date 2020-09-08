@@ -1,9 +1,6 @@
 ﻿using Crosslight.API.Nodes;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Syntax.PatternMatching;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Crosslight.CIL.Nodes
 {

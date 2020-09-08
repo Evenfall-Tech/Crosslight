@@ -1,10 +1,8 @@
 ﻿using Crosslight.Viewer.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 
 namespace Crosslight.Viewer.ViewModels.Utils
 {
@@ -18,8 +16,8 @@ namespace Crosslight.Viewer.ViewModels.Utils
         private bool synchDisabled;
 
         public ObservableViewModelCollection(
-            ICollection<UM> models, 
-            IViewModelFactory<TVM, UM> viewModelFactory, 
+            ICollection<UM> models,
+            IViewModelFactory<TVM, UM> viewModelFactory,
             bool autoFetch = true)
             : base()
         {

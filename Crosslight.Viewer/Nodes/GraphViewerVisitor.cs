@@ -1,12 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Crosslight.API.Nodes;
+﻿using Crosslight.API.Nodes;
 using Crosslight.Viewer.Models.Graph;
-using Crosslight.Viewer.ViewModels.Graph;
-using Crosslight.Viewer.ViewModels.Utils;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Crosslight.Viewer.Nodes
 {

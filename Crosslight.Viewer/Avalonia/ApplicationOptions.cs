@@ -1,8 +1,5 @@
 ﻿using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Crosslight.Viewer.Avalonia
 {

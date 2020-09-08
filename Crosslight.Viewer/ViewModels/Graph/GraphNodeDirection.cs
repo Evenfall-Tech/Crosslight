@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Crosslight.Viewer.ViewModels.Graph
+﻿namespace Crosslight.Viewer.ViewModels.Graph
 {
     public struct GraphNodeDirection
     {

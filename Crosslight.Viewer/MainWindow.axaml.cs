@@ -6,12 +6,8 @@ using Crosslight.API.IO;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.CIL.Lang;
-using Crosslight.Viewer.Mock;
-using Crosslight.Viewer.Models.Graph;
-using Crosslight.Viewer.Nodes;
 using Crosslight.Viewer.ViewModels.Graph;
 using Crosslight.Viewer.Views.Graph;
-using System.Threading.Tasks;
 
 namespace Crosslight.Viewer
 {

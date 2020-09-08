@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.Viewer.ViewModels.Utils
+﻿namespace Crosslight.Viewer.ViewModels.Utils
 {
     public struct NodeLayer
     {
