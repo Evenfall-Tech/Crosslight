@@ -8,14 +8,14 @@ namespace Crosslight.Viewer.ViewModels.Graph
 {
     public class ConnectionViewModel : ViewModelBase
     {
-        private const string FromProp = "From";
-        private const string FromXProp = "FromX";
-        private const string FromYProp = "FromY";
-        private const string FromPointProp = "FromPoint";
-        private const string ToProp = "To";
-        private const string ToXProp = "ToX";
-        private const string ToYProp = "ToY";
-        private const string ToPointProp = "ToPoint";
+        private const string FromProp = nameof(From);
+        private const string FromXProp = nameof(FromX);
+        private const string FromYProp = nameof(FromY);
+        private const string FromPointProp = nameof(FromPoint);
+        private const string ToProp = nameof(To);
+        private const string ToXProp = nameof(ToX);
+        private const string ToYProp = nameof(ToY);
+        private const string ToPointProp = nameof(ToPoint);
         private NodeViewModel from, to;
 
         public ConnectionViewModel(NodeViewModel from, NodeViewModel to)
@@ -96,7 +96,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             get => new Point(ToX, ToY);
         }
 
-        private static string[] nodeProperties = new string[]
+        private static readonly string[] nodeProperties = new string[]
         {
             NodeViewModel.LeftProp, NodeViewModel.TopProp, NodeViewModel.WidthProp, NodeViewModel.HeightProp
         };

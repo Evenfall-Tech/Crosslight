@@ -10,30 +10,28 @@ namespace Crosslight.Viewer.ViewModels.Graph
 {
     public class GraphViewerViewModel : ViewModelBase
     {
-        public GraphViewerViewModel(string[] assemblies)
+        public GraphViewerViewModel(Node ast)
         {
-            Source source = Source.FromFiles(assemblies);
-
-            CrosslightContext context = new CrosslightContext()
-            {
-                InputLanguage = new CILInputLanguage(),
-                OutputLanguage = null,
-            };
-
-            Node ast = context.InputLanguage.Decode(source);
-            if (ast == null)
-            {
-                return;
-            }
             //ViewerNode viewerNode;
             //viewerNode = (ViewerNode)ast.AcceptVisitor(new ViewerNodeAdapterVisitor());
 
             var visitor = new GraphViewerVisitor();
             _ = ast.AcceptVisitor(visitor);
-            GraphViewModel = new GraphViewModel(visitor.Context, GraphNodeDirection.Right);
-            GraphViewModel.Sort(GraphNodeAlignment.Lowest, GraphNodeAlignment.Lowest);
+            graphViewModel = new GraphViewModel(visitor.Context, GraphNodeDirection.Right);
+            graphViewModel.Sort(GraphNodeAlignment.Lowest, GraphNodeAlignment.Lowest);
+            OnPropertyChanged(nameof(GraphViewModel));
         }
 
-        public GraphViewModel GraphViewModel { get; }
+        private GraphViewModel graphViewModel;
+
+        public GraphViewModel GraphViewModel
+        {
+            get => graphViewModel;
+            set
+            {
+                graphViewModel = value;
+                OnPropertyChanged(nameof(GraphViewModel));
+            }
+        }
     }
 }

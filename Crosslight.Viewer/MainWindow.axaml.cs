@@ -2,6 +2,10 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Crosslight.API.IO;
+using Crosslight.API.Lang;
+using Crosslight.API.Nodes;
+using Crosslight.CIL.Lang;
 using Crosslight.Viewer.Mock;
 using Crosslight.Viewer.Models.Graph;
 using Crosslight.Viewer.Nodes;
@@ -13,7 +17,7 @@ namespace Crosslight.Viewer
 {
     public class MainWindow : Window
     {
-        private GraphViewer viewer;
+        private readonly GraphViewer viewer;
         public MainWindow()
         {
             InitializeComponent();
@@ -36,7 +40,22 @@ namespace Crosslight.Viewer
                 AllowMultiple = true
             };
             var outPathStrings = await openFileDialog.ShowAsync(this);
-            viewer.DataContext = new GraphViewerViewModel(outPathStrings);
+
+            Source source = Source.FromFiles(outPathStrings);
+
+            CrosslightContext context = new CrosslightContext()
+            {
+                InputLanguage = new CILInputLanguage(),
+                OutputLanguage = null,
+            };
+
+            Node ast = context.InputLanguage.Decode(source);
+            if (ast == null)
+            {
+                return;
+            }
+
+            viewer.DataContext = new GraphViewerViewModel(ast);
         }
     }
 }

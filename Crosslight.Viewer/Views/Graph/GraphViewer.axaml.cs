@@ -17,7 +17,6 @@ namespace Crosslight.Viewer.Views.Graph
     public class GraphViewer : UserControl
     {
         private readonly Canvas canvas;
-        private GraphViewerViewModel dataContext;
         public GraphViewer()
         {
             this.InitializeComponent();
@@ -29,7 +28,6 @@ namespace Crosslight.Viewer.Views.Graph
         private void GraphViewer_DataContextChanged(object sender, System.EventArgs e)
         {
             if (!(DataContext is GraphViewerViewModel graphVM)) return;
-            dataContext = graphVM;
             canvas.Children.Clear();
             var cons = AddConnections(graphVM.GraphViewModel.Nodes);
             var nodes = AddNodes(graphVM.GraphViewModel.Nodes);

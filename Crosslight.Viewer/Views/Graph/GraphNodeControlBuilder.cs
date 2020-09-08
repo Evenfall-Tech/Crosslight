@@ -1,12 +1,9 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Media;
-using Crosslight.Viewer.Models.Graph;
-using Crosslight.Viewer.Views.Graph;
-using Crosslight.Viewer.Views.Utils;
+using Crosslight.Viewer.ViewModels.Graph;
 using System;
 
-namespace Crosslight.Viewer.ViewModels.Graph
+namespace Crosslight.Viewer.Views.Graph
 {
     public static class GraphNodeControlBuilder
     {
@@ -38,12 +35,6 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 ChildBackground = Brushes.White,
             };
             return view;
-        }
-
-        [Obsolete]
-        public static Size GetGraphControlSize(NodeViewModel nodeVM)
-        {
-            return SizeMeasures.GetMinControlSize(BuildGraphNodeControl(nodeVM));
         }
     }
 }
