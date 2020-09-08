@@ -1,7 +1,7 @@
 ﻿namespace Crosslight.API.Nodes.Access
 {
-    interface ITypeMember
+    public interface ITypeMember
     {
-        TypeNode parent { get; set; }
+        TypeNode OwningType { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Crosslight.API.Util;
+﻿using Crosslight.API.Nodes.Access;
+using Crosslight.API.Nodes.Metadata;
+using Crosslight.API.Util;
 using System;
 
 namespace Crosslight.API.Nodes.Componentization
@@ -11,16 +13,20 @@ namespace Crosslight.API.Nodes.Componentization
     public class ModuleNode : Node
     {
         public override Type Type => typeof(ModuleNode);
+        public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
+        public SyncedList<MetadataNode, Node> Metadatas { get; protected set; }
         public SyncedList<NamespaceNode, Node> Namespaces { get; protected set; }
-        public string Name { get; }
+        public string ModuleName { get; }
         public ModuleNode(string name)
         {
+            Attributes = new SyncedList<AttributeNode, Node>(Children);
+            Metadatas = new SyncedList<MetadataNode, Node>(Children);
             Namespaces = new SyncedList<NamespaceNode, Node>(Children);
-            Name = name;
+            ModuleName = name;
         }
         public override string ToString()
         {
-            return "ModuleNode";
+            return $"Module {ModuleName}";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

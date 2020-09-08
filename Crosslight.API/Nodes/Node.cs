@@ -5,7 +5,7 @@ namespace Crosslight.API.Nodes
 {
     public abstract class Node
     {
-        public virtual Node Parent { get; protected set; } = null;
+        public virtual Node Parent { get; set; } = null;
         public virtual IList<Node> Children { get; protected set; } = null;
         public abstract Type Type { get; }
         public Node()

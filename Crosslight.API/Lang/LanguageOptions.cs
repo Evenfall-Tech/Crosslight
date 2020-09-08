@@ -20,11 +20,15 @@ namespace Crosslight.API.Lang
             {
                 return (T)options[option];
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // TODO: log exception.
                 return default;
             }
+        }
+        public bool Contains(string option)
+        {
+            return options.ContainsKey(option);
         }
     }
 }

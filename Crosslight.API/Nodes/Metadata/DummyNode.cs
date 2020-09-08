@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Crosslight.API.Nodes
+namespace Crosslight.API.Nodes.Metadata
 {
     public class DummyNode : Node
     {

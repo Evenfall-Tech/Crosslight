@@ -2,6 +2,7 @@
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.CIL.Nodes;
+using Crosslight.CIL.Nodes.Visitors;
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Syntax;
@@ -28,9 +29,17 @@ namespace Crosslight.CIL.Lang
                 throw new ArgumentException($"No input found in source.");
             }
 
-            CSharpDecompiler decompiler = GetDecompiler(source.Files.FirstOrDefault());
+            // TODO: allow multiple files.
+            string file = source.Files.FirstOrDefault();
+            CSharpDecompiler decompiler = GetDecompiler(file);
             SyntaxTree tree = decompiler.DecompileWholeModuleAsSingleFile();
-            return tree.AcceptVisitor(new DummySyntaxTreeVisitor());
+            return tree.AcceptVisitor(new CILAstVisitor(
+                new VisitOptions()
+                {
+                    ModuleName = file,
+                    CreateProject = true,
+                }
+            ));
         }
         // From ICSharpCode.Decompiler.Console
         CSharpDecompiler GetDecompiler(string assemblyFileName)

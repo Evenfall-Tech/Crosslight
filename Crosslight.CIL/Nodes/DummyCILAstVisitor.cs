@@ -1,10 +1,11 @@
 ﻿using Crosslight.API.Nodes;
+using Crosslight.API.Nodes.Metadata;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Syntax.PatternMatching;
 
 namespace Crosslight.CIL.Nodes
 {
-    public class DummySyntaxTreeVisitor : IAstVisitor<Node>
+    public class DummyCILAstVisitor : IAstVisitor<Node>
     {
         private Node CreateDummy(AstNode astNode)
         {
@@ -430,7 +431,7 @@ namespace Crosslight.CIL.Nodes
 
         public Node VisitPrimitiveExpression(PrimitiveExpression primitiveExpression)
         {
-            return CreateDummy(primitiveExpression);
+            return CreateDummy(primitiveExpression, $"prim: {primitiveExpression.Format} '{primitiveExpression.Value}'");
         }
 
         public Node VisitPrimitiveType(PrimitiveType primitiveType)

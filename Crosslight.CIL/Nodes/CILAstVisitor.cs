@@ -1,12 +1,24 @@
 ﻿using Crosslight.API.Nodes;
+using Crosslight.CIL.Nodes.Visitors;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Syntax.PatternMatching;
 using System;
 
 namespace Crosslight.CIL.Nodes
 {
-    public class SyntaxTreeVisitor : IAstVisitor<Node>
+    public class CILAstVisitor : IAstVisitor<Node>
     {
+        public VisitContext VisitContext { get; }
+
+        public CILAstVisitor(VisitOptions options)
+        {
+            VisitContext = new VisitContext()
+            {
+                Options = options,
+            };
+            VisitContext.VisitFactory = new VisitFactory(VisitContext);
+        }
+
         public Node VisitAccessor(Accessor accessor)
         {
             throw new NotImplementedException();
@@ -504,7 +516,8 @@ namespace Crosslight.CIL.Nodes
 
         public Node VisitSyntaxTree(SyntaxTree syntaxTree)
         {
-            throw new NotImplementedException();
+            var visitor = VisitContext.VisitFactory.GetVisitor(nameof(SyntaxTree)) as ICILVisitor<SyntaxTree>;
+            return syntaxTree.AcceptVisitor(visitor);
         }
 
         public Node VisitThisReferenceExpression(ThisReferenceExpression thisReferenceExpression)

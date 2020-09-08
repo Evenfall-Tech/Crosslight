@@ -7,8 +7,8 @@ namespace Crosslight.API.Util
 {
     public class SyncedList<TPub, TSub> : IList<TPub> where TPub : TSub
     {
-        private readonly IList<TPub> publisher;
-        private readonly IList<TSub> subscriber;
+        protected readonly IList<TPub> publisher;
+        protected readonly IList<TSub> subscriber;
 
         /// <summary>
         /// Initializes a new instance of the <seealso cref="SyncedList{TPub, TSub}"/> class that
