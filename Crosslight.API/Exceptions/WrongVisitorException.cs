@@ -29,5 +29,17 @@ namespace Crosslight.API.Exceptions
         {
 
         }
+
+        public WrongVisitorException(string visitor, string visitee)
+            : this($"Wrong visitor {visitor} for node {visitee}.")
+        {
+
+        }
+
+        public WrongVisitorException(string visitor, string visitee, Exception inner)
+            : this($"Wrong visitor {visitor} for node {visitee}.", inner)
+        {
+
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Crosslight.CIL.Nodes.Visitors
     public class VisitOptions : ICloneable
     {
         public bool CreateProject { get; set; }
+        public bool SplitNamespaces { get; set; }
         public string ModuleName { get; set; }
 
         public VisitOptions()

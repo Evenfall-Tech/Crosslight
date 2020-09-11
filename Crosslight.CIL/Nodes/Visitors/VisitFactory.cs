@@ -1,4 +1,5 @@
 ﻿using Crosslight.CIL.Nodes.Visitors.Syntax;
+using Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,8 @@ namespace Crosslight.CIL.Nodes.Visitors
             generalDummyVisitor = new GeneralDummyVisitor();
             visitorConstructors = new Dictionary<string, Func<VisitContext, ICILVisitor>>()
             {
-                { nameof(SyntaxTree), (c) => new SyntaxTreeVisitor(c) }
+                { nameof(SyntaxTree), (c) => new SyntaxTreeVisitor(c) },
+                { nameof(NamespaceDeclaration), (c) => new NamespaceDeclarationVisitor(c) },
             };
         }
 
