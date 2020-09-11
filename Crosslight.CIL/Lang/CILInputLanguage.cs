@@ -33,6 +33,7 @@ namespace Crosslight.CIL.Lang
             string file = source.Files.FirstOrDefault();
             CSharpDecompiler decompiler = GetDecompiler(file);
             SyntaxTree tree = decompiler.DecompileWholeModuleAsSingleFile();
+            // TODO: add option loading
             return tree.AcceptVisitor(new CILAstVisitor(
                 new VisitOptions()
                 {

@@ -1,6 +1,8 @@
 ﻿using Crosslight.API.Exceptions;
 using Crosslight.API.Nodes;
+using Crosslight.API.Nodes.Access;
 using Crosslight.API.Nodes.Componentization;
+using Crosslight.API.Nodes.Metadata;
 using Crosslight.CIL.Utils.ILSpy;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
@@ -46,11 +48,47 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax
                 var root = new ModuleNode(Context.Options.ModuleName);
                 // TODO: Parse Usings.
                 var usings = node.Children.OfType<UsingDeclaration>();
-                // TODO: Parse Attributes.
-                var assemblyAttributes = node.Children
-                    .OfType<AttributeSection>()
-                    .Where(s => s.AttributeTarget == "assembly");
 
+                var attributes = node.Children
+                    .OfType<AttributeSection>();
+                var assemblyAttributes = attributes
+                    .Where(s => s.AttributeTarget == "assembly");
+                attributes = attributes.Except(assemblyAttributes);
+                
+                // Parse attributes.
+                foreach (var at in attributes)
+                {
+                    var atVisitor = Context?.VisitFactory?.GetVisitor(nameof(AttributeSection)) as ICILVisitor<AttributeSection>;
+                    Node atNode = at.AcceptVisitor(atVisitor);
+                    if (!(atNode is RootNode dummy))
+                    {
+                        throw new VisitorException($"{nameof(AttributeSection)} visitor returned {atNode.Type}.");
+                    }
+                    var attrEnumerable = atNode.Children.OfType<AttributeNode>();
+                    foreach (var r in attrEnumerable)
+                        root.Attributes.Add(r);
+                    foreach (var r in atNode.Children.Except(attrEnumerable))
+                        root.Children.Add(r);
+                }
+
+                // Parse project attributes.
+                List<AttributeNode> assemblyAttributeResult = new List<AttributeNode>();
+                List<Node> assemblyAttributeExhaust = new List<Node>();
+                foreach (var at in assemblyAttributes)
+                {
+                    var atVisitor = Context?.VisitFactory?.GetVisitor(nameof(AttributeSection)) as ICILVisitor<AttributeSection>;
+                    Node atNode = at.AcceptVisitor(atVisitor);
+                    if (!(atNode is RootNode dummy))
+                    {
+                        throw new VisitorException($"{nameof(AttributeSection)} visitor returned {atNode.Type}.");
+                    }
+                    var attrEnumerable = atNode.Children.OfType<AttributeNode>();
+                    assemblyAttributeResult.AddRange(attrEnumerable);
+                    assemblyAttributeExhaust.AddRange(atNode.Children.Except(attrEnumerable));
+                }
+                // TODO: choose where to put assembly nodes if we don't create a project
+
+                // Parse namespaces.
                 var namespaces = node.Children.OfType<NamespaceDeclaration>();
                 List<NamespaceNode> resultingNamespaceNodes = new List<NamespaceNode>();
                 foreach (var ns in namespaces)
@@ -73,7 +111,7 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax
 
                 var others = node.Children
                     //.Except(usings)
-                    //.Except(assemblyAttributes)
+                    .Except(assemblyAttributes)
                     .Except(namespaces)
                 ;
                 foreach (var c in others)
@@ -89,7 +127,10 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax
                 {
                     var project = new ProjectNode(node.GetAssemblyTitle());
                     project.Modules.Add(root);
-                    // TODO: set parent, siblings, etc.
+                    foreach (var at in assemblyAttributeResult)
+                        project.Attributes.Add(at);
+                    foreach (var atex in assemblyAttributeExhaust)
+                        project.Children.Add(atex);
                     returnNode = project;
                 }
                 return returnNode;

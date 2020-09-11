@@ -4,6 +4,7 @@ using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Attribute = ICSharpCode.Decompiler.CSharp.Syntax.Attribute;
 
 namespace Crosslight.CIL.Nodes.Visitors
 {
@@ -37,6 +38,8 @@ namespace Crosslight.CIL.Nodes.Visitors
             {
                 { nameof(SyntaxTree), (c) => new SyntaxTreeVisitor(c) },
                 { nameof(NamespaceDeclaration), (c) => new NamespaceDeclarationVisitor(c) },
+                { nameof(AttributeSection), (c) => new AttributeSectionVisitor(c) },
+                { nameof(Attribute), (c) => new AttributeVisitor(c) },
             };
         }
 
