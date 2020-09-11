@@ -9,6 +9,7 @@ namespace Crosslight.CIL.Nodes.Visitors
         public bool CreateProject { get; set; }
         public bool SplitNamespaces { get; set; }
         public string ModuleName { get; set; }
+        public bool FullModulePath { get; set; }
 
         public VisitOptions()
         {

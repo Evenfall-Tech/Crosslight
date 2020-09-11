@@ -7,6 +7,7 @@ using Crosslight.CIL.Utils.ILSpy;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -45,7 +46,12 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax
         {
             try
             {
-                var root = new ModuleNode(Context.Options.ModuleName);
+                string moduleName = Context.Options.ModuleName;
+                if (Context?.Options?.FullModulePath == false)
+                {
+                    moduleName = Path.GetFileName(moduleName);
+                }
+                var root = new ModuleNode(moduleName);
                 // TODO: Parse Usings.
                 var usings = node.Children.OfType<UsingDeclaration>();
 

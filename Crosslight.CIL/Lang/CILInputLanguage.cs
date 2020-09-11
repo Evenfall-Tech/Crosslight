@@ -40,6 +40,7 @@ namespace Crosslight.CIL.Lang
                     ModuleName = file,
                     CreateProject = true,
                     SplitNamespaces = false,
+                    FullModulePath = false,
                 }
             ));
         }
