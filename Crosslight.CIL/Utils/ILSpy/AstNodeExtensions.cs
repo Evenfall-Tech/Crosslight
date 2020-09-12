@@ -1,4 +1,5 @@
 ﻿using ICSharpCode.Decompiler.CSharp.Syntax;
+using System.IO;
 using System.Linq;
 
 namespace Crosslight.CIL.Utils.ILSpy
@@ -13,10 +14,17 @@ namespace Crosslight.CIL.Utils.ILSpy
             var attribute = attributeSections
                 .SelectMany(s => s.Attributes)
                 .SingleOrDefault(a => a.Type.ToString() == "AssemblyTitle");
-            return attribute.Arguments
-                .OfType<PrimitiveExpression>()
-                .SingleOrDefault()
-                .Value.ToString();
+            if (attribute != null)
+            {
+                return attribute.Arguments
+                    .OfType<PrimitiveExpression>()
+                    .SingleOrDefault()
+                    .Value.ToString();
+            }
+            else
+            {
+                return Path.GetFileNameWithoutExtension(tree.FileName);
+            }
         }
     }
 }

@@ -34,10 +34,12 @@ namespace Crosslight.CIL.Lang
             CSharpDecompiler decompiler = GetDecompiler(file);
             SyntaxTree tree = decompiler.DecompileWholeModuleAsSingleFile();
             // TODO: add option loading
+            // TODO: parse decompiler.TypeSystem.ReferencedModules for referenced modules.
             return tree.AcceptVisitor(new CILAstVisitor(
                 new VisitOptions()
                 {
                     ModuleName = file,
+                    ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,
                     CreateProject = true,
                     SplitNamespaces = false,
                     FullModulePath = false,

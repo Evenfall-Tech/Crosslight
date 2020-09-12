@@ -131,7 +131,10 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax
                 Node returnNode = root;
                 if (Context.Options.CreateProject)
                 {
-                    var project = new ProjectNode(node.GetAssemblyTitle());
+                    string projectName = Context?.Options?.ProjectName;
+                    if (string.IsNullOrWhiteSpace(projectName))
+                        projectName = node.GetAssemblyTitle();
+                    var project = new ProjectNode(projectName);
                     project.Modules.Add(root);
                     foreach (var at in assemblyAttributeResult)
                         project.Attributes.Add(at);
