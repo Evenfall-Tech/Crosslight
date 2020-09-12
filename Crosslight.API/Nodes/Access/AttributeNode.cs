@@ -7,13 +7,14 @@ namespace Crosslight.API.Nodes.Access
     /// </summary>
     public class AttributeNode : Node
     {
-        // TODO: add attribute types to attribute node
+        // TODO: add attribute types, constructor and parameters to AttributeNode.
         public override Type Type => typeof(AttributeNode);
         public AttributeOptions Options { get; set; }
         public string Name { get; }
         public AttributeNode(string name)
         {
             Name = name;
+            Options = new AttributeOptions();
         }
         public override string ToString()
         {

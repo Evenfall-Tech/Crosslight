@@ -14,13 +14,11 @@ namespace Crosslight.API.Nodes.Componentization
     {
         public override Type Type => typeof(ModuleNode);
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
-        public SyncedList<MetadataNode, Node> Metadatas { get; protected set; }
         public SyncedList<NamespaceNode, Node> Namespaces { get; protected set; }
         public string ModuleName { get; }
         public ModuleNode(string name)
         {
             Attributes = new SyncedList<AttributeNode, Node>(Children);
-            Metadatas = new SyncedList<MetadataNode, Node>(Children);
             Namespaces = new SyncedList<NamespaceNode, Node>(Children);
             ModuleName = name;
         }

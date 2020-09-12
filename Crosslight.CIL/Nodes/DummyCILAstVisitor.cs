@@ -566,7 +566,6 @@ namespace Crosslight.CIL.Nodes
 
         public Node VisitTypeDeclaration(TypeDeclaration typeDeclaration)
         {
-            // TODO: TypeKeyword doesn't seem to work, had to revert to using enum.ToString()
             return CreateDummy(typeDeclaration, $"typedecl: {typeDeclaration.ClassType}");
         }
 

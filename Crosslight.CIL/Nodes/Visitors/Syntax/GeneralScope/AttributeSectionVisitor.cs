@@ -44,12 +44,14 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
             try
             {
                 var root = new RootNode();
+                var options = GetAttributeOptions(node);
                 foreach (var c in node.Attributes)
                 {
                     var visitor = Context?.VisitFactory?.GetVisitor(nameof(Attribute)) as ICILVisitor<Attribute>;
                     var outNode = c.AcceptVisitor(visitor);
                     if (outNode is AttributeNode at)
                     {
+                        at.Options.Target = options.Target;
                         root.Children.Add(at);
                     }
                     else

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Crosslight.API.Nodes.Metadata;
+using Crosslight.API.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes
@@ -6,11 +8,14 @@ namespace Crosslight.API.Nodes
     public abstract class Node
     {
         public virtual Node Parent { get; set; } = null;
+        // TODO: remove this if it ends up unused.
+        public SyncedList<MetadataNode, Node> Metadatas { get; protected set; }
         public virtual IList<Node> Children { get; protected set; } = null;
         public abstract Type Type { get; }
         public Node()
         {
             Children = new List<Node>();
+            Metadatas = new SyncedList<MetadataNode, Node>(Children);
         }
         public override string ToString()
         {

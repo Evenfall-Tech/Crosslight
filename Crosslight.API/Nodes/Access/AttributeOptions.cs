@@ -6,7 +6,12 @@ namespace Crosslight.API.Nodes.Access
 {
     public class AttributeOptions
     {
-        public AttributeTarget Target { get; set; }
+        public AttributeTarget Target { get; set; } = AttributeTarget.None;
+
+        public override string ToString()
+        {
+            return $"({Target})";
+        }
     }
 
     public enum AttributeTarget
@@ -20,5 +25,6 @@ namespace Crosslight.API.Nodes.Access
         Property, // TODO: if we won't use properties, remove this.
         Return,
         Type, // Struct, class, interface, enum, or delegate.
+        None,
     }
 }

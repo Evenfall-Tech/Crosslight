@@ -54,5 +54,19 @@ namespace Crosslight.API.IO
                 Data = new string[] { source },
             };
         }
+
+        public static Source FromStrings(params string[] sources)
+        {
+            return FromStrings((IEnumerable<string>)sources);
+        }
+
+        public static Source FromStrings(IEnumerable<string> sources)
+        {
+            return new Source()
+            {
+                Files = null,
+                Data = sources.ToArray(),
+            };
+        }
     }
 }

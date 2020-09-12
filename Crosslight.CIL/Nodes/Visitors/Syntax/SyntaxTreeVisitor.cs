@@ -118,6 +118,7 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax
                 var others = node.Children
                     //.Except(usings)
                     .Except(assemblyAttributes)
+                    .Except(attributes)
                     .Except(namespaces)
                 ;
                 foreach (var c in others)
