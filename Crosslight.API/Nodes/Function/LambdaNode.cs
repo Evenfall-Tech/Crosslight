@@ -8,7 +8,7 @@ namespace Crosslight.API.Nodes.Function
     /// </summary>
     public class LambdaNode : Node
     {
-        public override Type Type => typeof(LambdaNode);
+        public override string Type => nameof(LambdaNode);
         public SyncedList<FunctionParameterNode, Node> Parameters { get; protected set; }
         // TODO: in C++11 lambdas might have return type specified
         private readonly SyncedProperty<FunctionReturnTypeNode, Node> returnType;

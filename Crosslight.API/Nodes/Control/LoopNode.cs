@@ -8,7 +8,7 @@ namespace Crosslight.API.Nodes.Control
     /// </summary>
     public class LoopNode : StatementNode
     {
-        public override Type Type => typeof(LoopNode);
+        public override string Type => nameof(LoopNode);
         private readonly SyncedProperty<BlockNode, Node> body;
         private readonly SyncedProperty<ExpressionNode, Node> condition;
         public BlockNode Body

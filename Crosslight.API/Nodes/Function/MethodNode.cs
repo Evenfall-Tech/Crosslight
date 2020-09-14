@@ -9,7 +9,7 @@ namespace Crosslight.API.Nodes.Function
     /// </summary>
     public class MethodNode : FunctionNode, ITypeMember
     {
-        public override Type Type => typeof(MethodNode);
+        public override string Type => nameof(MethodNode);
         public TypeNode OwningType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         public SyncedList<ModifierNode, Node> Modifiers { get; protected set; }

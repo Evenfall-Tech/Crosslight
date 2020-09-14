@@ -7,7 +7,7 @@ namespace Crosslight.API.Nodes.Access
     /// </summary>
     public class ModifierNode : Node
     {
-        public override Type Type => typeof(ModifierNode);
+        public override string Type => nameof(ModifierNode);
         // maybe enum with modifiers
         public ModifierNode()
         {

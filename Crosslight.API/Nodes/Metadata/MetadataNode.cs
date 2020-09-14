@@ -7,7 +7,7 @@ namespace Crosslight.API.Nodes.Metadata
     /// </summary>
     public class MetadataNode : Node
     {
-        public override Type Type => typeof(MetadataNode);
+        public override string Type => nameof(MetadataNode);
         public string Metadata { get; }
         public MetadataNode(string metadata)
         {

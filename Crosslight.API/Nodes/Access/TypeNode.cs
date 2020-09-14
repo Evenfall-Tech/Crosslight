@@ -11,7 +11,7 @@ namespace Crosslight.API.Nodes.Access
     /// </summary>
     public abstract class TypeNode : Node
     {
-        public override Type Type => typeof(TypeNode);
+        public override string Type => nameof(TypeNode);
         public SyncedList<FieldNode, Node> Fields { get; protected set; }
         public SyncedList<MethodNode, Node> Methods { get; protected set; }
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }

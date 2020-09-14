@@ -9,7 +9,7 @@ namespace Crosslight.API.Nodes.Function
     /// </summary>
     public class FunctionReturnTypeNode : Node
     {
-        public override Type Type => typeof(FunctionReturnTypeNode);
+        public override string Type => nameof(FunctionReturnTypeNode);
         public SyncedList<AttributeNode, Node> ReturnTypeAttributes { get; protected set; }
         public TypeNode ReturnType { get; protected set; }
         public FunctionReturnTypeNode()
