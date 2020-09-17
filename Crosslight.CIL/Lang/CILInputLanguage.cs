@@ -8,6 +8,7 @@ using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.Metadata;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Crosslight.CIL.Lang
@@ -20,31 +21,48 @@ namespace Crosslight.CIL.Lang
 
         public override Node Decode(Source source)
         {
-            if (!source.HasFiles)
+            if (!(source is MultiFileSource fileSource))
             {
                 // TODO: add logging messages all around
-                if (source.HasData)
-                    throw new System.NotImplementedException($"{nameof(CILInputLanguage)} does not support loading direct data.");
                 // TODO: add loading from string data if possible
                 throw new ArgumentException($"No input found in source.");
             }
 
+            VisitOptions visitOptions = new VisitOptions()
+            {
+                CreateProject = true,
+                SplitNamespaces = false,
+                FullModulePath = false,
+            };
+
             // TODO: allow multiple files.
-            string file = source.Files.FirstOrDefault();
-            CSharpDecompiler decompiler = GetDecompiler(file);
-            SyntaxTree tree = decompiler.DecompileWholeModuleAsSingleFile();
-            // TODO: add option loading
-            // TODO: parse decompiler.TypeSystem.ReferencedModules for referenced modules.
-            return tree.AcceptVisitor(new CILAstVisitor(
-                new VisitOptions()
-                {
-                    ModuleName = file,
-                    ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,
-                    CreateProject = true,
-                    SplitNamespaces = false,
-                    FullModulePath = false,
-                }
-            ));
+            if (fileSource.Count == 0)
+            {
+                throw new ArgumentException($"No input found in source.");
+            }
+            List<Node> nodes = new List<Node>();
+            foreach (string filePath in fileSource.Files)
+            {
+                CSharpDecompiler decompiler = GetDecompiler(filePath);
+                SyntaxTree tree = decompiler.DecompileWholeModuleAsSingleFile();
+
+                // TODO: add option loading
+                // TODO: parse decompiler.TypeSystem.ReferencedModules for referenced modules.
+                nodes.Add(tree.AcceptVisitor(new CILAstVisitor(
+                    new VisitOptions(visitOptions)
+                    {
+                        ModuleName = filePath,
+                        ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,
+                    }
+                )));
+            }
+            if (nodes.Count > 1)
+            {
+                RootNode rootNode = new RootNode();
+                foreach (var n in nodes) rootNode.Children.Add(n);
+                return rootNode;
+            }
+            else return nodes.First();
         }
         // From ICSharpCode.Decompiler.Console
         CSharpDecompiler GetDecompiler(string assemblyFileName)

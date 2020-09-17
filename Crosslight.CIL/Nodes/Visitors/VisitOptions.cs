@@ -16,12 +16,19 @@ namespace Crosslight.CIL.Nodes.Visitors
         {
             // TODO: fill this class with options.
             CreateProject = true;
-            ModuleName = DefaultModuleName;
+            SplitNamespaces = false;
+            FullModulePath = false;
+            ModuleName = DefaultProjectName;
+            ProjectName = DefaultProjectName;
         }
 
         public VisitOptions(VisitOptions other)
         {
-            throw new NotImplementedException();
+            CreateProject = other.CreateProject;
+            SplitNamespaces = other.SplitNamespaces;
+            FullModulePath = other.FullModulePath;
+            ModuleName = other.ModuleName;
+            ProjectName = other.ProjectName;
         }
 
         public object Clone()
@@ -29,6 +36,6 @@ namespace Crosslight.CIL.Nodes.Visitors
             return new VisitOptions(this);
         }
 
-        public const string DefaultModuleName = "Module";
+        public const string DefaultProjectName = "Module";
     }
 }

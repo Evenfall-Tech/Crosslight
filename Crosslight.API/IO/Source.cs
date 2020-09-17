@@ -4,21 +4,13 @@ using System.Linq;
 
 namespace Crosslight.API.IO
 {
-    public class Source
+    public abstract class Source
     {
-        public bool HasFiles => Files != null && Files.Count() > 0;
-        public bool HasData => Data != null && Data.Count() > 0;
-        public IEnumerable<string> Files { get; protected set; }
-        public IEnumerable<string> Data { get; protected set; }
+        public abstract int Count { get; }
 
-        private Source()
-        {
-            Files = null;
-            Data = null;
-        }
         public static Source FromFile(string filename)
         {
-            return FromFiles(new string[] { filename });
+            return new MultiFileSource().WithFilePath(filename);
         }
 
         public static Source FromStream(StreamReader stream)
@@ -39,20 +31,12 @@ namespace Crosslight.API.IO
 
         public static Source FromFiles(IEnumerable<string> filenames)
         {
-            return new Source()
-            {
-                Files = filenames,
-                Data = null,
-            };
+            return new MultiFileSource().WithFilePaths(filenames);
         }
 
         public static Source FromString(string source)
         {
-            return new Source()
-            {
-                Files = null,
-                Data = new string[] { source },
-            };
+            return new MultiStringSource().WithString(source);
         }
 
         public static Source FromStrings(params string[] sources)
@@ -62,11 +46,7 @@ namespace Crosslight.API.IO
 
         public static Source FromStrings(IEnumerable<string> sources)
         {
-            return new Source()
-            {
-                Files = null,
-                Data = sources.ToArray(),
-            };
+            return new MultiStringSource().WithStrings(sources);
         }
     }
 }

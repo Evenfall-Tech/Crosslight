@@ -5,7 +5,7 @@ namespace Crosslight.API.Nodes.Access
     /// <summary>
     /// AttributeNode represents the attribute/annotation abstraction in the language.
     /// </summary>
-    public class AttributeNode : Node
+    public class AttributeNode : Node, IEquatable<AttributeNode>
     {
         // TODO: add attribute types, constructor and parameters to AttributeNode.
         public override Type Type => typeof(AttributeNode);
@@ -23,6 +23,12 @@ namespace Crosslight.API.Nodes.Access
         public override object AcceptVisitor(IVisitor visitor)
         {
             return visitor.Visit(this);
+        }
+
+        public bool Equals(AttributeNode other)
+        {
+            return Name == other.Name && Options == other.Options;
+            // TODO: update this method once AttributeNode has types, constructor and parameters.
         }
     }
 }
