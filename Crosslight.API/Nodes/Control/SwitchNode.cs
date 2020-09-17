@@ -8,7 +8,7 @@ namespace Crosslight.API.Nodes.Control
     /// </summary>
     public class SwitchNode : StatementNode
     {
-        public override Type Type => typeof(SwitchNode);
+        public override string Type => nameof(SwitchNode);
         private readonly SyncedProperty<ExpressionNode, Node> conditionExpression;
         private readonly SyncedProperty<BlockNode, Node> defaultBlock;
         public SyncedList<ExpressionNode, Node> Cases { get; protected set; }

@@ -7,7 +7,7 @@ namespace Crosslight.API.Nodes.Access
     /// </summary>
     public class VariableNode : ValueNode
     {
-        public override Type Type => typeof(VariableNode);
+        public override string Type => nameof(VariableNode);
         public string Name { get; }
         public VariableNode(string name)
         {

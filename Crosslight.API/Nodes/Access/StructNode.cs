@@ -7,7 +7,7 @@ namespace Crosslight.API.Nodes.Access
     /// </summary>
     public class StructNode : TypeNode
     {
-        public override Type Type => typeof(StructNode);
+        public override string Type => nameof(StructNode);
         public StructNode(string name) : base(name)
         {
         }

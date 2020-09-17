@@ -8,7 +8,7 @@ namespace Crosslight.API.Nodes.Access
     /// </summary>
     public class FieldNode : ValueNode, ITypeMember
     {
-        public override Type Type => typeof(FieldNode);
+        public override string Type => nameof(FieldNode);
         public TypeNode OwningType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         public SyncedList<ModifierNode, Node> Modifiers { get; protected set; }

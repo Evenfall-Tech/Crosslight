@@ -7,7 +7,7 @@ namespace Crosslight.API.Nodes.Access
     /// </summary>
     public class ConstantNode : ValueNode
     {
-        public override Type Type => typeof(ConstantNode);
+        public override string Type => nameof(ConstantNode);
         public string Name { get; }
         public ConstantNode(string name)
         {

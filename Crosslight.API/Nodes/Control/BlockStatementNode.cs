@@ -7,7 +7,7 @@ namespace Crosslight.API.Nodes.Control
     /// </summary>
     public class BlockStatementNode : StatementNode
     {
-        public override Type Type => typeof(BlockStatementNode);
+        public override string Type => nameof(BlockStatementNode);
         public BlockStatementNode()
         {
         }

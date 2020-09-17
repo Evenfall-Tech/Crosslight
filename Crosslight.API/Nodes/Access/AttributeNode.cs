@@ -8,7 +8,7 @@ namespace Crosslight.API.Nodes.Access
     public class AttributeNode : Node, IEquatable<AttributeNode>
     {
         // TODO: add attribute types, constructor and parameters to AttributeNode.
-        public override Type Type => typeof(AttributeNode);
+        public override string Type => nameof(AttributeNode);
         public AttributeOptions Options { get; set; }
         public string Name { get; }
         public AttributeNode(string name)

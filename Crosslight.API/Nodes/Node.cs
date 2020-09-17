@@ -11,7 +11,7 @@ namespace Crosslight.API.Nodes
         // TODO: remove this if it ends up unused.
         public SyncedList<MetadataNode, Node> Metadatas { get; protected set; }
         public virtual IList<Node> Children { get; protected set; } = null;
-        public abstract Type Type { get; }
+        public abstract string Type { get; }
         public Node()
         {
             Children = new List<Node>();

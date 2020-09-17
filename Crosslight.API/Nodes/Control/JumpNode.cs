@@ -7,7 +7,7 @@ namespace Crosslight.API.Nodes.Control
     /// </summary>
     public abstract class JumpNode : StatementNode
     {
-        public override Type Type => typeof(JumpNode);
+        public override string Type => nameof(JumpNode);
         public JumpNode()
         {
         }

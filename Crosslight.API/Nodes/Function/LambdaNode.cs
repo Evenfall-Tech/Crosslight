@@ -4,12 +4,13 @@ using System;
 namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
-    /// FunctionNode represents the function abstraction in the language.
+    /// LambdaNode represents the lambda abstraction in the language.
     /// </summary>
-    public class FunctionNode : Node
+    public class LambdaNode : Node
     {
-        public override string Type => nameof(FunctionNode);
+        public override string Type => nameof(LambdaNode);
         public SyncedList<FunctionParameterNode, Node> Parameters { get; protected set; }
+        // TODO: in C++11 lambdas might have return type specified
         private readonly SyncedProperty<FunctionReturnTypeNode, Node> returnType;
         private readonly SyncedProperty<FunctionBodyNode, Node> body;
         public FunctionReturnTypeNode ReturnType
@@ -22,17 +23,15 @@ namespace Crosslight.API.Nodes.Function
             get => body.Value;
             set => body.Value = value;
         }
-        public string Name { get; }
-        public FunctionNode(string name)
+        public LambdaNode()
         {
             Parameters = new SyncedList<FunctionParameterNode, Node>(Children);
             returnType = new SyncedProperty<FunctionReturnTypeNode, Node>(Children);
             body = new SyncedProperty<FunctionBodyNode, Node>(Children);
-            Name = name;
         }
         public override string ToString()
         {
-            return "FunctionNode";
+            return "LambdaNode";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

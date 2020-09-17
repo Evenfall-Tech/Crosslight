@@ -8,7 +8,7 @@ namespace Crosslight.API.Nodes.Control
     /// </summary>
     public class BlockNode : Node
     {
-        public override Type Type => typeof(BlockNode);
+        public override string Type => nameof(BlockNode);
         public SyncedList<StatementNode, Node> Statements { get; protected set; }
         // scope
         public BlockNode()

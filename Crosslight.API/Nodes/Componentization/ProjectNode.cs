@@ -13,7 +13,7 @@ namespace Crosslight.API.Nodes.Componentization
     /// </summary>
     public class ProjectNode : Node
     {
-        public override Type Type => typeof(ProjectNode);
+        public override string Type => nameof(ProjectNode);
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         public SyncedList<ModuleNode, Node> Modules { get; protected set; }
         public string Name { get; }

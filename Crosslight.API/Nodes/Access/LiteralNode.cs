@@ -7,7 +7,7 @@ namespace Crosslight.API.Nodes.Access
     /// </summary>
     public class LiteralNode : ValueNode
     {
-        public override Type Type => typeof(LiteralNode);
+        public override string Type => nameof(LiteralNode);
         public string LiteralValue { get; }
         public LiteralNode(string value)
         {

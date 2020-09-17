@@ -8,7 +8,7 @@ namespace Crosslight.API.Nodes.Unary
     /// </summary>
     public abstract class UnaryExpressionNode : ExpressionNode
     {
-        public override Type Type => typeof(UnaryExpressionNode);
+        public override string Type => nameof(UnaryExpressionNode);
         private readonly SyncedProperty<ExpressionNode, Node> operand;
         public ExpressionNode Operand
         {
