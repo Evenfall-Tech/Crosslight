@@ -1,6 +1,7 @@
 ﻿using Crosslight.API.IO;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
+using Crosslight.API.Nodes.Componentization;
 using Crosslight.CIL.Nodes;
 using Crosslight.CIL.Nodes.Visitors;
 using ICSharpCode.Decompiler;
@@ -28,12 +29,7 @@ namespace Crosslight.CIL.Lang
                 throw new ArgumentException($"No input found in source.");
             }
 
-            VisitOptions visitOptions = new VisitOptions()
-            {
-                CreateProject = true,
-                SplitNamespaces = false,
-                FullModulePath = false,
-            };
+            VisitOptions visitOptions = new VisitOptions();
 
             // TODO: allow multiple files.
             if (fileSource.Count == 0)
@@ -55,6 +51,31 @@ namespace Crosslight.CIL.Lang
                         ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,
                     }
                 )));
+            }
+            // TODO: split option-based logic into different methods.
+            if (visitOptions.MergeProjectsWithSameName)
+            {
+                var uniqueProjects = nodes.OfType<ProjectNode>().GroupBy(e => e.Name);
+                List<ProjectNode> toRemove = new List<ProjectNode>();
+                if (uniqueProjects.Count() != nodes.Count)
+                {
+                    foreach (var group in uniqueProjects)
+                    {
+                        ProjectNode proj = group.First();
+                        foreach (ProjectNode p in group)
+                        {
+                            if (p == proj) continue;
+                            foreach (var nd in p.Attributes)
+                                proj.Attributes.Add(nd);
+                            foreach (var nd in p.Modules)
+                                proj.Modules.Add(nd);
+                            foreach (var nd in p.Children.Except(p.Attributes).Except(p.Modules))
+                                proj.Children.Add(nd);
+                            toRemove.Add(p);
+                        }
+                    }
+                }
+                foreach (var node in toRemove) nodes.Remove(node);
             }
             if (nodes.Count > 1)
             {

@@ -9,6 +9,7 @@ namespace Crosslight.CIL.Nodes.Visitors
         public bool CreateProject { get; set; }
         public bool SplitNamespaces { get; set; }
         public bool FullModulePath { get; set; }
+        public bool MergeProjectsWithSameName { get; set; }
         public string ModuleName { get; set; }
         public string ProjectName { get; set; }
 
@@ -18,6 +19,7 @@ namespace Crosslight.CIL.Nodes.Visitors
             CreateProject = true;
             SplitNamespaces = false;
             FullModulePath = false;
+            MergeProjectsWithSameName = true;
             ModuleName = DefaultProjectName;
             ProjectName = DefaultProjectName;
         }
@@ -27,6 +29,7 @@ namespace Crosslight.CIL.Nodes.Visitors
             CreateProject = other.CreateProject;
             SplitNamespaces = other.SplitNamespaces;
             FullModulePath = other.FullModulePath;
+            MergeProjectsWithSameName = other.MergeProjectsWithSameName;
             ModuleName = other.ModuleName;
             ProjectName = other.ProjectName;
         }
