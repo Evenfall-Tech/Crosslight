@@ -6,7 +6,7 @@ namespace Crosslight.API.Nodes
 {
     public class RootNode : Node
     {
-        public override Type Type => typeof(RootNode);
+        public override string Type => nameof(RootNode);
         public RootNode()
         {
         }

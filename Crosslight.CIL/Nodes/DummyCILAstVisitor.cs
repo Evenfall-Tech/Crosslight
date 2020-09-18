@@ -431,12 +431,12 @@ namespace Crosslight.CIL.Nodes
 
         public Node VisitPrimitiveExpression(PrimitiveExpression primitiveExpression)
         {
-            return CreateDummy(primitiveExpression, $"prim: {primitiveExpression.Format} '{primitiveExpression.Value}'");
+            return CreateDummy(primitiveExpression, $"primExp: {primitiveExpression.Format} '{primitiveExpression.Value}'");
         }
 
         public Node VisitPrimitiveType(PrimitiveType primitiveType)
         {
-            return CreateDummy(primitiveType);
+            return CreateDummy(primitiveType, $"primT: {primitiveType.Keyword}");
         }
 
         public Node VisitPropertyDeclaration(PropertyDeclaration propertyDeclaration)

@@ -1,9 +1,11 @@
 ﻿using Crosslight.API.Exceptions;
 using Crosslight.API.Nodes;
+using Crosslight.API.Nodes.Access;
 using Crosslight.API.Nodes.Componentization;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
@@ -41,7 +43,25 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
             try
             {
                 var root = new NamespaceNode(node.Identifiers);
-                foreach (var c in node.Children)
+                foreach (var m in node.Members)
+                {
+                    if (m is TypeDeclaration td)
+                    {
+                        var visitor = Context?.VisitFactory?.GetVisitor(nameof(TypeDeclaration)) as ICILVisitor<TypeDeclaration>;
+                        Node outNode = td.AcceptVisitor(visitor);
+                        if (!(outNode is TypeNode typeNode))
+                        {
+                            throw new VisitorException($"{nameof(TypeDeclaration)} visitor returned {outNode.Type}.");
+                        }
+                        root.Types.Add(typeNode);
+                    }
+                    else
+                    {
+                        // TODO: add delegates
+                        //throw new NotImplementedException($"{m.GetType()} is not supported in namespaces.");
+                    }
+                }
+                foreach (var c in node.Children.Except(node.Members).Except(new AstNode[] { node.NamespaceName }))
                 {
                     Node outNode = Context?.VisitFactory?.GetVisitor(c)?.Visit(c);
                     if (outNode != null)
