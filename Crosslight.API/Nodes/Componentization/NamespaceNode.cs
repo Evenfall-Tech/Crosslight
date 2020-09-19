@@ -13,7 +13,7 @@ namespace Crosslight.API.Nodes.Componentization
     public class NamespaceNode : Node
     {
         public override string Type => nameof(NamespaceNode);
-        public SyncedList<TypeNode, Node> Types { get; protected set; }
+        public SyncedList<EntityNode, Node> Entities { get; protected set; }
         public SyncedList<ValueNode, Node> Values { get; protected set; }
         public SyncedList<FunctionNode, Node> Functions { get; protected set; }
         public SyncedList<NamespaceNode, Node> Namespaces { get; protected set; }
@@ -24,7 +24,7 @@ namespace Crosslight.API.Nodes.Componentization
         public NamespaceNode(IEnumerable<string> identifiers)
         {
             Namespaces = new SyncedList<NamespaceNode, Node>(Children);
-            Types = new SyncedList<TypeNode, Node>(Children);
+            Entities = new SyncedList<EntityNode, Node>(Children);
             Functions = new SyncedList<FunctionNode, Node>(Children);
             Values = new SyncedList<ValueNode, Node>(Children);
             Identifiers = identifiers.ToArray();

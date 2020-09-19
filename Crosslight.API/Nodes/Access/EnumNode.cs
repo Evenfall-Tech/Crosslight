@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Crosslight.API.Nodes.Access
+﻿namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
     /// EnumNode represents the enum abstraction in the language.
     /// </summary>
-    public class EnumNode : TypeNode
+    public class EnumNode : EntityNode
     {
         public override string Type => nameof(EnumNode);
-        public EnumNode(string name) : base(name)
+        public EnumNode(string name)
         {
         }
         public override string ToString()
         {
-            return "EnumNode";
+            return Type;
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

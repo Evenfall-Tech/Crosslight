@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes.Access
+﻿namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
     /// ValueNode represents the constant, literal or variable.

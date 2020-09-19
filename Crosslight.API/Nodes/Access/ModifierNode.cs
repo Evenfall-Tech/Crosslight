@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes.Access
+﻿namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
     /// ModifierNode represents the modifier (public, abstract, virtual).

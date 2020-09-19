@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes.Access
+﻿namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
     /// ConstantNode represents the constant abstraction in the language.

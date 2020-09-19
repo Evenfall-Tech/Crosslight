@@ -38,7 +38,7 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
         {
             try
             {
-                TypeNode root;
+                EntityNode root;
                 switch (node.ClassType)
                 {
                     case ClassType.Class:
@@ -72,22 +72,22 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
             }
         }
 
-        private TypeNode VisitClass(TypeDeclaration node)
+        private ClassNode VisitClass(TypeDeclaration node)
         {
             return new ClassNode(node.Name);
         }
 
-        private TypeNode VisitStruct(TypeDeclaration node)
+        private StructNode VisitStruct(TypeDeclaration node)
         {
             return new StructNode(node.Name);
         }
 
-        private TypeNode VisitInterface(TypeDeclaration node)
+        private InterfaceNode VisitInterface(TypeDeclaration node)
         {
             return new InterfaceNode(node.Name);
         }
 
-        private TypeNode VisitEnum(TypeDeclaration node)
+        private EnumNode VisitEnum(TypeDeclaration node)
         {
             return new EnumNode(node.Name);
         }

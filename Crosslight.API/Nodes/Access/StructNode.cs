@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes.Access
+﻿namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
     /// StructNode represents the struct abstraction in the language.

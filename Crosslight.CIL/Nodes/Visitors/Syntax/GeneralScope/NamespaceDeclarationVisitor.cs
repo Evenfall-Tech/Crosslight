@@ -49,11 +49,11 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
                     {
                         var visitor = Context?.VisitFactory?.GetVisitor(nameof(TypeDeclaration)) as ICILVisitor<TypeDeclaration>;
                         Node outNode = td.AcceptVisitor(visitor);
-                        if (!(outNode is TypeNode typeNode))
+                        if (!(outNode is EntityNode entity))
                         {
                             throw new VisitorException($"{nameof(TypeDeclaration)} visitor returned {outNode.Type}.");
                         }
-                        root.Types.Add(typeNode);
+                        root.Entities.Add(entity);
                     }
                     else
                     {
