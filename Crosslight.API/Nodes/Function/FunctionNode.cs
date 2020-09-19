@@ -1,12 +1,12 @@
-﻿using Crosslight.API.Util;
-using System;
+﻿using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
     /// FunctionNode represents the function abstraction in the language.
     /// </summary>
-    public class FunctionNode : Node
+    public class FunctionNode : EntityNode
     {
         public override string Type => nameof(FunctionNode);
         public SyncedList<FunctionParameterNode, Node> Parameters { get; protected set; }

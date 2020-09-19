@@ -185,8 +185,6 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax
 
                 foreach (var c in node.Namespaces)
                     declaration.Namespaces.Add(c);
-                foreach (var c in node.Functions)
-                    declaration.Functions.Add(c);
                 foreach (var c in node.Entities)
                     declaration.Entities.Add(c);
                 foreach (var c in node.Values)

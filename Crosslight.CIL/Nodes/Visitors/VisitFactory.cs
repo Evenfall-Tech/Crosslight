@@ -38,6 +38,7 @@ namespace Crosslight.CIL.Nodes.Visitors
             {
                 { nameof(SyntaxTree), (c) => new SyntaxTreeVisitor(c) },
                 { nameof(NamespaceDeclaration), (c) => new NamespaceDeclarationVisitor(c) },
+                { nameof(DelegateDeclaration), (c) => new DelegateDeclarationVisitor(c) },
                 { nameof(TypeDeclaration), (c) => new TypeDeclarationVisitor(c) },
                 { nameof(AttributeSection), (c) => new AttributeSectionVisitor(c) },
                 { nameof(Attribute), (c) => new AttributeVisitor(c) },

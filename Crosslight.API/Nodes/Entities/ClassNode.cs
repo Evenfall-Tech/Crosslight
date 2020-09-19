@@ -1,4 +1,4 @@
-﻿namespace Crosslight.API.Nodes.Access
+﻿namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
     /// ClassNode represents the class abstraction in the language.

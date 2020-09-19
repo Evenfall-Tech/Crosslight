@@ -1,4 +1,5 @@
 ﻿using Crosslight.API.Nodes.Access;
+using Crosslight.API.Nodes.Entities;
 using Crosslight.API.Util;
 using System;
 
@@ -11,12 +12,8 @@ namespace Crosslight.API.Nodes.Function
     {
         public override string Type => nameof(MethodNode);
         public TypeNode OwningType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
-        public SyncedList<ModifierNode, Node> Modifiers { get; protected set; }
         public MethodNode(string name) : base(name)
         {
-            Attributes = new SyncedList<AttributeNode, Node>(Children);
-            Modifiers = new SyncedList<ModifierNode, Node>(Children);
         }
         public override string ToString()
         {

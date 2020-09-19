@@ -1,6 +1,7 @@
-﻿using Crosslight.API.Util;
+﻿using Crosslight.API.Nodes.Access;
+using Crosslight.API.Util;
 
-namespace Crosslight.API.Nodes.Access
+namespace Crosslight.API.Nodes.Entities
 {
     public abstract class EntityNode : Node
     {

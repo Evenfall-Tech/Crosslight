@@ -1,12 +1,10 @@
 ﻿using Crosslight.API.Exceptions;
 using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Access;
 using Crosslight.API.Nodes.Componentization;
+using Crosslight.API.Nodes.Entities;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
 {
@@ -55,10 +53,19 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
                         }
                         root.Entities.Add(entity);
                     }
+                    else if (m is DelegateDeclaration dd)
+                    {
+                        var visitor = Context?.VisitFactory?.GetVisitor(nameof(DelegateDeclaration)) as ICILVisitor<DelegateDeclaration>;
+                        Node outNode = dd.AcceptVisitor(visitor);
+                        if (!(outNode is FunctionTypeNode delegateNode))
+                        {
+                            throw new VisitorException($"{nameof(DelegateDeclaration)} visitor returned {outNode.Type}.");
+                        }
+                        root.Entities.Add(delegateNode);
+                    }
                     else
                     {
-                        // TODO: add delegates
-                        //throw new NotImplementedException($"{m.GetType()} is not supported in namespaces.");
+                        throw new NotImplementedException($"{m.GetType()} is not supported in namespaces.");
                     }
                 }
                 foreach (var c in node.Children.Except(node.Members).Except(new AstNode[] { node.NamespaceName }))

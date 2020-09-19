@@ -1,4 +1,4 @@
-﻿namespace Crosslight.API.Nodes.Access
+﻿namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
     /// InterfaceNode represents the interface abstraction in the language.

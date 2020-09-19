@@ -1,4 +1,4 @@
-﻿namespace Crosslight.API.Nodes.Access
+﻿namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
     /// StructNode represents the struct abstraction in the language.
@@ -11,7 +11,7 @@
         }
         public override string ToString()
         {
-            return "StructNode";
+            return Type;
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

@@ -1,5 +1,5 @@
 ﻿using Crosslight.API.Nodes.Access;
-using Crosslight.API.Nodes.Function;
+using Crosslight.API.Nodes.Entities;
 using Crosslight.API.Util;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,6 @@ namespace Crosslight.API.Nodes.Componentization
         public override string Type => nameof(NamespaceNode);
         public SyncedList<EntityNode, Node> Entities { get; protected set; }
         public SyncedList<ValueNode, Node> Values { get; protected set; }
-        public SyncedList<FunctionNode, Node> Functions { get; protected set; }
         public SyncedList<NamespaceNode, Node> Namespaces { get; protected set; }
         public string[] Identifiers { get; }
         public string FullName { get => throw new NotImplementedException(); }
@@ -25,7 +24,6 @@ namespace Crosslight.API.Nodes.Componentization
         {
             Namespaces = new SyncedList<NamespaceNode, Node>(Children);
             Entities = new SyncedList<EntityNode, Node>(Children);
-            Functions = new SyncedList<FunctionNode, Node>(Children);
             Values = new SyncedList<ValueNode, Node>(Children);
             Identifiers = identifiers.ToArray();
         }
