@@ -30,9 +30,5 @@ namespace Crosslight.API.Nodes.Binary
         {
             return "BinaryExpressionNode";
         }
-        public override object AcceptVisitor(IVisitor visitor)
-        {
-            return visitor.Visit(this);
-        }
     }
 }

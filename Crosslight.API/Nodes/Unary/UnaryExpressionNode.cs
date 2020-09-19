@@ -23,9 +23,5 @@ namespace Crosslight.API.Nodes.Unary
         {
             return "UnaryExpressionNode";
         }
-        public override object AcceptVisitor(IVisitor visitor)
-        {
-            return visitor.Visit(this);
-        }
     }
 }

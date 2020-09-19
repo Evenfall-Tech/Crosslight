@@ -3,7 +3,7 @@
     /// <summary>
     /// StructNode represents the struct abstraction in the language.
     /// </summary>
-    public class StructNode : TypeNode
+    public class StructNode : BaseTypeNode
     {
         public override string Type => nameof(StructNode);
         public StructNode(string name) : base(name)
@@ -16,6 +16,14 @@
         public override object AcceptVisitor(IVisitor visitor)
         {
             return visitor.Visit(this);
+        }
+        public override S AcceptVisitor<S>(IVisitor<S> visitor)
+        {
+            return visitor.Visit(this);
+        }
+        public override S AcceptVisitor<T, S>(IVisitor<T, S> visitor, T data)
+        {
+            return visitor.Visit(this, data);
         }
     }
 }

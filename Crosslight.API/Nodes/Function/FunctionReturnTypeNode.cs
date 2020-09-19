@@ -25,5 +25,13 @@ namespace Crosslight.API.Nodes.Function
         {
             return visitor.Visit(this);
         }
+        public override S AcceptVisitor<S>(IVisitor<S> visitor)
+        {
+            return visitor.Visit(this);
+        }
+        public override S AcceptVisitor<T, S>(IVisitor<T, S> visitor, T data)
+        {
+            return visitor.Visit(this, data);
+        }
     }
 }
