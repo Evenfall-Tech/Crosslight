@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Crosslight.API.Nodes.Entities
 {
-    public class FunctionTypeNode : EntityNode
+    public class FunctionEntityNode : EntityNode
     {
-        public override string Type => nameof(FunctionTypeNode);
-        public FunctionTypeNode(string name)
+        public override string Type => nameof(FunctionEntityNode);
+        public FunctionEntityNode(string name)
         {
             // TODO: add FunctionType properties.
         }

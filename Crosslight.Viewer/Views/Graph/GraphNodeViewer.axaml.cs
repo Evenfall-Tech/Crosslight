@@ -3,13 +3,29 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.ReactiveUI;
+using Crosslight.Viewer.ViewModels.Graph;
+using ReactiveUI;
+using System.Reactive.Disposables;
 
 namespace Crosslight.Viewer.Views.Graph
 {
-    public class GraphNodeViewer : UserControl
+    public class GraphNodeViewer : ReactiveUserControl<NodeViewModel>
     {
+        private TextBlock NodeText => this.FindControl<TextBlock>("nodeText");
+        private Border NodeBorder => this.FindControl<Border>("nodeBorder");
         public GraphNodeViewer()
         {
+            this.WhenActivated(disp =>
+            {
+                this.OneWayBind(ViewModel, x => x.Data, x => x.NodeText.Text)
+                    .DisposeWith(disp);
+                NodeBorder.Bind(Border.CornerRadiusProperty, this.GetObservable(ChildBorderCornerRadiusProperty)).DisposeWith(disp);
+                NodeBorder.Bind(Border.BorderBrushProperty, this.GetObservable(ChildBorderBrushProperty)).DisposeWith(disp);
+                NodeBorder.Bind(Border.BorderThicknessProperty, this.GetObservable(ChildBorderThicknessProperty)).DisposeWith(disp);
+                NodeBorder.Bind(Border.PaddingProperty, this.GetObservable(ChildPaddingProperty)).DisposeWith(disp);
+                NodeBorder.Bind(Border.BackgroundProperty, this.GetObservable(ChildBackgroundProperty)).DisposeWith(disp);
+            });
             this.InitializeComponent();
 
             AffectsRender<Border>(

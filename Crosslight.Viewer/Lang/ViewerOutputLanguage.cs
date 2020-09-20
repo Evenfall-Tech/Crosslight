@@ -1,5 +1,6 @@
 ﻿using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
+using Crosslight.Viewer.Nodes.Visitors;
 using System;
 
 namespace Crosslight.Viewer.Lang
@@ -12,6 +13,7 @@ namespace Crosslight.Viewer.Lang
 
         public override object Encode(Node rootNode)
         {
+            VisitOptions visitOptions = new VisitOptions();
             throw new NotImplementedException();
         }
     }

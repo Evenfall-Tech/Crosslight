@@ -27,7 +27,7 @@ namespace Crosslight.Viewer.Views.Graph
             };
             var view = new GraphNodeViewer()
             {
-                DataContext = nodeVM,
+                ViewModel = nodeVM,
                 ChildBorderBrush = color,
                 ChildBorderThickness = new Thickness(2.0, 2.0),
                 ChildBorderCornerRadius = new CornerRadius(5.0),

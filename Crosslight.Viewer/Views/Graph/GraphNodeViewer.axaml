@@ -4,14 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Crosslight.Viewer.Views.Graph.GraphNodeViewer"
+        DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}"
 			 Canvas.Left="{Binding Left}"
 			 Canvas.Top="{Binding Top}">
-	<Border
-		CornerRadius="{Binding $parent.ChildBorderCornerRadius}"
-		BorderBrush="{Binding $parent.ChildBorderBrush}"
-		BorderThickness="{Binding $parent.ChildBorderThickness}"
-		Padding="{Binding $parent.ChildPadding}"
-		Background="{Binding $parent.ChildBackground}">
-		<TextBlock Text="{Binding Data}"/>
+	<Border Name="nodeBorder">
+		<TextBlock Name="nodeText" Text="{Binding Model.Data}"/>
 	</Border>
 </UserControl>

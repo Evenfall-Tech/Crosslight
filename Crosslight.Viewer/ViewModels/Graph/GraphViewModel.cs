@@ -1,5 +1,6 @@
 ﻿using Crosslight.Viewer.Models.Graph;
 using Crosslight.Viewer.ViewModels.Utils;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -30,7 +31,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             set
             {
                 model = value;
-                OnPropertyChanged("Model");
+                this.RaisePropertyChanged(nameof(Model));
             }
         }
 

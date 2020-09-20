@@ -1,114 +1,83 @@
 ﻿using Crosslight.Viewer.Models.Graph;
+using ReactiveUI;
 using System.Collections.Generic;
 
 namespace Crosslight.Viewer.ViewModels.Graph
 {
     public class NodeViewModel : ViewModelBase, IViewModelFor<NodeModel>
     {
-        public const string ModelProp = "Model";
-        public const string DataProp = "Data";
-        public const string IDProp = "ID";
-        public const string ConnectionsProp = "Connections";
-        public const string LeftProp = "Left";
-        public const string TopProp = "Top";
-        public const string WidthProp = "Width";
-        public const string HeightProp = "Height";
+        public const string LeftProp   = nameof(Left);
+        public const string TopProp    = nameof(Top);
+        public const string WidthProp  = nameof(Width);
+        public const string HeightProp = nameof(Height);
 
-        private NodeModel model;
         private double left, top, width, height;
 
         public NodeViewModel(NodeModel model, GraphNodeDirection direction)
         {
-            this.model = model;
+            Model = model;
             Direction = direction;
-        }
-
-        public NodeModel Model
-        {
-            get => model;
-            set
-            {
-                model = value;
-                OnPropertyChanged(ModelProp);
-            }
-        }
-
-        public object Data
-        {
-            get => model.Data;
-            set
-            {
-                model.Data = value;
-                OnPropertyChanged(DataProp);
-            }
-        }
-
-        public int ID
-        {
-            get => model.ID;
-            set
-            {
-                model.ID = value;
-                OnPropertyChanged(IDProp);
-            }
-        }
-
-        //TODO: rewrite this with an observable collection
-        public ICollection<int> Connections
-        {
-            get => model.Connections;
-            set
-            {
-                model.Connections = value;
-                OnPropertyChanged(ConnectionsProp);
-            }
         }
 
         public GraphNodeDirection Direction { get; }
 
+        public NodeModel Model { get; }
+
+        public string Data
+        {
+            get => Model.Data.ToString();
+            set
+            {
+                Model.Data = value;
+                this.RaisePropertyChanged(nameof(Data));
+            }
+        }
+        public int ID
+        {
+            get => Model.ID;
+            set
+            {
+                Model.ID = value;
+                this.RaisePropertyChanged(nameof(ID));
+            }
+        }
+        // TODO: replace with observable
+        public ICollection<int> Connections
+        {
+            get => Model.Connections;
+            set
+            {
+                Model.Connections = value;
+                this.RaisePropertyChanged(nameof(Connections));
+            }
+        }
         public double Left
         {
             get => left;
-            set
-            {
-                left = value;
-                OnPropertyChanged(LeftProp);
-            }
+            set => this.RaiseAndSetIfChanged(ref left, value);
         }
 
         public double Top
         {
             get => top;
-            set
-            {
-                top = value;
-                OnPropertyChanged(TopProp);
-            }
+            set => this.RaiseAndSetIfChanged(ref top, value);
         }
 
         public double Width
         {
             get => width;
-            set
-            {
-                width = value;
-                OnPropertyChanged(WidthProp);
-            }
+            set => this.RaiseAndSetIfChanged(ref width, value);
         }
 
         public double Height
         {
             get => height;
-            set
-            {
-                height = value;
-                OnPropertyChanged(HeightProp);
-            }
+            set => this.RaiseAndSetIfChanged(ref height, value);
         }
 
         public bool IsViewModelOf(NodeModel model)
         {
-            return this.model == model;
+            return this.Model == model;
         }
     }
 }

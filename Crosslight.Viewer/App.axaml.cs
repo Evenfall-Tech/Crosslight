@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Crosslight.Viewer.ViewModels.Windows;
 
 namespace Crosslight.Viewer
 {
@@ -15,7 +16,10 @@ namespace Crosslight.Viewer
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                desktop.MainWindow = new MainWindow()
+                {
+                    ViewModel = new MainWindowViewModel()
+                };
             }
 
             base.OnFrameworkInitializationCompleted();

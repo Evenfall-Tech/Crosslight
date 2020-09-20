@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using ReactiveUI;
 using System;
 using System.Linq;
 
@@ -36,10 +37,10 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 {
                     from.PropertyChanged += From_PropertyChanged;
                 }
-                OnPropertyChanged(FromProp);
-                OnPropertyChanged(FromXProp);
-                OnPropertyChanged(FromYProp);
-                OnPropertyChanged(FromPointProp);
+                this.RaisePropertyChanged(FromProp);
+                this.RaisePropertyChanged(FromXProp);
+                this.RaisePropertyChanged(FromYProp);
+                this.RaisePropertyChanged(FromPointProp);
             }
         }
 
@@ -57,10 +58,10 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 {
                     to.PropertyChanged += To_PropertyChanged;
                 }
-                OnPropertyChanged(ToProp);
-                OnPropertyChanged(ToXProp);
-                OnPropertyChanged(ToYProp);
-                OnPropertyChanged(ToPointProp);
+                this.RaisePropertyChanged(ToProp);
+                this.RaisePropertyChanged(ToXProp);
+                this.RaisePropertyChanged(ToYProp);
+                this.RaisePropertyChanged(ToPointProp);
             }
         }
 
@@ -103,9 +104,9 @@ namespace Crosslight.Viewer.ViewModels.Graph
         {
             if (nodeProperties.Contains(e.PropertyName))
             {
-                OnPropertyChanged(FromXProp);
-                OnPropertyChanged(FromYProp);
-                OnPropertyChanged(FromPointProp);
+                this.RaisePropertyChanged(FromXProp);
+                this.RaisePropertyChanged(FromYProp);
+                this.RaisePropertyChanged(FromPointProp);
             }
         }
 
@@ -113,9 +114,9 @@ namespace Crosslight.Viewer.ViewModels.Graph
         {
             if (nodeProperties.Contains(e.PropertyName))
             {
-                OnPropertyChanged(ToXProp);
-                OnPropertyChanged(ToYProp);
-                OnPropertyChanged(ToPointProp);
+                this.RaisePropertyChanged(ToXProp);
+                this.RaisePropertyChanged(ToYProp);
+                this.RaisePropertyChanged(ToPointProp);
             }
         }
     }

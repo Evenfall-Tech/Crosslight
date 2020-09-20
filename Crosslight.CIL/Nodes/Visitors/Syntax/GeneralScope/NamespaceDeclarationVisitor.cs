@@ -57,7 +57,7 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
                     {
                         var visitor = Context?.VisitFactory?.GetVisitor(nameof(DelegateDeclaration)) as ICILVisitor<DelegateDeclaration>;
                         Node outNode = dd.AcceptVisitor(visitor);
-                        if (!(outNode is FunctionTypeNode delegateNode))
+                        if (!(outNode is FunctionEntityNode delegateNode))
                         {
                             throw new VisitorException($"{nameof(DelegateDeclaration)} visitor returned {outNode.Type}.");
                         }

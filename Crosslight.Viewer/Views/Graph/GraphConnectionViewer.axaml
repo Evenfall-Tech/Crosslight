@@ -4,11 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Crosslight.Viewer.Views.Graph.GraphConnectionViewer"
+        DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}"
 			 Canvas.Left="0"
 			 Canvas.Top="0">
-	<Line
-		StartPoint="{Binding FromPoint}"
-		EndPoint="{Binding ToPoint}"
-		StrokeThickness="5.0"
-		Stroke="DarkCyan"/>
+	<Line Name="line"
+		  StrokeThickness="5.0"
+		  Stroke="DarkCyan"/>
 </UserControl>

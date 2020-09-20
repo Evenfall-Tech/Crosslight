@@ -2,13 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:cnv="clr-namespace:Crosslight.Viewer.Views"
+		     xmlns:graphv="clr-namespace:Crosslight.Viewer.Views.Graph"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Crosslight.Viewer.Views.Graph.GraphViewer"
+             x:Class="Crosslight.Viewer.Views.Viewports.ViewerViewport"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
-	<ScrollViewer
-		HorizontalScrollBarVisibility="Visible"
-		VerticalScrollBarVisibility="Visible">
-		<cnv:AutoResizeCanvas Name="graphCanvas"/>
-	</ScrollViewer>
+	<graphv:GraphViewer Name="graphViewer"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"/>
 </UserControl>

@@ -1,34 +1,41 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
 using Crosslight.Viewer.ViewModels.Graph;
 using Crosslight.Viewer.Views.Utils;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace Crosslight.Viewer.Views.Graph
 {
-    public class GraphViewer : UserControl
+    public class GraphViewer : ReactiveUserControl<GraphViewerViewModel>
     {
-        private readonly Canvas canvas;
+        private Canvas Canvas => this.FindControl<Canvas>("graphCanvas");
         public GraphViewer()
         {
+            this.WhenActivated(disposables =>
+            {
+                this.WhenAnyValue(x => x.ViewModel)
+                    .Subscribe(x => UpdateCanvas(x))
+                    .DisposeWith(disposables);
+            });
             this.InitializeComponent();
-
-            canvas = this.FindControl<Canvas>("graphCanvas");
-            DataContextChanged += GraphViewer_DataContextChanged;
         }
 
-        private void GraphViewer_DataContextChanged(object sender, System.EventArgs e)
+        private void UpdateCanvas(GraphViewerViewModel vm)
         {
-            if (!(DataContext is GraphViewerViewModel graphVM)) return;
-            canvas.Children.Clear();
-            var cons = AddConnections(graphVM.GraphViewModel.Nodes);
-            var nodes = AddNodes(graphVM.GraphViewModel.Nodes);
+            if (vm == null) return;
+            Canvas.Children.Clear();
+            if (vm.GraphViewModel == null) return;
+            var cons = AddConnections(vm.GraphViewModel.Nodes);
+            var nodes = AddNodes(vm.GraphViewModel.Nodes);
             UpdateNodesSize(nodes);
-            graphVM.GraphViewModel.UpdateLayerAndNodePosition();
-            canvas.Children.AddRange(((IEnumerable<IControl>)cons).Concat(nodes));
+            vm.GraphViewModel.UpdateLayerAndNodePosition();
+            Canvas.Children.AddRange(((IEnumerable<IControl>)cons).Concat(nodes));
         }
 
         private void InitializeComponent()
@@ -48,7 +55,7 @@ namespace Crosslight.Viewer.Views.Graph
                 )
                 .Select(pair => new GraphConnectionViewer()
                 {
-                    DataContext = new ConnectionViewModel(pair.From, pair.To),
+                    ViewModel = new ConnectionViewModel(pair.From, pair.To),
                 });
         }
 
@@ -66,10 +73,10 @@ namespace Crosslight.Viewer.Views.Graph
             foreach (var node in nodes)
             {
                 var size = SizeMeasures.GetMinControlSize(node);
-                if (node.DataContext is NodeViewModel nodeVM)
+                if (node.ViewModel != null)
                 {
-                    nodeVM.Width = size.Width;
-                    nodeVM.Height = size.Height;
+                    node.ViewModel.Width = size.Width;
+                    node.ViewModel.Height = size.Height;
                 }
             }
         }

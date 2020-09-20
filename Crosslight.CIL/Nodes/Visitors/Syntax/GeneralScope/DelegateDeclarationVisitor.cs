@@ -38,7 +38,7 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
         {
             try
             {
-                FunctionTypeNode root = new FunctionTypeNode(null);
+                FunctionEntityNode root = new FunctionEntityNode(null);
                 foreach (var c in node.Children)
                 {
                     Node outNode = Context?.VisitFactory?.GetVisitor(c)?.Visit(c);

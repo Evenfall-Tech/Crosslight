@@ -1,12 +1,23 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
+using Crosslight.Viewer.ViewModels.Graph;
+using ReactiveUI;
+using System.Reactive.Disposables;
 
 namespace Crosslight.Viewer.Views.Graph
 {
-    public class GraphConnectionViewer : UserControl
+    public class GraphConnectionViewer : ReactiveUserControl<ConnectionViewModel>
     {
+        private Line Line => this.FindControl<Line>("line");
         public GraphConnectionViewer()
         {
+            this.WhenActivated(disp =>
+            {
+                this.OneWayBind(this.ViewModel, x => x.FromPoint, x => x.Line.StartPoint).DisposeWith(disp);
+                this.OneWayBind(this.ViewModel, x => x.ToPoint, x => x.Line.EndPoint).DisposeWith(disp);
+            });
             this.InitializeComponent();
         }
 
