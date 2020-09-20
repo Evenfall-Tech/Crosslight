@@ -41,6 +41,15 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 this.RaisePropertyChanged(nameof(ID));
             }
         }
+        public string Type
+        {
+            get => Model.Type;
+            set
+            {
+                Model.Type = value;
+                this.RaisePropertyChanged(nameof(Type));
+            }
+        }
         // TODO: replace with observable
         public ICollection<int> Connections
         {

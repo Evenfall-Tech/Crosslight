@@ -24,6 +24,7 @@ namespace Crosslight.Viewer.Nodes
             {
                 ID = idGen++,
                 Data = name,
+                Type = node.Type,
                 Connections = new List<int>(),
             };
             Context.Nodes.Add(parent);
@@ -53,6 +54,7 @@ namespace Crosslight.Viewer.Nodes
             {
                 ID = idGen++,
                 Data = name,
+                Type = node.Type,
                 Connections = new List<int>(),
             };
             Context.Nodes.Add(parent);

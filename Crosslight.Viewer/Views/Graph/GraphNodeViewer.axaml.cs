@@ -2,10 +2,14 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.ReactiveUI;
 using Crosslight.Viewer.ViewModels.Graph;
+using Crosslight.Viewer.Views.Utils;
 using ReactiveUI;
+using System;
+using System.Linq;
 using System.Reactive.Disposables;
 
 namespace Crosslight.Viewer.Views.Graph
@@ -14,17 +18,24 @@ namespace Crosslight.Viewer.Views.Graph
     {
         private TextBlock NodeText => this.FindControl<TextBlock>("nodeText");
         private Border NodeBorder => this.FindControl<Border>("nodeBorder");
+        private Image NodeIcon => this.FindControl<Image>("nodeIcon");
+
+        private static NodeTypeToIconConverter conNtoI = new NodeTypeToIconConverter();
+
         public GraphNodeViewer()
         {
             this.WhenActivated(disp =>
             {
                 this.OneWayBind(ViewModel, x => x.Data, x => x.NodeText.Text)
                     .DisposeWith(disp);
+                
                 NodeBorder.Bind(Border.CornerRadiusProperty, this.GetObservable(ChildBorderCornerRadiusProperty)).DisposeWith(disp);
                 NodeBorder.Bind(Border.BorderBrushProperty, this.GetObservable(ChildBorderBrushProperty)).DisposeWith(disp);
                 NodeBorder.Bind(Border.BorderThicknessProperty, this.GetObservable(ChildBorderThicknessProperty)).DisposeWith(disp);
                 NodeBorder.Bind(Border.PaddingProperty, this.GetObservable(ChildPaddingProperty)).DisposeWith(disp);
                 NodeBorder.Bind(Border.BackgroundProperty, this.GetObservable(ChildBackgroundProperty)).DisposeWith(disp);
+
+                this.OneWayBind(ViewModel, x => x.Type, x => x.NodeIcon.Source, null, conNtoI).DisposeWith(disp);
             });
             this.InitializeComponent();
 
@@ -35,6 +46,18 @@ namespace Crosslight.Viewer.Views.Graph
                 ChildBorderCornerRadiusProperty
             );
             AffectsMeasure<Border>(ChildBorderThicknessProperty);
+        }
+
+        public Drawing GetDrawing(string name)
+        {
+            try
+            {
+                return Resources[name] as Drawing;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private void InitializeComponent()
