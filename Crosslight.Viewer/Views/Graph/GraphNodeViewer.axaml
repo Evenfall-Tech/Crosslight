@@ -7,11 +7,11 @@
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}"
 			 Canvas.Left="{Binding Left}"
 			 Canvas.Top="{Binding Top}">
-	<Border Name="nodeBorder">
-		<StackPanel Orientation="Horizontal" 
+	<Button Name="nodeButton">
+		<StackPanel Orientation="Horizontal"
 					VerticalAlignment="Center">
 			<Image Name="nodeIcon" Width="16" Height="16" Margin="0,0,4,0"/>
 			<TextBlock Name="nodeText" Text="{Binding Model.Data}"/>
 		</StackPanel>
-	</Border>
+	</Button>
 </UserControl>

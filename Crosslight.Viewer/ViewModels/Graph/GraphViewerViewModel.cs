@@ -2,7 +2,9 @@
 using Crosslight.Viewer.Nodes;
 using ReactiveUI;
 using System;
+using System.Linq;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
 namespace Crosslight.Viewer.ViewModels.Graph
 {
@@ -29,19 +31,26 @@ namespace Crosslight.Viewer.ViewModels.Graph
             this.WhenActivated((CompositeDisposable disposables) =>
             {
                 this.WhenAnyValue(x => x.RootNode)
-                    .Subscribe(x => BuildGraphFromNode(x))
+                    .DistinctUntilChanged()
+                    .Subscribe(x => BuildGraphFromNode())
                     .DisposeWith(disposables);
             });
         }
 
-        private void BuildGraphFromNode(Node node)
+        private void BuildGraphFromNode()
         {
             //ViewerNode viewerNode;
             //viewerNode = (ViewerNode)ast.AcceptVisitor(new ViewerNodeAdapterVisitor());
             var visitor = new GraphViewerVisitor();
             _ = rootNode.AcceptVisitor(visitor);
-            graphViewModel = new GraphViewModel(visitor.Context, GraphNodeDirection.Right);
-            graphViewModel.Sort(GraphNodeAlignment.Lowest, GraphNodeAlignment.Lowest);
+            graphViewModel = new GraphViewModel(visitor.Context, visitor.Context.Nodes.Values.FirstOrDefault(), 
+                new GraphViewModelOptions()
+                {
+                    HorizontalAlignment = GraphNodeAlignment.Lowest,
+                    VerticalAlignment = GraphNodeAlignment.Lowest,
+                    NodeDirection = GraphNodeDirection.Right,
+                });
+            graphViewModel.Sort();
             this.RaisePropertyChanged(nameof(GraphViewModel));
         }
     }

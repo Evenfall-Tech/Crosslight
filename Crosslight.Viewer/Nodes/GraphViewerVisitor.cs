@@ -13,7 +13,7 @@ namespace Crosslight.Viewer.Nodes
         {
             Context = new GraphModel
             {
-                Nodes = new List<NodeModel>()
+                Nodes = new Dictionary<int, NodeModel>()
             };
             idGen = 0;
         }
@@ -27,7 +27,7 @@ namespace Crosslight.Viewer.Nodes
                 Type = node.Type,
                 Connections = new List<int>(),
             };
-            Context.Nodes.Add(parent);
+            Context.Nodes.Add(parent.ID, parent);
             if (node.Children != null)
             {
                 foreach (Node nodeChild in node.Children)
@@ -57,7 +57,7 @@ namespace Crosslight.Viewer.Nodes
                 Type = node.Type,
                 Connections = new List<int>(),
             };
-            Context.Nodes.Add(parent);
+            Context.Nodes.Add(parent.ID, parent);
             if (node.Children != null)
             {
                 foreach (Node nodeChild in node.Children)

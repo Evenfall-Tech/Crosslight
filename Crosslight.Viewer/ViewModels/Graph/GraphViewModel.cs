@@ -1,8 +1,10 @@
 ﻿using Crosslight.Viewer.Models.Graph;
 using Crosslight.Viewer.ViewModels.Utils;
+using DynamicData.Annotations;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
@@ -16,13 +18,32 @@ namespace Crosslight.Viewer.ViewModels.Graph
         Dictionary<int, double> _layersX;
         Dictionary<int, double> _layersY;
         Dictionary<NodeViewModel, NodeLayer> _nodeToLayer;
-        GraphNodeAlignment _horizontalAlignment, _verticalAlignment;
 
-        public GraphViewModel(GraphModel model, GraphNodeDirection graphNodeDirection)
+        private GraphViewModelOptions options;
+        private ObservableCollection<NodeViewModel> nodes;
+        private readonly NodeViewModelFactory factory;
+        private NodeModel startNode;
+
+        public GraphViewModel(GraphModel model, NodeModel startNode, GraphViewModelOptions options)
         {
             this.model = model;
-            Nodes = new ObservableViewModelCollection<NodeViewModel, NodeModel>
-                (model.Nodes, new NodeViewModelFactory(graphNodeDirection));
+            this.options = options;
+            factory = new NodeViewModelFactory(this, options.NodeDirection);
+            StartNode = startNode;
+        }
+
+        public NodeModel StartNode
+        {
+            get => startNode;
+            set
+            {
+                if (startNode != value && value != null)
+                {
+                    CreateNodeVMsFromStartNode(value);
+                    startNode = value;
+                    this.RaisePropertyChanged(nameof(StartNode));
+                }
+            }
         }
 
         public GraphModel Model
@@ -35,7 +56,11 @@ namespace Crosslight.Viewer.ViewModels.Graph
             }
         }
 
-        public ObservableViewModelCollection<NodeViewModel, NodeModel> Nodes { get; set; }
+        public ObservableCollection<NodeViewModel> Nodes
+        {
+            get => nodes;
+            set => this.RaiseAndSetIfChanged(ref nodes, value);
+        }
 
         public bool IsViewModelOf(GraphModel model)
         {
@@ -43,19 +68,15 @@ namespace Crosslight.Viewer.ViewModels.Graph
         }
 
         /// <summary>
-        /// Sort all the nodes, setting their position.
-        /// This method is very resource-heavy, 
-        /// so should be called as rarely as possible.
+        /// Assign nodes to specific layers, pre-calculate positions.
         /// </summary>
-        public void Sort(GraphNodeAlignment horizontalAlignment, GraphNodeAlignment verticalAlignment)
+        public void Sort()
         {
             _layersX = new Dictionary<int, double>();
             _layersY = new Dictionary<int, double>();
             _nodeToLayer = new Dictionary<NodeViewModel, NodeLayer>();
             _layersX[0] = defOffsetX / 2.0;
             _layersY[0] = defOffsetY / 2.0;
-            _horizontalAlignment = horizontalAlignment;
-            _verticalAlignment = verticalAlignment;
 
             // Assign all nodes to layers.
             FillLayersForNodes(Nodes, _nodeToLayer);
@@ -72,7 +93,40 @@ namespace Crosslight.Viewer.ViewModels.Graph
             // Calculate layer size and offset based on nodes that it has.
             CalculateLayersPosition(_nodeToLayer, _layersX, _layersY);
 
-            PlaceNodesInsideLayers(_nodeToLayer, _layersX, _layersY, _horizontalAlignment, _verticalAlignment);
+            PlaceNodesInsideLayers(_nodeToLayer, _layersX, _layersY, options.HorizontalAlignment, options.VerticalAlignment);
+        }
+
+        private void CreateNodeVMsFromStartNode(NodeModel startNode)
+        {
+            if (!GraphViewModelOptions.VisibilityRange.TryGetValue(startNode.Type, out (int, int) range))
+            {
+                range = (GraphViewModelOptions.DefauldVisibilityParent, GraphViewModelOptions.DefaultVisibilityChild);
+            }
+            LinkedList<NodeViewModel> viewModels = new LinkedList<NodeViewModel>();
+            viewModels.AddLast(factory.Get(startNode));
+            int runningID = startNode.ID;
+            for (int i = 0; i < range.Item1; ++i)
+            {
+                var parent = model.Nodes.Values.FirstOrDefault(n => n.Connections.Contains(runningID));
+                if (parent == null) break;
+                viewModels.AddFirst(factory.Get(parent, false));
+                runningID = parent.ID;
+            }
+            AddChildren(0, range.Item2, startNode);
+            void AddChildren(int i, int max, NodeModel parent)
+            {
+                if (i >= max || parent == null) return;
+                foreach (int childID in parent.Connections)
+                {
+                    var child = model.Nodes[childID];
+                    viewModels.AddLast(factory.Get(child));
+                    if (i < max)
+                    {
+                        AddChildren(i + 1, max, child);
+                    }
+                }
+            };
+            Nodes = new ObservableCollection<NodeViewModel>(viewModels);
         }
 
         /// <summary>

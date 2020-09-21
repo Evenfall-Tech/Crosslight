@@ -19,8 +19,12 @@ namespace Crosslight.Viewer.Views.Graph
         {
             this.WhenActivated(disposables =>
             {
-                this.WhenAnyValue(x => x.ViewModel)
-                    .Subscribe(x => UpdateCanvas(x))
+                this.WhenAnyValue(x => x.ViewModel, x => x.ViewModel.GraphViewModel.Nodes)
+                    .Subscribe(x =>
+                    {
+                        x.Item1.GraphViewModel.Sort();
+                        UpdateCanvas(x.Item1);
+                    })
                     .DisposeWith(disposables);
             });
             this.InitializeComponent();
@@ -33,9 +37,9 @@ namespace Crosslight.Viewer.Views.Graph
             if (vm.GraphViewModel == null) return;
             var cons = AddConnections(vm.GraphViewModel.Nodes);
             var nodes = AddNodes(vm.GraphViewModel.Nodes);
+            Canvas.Children.AddRange(((IEnumerable<IControl>)cons).Concat(nodes));
             UpdateNodesSize(nodes);
             vm.GraphViewModel.UpdateLayerAndNodePosition();
-            Canvas.Children.AddRange(((IEnumerable<IControl>)cons).Concat(nodes));
         }
 
         private void InitializeComponent()

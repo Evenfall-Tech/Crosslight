@@ -1,6 +1,8 @@
 ﻿using Crosslight.Viewer.Models.Graph;
 using ReactiveUI;
 using System.Collections.Generic;
+using System.Reactive;
+using System.Reactive.Linq;
 
 namespace Crosslight.Viewer.ViewModels.Graph
 {
@@ -12,11 +14,14 @@ namespace Crosslight.Viewer.ViewModels.Graph
         public const string HeightProp = nameof(Height);
 
         private double left, top, width, height;
+        private bool active;
+        private GraphViewModel parent;
 
-        public NodeViewModel(NodeModel model, GraphNodeDirection direction)
+        public NodeViewModel(NodeModel model, GraphNodeDirection direction, bool active = true)
         {
             Model = model;
             Direction = direction;
+            this.active = active;
         }
 
         public GraphNodeDirection Direction { get; }
@@ -50,6 +55,20 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 this.RaisePropertyChanged(nameof(Type));
             }
         }
+        public bool Active
+        {
+            get => active;
+            set => this.RaiseAndSetIfChanged(ref active, value);
+        }
+        public GraphViewModel Parent
+        {
+            get => parent;
+            set => this.RaiseAndSetIfChanged(ref parent, value);
+        }
+        public ReactiveCommand<Unit, NodeModel> SetStartNode => ReactiveCommand.Create(
+            () => Parent.StartNode = Model, 
+            this.WhenAnyValue<NodeViewModel, bool, GraphViewModel>(x => x.Parent, x => x != null).DistinctUntilChanged()
+        );
         // TODO: replace with observable
         public ICollection<int> Connections
         {

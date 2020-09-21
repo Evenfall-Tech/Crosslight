@@ -4,6 +4,6 @@ namespace Crosslight.Viewer.Models.Graph
 {
     public class GraphModel : ModelBase
     {
-        public ICollection<NodeModel> Nodes { get; set; }
+        public IDictionary<int, NodeModel> Nodes { get; set; }
     }
 }

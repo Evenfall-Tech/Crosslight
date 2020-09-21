@@ -17,10 +17,10 @@ namespace Crosslight.Viewer.Views.Graph
     public class GraphNodeViewer : ReactiveUserControl<NodeViewModel>
     {
         private TextBlock NodeText => this.FindControl<TextBlock>("nodeText");
-        private Border NodeBorder => this.FindControl<Border>("nodeBorder");
+        private Button NodeButton => this.FindControl<Button>("nodeButton");
         private Image NodeIcon => this.FindControl<Image>("nodeIcon");
 
-        private static NodeTypeToIconConverter conNtoI = new NodeTypeToIconConverter();
+        private static readonly NodeTypeToIconConverter conNtoI = new NodeTypeToIconConverter();
 
         public GraphNodeViewer()
         {
@@ -29,21 +29,20 @@ namespace Crosslight.Viewer.Views.Graph
                 this.OneWayBind(ViewModel, x => x.Data, x => x.NodeText.Text)
                     .DisposeWith(disp);
                 
-                NodeBorder.Bind(Border.CornerRadiusProperty, this.GetObservable(ChildBorderCornerRadiusProperty)).DisposeWith(disp);
-                NodeBorder.Bind(Border.BorderBrushProperty, this.GetObservable(ChildBorderBrushProperty)).DisposeWith(disp);
-                NodeBorder.Bind(Border.BorderThicknessProperty, this.GetObservable(ChildBorderThicknessProperty)).DisposeWith(disp);
-                NodeBorder.Bind(Border.PaddingProperty, this.GetObservable(ChildPaddingProperty)).DisposeWith(disp);
-                NodeBorder.Bind(Border.BackgroundProperty, this.GetObservable(ChildBackgroundProperty)).DisposeWith(disp);
+                NodeButton.Bind(Button.BorderBrushProperty, this.GetObservable(ChildBorderBrushProperty)).DisposeWith(disp);
+                NodeButton.Bind(Button.BorderThicknessProperty, this.GetObservable(ChildBorderThicknessProperty)).DisposeWith(disp);
+                NodeButton.Bind(Button.PaddingProperty, this.GetObservable(ChildPaddingProperty)).DisposeWith(disp);
+                NodeButton.Bind(Button.BackgroundProperty, this.GetObservable(ChildBackgroundProperty)).DisposeWith(disp);
 
                 this.OneWayBind(ViewModel, x => x.Type, x => x.NodeIcon.Source, null, conNtoI).DisposeWith(disp);
+                this.OneWayBind(ViewModel, x => x.SetStartNode, x => x.NodeButton.Command).DisposeWith(disp);
             });
             this.InitializeComponent();
 
             AffectsRender<Border>(
                 ChildBackgroundProperty,
                 ChildBorderBrushProperty,
-                ChildBorderThicknessProperty,
-                ChildBorderCornerRadiusProperty
+                ChildBorderThicknessProperty
             );
             AffectsMeasure<Border>(ChildBorderThicknessProperty);
         }
@@ -84,12 +83,6 @@ namespace Crosslight.Viewer.Views.Graph
             AvaloniaProperty.Register<Border, Thickness>(nameof(ChildBorderThickness));
 
         /// <summary>
-        /// Defines the <see cref="ChildBorderCornerRadius"/> property.
-        /// </summary>
-        public static readonly StyledProperty<CornerRadius> ChildBorderCornerRadiusProperty =
-            AvaloniaProperty.Register<GraphNodeViewer, CornerRadius>(nameof(ChildBorderCornerRadius));
-
-        /// <summary>
         /// Defines the <see cref="ChildPadding"/> property.
         /// </summary>
         public static readonly StyledProperty<Thickness> ChildPaddingProperty =
@@ -123,15 +116,6 @@ namespace Crosslight.Viewer.Views.Graph
         }
 
         /// <summary>
-        /// Gets or sets the radius of the child border rounded corners.
-        /// </summary>
-        public CornerRadius ChildBorderCornerRadius
-        {
-            get { return GetValue(ChildBorderCornerRadiusProperty); }
-            set { SetValue(ChildBorderCornerRadiusProperty, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the padding placed between the border of the child control and its content.
         /// </summary>
         public Thickness ChildPadding
@@ -147,8 +131,8 @@ namespace Crosslight.Viewer.Views.Graph
         /// <returns>The desired size of the control.</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (Content is ILayoutable layoutable)
-                return LayoutHelper.MeasureChild(layoutable, availableSize, Padding, BorderThickness);
+            //if (Content is ILayoutable layoutable)
+            //    return LayoutHelper.MeasureChild(layoutable, availableSize, Padding, BorderThickness);
             return base.MeasureOverride(availableSize);
         }
     }
