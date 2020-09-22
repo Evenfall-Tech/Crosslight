@@ -11,7 +11,7 @@ namespace Crosslight.API.Nodes.Function
     public class MethodNode : FunctionNode, ITypeMember
     {
         public override string Type => nameof(MethodNode);
-        public TypeNode OwningType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public FunctionalTypeNode OwningType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public MethodNode(string name) : base(name)
         {
         }

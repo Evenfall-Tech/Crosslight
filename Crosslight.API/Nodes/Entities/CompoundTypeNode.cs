@@ -3,12 +3,12 @@ using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Entities
 {
-    public abstract class BaseTypeNode : TypeNode
+    public abstract class CompoundTypeNode : FunctionalTypeNode
     {
-        public override string Type => nameof(TypeNode);
+        public override string Type => nameof(FunctionalTypeNode);
         public SyncedList<FieldNode, Node> Fields { get; protected set; }
         public SyncedList<EntityNode, Node> InnerEntities { get; protected set; }
-        public BaseTypeNode(string name) : base(name)
+        public CompoundTypeNode(string name) : base(name)
         {
             Fields = new SyncedList<FieldNode, Node>(Children);
             InnerEntities = new SyncedList<EntityNode, Node>(Children);

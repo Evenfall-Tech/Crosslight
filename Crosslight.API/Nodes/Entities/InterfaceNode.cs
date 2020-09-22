@@ -3,7 +3,7 @@
     /// <summary>
     /// InterfaceNode represents the interface abstraction in the language.
     /// </summary>
-    public class InterfaceNode : TypeNode
+    public class InterfaceNode : FunctionalTypeNode
     {
         public override string Type => nameof(InterfaceNode);
         public InterfaceNode(string name) : base(name)

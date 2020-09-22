@@ -14,7 +14,7 @@ namespace Crosslight.API.Nodes.Function
         public BlockNode Block
         {
             get => block.Value;
-            set => block.Value = value;
+            protected set => block.Value = value;
         }
         public FunctionBodyNode()
         {

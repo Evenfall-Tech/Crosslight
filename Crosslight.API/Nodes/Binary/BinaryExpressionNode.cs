@@ -14,12 +14,12 @@ namespace Crosslight.API.Nodes.Binary
         public ExpressionNode LeftOperand
         {
             get => leftOperand.Value;
-            set => leftOperand.Value = value;
+            protected set => leftOperand.Value = value;
         }
         public ExpressionNode RightOperand
         {
             get => rightOperand.Value;
-            set => rightOperand.Value = value;
+            protected set => rightOperand.Value = value;
         }
         public BinaryExpressionNode()
         {

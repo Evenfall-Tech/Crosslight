@@ -8,19 +8,17 @@ namespace Crosslight.API.Nodes.Entities
     /// E.g. in C# it is class/struct, for Java it is class,
     /// in C++ it is class/struct.
     /// </summary>
-    public abstract class TypeNode : EntityNode
+    public abstract class FunctionalTypeNode : InheritedTypeNode
     {
-        public override string Type => nameof(TypeNode);
+        public override string Type => nameof(FunctionalTypeNode);
         public SyncedList<MethodNode, Node> Methods { get; protected set; }
-        public string Name { get; }
-        public TypeNode(string name)
+        public FunctionalTypeNode(string name) : base(name)
         {
             Methods = new SyncedList<MethodNode, Node>(Children);
-            Name = name;
         }
         public override string ToString()
         {
-            return "TypeNode";
+            return Type;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Crosslight.API.Nodes.Unary
         public ExpressionNode Operand
         {
             get => operand.Value;
-            set => operand.Value = value;
+            protected set => operand.Value = value;
         }
         public UnaryExpressionNode()
         {

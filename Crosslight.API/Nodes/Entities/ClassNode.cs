@@ -3,7 +3,7 @@
     /// <summary>
     /// ClassNode represents the class abstraction in the language.
     /// </summary>
-    public class ClassNode : BaseTypeNode
+    public class ClassNode : CompoundTypeNode
     {
         public override string Type => nameof(ClassNode);
         public ClassNode(string name) : base(name)

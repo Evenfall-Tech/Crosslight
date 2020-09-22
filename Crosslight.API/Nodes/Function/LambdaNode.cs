@@ -16,12 +16,12 @@ namespace Crosslight.API.Nodes.Function
         public FunctionReturnTypeNode ReturnType
         {
             get => returnType.Value;
-            set => returnType.Value = value;
+            protected set => returnType.Value = value;
         }
         public FunctionBodyNode Body
         {
             get => body.Value;
-            set => body.Value = value;
+            protected set => body.Value = value;
         }
         public LambdaNode()
         {

@@ -14,12 +14,12 @@ namespace Crosslight.API.Nodes.Control
         public BlockNode Body
         {
             get => body.Value;
-            set => body.Value = value;
+            protected set => body.Value = value;
         }
         public ExpressionNode Condition
         {
             get => condition.Value;
-            set => condition.Value = value;
+            protected set => condition.Value = value;
         }
         public LoopNode()
         {

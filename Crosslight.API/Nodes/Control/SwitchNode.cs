@@ -16,12 +16,12 @@ namespace Crosslight.API.Nodes.Control
         public ExpressionNode ConditionExpression
         {
             get => conditionExpression.Value;
-            set => conditionExpression.Value = value;
+            protected set => conditionExpression.Value = value;
         }
         public BlockNode DefaultBlock
         {
             get => defaultBlock.Value;
-            set => defaultBlock.Value = value;
+            protected set => defaultBlock.Value = value;
         }
         public SwitchNode()
         {

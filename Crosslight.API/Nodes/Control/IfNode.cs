@@ -17,17 +17,17 @@ namespace Crosslight.API.Nodes.Control
         public ExpressionNode Condition
         {
             get => condition.Value;
-            set => condition.Value = value;
+            protected set => condition.Value = value;
         }
         public BlockNode IfBlock
         {
             get => ifBlock.Value;
-            set => ifBlock.Value = value;
+            protected set => ifBlock.Value = value;
         }
         public BlockNode ElseBlock
         {
             get => elseBlock.Value;
-            set => elseBlock.Value = value;
+            protected set => elseBlock.Value = value;
         }
         public IfNode()
         {
