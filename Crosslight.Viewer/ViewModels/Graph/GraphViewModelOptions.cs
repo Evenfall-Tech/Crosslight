@@ -11,7 +11,9 @@ namespace Crosslight.Viewer.ViewModels.Graph
     {
         public const int DefaultVisibilityChild = 3, DefauldVisibilityParent = 1;
         private const int MaxVisibilityChild = 20, MaxVisibilityParent = 4;
-        public static Dictionary<string, (int, int)> VisibilityRange = new Dictionary<string, (int, int)>()
+        private const int MaxNaviationStackSize = 20;
+
+        public static Dictionary<string, (int, int)> VisibilityRange { get; } = new Dictionary<string, (int, int)>()
         {
             { nameof(RootNode), (DefauldVisibilityParent, 4) },
             { nameof(DummyNode), (MaxVisibilityParent, MaxVisibilityChild) },
@@ -20,6 +22,7 @@ namespace Crosslight.Viewer.ViewModels.Graph
             { nameof(ModuleNode), (MaxVisibilityParent, 2) }, // Namespace, Entity
             { nameof(NamespaceNode), (MaxVisibilityParent, 2) }, // Entity, Base Children
         };
+        public static int NavigationStackSize { get; } = MaxNaviationStackSize;
 
         public GraphNodeAlignment HorizontalAlignment { get; set; }
         public GraphNodeAlignment VerticalAlignment { get; set; }

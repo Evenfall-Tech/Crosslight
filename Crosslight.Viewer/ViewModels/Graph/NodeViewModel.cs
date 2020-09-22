@@ -6,6 +6,12 @@ using System.Reactive.Linq;
 
 namespace Crosslight.Viewer.ViewModels.Graph
 {
+    public enum NodeState
+    {
+        Active,
+        Inactive,
+        Primary,
+    }
     public class NodeViewModel : ViewModelBase, IViewModelFor<NodeModel>
     {
         public const string LeftProp   = nameof(Left);
@@ -14,14 +20,13 @@ namespace Crosslight.Viewer.ViewModels.Graph
         public const string HeightProp = nameof(Height);
 
         private double left, top, width, height;
-        private bool active;
         private GraphViewModel parent;
+        private NodeState state;
 
-        public NodeViewModel(NodeModel model, GraphNodeDirection direction, bool active = true)
+        public NodeViewModel(NodeModel model, GraphNodeDirection direction)
         {
             Model = model;
             Direction = direction;
-            this.active = active;
         }
 
         public GraphNodeDirection Direction { get; }
@@ -55,10 +60,10 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 this.RaisePropertyChanged(nameof(Type));
             }
         }
-        public bool Active
+        public NodeState State
         {
-            get => active;
-            set => this.RaiseAndSetIfChanged(ref active, value);
+            get => state;
+            set => this.RaiseAndSetIfChanged(ref state, value);
         }
         public GraphViewModel Parent
         {

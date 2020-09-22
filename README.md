@@ -29,7 +29,7 @@ Currently the solution is built using .Net Core 3.1 / .Net Standard 2.0 with Vis
 
 ## Showcase
 
-![Viewer 0.1](https://github.com/mcmikecreations/Crosslight/blob/master/docs/crosslight_viewer_0_1.png)
+![Viewer 0.2](https://github.com/mcmikecreations/Crosslight/blob/master/docs/crosslight_viewer_0_2.png)
 
 ## Benchmarks
 

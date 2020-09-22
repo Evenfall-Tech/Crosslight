@@ -19,10 +19,10 @@ namespace Crosslight.Viewer.ViewModels.Graph
         Dictionary<int, double> _layersY;
         Dictionary<NodeViewModel, NodeLayer> _nodeToLayer;
 
-        private GraphViewModelOptions options;
         private ObservableCollection<NodeViewModel> nodes;
-        private readonly NodeViewModelFactory factory;
         private NodeModel startNode;
+        private readonly GraphViewModelOptions options;
+        private readonly NodeViewModelFactory factory;
 
         public GraphViewModel(GraphModel model, NodeModel startNode, GraphViewModelOptions options)
         {
@@ -103,13 +103,13 @@ namespace Crosslight.Viewer.ViewModels.Graph
                 range = (GraphViewModelOptions.DefauldVisibilityParent, GraphViewModelOptions.DefaultVisibilityChild);
             }
             LinkedList<NodeViewModel> viewModels = new LinkedList<NodeViewModel>();
-            viewModels.AddLast(factory.Get(startNode));
+            viewModels.AddLast(factory.Get(startNode, NodeState.Primary));
             int runningID = startNode.ID;
             for (int i = 0; i < range.Item1; ++i)
             {
                 var parent = model.Nodes.Values.FirstOrDefault(n => n.Connections.Contains(runningID));
                 if (parent == null) break;
-                viewModels.AddFirst(factory.Get(parent, false));
+                viewModels.AddFirst(factory.Get(parent, NodeState.Inactive));
                 runningID = parent.ID;
             }
             AddChildren(0, range.Item2, startNode);

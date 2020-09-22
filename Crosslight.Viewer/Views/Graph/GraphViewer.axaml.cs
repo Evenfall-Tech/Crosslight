@@ -15,8 +15,13 @@ namespace Crosslight.Viewer.Views.Graph
     public class GraphViewer : ReactiveUserControl<GraphViewerViewModel>
     {
         private Canvas Canvas => this.FindControl<Canvas>("graphCanvas");
+        private RoutedViewHost RVH => this.FindControl<RoutedViewHost>("rvh");
+        private Button NavBack => this.FindControl<Button>("navBack");
+        private Button NavForw => this.FindControl<Button>("navForw");
+        private TextBlock NavName => this.FindControl<TextBlock>("navName");
         public GraphViewer()
         {
+            Splat.Locator.CurrentMutable.Register(() => new GraphRoutable(), typeof(IViewFor<GraphRoutableViewModel>));
             this.WhenActivated(disposables =>
             {
                 this.WhenAnyValue(x => x.ViewModel, x => x.ViewModel.GraphViewModel.Nodes)
@@ -25,6 +30,14 @@ namespace Crosslight.Viewer.Views.Graph
                         x.Item1.GraphViewModel.Sort();
                         UpdateCanvas(x.Item1);
                     })
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, x => x.Router, x => x.RVH.Router)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.NavigateBackward, x => x.NavBack)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.NavigateForward, x => x.NavForw)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, x => x.GraphViewModel.StartNode.Data, x => x.NavName.Text)
                     .DisposeWith(disposables);
             });
             this.InitializeComponent();

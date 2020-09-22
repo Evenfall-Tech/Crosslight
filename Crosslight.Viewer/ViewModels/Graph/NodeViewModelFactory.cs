@@ -13,13 +13,14 @@ namespace Crosslight.Viewer.ViewModels.Graph
         }
         public NodeViewModel Get(NodeModel model)
         {
-            return Get(model, true);
+            return Get(model, NodeState.Active);
         }
-        public NodeViewModel Get(NodeModel model, bool active)
+        public NodeViewModel Get(NodeModel model, NodeState state)
         {
-            return new NodeViewModel(model, direction, active)
+            return new NodeViewModel(model, direction)
             {
                 Parent = graphViewModel,
+                State = state,
             };
         }
     }

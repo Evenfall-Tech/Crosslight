@@ -7,17 +7,9 @@ namespace Crosslight.Viewer.Views.Graph
 {
     public static class GraphNodeControlBuilder
     {
-        public enum GraphNodeControlStyle
+        public static GraphNodeViewer BuildGraphNodeControl(NodeViewModel nodeVM)
         {
-            Normal,
-            Info,
-            Warning,
-            Danger,
-        }
-
-        public static GraphNodeViewer BuildGraphNodeControl(NodeViewModel nodeVM, GraphNodeControlStyle style = GraphNodeControlStyle.Normal)
-        {
-            var color = style switch
+            /*var color = style switch
             {
                 GraphNodeControlStyle.Normal => Brushes.MidnightBlue,
                 GraphNodeControlStyle.Info => Brushes.DeepSkyBlue,
@@ -31,14 +23,10 @@ namespace Crosslight.Viewer.Views.Graph
                     (byte)(color.Color.R / 2), 
                     (byte)(color.Color.G / 2), 
                     (byte)(color.Color.B / 2)
-                ), color.Opacity);
+                ), color.Opacity);*/
             var view = new GraphNodeViewer()
             {
                 ViewModel = nodeVM,
-                ChildBorderBrush = color,
-                ChildBorderThickness = new Thickness(2.0, 2.0),
-                ChildPadding = new Thickness(5.0),
-                ChildBackground = nodeVM.Active ? Brushes.White : Brushes.LightGray,
             };
             return view;
         }
