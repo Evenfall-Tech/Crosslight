@@ -3,7 +3,7 @@ using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Entities
 {
-    public class AttributedNode : Node
+    public abstract class AttributedNode : Node
     {
         public override string Type => nameof(AttributedNode);
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }

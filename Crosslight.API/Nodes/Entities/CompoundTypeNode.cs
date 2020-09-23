@@ -5,7 +5,7 @@ namespace Crosslight.API.Nodes.Entities
 {
     public abstract class CompoundTypeNode : FunctionalTypeNode
     {
-        public override string Type => nameof(FunctionalTypeNode);
+        public override string Type => nameof(CompoundTypeNode);
         public SyncedList<FieldNode, Node> Fields { get; protected set; }
         public SyncedList<EntityNode, Node> InnerEntities { get; protected set; }
         public CompoundTypeNode(string name) : base(name)
