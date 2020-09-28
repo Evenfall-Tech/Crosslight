@@ -29,7 +29,7 @@ namespace Crosslight.CIL.Lang
                 throw new ArgumentException($"No input found in source.");
             }
 
-            VisitOptions visitOptions = new VisitOptions();
+            CILVisitOptions visitOptions = new CILVisitOptions();
 
             // TODO: allow multiple files.
             if (fileSource.Count == 0)
@@ -45,7 +45,7 @@ namespace Crosslight.CIL.Lang
                 // TODO: add option loading
                 // TODO: parse decompiler.TypeSystem.ReferencedModules for referenced modules.
                 nodes.Add(tree.AcceptVisitor(new CILAstVisitor(
-                    new VisitOptions(visitOptions)
+                    new CILVisitOptions(visitOptions)
                     {
                         ModuleName = filePath,
                         ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,

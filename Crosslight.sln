@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Viewer", "Crossl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Common", "Crosslight.Common\Crosslight.Common.csproj", "{3069DD94-ED36-434F-8C1B-9E346642BE9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosslight.CLI", "Crosslight.CLI\Crosslight.CLI.csproj", "{1C5CE012-94ED-435C-B1DC-22422C45ABC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CLI", "Crosslight.CLI\Crosslight.CLI.csproj", "{1C5CE012-94ED-435C-B1DC-22422C45ABC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosslight.CSharp", "Crosslight.CSharp\Crosslight.CSharp.csproj", "{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{1C5CE012-94ED-435C-B1DC-22422C45ABC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C5CE012-94ED-435C-B1DC-22422C45ABC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C5CE012-94ED-435C-B1DC-22422C45ABC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,7 @@ namespace Crosslight.CIL.Nodes
     {
         public VisitContext VisitContext { get; }
 
-        public CILAstVisitor(VisitOptions options)
+        public CILAstVisitor(CILVisitOptions options)
         {
             VisitContext = new VisitContext()
             {

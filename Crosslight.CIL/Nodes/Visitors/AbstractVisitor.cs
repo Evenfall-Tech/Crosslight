@@ -7,7 +7,7 @@ namespace Crosslight.CIL.Nodes.Visitors
     public abstract class AbstractVisitor<T> : IAstVisitor<Node>, ICILVisitor<T> where T : AstNode
     {
         protected VisitContext Context { get; }
-        protected VisitOptions VisitOptions => Context?.Options;
+        protected CILVisitOptions VisitOptions => Context?.Options;
         public AbstractVisitor(VisitContext context)
         {
             Context = context;

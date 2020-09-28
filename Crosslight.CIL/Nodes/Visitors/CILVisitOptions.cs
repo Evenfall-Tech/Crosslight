@@ -2,7 +2,7 @@
 
 namespace Crosslight.CIL.Nodes.Visitors
 {
-    public class VisitOptions : ICloneable
+    public class CILVisitOptions : ICloneable
     {
         public bool CreateProject { get; set; }
         public bool SplitNamespaces { get; set; }
@@ -11,7 +11,7 @@ namespace Crosslight.CIL.Nodes.Visitors
         public string ModuleName { get; set; }
         public string ProjectName { get; set; }
 
-        public VisitOptions()
+        public CILVisitOptions()
         {
             // TODO: fill this class with options.
             CreateProject = true;
@@ -22,7 +22,7 @@ namespace Crosslight.CIL.Nodes.Visitors
             ProjectName = DefaultProjectName;
         }
 
-        public VisitOptions(VisitOptions other)
+        public CILVisitOptions(CILVisitOptions other)
         {
             CreateProject = other.CreateProject;
             SplitNamespaces = other.SplitNamespaces;
@@ -34,7 +34,7 @@ namespace Crosslight.CIL.Nodes.Visitors
 
         public object Clone()
         {
-            return new VisitOptions(this);
+            return new CILVisitOptions(this);
         }
 
         public const string DefaultProjectName = "Module";

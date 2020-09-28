@@ -3,7 +3,7 @@ using Crosslight.API.Nodes;
 using Crosslight.API.Nodes.Access;
 using Crosslight.API.Nodes.Componentization;
 using Crosslight.API.Nodes.Metadata;
-using Crosslight.CIL.Utils.ILSpy;
+using Crosslight.CIL.Util.ILSpy;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace Crosslight.CIL.Utils.ILSpy
+namespace Crosslight.CIL.Util.ILSpy
 {
     public static class AstNodeExtensions
     {
