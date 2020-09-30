@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CLI", "Crossligh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosslight.CSharp", "Crosslight.CSharp\Crosslight.CSharp.csproj", "{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosslight.GUI", "Crosslight.GUI\Crosslight.GUI.csproj", "{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

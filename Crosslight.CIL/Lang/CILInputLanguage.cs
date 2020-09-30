@@ -18,7 +18,25 @@ namespace Crosslight.CIL.Lang
     {
         public override string Name => "CIL";
 
-        public override LanguageOptions Options { get; protected set; }
+        private CILVisitOptions options;
+        public override LanguageConfig Config { get; protected set; }
+        public override ILanguageOptions Options
+        {
+            get => options;
+            set
+            {
+                options = value as CILVisitOptions;
+            }
+        }
+        public override void LoadOptionsFromConfig(LanguageConfig config)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CILInputLanguage()
+        {
+            options = new CILVisitOptions();
+        }
 
         public override Node Decode(Source source)
         {
@@ -28,8 +46,6 @@ namespace Crosslight.CIL.Lang
                 // TODO: add loading from string data if possible
                 throw new ArgumentException($"No input found in source.");
             }
-
-            CILVisitOptions visitOptions = new CILVisitOptions();
 
             // TODO: allow multiple files.
             if (fileSource.Count == 0)
@@ -45,7 +61,7 @@ namespace Crosslight.CIL.Lang
                 // TODO: add option loading
                 // TODO: parse decompiler.TypeSystem.ReferencedModules for referenced modules.
                 nodes.Add(tree.AcceptVisitor(new CILAstVisitor(
-                    new CILVisitOptions(visitOptions)
+                    new CILVisitOptions(options)
                     {
                         ModuleName = filePath,
                         ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,
@@ -53,7 +69,7 @@ namespace Crosslight.CIL.Lang
                 )));
             }
             // TODO: split option-based logic into different methods.
-            if (visitOptions.MergeProjectsWithSameName)
+            if (options.MergeProjectsWithSameName)
             {
                 var uniqueProjects = nodes.OfType<ProjectNode>().GroupBy(e => e.Name);
                 List<ProjectNode> toRemove = new List<ProjectNode>();

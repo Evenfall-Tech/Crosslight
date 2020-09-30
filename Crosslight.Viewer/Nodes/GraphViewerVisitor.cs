@@ -1,4 +1,6 @@
 ﻿using Crosslight.API.Nodes;
+using Crosslight.API.Nodes.Componentization;
+using Crosslight.API.Nodes.Entities;
 using Crosslight.Viewer.Models.Graph;
 using System.Collections.Generic;
 
@@ -76,6 +78,56 @@ namespace Crosslight.Viewer.Nodes
                 }
             }
             return parent;
+        }
+
+        object IViewerVisitor.Visit(ViewerNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        object IVisitor.Visit(Node node)
+        {
+            return Visit((Node)node);
+        }
+
+        object IVisitor.Visit(FunctionEntityNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        object IVisitor.Visit(EnumNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        object IVisitor.Visit(StructNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        object IVisitor.Visit(InterfaceNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        object IVisitor.Visit(ClassNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        object IVisitor.Visit(NamespaceNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        object IVisitor.Visit(ModuleNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        object IVisitor.Visit(ProjectNode node)
+        {
+            return Visit((Node)node);
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Crosslight.API.Lang;
+using System;
 
 namespace Crosslight.CIL.Nodes.Visitors
 {
-    public class CILVisitOptions : ICloneable
+    public class CILVisitOptions : ILanguageOptions
     {
         public bool CreateProject { get; set; }
         public bool SplitNamespaces { get; set; }

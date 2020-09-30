@@ -9,11 +9,29 @@ namespace Crosslight.Viewer.Lang
     {
         public override string Name => "Viewer";
 
-        public override LanguageOptions Options { get; protected set; }
+        private ViewerOptions options;
+        public override LanguageConfig Config { get; protected set; }
+        public override ILanguageOptions Options
+        {
+            get => options;
+            set
+            {
+                options = value as ViewerOptions;
+            }
+        }
+        public override void LoadOptionsFromConfig(LanguageConfig config)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ViewerOutputLanguage()
+        {
+            options = new ViewerOptions();
+        }
 
         public override object Encode(Node rootNode)
         {
-            VisitOptions visitOptions = new VisitOptions();
+            ViewerOptions visitOptions = new ViewerOptions();
             throw new NotImplementedException();
         }
     }

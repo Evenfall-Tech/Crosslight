@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crosslight.API.Lang;
+using System;
 
 namespace Crosslight.CSharp.Nodes.Visitors
 {
@@ -8,7 +9,7 @@ namespace Crosslight.CSharp.Nodes.Visitors
         MultiFileSource,
         MultiStringSource,
     }
-    public class CSharpVisitOptions : ICloneable
+    public class CSharpVisitOptions : ILanguageOptions
     {
         public CSharpSaveLocation SaveLocation { get; set; }
         public string SaveDirectory { get; set; }

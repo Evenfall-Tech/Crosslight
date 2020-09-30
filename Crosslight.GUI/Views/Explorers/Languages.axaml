@@ -1,0 +1,28 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:it="clr-namespace:Crosslight.GUI.Views.Explorers.Items"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Crosslight.GUI.Views.Explorers.Languages"
+        DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
+	<StackPanel Orientation="Vertical">
+		<WrapPanel Orientation="Horizontal">
+			<Button Content="Load" Name="loadLanguage"/>
+		</WrapPanel>
+		<Grid RowDefinitions="Auto,*">
+			<TextBlock Text="Input"/>
+			<ListBox HorizontalAlignment="Stretch"
+					 Grid.Row="1"
+					 Name="inputList">
+			</ListBox>
+		</Grid>
+		<Grid RowDefinitions="Auto,*">
+			<TextBlock Text="Output"/>
+			<ListBox HorizontalAlignment="Stretch"
+					 Grid.Row="1"
+					 Name="outputList">
+			</ListBox>
+		</Grid>
+	</StackPanel>
+</UserControl>

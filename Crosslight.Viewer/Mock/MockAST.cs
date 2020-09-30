@@ -2,6 +2,7 @@
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.Viewer.Nodes;
+using Crosslight.Viewer.Nodes.Visitors;
 using System;
 
 namespace Crosslight.Viewer.Mock
@@ -10,7 +11,25 @@ namespace Crosslight.Viewer.Mock
     {
         public override string Name => "Mock";
 
-        public override LanguageOptions Options { get; protected set; }
+        private ViewerOptions options;
+        public override LanguageConfig Config { get; protected set; }
+        public override ILanguageOptions Options
+        {
+            get => options;
+            set
+            {
+                options = value as ViewerOptions;
+            }
+        }
+        public override void LoadOptionsFromConfig(LanguageConfig config)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MockAST()
+        {
+            options = new ViewerOptions();
+        }
 
         public static ViewerNode CreateAST()
         {

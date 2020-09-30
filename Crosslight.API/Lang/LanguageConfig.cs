@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Crosslight.API.Lang
 {
-    public class LanguageOptions
+    public class LanguageConfig
     {
         protected Dictionary<string, object> options;
 
-        public LanguageOptions()
+        public LanguageConfig()
         {
             options = new Dictionary<string, object>();
         }

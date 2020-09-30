@@ -1,0 +1,31 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Crosslight.GUI.Views.Explorers.ExplorerContainer"
+			 MinWidth="150"
+			 MinHeight="200"
+        DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
+	<Border BorderBrush="Blue" BorderThickness="1">
+		<DockPanel LastChildFill="True">
+			<TextBlock Name="title"
+					   Background="Blue"
+					   Foreground="White"
+					   DockPanel.Dock="Top"
+					   Text="Explorer"
+				   />
+			<ContentControl HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch">
+				<rxui:RoutedViewHost Name="routedView">
+					<rxui:RoutedViewHost.DefaultContent>
+						<TextBlock Text="Default content"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center" />
+					</rxui:RoutedViewHost.DefaultContent>
+				</rxui:RoutedViewHost>
+			</ContentControl>
+		</DockPanel>
+	</Border>
+</UserControl>
