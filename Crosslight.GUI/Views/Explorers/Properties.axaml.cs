@@ -15,7 +15,7 @@ namespace Crosslight.GUI.Views.Explorers
     public class Properties : ReactiveUserControl<PropertiesVM>
     {
         private static PropertyBuilder propertyBuilder;
-        public StackPanel PropertyContainer => this.FindControl<StackPanel>("propertyContainer");
+        public ItemsControl PropertyContainer => this.FindControl<ItemsControl>("propertyContainer");
         public Properties()
         {
             if (propertyBuilder == null)
@@ -34,7 +34,7 @@ namespace Crosslight.GUI.Views.Explorers
         private void BuildUI(object instance, CompositeDisposable disp)
         {
             var properties = instance.GetType().GetProperties();
-            PropertyContainer.Children.AddRange(properties.Select(x => /*propertyBuilder.GetControl(instance, x, this, disp)*/new TextBox()));
+            PropertyContainer.Items = properties.Select(x => propertyBuilder.GetControl(instance, x, this, disp));
         }
 
 

@@ -5,5 +5,16 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Crosslight.GUI.Views.Explorers.Items.Language"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
-	<TextBlock Name="title"/>
+	<UserControl.Styles>
+		<Style Selector="Button.Lang">
+			<Setter Property="BorderBrush" Value="Transparent"/>
+			<Setter Property="BorderThickness" Value="0.0"/>
+			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+	</UserControl.Styles>
+	<Button Name="clicker" Classes="Lang" HorizontalContentAlignment="Stretch">	
+	    <TextBlock Name="title"
+				   HorizontalAlignment="Stretch"
+				   TextAlignment="Left"/>
+	</Button>
 </UserControl>

@@ -3,19 +3,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Crosslight.GUI.Views.Explorers.Properties"
-			 Width="320"
+             x:Class="Crosslight.GUI.Views.Viewports.ProjectViewport"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
 	<Grid>
-		<ItemsControl Name="propertyContainer">
+		<ItemsControl Name="explorerContainer">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<StackPanel Orientation="Vertical"
-								HorizontalAlignment="Stretch"
-								/>
+					<WrapPanel/>
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 		</ItemsControl>
-		
 	</Grid>
 </UserControl>

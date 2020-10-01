@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.Media;
 using ReactiveUI;
@@ -27,6 +28,7 @@ namespace Crosslight.GUI.Views.Explorers.Items
             factoryDict = new Dictionary<Type, ControlFactory>()
             {
                 { typeof(bool), BoolProperty },
+                { typeof(string), StringProperty },
             };
         }
 
@@ -65,8 +67,6 @@ namespace Crosslight.GUI.Views.Explorers.Items
             TextBlock name = new TextBlock()
             {
                 Text = info.Name,
-                //IsReadOnly = true,
-                //BorderThickness = new Thickness(Double.Epsilon),
             };
             borderName.Child = name;
             container.Children.Add(borderName);
@@ -112,6 +112,28 @@ namespace Crosslight.GUI.Views.Explorers.Items
                     Observable.Return(true));
             }
             return InsertIntoContainer(toggle, infoFor, info, view, disp);
+        }
+
+        private IControl StringProperty(object infoFor, PropertyInfo info, IViewFor view, CompositeDisposable disp)
+        {
+            TextBox input = new TextBox
+            {
+                IsReadOnly = !info.CanWrite,
+            };
+            if (info.CanRead) input.Text = info.GetValue(infoFor)?.ToString();
+            else input.Text = "<Undefined>";
+            if (info.CanWrite)
+            {
+                input
+                    .GetObservable(TextBox.TextProperty)
+                    .Subscribe(s =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(s) && s != info.GetValue(infoFor)?.ToString())
+                            info.SetValue(infoFor, s);
+                    })
+                    .DisposeWith(disp);
+            }
+            return InsertIntoContainer(input, infoFor, info, view, disp);
         }
     }
 }

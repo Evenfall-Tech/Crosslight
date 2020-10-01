@@ -11,11 +11,15 @@ namespace Crosslight.GUI.Views.Explorers.Items
     public class Language : ReactiveUserControl<LanguageVM>
     {
         public TextBlock Title => this.FindControl<TextBlock>("title");
+        public Button Clicker => this.FindControl<Button>("clicker");
         public Language()
         {
             this.WhenActivated(disp =>
             {
                 this.OneWayBind(ViewModel, x => x.Title, x => x.Title.Text)
+                    .DisposeWith(disp);
+                this.WhenAnyValue(x => x.ViewModel.SelectCommand)
+                    .BindTo(this, x => x.Clicker.Command)
                     .DisposeWith(disp);
             });
             this.InitializeComponent();
