@@ -24,5 +24,6 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         }
         protected abstract IObservable<bool> SelectCommandAvailable { get; }
         public abstract ReactiveCommand<Unit, Unit> SelectCommand { get; }
+        public abstract ReactiveCommand<Unit, Unit> RemoveCommand { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Crosslight.API.Lang;
+using DynamicData;
 using ReactiveUI;
 using Splat;
 using System;
@@ -29,6 +30,22 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             if (lang != null)
             {
                 lang.SelectedInputLanguage = this;
+            }
+        },
+        SelectCommandAvailable);
+
+        public override ReactiveCommand<Unit, Unit> RemoveCommand => ReactiveCommand.Create(() =>
+        {
+            var props = Locator.Current.GetService<PropertiesVM>();
+            if (props != null)
+            {
+                if (props.SelectedInstance == InputLanguage.Options)
+                    props.SelectedInstance = null;
+            }
+            var lang = Locator.Current.GetService<LanguagesVM>();
+            if (lang != null)
+            {
+                lang.RemoveLanguage.Execute(this).Subscribe();
             }
         },
         SelectCommandAvailable);

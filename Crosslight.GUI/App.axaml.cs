@@ -18,6 +18,7 @@ namespace Crosslight.GUI
         {
             Locator.CurrentMutable.RegisterLazySingleton(() => new LanguagesVM());
             Locator.CurrentMutable.RegisterLazySingleton(() => new PropertiesVM());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new SourceInputVM());
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow()

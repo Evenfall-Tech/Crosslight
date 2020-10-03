@@ -50,6 +50,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             }
         }
         public ReactiveCommand<string, Unit> AddLanguage { get; }
+        public ReactiveCommand<LanguageVM, Unit> RemoveLanguage { get; }
 
         public override string Title => "Languages";
         public override string UrlPathSegment { get; } = "languages";
@@ -93,6 +94,21 @@ namespace Crosslight.GUI.ViewModels.Explorers
                         }
                     }
                 }
+            }, Observable.Return(true));
+            RemoveLanguage = ReactiveCommand.Create((LanguageVM lang) =>
+            {
+                if (lang is InputLanguageVM inp)
+                {
+                    if (SelectedInputLanguage == inp)
+                        SelectedInputLanguage = null;
+                }
+                else if (lang is OutputLanguageVM oup)
+                {
+                    if (SelectedOutputLanguage == oup)
+                        SelectedOutputLanguage = null;
+                }
+                else throw new NotImplementedException();
+                languageSource.Remove(lang);
             }, Observable.Return(true));
 
             Activator = new ViewModelActivator();

@@ -12,9 +12,15 @@
 			<Setter Property="Background" Value="Transparent"/>
 		</Style>
 	</UserControl.Styles>
-	<Button Name="clicker" Classes="Lang" HorizontalContentAlignment="Stretch">	
-	    <TextBlock Name="title"
-				   HorizontalAlignment="Stretch"
-				   TextAlignment="Left"/>
+	<Button Name="clicker" Classes="Lang" HorizontalContentAlignment="Stretch">
+		<DockPanel LastChildFill="True">
+			<Button Content="X" Name="remove"
+					DockPanel.Dock="Right"
+					Padding="0"
+			/>
+			<TextBlock Name="title"
+					   HorizontalAlignment="Stretch"
+					   TextAlignment="Left"/>
+		</DockPanel>
 	</Button>
 </UserControl>

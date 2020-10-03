@@ -24,7 +24,6 @@ namespace Crosslight.GUI.Views.Explorers
             this.WhenActivated(disposables =>
             {
                 this.WhenAnyValue(x => x.ViewModel.SelectedInstance)
-                    .Where(x => x != null)
                     .Subscribe(x => BuildUI(x, disposables))
                     .DisposeWith(disposables);
             });
@@ -33,6 +32,11 @@ namespace Crosslight.GUI.Views.Explorers
 
         private void BuildUI(object instance, CompositeDisposable disp)
         {
+            if (instance == null)
+            {
+                PropertyContainer.Items = null;
+                return;
+            }
             var properties = instance.GetType().GetProperties();
             PropertyContainer.Items = properties.Select(x => propertyBuilder.GetControl(instance, x, this, disp));
         }

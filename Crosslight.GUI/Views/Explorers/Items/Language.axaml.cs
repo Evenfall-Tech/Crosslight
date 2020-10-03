@@ -12,6 +12,7 @@ namespace Crosslight.GUI.Views.Explorers.Items
     {
         public TextBlock Title => this.FindControl<TextBlock>("title");
         public Button Clicker => this.FindControl<Button>("clicker");
+        public Button Remover => this.FindControl<Button>("remove");
         public Language()
         {
             this.WhenActivated(disp =>
@@ -20,6 +21,9 @@ namespace Crosslight.GUI.Views.Explorers.Items
                     .DisposeWith(disp);
                 this.WhenAnyValue(x => x.ViewModel.SelectCommand)
                     .BindTo(this, x => x.Clicker.Command)
+                    .DisposeWith(disp);
+                this.WhenAnyValue(x => x.ViewModel.RemoveCommand)
+                    .BindTo(this, x => x.Remover.Command)
                     .DisposeWith(disp);
             });
             this.InitializeComponent();

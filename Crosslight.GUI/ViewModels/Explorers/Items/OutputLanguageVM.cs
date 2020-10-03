@@ -33,6 +33,22 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         },
         SelectCommandAvailable);
 
+        public override ReactiveCommand<Unit, Unit> RemoveCommand => ReactiveCommand.Create(() =>
+        {
+            var props = Locator.Current.GetService<PropertiesVM>();
+            if (props != null)
+            {
+                if (props.SelectedInstance == OutputLanguage.Options)
+                    props.SelectedInstance = null;
+            }
+            var lang = Locator.Current.GetService<LanguagesVM>();
+            if (lang != null)
+            {
+                lang.RemoveLanguage.Execute(this).Subscribe();
+            }
+        },
+        SelectCommandAvailable);
+
         protected override IObservable<bool> SelectCommandAvailable => this
             .WhenAnyValue(x => x.OutputLanguage, x => x.Path, x => x.OutputLanguage.Options)
             .Select(k => k.Item1 != null && !string.IsNullOrWhiteSpace(k.Item2) && k.Item3 != null);
