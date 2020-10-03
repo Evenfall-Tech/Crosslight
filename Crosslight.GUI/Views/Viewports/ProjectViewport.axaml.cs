@@ -41,6 +41,12 @@ namespace Crosslight.GUI.Views.Viewports
                             vm.SetHostScreen(x);
                             return vm;
                         });
+                        OpenExplorer(x =>
+                        {
+                            var vm = Locator.Current.GetService<SourceInputVM>();
+                            vm.SetHostScreen(x);
+                            return vm;
+                        });
                     })
                     .DisposeWith(disposables);
             });

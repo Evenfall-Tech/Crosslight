@@ -20,6 +20,7 @@ namespace Crosslight.GUI.Views.Explorers
         {
             Locator.CurrentMutable.Register(() => new Languages(), typeof(IViewFor<LanguagesVM>));
             Locator.CurrentMutable.Register(() => new Properties(), typeof(IViewFor<PropertiesVM>));
+            Locator.CurrentMutable.Register(() => new SourceInput(), typeof(IViewFor<SourceInputVM>));
             this.WhenActivated(disposables =>
             {
                 this.OneWayBind(ViewModel, x => x.Title, x => x.Title.Text)
