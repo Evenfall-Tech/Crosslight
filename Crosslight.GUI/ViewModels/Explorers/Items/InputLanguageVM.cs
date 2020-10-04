@@ -52,6 +52,6 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
 
         protected override IObservable<bool> SelectCommandAvailable => this
             .WhenAnyValue(x => x.InputLanguage, x => x.Path, x => x.InputLanguage.Options)
-            .Select(k => true/*k.Item1 != null && !string.IsNullOrWhiteSpace(k.Item2) && k.Item3 != null*/);
+            .Select(k => k.Item1 != null && !string.IsNullOrWhiteSpace(k.Item2) && k.Item3 != null);
     }
 }

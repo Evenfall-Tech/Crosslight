@@ -15,8 +15,6 @@ namespace Crosslight.GUI.ViewModels.Explorers
 {
     public class LanguagesVM : ExplorerPanelVM, IActivatableViewModel
     {
-        public static LanguagesVM Instance { get; protected set; }
-
         protected SourceCache<LanguageVM, string> languageSource;
         protected ReadOnlyObservableCollection<InputLanguageVM> inputLanguages;
         protected InputLanguageVM selectedInputLanguage;
@@ -128,8 +126,6 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     .Subscribe()
                     .DisposeWith(disposables);
             });
-
-            if (Instance == null) Instance = this;
         }
     }
 }
