@@ -27,27 +27,14 @@ namespace Crosslight.GUI.Views.Viewports
                 this.WhenAnyValue(x => x.ViewModel)
                     .Where(x => x != null)
                     .DistinctUntilChanged()
-                    .Subscribe(y =>
+                    .Select(y =>
                     {
-                        OpenExplorer(x =>
-                        {
-                            var vm = Locator.Current.GetService<LanguagesVM>();
-                            vm.SetHostScreen(x);
-                            return vm;
-                        });
-                        OpenExplorer(x =>
-                        {
-                            var vm = Locator.Current.GetService<PropertiesVM>();
-                            vm.SetHostScreen(x);
-                            return vm;
-                        });
-                        OpenExplorer(x =>
-                        {
-                            var vm = Locator.Current.GetService<SourceInputVM>();
-                            vm.SetHostScreen(x);
-                            return vm;
-                        });
+                        OpenExplorer<LanguagesVM>();
+                        OpenExplorer<PropertiesVM>();
+                        OpenExplorer<SourceInputVM>();
+                        return true;
                     })
+                    .Subscribe()
                     .DisposeWith(disposables);
             });
             this.InitializeComponent();
@@ -58,11 +45,9 @@ namespace Crosslight.GUI.Views.Viewports
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void OpenExplorer(Func<IScreen, ExplorerPanelVM> explorer)
+        private void OpenExplorer<T>() where T : ExplorerPanelVM
         {
-            var container = new ExplorerContainerVM();
-            ViewModel.AddExplorer(container);
-            container.GoNext.Execute(explorer);
+            Locator.Current.GetService<ExplorerLocator>().Open<T>(true);
         }
     }
 }

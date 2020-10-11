@@ -1,6 +1,7 @@
 ﻿using Crosslight.GUI.ViewModels.Explorers;
 using DynamicData;
 using ReactiveUI;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,8 @@ namespace Crosslight.GUI.ViewModels.Viewports
         public ViewModelActivator Activator { get; }
         public ProjectViewportVM()
         {
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ExplorerLocator(this));
+
             containerSource = new SourceList<ExplorerContainerVM>();
 
             Activator = new ViewModelActivator();

@@ -35,7 +35,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         {
             SelectCommand = ReactiveCommand.Create(() =>
             {
-                var props = Locator.Current.GetService<PropertiesVM>();
+                var props = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>();
                 if (props != null)
                 {
                     props.SelectedInstance = Source;
@@ -43,13 +43,13 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             }, SelectCommandAvailable);
             RemoveCommand = ReactiveCommand.Create(() =>
             {
-                var props = Locator.Current.GetService<PropertiesVM>();
+                var props = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>();
                 if (props != null)
                 {
                     if (props.SelectedInstance == Source)
                         props.SelectedInstance = null;
                 }
-                var src = Locator.Current.GetService<SourceInputVM>();
+                var src = Locator.Current.GetService<ExplorerLocator>().Open<SourceInputVM>();
                 if (src != null)
                 {
                     src.RemoveSource.Execute(this).Subscribe();

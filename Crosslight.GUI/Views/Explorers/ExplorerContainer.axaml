@@ -10,12 +10,20 @@
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
 	<Border BorderBrush="Blue" BorderThickness="1">
 		<DockPanel LastChildFill="True">
-			<TextBlock Name="title"
-					   Background="Blue"
-					   Foreground="White"
-					   DockPanel.Dock="Top"
-					   Text="Explorer"
-				   />
+			<DockPanel DockPanel.Dock="Top"
+					   Background="Blue">
+				<Button Name="close"
+						Foreground="White"
+						Background="Transparent"
+						Padding="2,0"
+						DockPanel.Dock="Right">
+					<TextBlock Text="X" Foreground="White"/>
+				</Button>
+				<TextBlock Name="title"
+						   Foreground="White"
+						   Text="Explorer"
+						   DockPanel.Dock="Left"/>
+			</DockPanel>
 			<ContentControl HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch">
 				<rxui:RoutedViewHost Name="routedView">
