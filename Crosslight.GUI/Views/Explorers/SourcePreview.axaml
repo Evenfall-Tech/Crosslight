@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Crosslight.GUI.Views.Explorers.SourcePreview"
-			 MaxWidth="400" MaxHeight="400"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
-	<TextBox Name="sourceText"
-			 ScrollViewer.VerticalScrollBarVisibility="Visible"
-			 IsReadOnly="True"
-			 TextWrapping="Wrap"/>
+	<DockPanel LastChildFill="True">
+		<TextBox Name="sourceText"
+				 ScrollViewer.VerticalScrollBarVisibility="Visible"
+				 IsReadOnly="True"
+				 TextWrapping="Wrap"/>
+	</DockPanel>
 </UserControl>

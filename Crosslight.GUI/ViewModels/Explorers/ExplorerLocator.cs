@@ -71,6 +71,41 @@ namespace Crosslight.GUI.ViewModels.Explorers
             return null;
         }
 
+        public ExplorerPanelVM Open(Type explorerType, bool createNewExplorer = true)
+        {
+            ExplorerPanelVM result;
+            ExplorerContainerVM container = projectViewportVM.Containers.FirstOrDefault(x => explorerType.IsAssignableFrom(x.Top.GetType()));
+            result = container?.Top;
+            if (result != null) return result;
+            if (!createNewExplorer) return null;
+            if (factory.ContainsKey(explorerType))
+            {
+                var value = factory[explorerType];
+                if (value.singleton)
+                {
+                    if (!singletons.TryGetValue(explorerType, out ExplorerPanelVM panel))
+                    {
+                        panel = value.func();
+                        singletons[explorerType] = panel;
+                    }
+                    result = panel;
+                }
+                else
+                    result = value.func();
+                if (result == null) return null;
+
+                container = new ExplorerContainerVM();
+                projectViewportVM.AddExplorer(container);
+                container.GoNext.Execute(x =>
+                {
+                    result.SetHostScreen(x);
+                    return result;
+                });
+                return result;
+            }
+            return null;
+        }
+
         public void Close(ExplorerPanelVM panel)
         {
             var container = projectViewportVM.Containers.FirstOrDefault(x => x.Top == panel);

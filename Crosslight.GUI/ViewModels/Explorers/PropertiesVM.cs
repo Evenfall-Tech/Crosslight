@@ -8,6 +8,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
 {
     public class PropertiesVM : ExplorerPanelVM, IActivatableViewModel
     {
+        public new const string ConstTitle = "Properties";
         protected object selectedInstance;
         public object SelectedInstance
         {
@@ -15,7 +16,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             set => this.RaiseAndSetIfChanged(ref selectedInstance, value);
         }
 
-        public override string Title => "Properties";
+        public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "properties";
         public ViewModelActivator Activator { get; }
         public PropertiesVM() : this(null) { }

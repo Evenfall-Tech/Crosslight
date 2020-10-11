@@ -3,19 +3,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 Width="320"
              x:Class="Crosslight.GUI.Views.Explorers.SourceInput"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
-	<StackPanel Orientation="Vertical">
-		<WrapPanel Orientation="Horizontal">
+	<DockPanel LastChildFill="True">
+		<WrapPanel Orientation="Horizontal" DockPanel.Dock="Top">
 			<Button Content="From Files" Name="loadFileSrc"/>
 		</WrapPanel>
-		<Grid RowDefinitions="Auto,*">
-			<TextBlock Text="Files"/>
-			<ListBox HorizontalAlignment="Stretch"
-					 Grid.Row="1"
-					 Name="sourceList"
-					 SelectionMode="Multiple,Toggle">
-			</ListBox>
-		</Grid>
-	</StackPanel>
+		<TextBlock Text="Files" DockPanel.Dock="Top"/>
+		<ListBox HorizontalAlignment="Stretch"
+				 Grid.Row="1"
+				 Name="sourceList"
+				 SelectionMode="Multiple,Toggle">
+		</ListBox>
+	</DockPanel>
 </UserControl>

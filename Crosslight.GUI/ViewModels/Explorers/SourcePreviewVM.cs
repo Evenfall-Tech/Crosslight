@@ -14,6 +14,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
 {
     public class SourcePreviewVM : ExplorerPanelVM, IActivatableViewModel
     {
+        public new const string ConstTitle = "Source Preview";
         private string sourceText;
         private Source source;
 
@@ -29,7 +30,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         }
         public IObservable<string> VisibleSourceText { get; }
 
-        public override string Title => "Source Preview";
+        public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "source_preview";
         public ViewModelActivator Activator { get; }
         public SourcePreviewVM() : this(null) { }

@@ -15,6 +15,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
 {
     public class SourceInputVM : ExplorerPanelVM, IActivatableViewModel
     {
+        public new const string ConstTitle = "Source Input";
         protected SourceCache<SourceVM, string> sources;
         protected ReadOnlyObservableCollection<SourceVM> fileSources;
         protected IObservableCollection<SourceVM> selectedSourcesObservable;
@@ -24,7 +25,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ReactiveCommand<SourceVM, Unit> AddSource { get; }
         public ReactiveCommand<SourceVM, Unit> RemoveSource { get; }
 
-        public override string Title => "Source Input";
+        public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "source_input";
         public ViewModelActivator Activator { get; }
         public SourceInputVM() : this(null) { }

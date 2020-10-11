@@ -2,9 +2,11 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Crosslight.GUI.ViewModels;
 using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Viewports;
 using Crosslight.GUI.Views.Explorers;
+using DynamicData.Binding;
 using ReactiveUI;
 using Splat;
 using System;
@@ -16,11 +18,15 @@ namespace Crosslight.GUI.Views.Viewports
     public class ProjectViewport : ReactiveUserControl<ProjectViewportVM>
     {
         public ItemsControl ExplorerContainer => this.FindControl<ItemsControl>("explorerContainer");
+        public Menu ProjectMenu => this.FindControl<Menu>("projectMenu");
         public ProjectViewport()
         {
             Locator.CurrentMutable.Register(() => new ExplorerContainer(), typeof(IViewFor<ExplorerContainerVM>));
             this.WhenActivated(disposables =>
             {
+                this.OneWayBind(ViewModel, x => x.MenuItems, x => x.ProjectMenu.Items)
+                    .DisposeWith(disposables);
+
                 this.OneWayBind(ViewModel, x => x.Containers, x => x.ExplorerContainer.Items)
                     .DisposeWith(disposables);
 
@@ -29,6 +35,7 @@ namespace Crosslight.GUI.Views.Viewports
                     .DistinctUntilChanged()
                     .Select(y =>
                     {
+                        FillProjectMenu();
                         OpenExplorer<LanguagesVM>();
                         OpenExplorer<PropertiesVM>();
                         OpenExplorer<SourceInputVM>();
@@ -48,6 +55,51 @@ namespace Crosslight.GUI.Views.Viewports
         private void OpenExplorer<T>() where T : ExplorerPanelVM
         {
             Locator.Current.GetService<ExplorerLocator>().Open<T>(true);
+        }
+
+        private void FillProjectMenu()
+        {
+            var openView = ReactiveCommand.Create<Type>(t =>
+            {
+                Locator.Current.GetService<ExplorerLocator>().Open(t, true);
+            });
+            this.ViewModel.MenuItems.AddRange(new[]
+            {
+                    new MenuItemVM { Header = "_File" },
+                    new MenuItemVM { Header = "_Edit" },
+                    new MenuItemVM
+                    {
+                        Header = "_View",
+                        Items = new ObservableCollectionExtended<MenuItemVM>()
+                        {
+                            new MenuItemVM
+                            {
+                                Header = $"_{LanguagesVM.ConstTitle}",
+                                Command = openView,
+                                CommandParameter = typeof(LanguagesVM),
+                            },
+                            new MenuItemVM
+                            {
+                                Header = $"_{PropertiesVM.ConstTitle}",
+                                Command = openView,
+                                CommandParameter = typeof(PropertiesVM),
+                            },
+                            new MenuItemVM
+                            {
+                                Header = $"{SourceInputVM.ConstTitle}",
+                                Command = openView,
+                                CommandParameter = typeof(SourceInputVM),
+                            },
+                            new MenuItemVM
+                            {
+                                Header = $"{SourcePreviewVM.ConstTitle}",
+                                Command = openView,
+                                CommandParameter = typeof(SourcePreviewVM),
+                            },
+                        },
+                    },
+                    new MenuItemVM { Header = "_Run" },
+                });
         }
     }
 }

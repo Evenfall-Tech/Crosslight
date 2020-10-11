@@ -15,6 +15,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
 {
     public class LanguagesVM : ExplorerPanelVM, IActivatableViewModel
     {
+        public new const string ConstTitle = "Languages";
         protected SourceCache<LanguageVM, string> languageSource;
         protected ReadOnlyObservableCollection<InputLanguageVM> inputLanguages;
         protected InputLanguageVM selectedInputLanguage;
@@ -52,7 +53,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ReactiveCommand<string, Unit> AddLanguage { get; }
         public ReactiveCommand<LanguageVM, Unit> RemoveLanguage { get; }
 
-        public override string Title => "Languages";
+        public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "languages";
         public ViewModelActivator Activator { get; }
         public LanguagesVM() : this(null) { }

@@ -1,5 +1,6 @@
 ﻿using Crosslight.GUI.ViewModels.Explorers;
 using DynamicData;
+using DynamicData.Binding;
 using ReactiveUI;
 using Splat;
 using System;
@@ -14,7 +15,13 @@ namespace Crosslight.GUI.ViewModels.Viewports
     {
         protected SourceList<ExplorerContainerVM> containerSource;
         protected ReadOnlyObservableCollection<ExplorerContainerVM> containers;
+        protected ObservableCollectionExtended<MenuItemVM> menuItems;
         public ReadOnlyObservableCollection<ExplorerContainerVM> Containers => containers;
+        public ObservableCollectionExtended<MenuItemVM> MenuItems
+        {
+            get => menuItems;
+            set => this.RaiseAndSetIfChanged(ref menuItems, value);
+        }
 
         public ViewModelActivator Activator { get; }
         public ProjectViewportVM()
@@ -22,6 +29,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
             Locator.CurrentMutable.RegisterLazySingleton(() => new ExplorerLocator(this));
 
             containerSource = new SourceList<ExplorerContainerVM>();
+            menuItems = new ObservableCollectionExtended<MenuItemVM>();
 
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
