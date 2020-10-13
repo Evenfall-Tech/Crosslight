@@ -8,20 +8,15 @@ namespace Crosslight.API.IO
     {
         public abstract int Count { get; }
 
-        public static Source FromFile(string filename)
-        {
-            return new MultiFileSource().WithFilePath(filename);
-        }
-
-        public static Source FromStream(StreamReader stream)
-        {
-            return FromString(stream.ReadToEnd());
-        }
-
         public static Source FromDirectory(string path)
         {
             var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
             return FromFiles(files);
+        }
+
+        public static Source FromFile(string filename)
+        {
+            return new MultiFileSource().WithFilePath(filename);
         }
 
         public static Source FromFiles(params string[] filenames)
@@ -32,6 +27,11 @@ namespace Crosslight.API.IO
         public static Source FromFiles(IEnumerable<string> filenames)
         {
             return new MultiFileSource().WithFilePaths(filenames);
+        }
+
+        public static Source FromStream(StreamReader stream)
+        {
+            return FromString(stream.ReadToEnd());
         }
 
         public static Source FromString(string source)
@@ -47,6 +47,21 @@ namespace Crosslight.API.IO
         public static Source FromStrings(IEnumerable<string> sources)
         {
             return new MultiStringSource().WithStrings(sources);
+        }
+
+        public static Source FromSource(Source src)
+        {
+            return new CompositeSource().WithSource(src);
+        }
+
+        public static Source FromSources(params Source[] srcs)
+        {
+            return new CompositeSource().WithSources(srcs);
+        }
+
+        public static Source FromSources(IEnumerable<Source> srcs)
+        {
+            return new CompositeSource().WithSources(srcs);
         }
     }
 }
