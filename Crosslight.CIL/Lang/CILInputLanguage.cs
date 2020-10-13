@@ -19,6 +19,9 @@ namespace Crosslight.CIL.Lang
         public override string Name => "CIL";
 
         private CILVisitOptions options;
+        private List<TransformNodes> transforms;
+        // TODO: consider adding transforms on the API level.
+        private delegate void TransformNodes(List<Node> nodes);
         public override LanguageConfig Config { get; protected set; }
         public override ILanguageOptions Options
         {
@@ -36,39 +39,96 @@ namespace Crosslight.CIL.Lang
         public CILInputLanguage()
         {
             options = new CILVisitOptions();
+            transforms = new List<TransformNodes>()
+            {
+                OptionMergeProjectsWithSameName
+            };
         }
 
         public override Node Decode(Source source)
         {
-            if (!(source is MultiFileSource fileSource))
-            {
-                // TODO: add logging messages all around
-                // TODO: add loading from string data if possible
-                throw new ArgumentException($"No input found in source.");
-            }
-
-            // TODO: allow multiple files.
-            if (fileSource.Count == 0)
-            {
-                throw new ArgumentException($"No input found in source.");
-            }
             List<Node> nodes = new List<Node>();
-            foreach (string filePath in fileSource.Files)
+            ParseSource(source, nodes);
+            // Apply transforms.
+            foreach (var transform in transforms)
             {
-                CSharpDecompiler decompiler = GetDecompiler(filePath);
-                SyntaxTree tree = decompiler.DecompileWholeModuleAsSingleFile();
-
-                // TODO: add option loading
-                // TODO: parse decompiler.TypeSystem.ReferencedModules for referenced modules.
-                nodes.Add(tree.AcceptVisitor(new CILAstVisitor(
-                    new CILVisitOptions(options)
-                    {
-                        ModuleName = filePath,
-                        ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,
-                    }
-                )));
+                transform(nodes);
             }
-            // TODO: split option-based logic into different methods.
+            // Combine nodes under a root node parent.
+            if (nodes.Count > 1)
+            {
+                RootNode rootNode = new RootNode();
+                foreach (var n in nodes) rootNode.Children.Add(n);
+                return rootNode;
+            }
+            else return nodes.First();
+        }
+
+        private Node ParseSource(Source source, List<Node> sink)
+        {
+            if (source is CompositeSource composite)
+            {
+                if (composite.Count > 0)
+                {
+                    return composite.Sources.Select(x => ParseSource(x, sink)).LastOrDefault();
+                }
+            }
+            else if (source is MultiStringSource strings)
+            {
+                if (strings.Count > 0)
+                {
+                    return ParseStrings(strings.Strings, sink);
+                }
+            }
+            else if (source is MultiFileSource files)
+            {
+                if (files.Count > 0)
+                {
+                    return ParseFiles(files.Files, sink);
+                }
+            }
+            else throw new ArgumentException($"{source.GetType().Name} is not supported in {Name}.");
+            return null;
+        }
+
+        private Node ParseStrings(IEnumerable<string> strings, List<Node> sink)
+        {
+            var res = strings.Select(s => ParseString(s));
+            sink.AddRange(res);
+            return res.FirstOrDefault();
+        }
+
+        private Node ParseString(string str)
+        {
+            throw new NotImplementedException($"String sources are not supported in {Name}.");
+        }
+
+        private Node ParseFiles(IEnumerable<string> paths, List<Node> sink)
+        {
+            var res = paths.Select(s => ParseFile(s));
+            sink.AddRange(res);
+            return res.FirstOrDefault();
+        }
+
+        private Node ParseFile(string path)
+        {
+            CSharpDecompiler decompiler = GetDecompiler(path);
+            SyntaxTree tree = decompiler.DecompileWholeModuleAsSingleFile();
+
+            // TODO: add option loading
+            // TODO: parse decompiler.TypeSystem.ReferencedModules for referenced modules.
+            return tree.AcceptVisitor(new CILAstVisitor(
+                new CILVisitOptions(options)
+                {
+                    ModuleName = path,
+                    ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,
+                }
+            ));
+        }
+
+        #region Option Methods
+        private void OptionMergeProjectsWithSameName(List<Node> nodes)
+        {
             if (options.MergeProjectsWithSameName)
             {
                 var uniqueProjects = nodes.OfType<ProjectNode>().GroupBy(e => e.Name);
@@ -93,14 +153,10 @@ namespace Crosslight.CIL.Lang
                 }
                 foreach (var node in toRemove) nodes.Remove(node);
             }
-            if (nodes.Count > 1)
-            {
-                RootNode rootNode = new RootNode();
-                foreach (var n in nodes) rootNode.Children.Add(n);
-                return rootNode;
-            }
-            else return nodes.First();
         }
+        #endregion
+
+        #region Decompiler
         // From ICSharpCode.Decompiler.Console
         CSharpDecompiler GetDecompiler(string assemblyFileName)
         {
@@ -122,5 +178,6 @@ namespace Crosslight.CIL.Lang
                 RemoveDeadStores = false
             };
         }
+        #endregion
     }
 }
