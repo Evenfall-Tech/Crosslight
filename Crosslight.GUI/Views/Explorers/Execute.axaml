@@ -3,18 +3,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			 Width="220"
-             x:Class="Crosslight.GUI.Views.Explorers.SourceInput"
+             x:Class="Crosslight.GUI.Views.Explorers.Execute"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
-	<DockPanel LastChildFill="True">
-		<WrapPanel Orientation="Horizontal" DockPanel.Dock="Top">
-			<Button Content="From Files" Name="loadFileSrc"/>
-		</WrapPanel>
-		<TextBlock Text="Files" DockPanel.Dock="Top"/>
-		<ListBox HorizontalAlignment="Stretch"
-				 Grid.Row="1"
-				 Name="sourceList"
-				 SelectionMode="Multiple,Toggle">
-		</ListBox>
-	</DockPanel>
+	<StackPanel HorizontalAlignment="Center"
+				Spacing="5"
+				Margin="5"
+				MinWidth="150">
+		<Button Content="Decode" Name="decode"/>
+		<Button Content="Encode" Name="encode"/>
+	</StackPanel>
 </UserControl>

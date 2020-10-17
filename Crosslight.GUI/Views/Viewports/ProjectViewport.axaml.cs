@@ -39,6 +39,7 @@ namespace Crosslight.GUI.Views.Viewports
                         OpenExplorer<LanguagesVM>();
                         OpenExplorer<PropertiesVM>();
                         OpenExplorer<SourceInputVM>();
+                        OpenExplorer<ExecuteVM>();
                         return true;
                     })
                     .Subscribe()
@@ -54,7 +55,7 @@ namespace Crosslight.GUI.Views.Viewports
 
         private void OpenExplorer<T>() where T : ExplorerPanelVM
         {
-            Locator.Current.GetService<ExplorerLocator>().Open<T>(true);
+            Locator.Current.GetService<ExplorerLocator>().Open<T>(openExisting: true, createNewExplorer: true);
         }
 
         private void FillProjectMenu()
@@ -89,6 +90,12 @@ namespace Crosslight.GUI.Views.Viewports
                                 Header = $"{SourceInputVM.ConstTitle}",
                                 Command = openView,
                                 CommandParameter = typeof(SourceInputVM),
+                            },
+                            new MenuItemVM
+                            {
+                                Header = $"{ExecuteVM.ConstTitle}",
+                                Command = openView,
+                                CommandParameter = typeof(ExecuteVM),
                             },
                             new MenuItemVM
                             {

@@ -18,7 +18,9 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 { typeof(LanguagesVM), (() => new LanguagesVM(), true) },
                 { typeof(PropertiesVM), (() => new PropertiesVM(), true) },
                 { typeof(SourceInputVM), (() => new SourceInputVM(), true) },
+                { typeof(ExecuteVM), (() => new ExecuteVM(), true) },
                 { typeof(SourcePreviewVM), (() => new SourcePreviewVM(), false) },
+                { typeof(ResultsVM), (() => new ResultsVM(), false) },
             };
             singletons = new Dictionary<Type, ExplorerPanelVM>();
         }
@@ -35,48 +37,22 @@ namespace Crosslight.GUI.ViewModels.Explorers
             return this;
         }
 
-        public T Open<T>(bool createNewExplorer = true) where T : ExplorerPanelVM
+        public T Open<T>(bool openExisting = true, bool createNewExplorer = true) where T : ExplorerPanelVM
         {
             Type openType = typeof(T);
-            T result;
-            ExplorerContainerVM container = projectViewportVM.Containers.FirstOrDefault(x => x.Top is T);
-            result = container?.Top as T;
-            if (result != null) return result;
-            if (!createNewExplorer) return null;
-            if (factory.ContainsKey(openType))
-            {
-                var value = factory[openType];
-                if (value.singleton)
-                {
-                    if (!singletons.TryGetValue(openType, out ExplorerPanelVM panel))
-                    {
-                        panel = value.func();
-                        singletons[openType] = panel;
-                    }
-                    result = panel as T;
-                }
-                else
-                    result = value.func() as T;
-                if (result == null) return null;
-
-                container = new ExplorerContainerVM();
-                projectViewportVM.AddExplorer(container);
-                container.GoNext.Execute(x =>
-                {
-                    result.SetHostScreen(x);
-                    return result;
-                });
-                return result;
-            }
-            return null;
+            return (T)Open(openType, openExisting, createNewExplorer);
         }
 
-        public ExplorerPanelVM Open(Type explorerType, bool createNewExplorer = true)
+        public ExplorerPanelVM Open(Type explorerType, bool openExisting = true, bool createNewExplorer = true)
         {
             ExplorerPanelVM result;
-            ExplorerContainerVM container = projectViewportVM.Containers.FirstOrDefault(x => explorerType.IsAssignableFrom(x.Top.GetType()));
-            result = container?.Top;
-            if (result != null) return result;
+            ExplorerContainerVM container;
+            if (openExisting)
+            {
+                container = projectViewportVM.Containers.FirstOrDefault(x => explorerType.IsAssignableFrom(x.Top.GetType()));
+                result = container?.Top;
+                if (result != null) return result;
+            }
             if (!createNewExplorer) return null;
             if (factory.ContainsKey(explorerType))
             {

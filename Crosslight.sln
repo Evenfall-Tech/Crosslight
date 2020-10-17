@@ -19,9 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Common", "Crossl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CLI", "Crosslight.CLI\Crosslight.CLI.csproj", "{1C5CE012-94ED-435C-B1DC-22422C45ABC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosslight.CSharp", "Crosslight.CSharp\Crosslight.CSharp.csproj", "{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CSharp", "Crosslight.CSharp\Crosslight.CSharp.csproj", "{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosslight.GUI", "Crosslight.GUI\Crosslight.GUI.csproj", "{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.GUI", "Crosslight.GUI\Crosslight.GUI.csproj", "{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5} = {1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
