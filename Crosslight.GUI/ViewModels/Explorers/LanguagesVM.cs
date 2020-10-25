@@ -32,8 +32,9 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 if (value != null && value != selectedInputLanguage)
                 {
                     this.RaiseAndSetIfChanged(ref selectedInputLanguage, value);
-                    Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>().SelectedInstance
-                        = selectedInputLanguage.InputLanguage.Options;
+                    PropertiesVM properties = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
+                    if (properties != null)
+                        properties.SelectedInstance = selectedInputLanguage.InputLanguage.Options;
                 }
             }
         }
@@ -45,8 +46,9 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 if (value != null && value != selectedOutputLanguage)
                 {
                     this.RaiseAndSetIfChanged(ref selectedOutputLanguage, value);
-                    Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>().SelectedInstance
-                        = selectedOutputLanguage.OutputLanguage.Options;
+                    PropertiesVM properties = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
+                    if (properties != null)
+                        properties.SelectedInstance = selectedOutputLanguage.OutputLanguage.Options;
                 }
             }
         }

@@ -16,7 +16,8 @@
 				</Style>
 			</Menu.Styles>
 		</Menu>
-		<ItemsControl Name="explorerContainer">
+		<ItemsControl Name="explorerContainer"
+					  ScrollViewer.VerticalScrollBarVisibility="Visible">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<WrapPanel/>

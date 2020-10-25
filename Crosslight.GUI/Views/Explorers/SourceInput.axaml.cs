@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Crosslight.GUI.Util;
 using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using Crosslight.GUI.Views.Explorers.Items;
@@ -22,8 +23,7 @@ namespace Crosslight.GUI.Views.Explorers
 {
     public class SourceInput : ReactiveUserControl<SourceInputVM>
     {
-        private ObservableCollection<SourceVM> selectedItems;
-        public ObservableCollection<SourceVM> SelectedItems => selectedItems;
+        public ObservableCollection<SourceVM> SelectedItems { get; }
 
         public ReactiveCommand<Unit, Unit> LoadSourceFile { get; set; }
         public Button LoadSourceFileButton => this.FindControl<Button>("loadFileSrc");
@@ -32,7 +32,7 @@ namespace Crosslight.GUI.Views.Explorers
         {
             Locator.CurrentMutable.Register(() => new SourceItem(), typeof(IViewFor<SourceVM>));
 
-            selectedItems = new ObservableCollection<SourceVM>();
+            SelectedItems = new ObservableCollection<SourceVM>();
             LoadSourceFile = ReactiveCommand.CreateFromTask(async () =>
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog
@@ -72,7 +72,8 @@ namespace Crosslight.GUI.Views.Explorers
                     .WhenAnyValue(x => x.SelectedItem)
                     .Where(x => x is SourceVM)
                     .Select(x => x as SourceVM)
-                    .Subscribe(x => x.SelectCommand.Execute().Subscribe())
+                    .Select(async x => await x.SelectCommand.ExecuteIfPossible())
+                    .Subscribe()
                     .DisposeWith(disp);
                 this.WhenAnyValue(x => x.InputFiles.SelectedItems)
                     .Subscribe(x => Console.WriteLine(x))

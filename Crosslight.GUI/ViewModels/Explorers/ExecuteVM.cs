@@ -16,7 +16,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
     {
         public new const string ConstTitle = "Execute";
 
-        public ReactiveCommand<Unit, object> Decode { get; }
+        public ReactiveCommand<Unit, Node> Decode { get; }
 
         public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "execute";
@@ -24,7 +24,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ExecuteVM() : this(null) { }
         public ExecuteVM(IScreen screen) : base(screen)
         {
-            Decode = ReactiveCommand.Create<object>(() =>
+            Decode = ReactiveCommand.Create(() =>
             {
                 InputLanguage language = 
                     Locator.Current
@@ -41,7 +41,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     .Select(s => s.Source));
 
                 Node nodeRoot = language.Decode(src);
-                return (object)nodeRoot;
+                return nodeRoot;
             });
 
             Activator = new ViewModelActivator();

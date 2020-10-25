@@ -19,7 +19,4 @@
       <DependentUpon>ExplorerContainer.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Util\" />
-  </ItemGroup>
 </Project>

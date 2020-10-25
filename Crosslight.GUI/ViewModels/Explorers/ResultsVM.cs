@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Disposables;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ResultsVM() : this(null) { }
         public ResultsVM(IScreen screen) : base(screen)
         {
-            id = new Guid().ToString().Remove(4);
+            id = Guid.NewGuid().ToString("N").ToUpper().Substring(0, 5);
             UrlPathSegment = $"execute_{id}";
 
             Activator = new ViewModelActivator();

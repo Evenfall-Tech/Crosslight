@@ -25,6 +25,7 @@ namespace Crosslight.GUI.Views.Explorers
             Locator.CurrentMutable.Register(() => new SourcePreview(), typeof(IViewFor<SourcePreviewVM>));
             Locator.CurrentMutable.Register(() => new Execute(), typeof(IViewFor<ExecuteVM>));
             Locator.CurrentMutable.Register(() => new Results(), typeof(IViewFor<ResultsVM>));
+            Locator.CurrentMutable.Register(() => new ResultList(), typeof(IViewFor<ResultListVM>));
             this.WhenActivated(disposables =>
             {
                 this.OneWayBind(ViewModel, x => x.Title, x => x.Title.Text)

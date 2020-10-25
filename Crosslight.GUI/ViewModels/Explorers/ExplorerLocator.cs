@@ -19,6 +19,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 { typeof(PropertiesVM), (() => new PropertiesVM(), true) },
                 { typeof(SourceInputVM), (() => new SourceInputVM(), true) },
                 { typeof(ExecuteVM), (() => new ExecuteVM(), true) },
+                { typeof(ResultListVM), (() => new ResultListVM(), true) },
                 { typeof(SourcePreviewVM), (() => new SourcePreviewVM(), false) },
                 { typeof(ResultsVM), (() => new ResultsVM(), false) },
             };
@@ -56,18 +57,18 @@ namespace Crosslight.GUI.ViewModels.Explorers
             if (!createNewExplorer) return null;
             if (factory.ContainsKey(explorerType))
             {
-                var value = factory[explorerType];
-                if (value.singleton)
+                var (func, singleton) = factory[explorerType];
+                if (singleton)
                 {
                     if (!singletons.TryGetValue(explorerType, out ExplorerPanelVM panel))
                     {
-                        panel = value.func();
+                        panel = func();
                         singletons[explorerType] = panel;
                     }
                     result = panel;
                 }
                 else
-                    result = value.func();
+                    result = func();
                 if (result == null) return null;
 
                 container = new ExplorerContainerVM();

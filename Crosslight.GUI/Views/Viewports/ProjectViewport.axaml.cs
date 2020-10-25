@@ -99,6 +99,12 @@ namespace Crosslight.GUI.Views.Viewports
                             },
                             new MenuItemVM
                             {
+                                Header = $"{ResultListVM.ConstTitle}",
+                                Command = openView,
+                                CommandParameter = typeof(ResultListVM),
+                            },
+                            new MenuItemVM
+                            {
                                 Header = $"{SourcePreviewVM.ConstTitle}",
                                 Command = openView,
                                 CommandParameter = typeof(SourcePreviewVM),

@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.GUI.ViewModels.Explorers;
+using Crosslight.GUI.ViewModels.Explorers.Items;
 using ReactiveUI;
 using Splat;
 using System;
@@ -41,6 +42,15 @@ namespace Crosslight.GUI.Views.Explorers
         private async Task ExecuteDecode()
         {
             var node = await ViewModel.Decode.Execute();
+            var resultList = Locator.Current.GetService<ExplorerLocator>().Open<ResultListVM>(openExisting: true);
+            if (resultList != null)
+                await resultList.AddResultVM.Execute(new ResultItemVM()
+                {
+                    Name = node.ToString(),
+                    Origin = ResultItemOrigin.Intermediate,
+                    Result = node,
+                });
+
             var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(openExisting: false);
             if (resultPanel != null)
                 resultPanel.Result = node;

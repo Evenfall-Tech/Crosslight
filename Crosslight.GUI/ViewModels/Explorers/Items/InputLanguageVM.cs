@@ -21,7 +21,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
 
         public override ReactiveCommand<Unit, Unit> SelectCommand => ReactiveCommand.Create(() =>
         {
-            var props = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>();
+            var props = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
             if (props != null)
             {
                 props.SelectedInstance = InputLanguage.Options;
@@ -36,7 +36,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
 
         public override ReactiveCommand<Unit, Unit> RemoveCommand => ReactiveCommand.Create(() =>
         {
-            var props = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>();
+            var props = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
             if (props != null)
             {
                 if (props.SelectedInstance == InputLanguage.Options)

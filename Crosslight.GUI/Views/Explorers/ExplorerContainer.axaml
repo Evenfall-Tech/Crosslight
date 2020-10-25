@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
              x:Class="Crosslight.GUI.Views.Explorers.ExplorerContainer"
 			 MinWidth="150" MinHeight="200"
-			 MaxWidth="300" MaxHeight="400"
+			 MaxWidth="400" MaxHeight="400"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
 	<Border BorderBrush="Blue" BorderThickness="1">
 		<DockPanel LastChildFill="True">
