@@ -27,6 +27,10 @@ namespace Crosslight.GUI.Views.Explorers
             {
                 this.OneWayBind(ViewModel, x => x.IntermediateResults, x => x.ResultListInter.Items)
                     .DisposeWith(disp);
+                this.OneWayBind(ViewModel, x => x.InputResults, x => x.ResultListInput.Items)
+                    .DisposeWith(disp);
+                this.OneWayBind(ViewModel, x => x.OutputResults, x => x.ResultListOutput.Items)
+                    .DisposeWith(disp);
                 Observable
                     .FromEventPattern<EventHandler<SelectionChangedEventArgs>, SelectionChangedEventArgs>
                         (h => ResultListInter.SelectionChanged += h, h => ResultListInter.SelectionChanged -= h)

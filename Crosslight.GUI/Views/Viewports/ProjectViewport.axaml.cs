@@ -62,7 +62,7 @@ namespace Crosslight.GUI.Views.Viewports
         {
             var openView = ReactiveCommand.Create<Type>(t =>
             {
-                Locator.Current.GetService<ExplorerLocator>().Open(t, true);
+                Locator.Current.GetService<ExplorerLocator>().Open(t, openExisting: true);
             });
             this.ViewModel.MenuItems.AddRange(new[]
             {

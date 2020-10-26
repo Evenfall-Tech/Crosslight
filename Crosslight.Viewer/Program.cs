@@ -40,8 +40,8 @@ namespace Crosslight.Viewer
             => ConfigureDefault()
                 .With(new ApplicationOptions()
                 {
-                    Options = null,
-                    RootNode = null,
+                    Options = options.Options,
+                    RootNode = options.RootNode,
                 });
 
     }

@@ -28,11 +28,21 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         }
         public virtual IObservable<bool> SelectCommandAvailable { get; }
         public ReactiveCommand<Unit, Unit> SelectCommand { get; }
+        public ReactiveCommand<Unit, Unit> OpenCommand { get; }
         public ReactiveCommand<Unit, Unit> RemoveCommand { get; }
 
         public ViewModelActivator Activator { get; }
         public SourceVM()
         {
+            OpenCommand = ReactiveCommand.Create(() =>
+            {
+                string id = SourcePreviewVM.GenerateID(Source);
+                var sourcePanel = Locator.Current.GetService<ExplorerLocator>().Open<SourcePreviewVM>(id: id, openExisting: true);
+                if (sourcePanel != null)
+                {
+                    sourcePanel.Source = Source;
+                }
+            }, SelectCommandAvailable);
             SelectCommand = ReactiveCommand.Create(() =>
             {
                 var props = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
@@ -43,17 +53,23 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             }, SelectCommandAvailable);
             RemoveCommand = ReactiveCommand.Create(() =>
             {
-                var props = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
+                var locator = Locator.Current.GetService<ExplorerLocator>();
+                var props = locator.Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
                 if (props != null)
                 {
                     if (props.SelectedInstance == Source)
                         props.SelectedInstance = null;
                 }
-                var src = Locator.Current.GetService<ExplorerLocator>().Open<SourceInputVM>();
+                var src = locator.Open<SourceInputVM>();
                 if (src != null)
                 {
                     src.RemoveSource.Execute(this).Subscribe();
                 }
+                locator.Close((ExplorerPanelVM p) =>
+                {
+                    if (p is SourcePreviewVM prev) return prev.Source == Source;
+                    return false;
+                });
             }, SelectCommandAvailable);
             SelectCommandAvailable = this
                 .WhenAnyValue(x => x.Source)

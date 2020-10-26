@@ -17,6 +17,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public new const string ConstTitle = "Execute";
 
         public ReactiveCommand<Unit, Node> Decode { get; }
+        public ReactiveCommand<Unit, object> Encode { get; }
 
         public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "execute";
@@ -26,22 +27,42 @@ namespace Crosslight.GUI.ViewModels.Explorers
         {
             Decode = ReactiveCommand.Create(() =>
             {
-                InputLanguage language = 
+                var locator =
                     Locator.Current
-                    .GetService<ExplorerLocator>()
+                    .GetService<ExplorerLocator>();
+                InputLanguage language =
+                    locator
                     .Open<LanguagesVM>()?
                     .SelectedInputLanguage?
                     .InputLanguage;
-                
+
                 Source src = Source.FromSources(
-                    Locator.Current
-                    .GetService<ExplorerLocator>()
+                    locator
                     .Open<SourceInputVM>()?
                     .SelectedSources?
                     .Select(s => s.Source));
 
                 Node nodeRoot = language.Decode(src);
                 return nodeRoot;
+            });
+            Encode = ReactiveCommand.Create<object>(() =>
+            {
+                var locator =
+                    Locator.Current
+                    .GetService<ExplorerLocator>();
+                OutputLanguage language =
+                    locator
+                    .Open<LanguagesVM>()?
+                    .SelectedOutputLanguage?
+                    .OutputLanguage;
+
+                Node src = 
+                    locator.Open<ResultListVM>()
+                    .SelectedIntermediateResults
+                    .FirstOrDefault(x => x.Result is Node)
+                    .Result as Node;
+
+                return language.Encode(src);
             });
 
             Activator = new ViewModelActivator();

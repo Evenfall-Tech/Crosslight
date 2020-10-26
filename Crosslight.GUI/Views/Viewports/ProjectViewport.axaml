@@ -16,13 +16,15 @@
 				</Style>
 			</Menu.Styles>
 		</Menu>
-		<ItemsControl Name="explorerContainer"
-					  ScrollViewer.VerticalScrollBarVisibility="Visible">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel/>
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-		</ItemsControl>
+		<ScrollViewer VerticalScrollBarVisibility="Visible"
+					  HorizontalScrollBarVisibility="Disabled">
+			<ItemsControl Name="explorerContainer">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel Orientation="Horizontal"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+			</ItemsControl>
+		</ScrollViewer>
 	</DockPanel>
 </UserControl>

@@ -17,9 +17,13 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public new const string ConstTitle = "Result List";
         protected SourceCache<ResultItemVM, string> results;
         protected ReadOnlyObservableCollection<ResultItemVM> intermediateResults;
+        protected ReadOnlyObservableCollection<ResultItemVM> inputResults;
+        protected ReadOnlyObservableCollection<ResultItemVM> outputResults;
         protected IObservableCollection<ResultItemVM> selectedIntermediateResultsObservable;
 
         public ReadOnlyObservableCollection<ResultItemVM> IntermediateResults => intermediateResults;
+        public ReadOnlyObservableCollection<ResultItemVM> InputResults => inputResults;
+        public ReadOnlyObservableCollection<ResultItemVM> OutputResults => outputResults;
         public IObservableCollection<ResultItemVM> SelectedIntermediateResults => selectedIntermediateResultsObservable;
         public ReactiveCommand<ResultItemVM, Unit> AddResultVM { get; }
         public ReactiveCommand<ResultItemVM, Unit> RemoveResultVM { get; }
@@ -35,11 +39,13 @@ namespace Crosslight.GUI.ViewModels.Explorers
 
             AddResultVM = ReactiveCommand.Create((ResultItemVM item) =>
             {
-                results.AddOrUpdate(item);
+                if (item != null)
+                    results.AddOrUpdate(item);
             }, Observable.Return(true));
             RemoveResultVM = ReactiveCommand.Create((ResultItemVM item) =>
             {
-                results.Remove(item);
+                if (item != null)
+                    results.Remove(item);
             }, Observable.Return(true));
 
             Activator = new ViewModelActivator();
@@ -49,6 +55,18 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     .Connect()
                     .Filter(x => x.Origin == ResultItemOrigin.Intermediate)
                     .Bind(out intermediateResults)
+                    .Subscribe()
+                    .DisposeWith(disposables);
+                results
+                    .Connect()
+                    .Filter(x => x.Origin == ResultItemOrigin.Input)
+                    .Bind(out inputResults)
+                    .Subscribe()
+                    .DisposeWith(disposables);
+                results
+                    .Connect()
+                    .Filter(x => x.Origin == ResultItemOrigin.Output)
+                    .Bind(out outputResults)
                     .Subscribe()
                     .DisposeWith(disposables);
             });

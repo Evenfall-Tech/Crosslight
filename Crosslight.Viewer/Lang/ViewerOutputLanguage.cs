@@ -1,6 +1,8 @@
 ﻿using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.Viewer.Nodes.Visitors;
+using Crosslight.Viewer.ViewModels.Graph;
+using Crosslight.Viewer.Views.Graph;
 using System;
 
 namespace Crosslight.Viewer.Lang
@@ -31,8 +33,19 @@ namespace Crosslight.Viewer.Lang
 
         public override object Encode(Node rootNode)
         {
-            ViewerOptions visitOptions = new ViewerOptions();
-            throw new NotImplementedException();
+            if (options.LaunchApplication) return Program.LaunchApplication(
+                new Avalonia.ApplicationOptions()
+                {
+                    Options = options,
+                    RootNode = rootNode,
+                });
+            return new GraphViewer()
+            {
+                ViewModel = new GraphViewerViewModel()
+                {
+                    RootNode = rootNode,
+                }
+            };
         }
     }
 }

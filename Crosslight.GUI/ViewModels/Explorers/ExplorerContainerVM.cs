@@ -10,11 +10,17 @@ namespace Crosslight.GUI.ViewModels.Explorers
     public class ExplorerContainerVM : ReactiveObject, IActivatableViewModel, IScreen
     {
         protected string title;
+        protected string id;
         private ExplorerPanelVM top;
         public string Title
         {
             get => title;
             set => this.RaiseAndSetIfChanged(ref title, value);
+        }
+        public string ID
+        {
+            get => id;
+            set => this.RaiseAndSetIfChanged(ref id, value);
         }
         public ExplorerPanelVM Top
         {
@@ -33,15 +39,15 @@ namespace Crosslight.GUI.ViewModels.Explorers
             GoNext = ReactiveCommand.CreateFromObservable(
                 (Func<IScreen, ExplorerPanelVM> x) =>
                 {
-                    Top = x(this);
-                    return Router.Navigate.Execute(Top);
+                    //Top = x(this);
+                    return Router.Navigate.Execute(x(this));
                 }
             );
             GoBack = ReactiveCommand.CreateFromObservable(
                 () =>
                 {
-                    if (Router.NavigationStack.Count > 1)
-                        Top = Router.NavigationStack[Router.NavigationStack.Count - 2] as ExplorerPanelVM;
+                    //if (Router.NavigationStack.Count > 1)
+                    //    Top = Router.NavigationStack[Router.NavigationStack.Count - 2] as ExplorerPanelVM;
                     return Router.NavigateBack;
                 }
             );
@@ -55,7 +61,38 @@ namespace Crosslight.GUI.ViewModels.Explorers
             {
                 Router.CurrentViewModel
                     .Where(x => x is ExplorerPanelVM)
-                    .Subscribe(x => Title = (x as ExplorerPanelVM).Title)
+                    .DistinctUntilChanged()
+                    .Select(x =>
+                    {
+                        return Top = x as ExplorerPanelVM;
+                    })
+                    .Subscribe()
+                    .DisposeWith(disposables);
+                this.WhenAnyValue(x => x.Top)
+                    .DistinctUntilChanged()
+                    .Select(x =>
+                    {
+                        Title = x.Title;
+                        ID = x.ID;
+                        return Unit.Default;
+                    })
+                    .Subscribe()
+                    .DisposeWith(disposables);
+                this.WhenAnyValue(x => x.Top.ID)
+                    .DistinctUntilChanged()
+                    .Select(x =>
+                    {
+                        return ID = x;
+                    })
+                    .Subscribe()
+                    .DisposeWith(disposables);
+                this.WhenAnyValue(x => x.Top.Title)
+                    .DistinctUntilChanged()
+                    .Select(x =>
+                    {
+                        return Title = x;
+                    })
+                    .Subscribe()
                     .DisposeWith(disposables);
             });
         }

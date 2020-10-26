@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Crosslight.GUI.Util;
 using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using ReactiveUI;
@@ -26,15 +27,7 @@ namespace Crosslight.GUI.Views.Explorers.Items
                     .DisposeWith(disp);
                 Observable.FromEventPattern<EventHandler<RoutedEventArgs>, RoutedEventArgs>
                     (d => this.DoubleTapped += d, d => this.DoubleTapped -= d)
-                    .Select(x =>
-                    {
-                        var preview = Locator.Current.GetService<ExplorerLocator>().Open<SourcePreviewVM>();
-                        if (preview != null)
-                        {
-                            return preview.Source = ViewModel.Source;
-                        }
-                        return ViewModel.Source;
-                    })
+                    .Select(async x => await ViewModel.OpenCommand.ExecuteIfPossible())
                     .Subscribe()
                     .DisposeWith(disp);
                 this.WhenAnyValue(x => x.ViewModel.RemoveCommand)

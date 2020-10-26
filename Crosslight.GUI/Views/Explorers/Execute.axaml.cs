@@ -50,15 +50,31 @@ namespace Crosslight.GUI.Views.Explorers
                     Origin = ResultItemOrigin.Intermediate,
                     Result = node,
                 });
-
-            var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(openExisting: false);
+            string id = ResultsVM.GenerateID(node);
+            var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(id: id, openExisting: true);
             if (resultPanel != null)
+            {
                 resultPanel.Result = node;
+            }
         }
 
         private async Task ExecuteEncode()
         {
-
+            var result = await ViewModel.Encode.Execute();
+            string id = ResultsVM.GenerateID(result);
+            var resultList = Locator.Current.GetService<ExplorerLocator>().Open<ResultListVM>(openExisting: true);
+            if (resultList != null)
+                await resultList.AddResultVM.Execute(new ResultItemVM()
+                {
+                    Name = $"Result {id}",
+                    Origin = ResultItemOrigin.Output,
+                    Result = result,
+                });
+            var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(id: id, openExisting: true);
+            if (resultPanel != null)
+            {
+                resultPanel.Result = result;
+            }
         }
     }
 }

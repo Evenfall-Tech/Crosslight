@@ -38,19 +38,23 @@ namespace Crosslight.GUI.ViewModels.Explorers
             return this;
         }
 
-        public T Open<T>(bool openExisting = true, bool createNewExplorer = true) where T : ExplorerPanelVM
+        public T Open<T>(string id = null, bool openExisting = true, bool createNewExplorer = true) where T : ExplorerPanelVM
         {
             Type openType = typeof(T);
-            return (T)Open(openType, openExisting, createNewExplorer);
+            return (T)Open(openType, id, openExisting, createNewExplorer);
         }
 
-        public ExplorerPanelVM Open(Type explorerType, bool openExisting = true, bool createNewExplorer = true)
+        public ExplorerPanelVM Open(Type explorerType, string id = null, bool openExisting = true, bool createNewExplorer = true)
         {
             ExplorerPanelVM result;
             ExplorerContainerVM container;
             if (openExisting)
             {
-                container = projectViewportVM.Containers.FirstOrDefault(x => explorerType.IsAssignableFrom(x.Top.GetType()));
+                container = projectViewportVM.Containers.FirstOrDefault(
+                    x => 
+                    x != null && x.Top != null &&
+                    explorerType.IsAssignableFrom(x.Top.GetType()) && 
+                    (id == null || x.ID == id));
                 result = container?.Top;
                 if (result != null) return result;
             }
@@ -95,6 +99,20 @@ namespace Crosslight.GUI.ViewModels.Explorers
             var cont = projectViewportVM.Containers.FirstOrDefault(x => x == container);
             if (cont != null)
                 projectViewportVM.RemoveExplorer(cont);
+        }
+
+        public void Close(Func<ExplorerPanelVM, bool> selector)
+        {
+            Close((ExplorerContainerVM container) =>
+            {
+                return selector(container.Top);
+            });
+        }
+
+        public void Close(Func<ExplorerContainerVM, bool> selector)
+        {
+            var toRemove = projectViewportVM.Containers.Where(selector).ToArray();
+            foreach (var c in toRemove) if (c != null) Close(c);
         }
     }
 }

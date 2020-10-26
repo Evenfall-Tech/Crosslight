@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.API.Nodes;
@@ -50,6 +51,10 @@ namespace Crosslight.GUI.Views.Explorers
                         RootNode = node,
                     }
                 };
+            }
+            else if (content is ILogical logical)
+            {
+                Content = logical;
             }
             else Content = content.ToString();
             return Unit.Default;

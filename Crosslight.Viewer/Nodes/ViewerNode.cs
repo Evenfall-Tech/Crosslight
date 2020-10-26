@@ -21,6 +21,6 @@ namespace Crosslight.Viewer.Nodes
         {
             return visitor.Visit(this);
         }
-        public override string ToString() => Content?.ToString();
+        public override string ToString() => Content?.ToString() ?? nameof(ViewerNode);
     }
 }

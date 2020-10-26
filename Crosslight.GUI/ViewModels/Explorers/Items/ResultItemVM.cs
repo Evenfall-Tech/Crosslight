@@ -43,23 +43,35 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         {
             OpenCommand = ReactiveCommand.Create(() =>
             {
-                var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(openExisting: false);
+                string id = ResultsVM.GenerateID(Result);
+                var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(id: id, openExisting: true);
                 if (resultPanel != null)
+                {
                     resultPanel.Result = Result;
+                }
             }, Observable.Return(true));
             RemoveCommand = ReactiveCommand.Create(() =>
             {
-                var props = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
+                var locator = Locator.Current.GetService<ExplorerLocator>();
+                var props = locator.Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
                 if (props != null)
                 {
                     if (props.SelectedInstance == Result)
                         props.SelectedInstance = null;
                 }
-                var src = Locator.Current.GetService<ExplorerLocator>().Open<ResultListVM>();
+                var src = locator.Open<ResultListVM>();
                 if (src != null)
                 {
                     src.RemoveResultVM.Execute(this).Subscribe();
                 }
+                locator.Close((ExplorerPanelVM p) =>
+                {
+                    if (p is ResultsVM res)
+                    {
+                        if (res.Result == Result) return true;
+                    }
+                    return false;
+                });
             }, Observable.Return(true));
 
             Activator = new ViewModelActivator();
