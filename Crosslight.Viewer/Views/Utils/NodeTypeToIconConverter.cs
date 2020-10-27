@@ -48,7 +48,7 @@ namespace Crosslight.Viewer.Views.Utils
         {
             do
             {
-                if (toType != typeof(IBitmap)) break;
+                if (toType != typeof(IBitmap) && toType != typeof(IImage)) break;
                 if (!(from is string key)) break;
 
                 string drawingName;

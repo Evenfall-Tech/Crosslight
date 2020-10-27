@@ -31,7 +31,7 @@
 		<StackPanel Orientation="Horizontal"
 					VerticalAlignment="Center">
 			<Image Name="nodeIcon" Width="16" Height="16" Margin="0,0,4,0"/>
-			<TextBlock Name="nodeText" Text="{Binding Model.Data}"/>
+			<TextBlock Name="nodeText"/>
 		</StackPanel>
 	</Button>
 </UserControl>
