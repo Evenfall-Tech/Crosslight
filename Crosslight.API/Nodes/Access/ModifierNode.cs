@@ -1,7 +1,7 @@
 ﻿namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// ModifierNode represents the modifier (public, abstract, virtual).
+    /// <see cref="ModifierNode"/> represents the modifier (public, abstract, virtual).
     /// </summary>
     public class ModifierNode : Node
     {

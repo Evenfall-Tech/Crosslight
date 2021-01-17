@@ -4,7 +4,7 @@ using System;
 namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
-    /// LambdaNode represents the lambda abstraction in the language.
+    /// <see cref="LambdaNode"/> represents the lambda abstraction in the language.
     /// </summary>
     public class LambdaNode : Node
     {

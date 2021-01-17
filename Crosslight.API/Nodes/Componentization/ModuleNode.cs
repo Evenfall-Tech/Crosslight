@@ -6,7 +6,7 @@ using System;
 namespace Crosslight.API.Nodes.Componentization
 {
     /// <summary>
-    /// ModuleNode represents the module abstraction in the language.
+    /// <see cref="ModuleNode"/> represents the module abstraction in the language.
     /// E.g. in C# it is module, for Java it is package,
     /// in C++ it is library.
     /// </summary>

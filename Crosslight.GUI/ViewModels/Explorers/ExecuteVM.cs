@@ -1,14 +1,12 @@
-﻿using Crosslight.API.IO;
+﻿using Crosslight.API.IO.FileSystem;
+using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using ReactiveUI;
 using Splat;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers
 {
@@ -17,7 +15,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public new const string ConstTitle = "Execute";
 
         public ReactiveCommand<Unit, Node> Decode { get; }
-        public ReactiveCommand<Unit, object> Encode { get; }
+        public ReactiveCommand<Unit, IFileSystemItem> Encode { get; }
 
         public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "execute";
@@ -36,7 +34,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     .SelectedInputLanguage?
                     .InputLanguage;
 
-                Source src = Source.FromSources(
+                IDirectory src = FileSystem.FromItems(
                     locator
                     .Open<SourceInputVM>()?
                     .SelectedSources?
@@ -45,7 +43,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 Node nodeRoot = language.Decode(src);
                 return nodeRoot;
             });
-            Encode = ReactiveCommand.Create<object>(() =>
+            Encode = ReactiveCommand.Create<IFileSystemItem>(() =>
             {
                 var locator =
                     Locator.Current
@@ -56,7 +54,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     .SelectedOutputLanguage?
                     .OutputLanguage;
 
-                Node src = 
+                Node src =
                     locator.Open<ResultListVM>()
                     .SelectedIntermediateResults
                     .FirstOrDefault(x => x.Result is Node)

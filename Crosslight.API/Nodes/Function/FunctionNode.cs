@@ -4,7 +4,7 @@ using Crosslight.API.Util;
 namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
-    /// FunctionNode represents the function abstraction in the language.
+    /// <see cref="FunctionNode"/> represents the function abstraction in the language.
     /// </summary>
     public class FunctionNode : EntityNode
     {

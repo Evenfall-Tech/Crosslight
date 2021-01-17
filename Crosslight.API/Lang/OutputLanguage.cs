@@ -1,11 +1,11 @@
-﻿using Crosslight.API.Nodes;
+﻿using Crosslight.API.IO.FileSystem.Abstractions;
+using Crosslight.API.Nodes;
 
 namespace Crosslight.API.Lang
 {
     public abstract class OutputLanguage
     {
-        // TODO: replace object with a meaningful type
-        public abstract object Encode(Node rootNode);
+        public abstract IFileSystemItem Encode(Node rootNode);
         public abstract string Name { get; }
         public abstract LanguageConfig Config { get; protected set; }
         public abstract ILanguageOptions Options { get; set; }

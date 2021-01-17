@@ -11,7 +11,8 @@ namespace Crosslight.API.Nodes.Entities
         Out,
     }
     /// <summary>
-    /// Template type paremeter T for generics.
+    /// <see cref="TemplateTypeParameterNode"/> represents
+    /// template type paremeter T for generics.
     /// Supports [in|out] variance.
     /// </summary>
     public class TemplateTypeParameterNode : AttributedNode

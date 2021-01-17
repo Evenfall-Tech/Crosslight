@@ -3,14 +3,14 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using Crosslight.API.IO;
+using Crosslight.API.IO.FileSystem;
+using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.CIL.Lang;
 using Crosslight.Viewer.ViewModels.Graph;
 using Crosslight.Viewer.ViewModels.Viewports;
 using Crosslight.Viewer.ViewModels.Windows;
-using Crosslight.Viewer.Views.Graph;
 using Crosslight.Viewer.Views.Viewports;
 using ReactiveUI;
 using System.Reactive.Disposables;
@@ -45,7 +45,7 @@ namespace Crosslight.Viewer
             var outPathStrings = await openFileDialog.ShowAsync(this);
             if (outPathStrings.Length == 0) return;
 
-            Source source = Source.FromFiles(outPathStrings);
+            IDirectory source = FileSystem.FromFiles(outPathStrings);
 
             CrosslightContext context = new CrosslightContext()
             {

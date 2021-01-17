@@ -5,7 +5,7 @@ using System;
 namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
-    /// FunctionBodyNode represents the body of the function.
+    /// <see cref="FunctionBodyNode"/> represents the body of the function.
     /// </summary>
     public class FunctionBodyNode : Node
     {

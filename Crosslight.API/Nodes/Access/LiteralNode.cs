@@ -1,7 +1,7 @@
 ﻿namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// LiteralNode represents a literal in the language.
+    /// <see cref="LiteralNode"/> represents a literal in the language.
     /// </summary>
     public class LiteralNode : ValueNode
     {

@@ -4,7 +4,7 @@ using System;
 namespace Crosslight.API.Nodes.Binary
 {
     /// <summary>
-    /// BinaryExpressionNode represents the binary expression.
+    /// <see cref="BinaryExpressionNode"/> represents the binary expression.
     /// </summary>
     public abstract class BinaryExpressionNode : ExpressionNode
     {

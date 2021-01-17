@@ -6,7 +6,7 @@ using System;
 namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
-    /// FunctionReturnTypeNode represents the return type of the function.
+    /// <see cref="FunctionReturnTypeNode"/> represents the return type of the function.
     /// </summary>
     public class FunctionReturnTypeNode : Node
     {

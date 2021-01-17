@@ -3,7 +3,7 @@
 namespace Crosslight.API.Nodes
 {
     /// <summary>
-    /// StatementNode represents the statement abstraction.
+    /// <see cref="StatementNode"/> represents the statement abstraction.
     /// </summary>
     public abstract class StatementNode : Node
     {

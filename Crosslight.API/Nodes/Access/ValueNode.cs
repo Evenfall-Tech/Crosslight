@@ -3,7 +3,7 @@
 namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// ValueNode represents the constant, literal or variable.
+    /// <see cref="ValueNode"/> represents the constant, literal or variable.
     /// </summary>
     public abstract class ValueNode : Node
     {

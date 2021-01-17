@@ -2,6 +2,9 @@
 
 namespace Crosslight.API.Nodes.Metadata
 {
+    /// <summary>
+    /// <see cref="DummyNode"/> represents a node for debugging and misc. info.
+    /// </summary>
     public class DummyNode : Node
     {
         public override string Type => nameof(DummyNode);

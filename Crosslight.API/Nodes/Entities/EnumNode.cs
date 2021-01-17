@@ -1,7 +1,7 @@
 ﻿namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
-    /// EnumNode represents the enum abstraction in the language.
+    /// <see cref="EnumNode"/> represents the enum abstraction in the language.
     /// </summary>
     public class EnumNode : EntityNode
     {

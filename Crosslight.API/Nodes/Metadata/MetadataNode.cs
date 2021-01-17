@@ -3,7 +3,7 @@
 namespace Crosslight.API.Nodes.Metadata
 {
     /// <summary>
-    /// Represents compiler metadata or useful information.
+    /// <see cref="MetadataNode"/> represents compiler metadata or useful information.
     /// </summary>
     public class MetadataNode : Node
     {

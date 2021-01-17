@@ -3,7 +3,9 @@
 namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
-    /// Where T : BaseTypes.
+    /// <see cref="TypeConstraintNode"/> represents a
+    /// specialization constraint on a type.
+    /// E.g. where T : BaseTypes.
     /// </summary>
     public class TypeConstraintNode : Node
     {

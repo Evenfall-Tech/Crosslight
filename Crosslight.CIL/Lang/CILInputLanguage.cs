@@ -1,4 +1,4 @@
-﻿using Crosslight.API.IO;
+﻿using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.API.Nodes.Componentization;
@@ -45,7 +45,7 @@ namespace Crosslight.CIL.Lang
             };
         }
 
-        public override Node Decode(Source source)
+        public override Node Decode(IFileSystemItem source)
         {
             List<Node> nodes = new List<Node>();
             ParseSource(source, nodes);
@@ -64,54 +64,39 @@ namespace Crosslight.CIL.Lang
             else return nodes.First();
         }
 
-        private Node ParseSource(Source source, List<Node> sink)
+        private Node ParseSource(IFileSystemItem source, List<Node> sink)
         {
-            if (source is CompositeSource composite)
+            if (source is IDirectory directory)
             {
-                if (composite.Count > 0)
+                if (directory.Items.Count > 0)
                 {
-                    return composite.Sources.Select(x => ParseSource(x, sink)).LastOrDefault();
+                    return directory.Items.Select(x => ParseSource(x, sink)).LastOrDefault();
                 }
             }
-            else if (source is MultiStringSource strings)
+            else if (source is IStringFile stringFile)
             {
-                if (strings.Count > 0)
-                {
-                    return ParseStrings(strings.Strings, sink);
-                }
+                var result = ParseStringFile(stringFile);
+                sink.Add(result);
+                return result;
             }
-            else if (source is MultiFileSource files)
+            else if (source is IPhysicalFile physicalFile)
             {
-                if (files.Count > 0)
-                {
-                    return ParseFiles(files.Files, sink);
-                }
+                var result = ParsePhysicalFile(physicalFile);
+                sink.Add(result);
+                return result;
             }
             else throw new ArgumentException($"{source.GetType().Name} is not supported in {Name}.");
             return null;
         }
 
-        private Node ParseStrings(IEnumerable<string> strings, List<Node> sink)
+        private Node ParseStringFile(IStringFile source)
         {
-            var res = strings.Select(s => ParseString(s));
-            sink.AddRange(res);
-            return res.FirstOrDefault();
+            throw new NotImplementedException($"{source.GetType().Name} is not supported in {Name}.");
         }
 
-        private Node ParseString(string str)
+        private Node ParsePhysicalFile(IPhysicalFile source)
         {
-            throw new NotImplementedException($"String sources are not supported in {Name}.");
-        }
-
-        private Node ParseFiles(IEnumerable<string> paths, List<Node> sink)
-        {
-            var res = paths.Select(s => ParseFile(s));
-            sink.AddRange(res);
-            return res.FirstOrDefault();
-        }
-
-        private Node ParseFile(string path)
-        {
+            string path = source.Path;
             CSharpDecompiler decompiler = GetDecompiler(path);
             SyntaxTree tree = decompiler.DecompileWholeModuleAsSingleFile();
 

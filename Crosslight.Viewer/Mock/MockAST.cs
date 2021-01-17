@@ -1,4 +1,4 @@
-﻿using Crosslight.API.IO;
+﻿using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.Viewer.Nodes;
@@ -54,7 +54,7 @@ namespace Crosslight.Viewer.Mock
             return node;
         }
 
-        public override Node Decode(Source source)
+        public override Node Decode(IFileSystemItem source)
         {
             return CreateAST();
         }

@@ -4,7 +4,7 @@ using System;
 namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
-    /// IfNode represents the if-else statement.
+    /// <see cref="IfNode"/> represents the if-else statement.
     /// </summary>
     public class IfNode : StatementNode
     {

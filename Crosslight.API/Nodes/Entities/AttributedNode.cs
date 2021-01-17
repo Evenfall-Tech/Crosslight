@@ -3,6 +3,9 @@ using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Entities
 {
+    /// <summary>
+    /// <see cref="AttributedNode"/> represents a node containing attributes.
+    /// </summary>
     public abstract class AttributedNode : Node
     {
         public override string Type => nameof(AttributedNode);

@@ -8,11 +8,12 @@ using System.Linq;
 namespace Crosslight.API.Nodes.Componentization
 {
     /// <summary>
-    /// NamespaceNode represents the namespace abstraction in the language.
+    /// <see cref="NamespaceNode"/> represents the namespace abstraction in the language.
     /// </summary>
     public class NamespaceNode : Node
     {
         public override string Type => nameof(NamespaceNode);
+        public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         public SyncedList<EntityNode, Node> Entities { get; protected set; }
         public SyncedList<ValueNode, Node> Values { get; protected set; }
         public SyncedList<NamespaceNode, Node> Namespaces { get; protected set; }
@@ -22,6 +23,7 @@ namespace Crosslight.API.Nodes.Componentization
         { }
         public NamespaceNode(IEnumerable<string> identifiers)
         {
+            Attributes = new SyncedList<AttributeNode, Node>(Children);
             Namespaces = new SyncedList<NamespaceNode, Node>(Children);
             Entities = new SyncedList<EntityNode, Node>(Children);
             Values = new SyncedList<ValueNode, Node>(Children);

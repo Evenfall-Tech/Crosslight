@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Crosslight.API.IO.FileSystem.Abstractions;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace Crosslight.GUI.ViewModels.Explorers
     public class ResultsVM : ExplorerPanelVM, IActivatableViewModel
     {
         public new const string ConstTitle = "Result";
-        protected object result;
+        protected IFileSystemItem result;
 
-        public object Result
+        public IFileSystemItem Result
         {
             get => result;
             set => this.RaiseAndSetIfChanged(ref result, value);

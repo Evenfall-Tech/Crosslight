@@ -4,7 +4,7 @@ using System;
 namespace Crosslight.API.Nodes.Unary
 {
     /// <summary>
-    /// UnaryExpressionNode represents the unary expression.
+    /// <see cref="UnaryExpressionNode"/> represents the unary expression.
     /// </summary>
     public abstract class UnaryExpressionNode : ExpressionNode
     {

@@ -6,7 +6,7 @@ using System;
 namespace Crosslight.API.Nodes.Componentization
 {
     /// <summary>
-    /// ProjectNode represents the project abstraction in the language.
+    /// <see cref="ProjectNode"/> represents the project abstraction in the language.
     /// E.g. in C# it is assembly, for Java it is executable .jar,
     /// in C++ it is static program.
     /// Nothing is higher than ProjectNode, so its Parent property is null.

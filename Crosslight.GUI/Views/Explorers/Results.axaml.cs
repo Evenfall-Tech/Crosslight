@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Nodes;
 using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.Viewer.ViewModels.Graph;
@@ -35,14 +36,32 @@ namespace Crosslight.GUI.Views.Explorers
             AvaloniaXamlLoader.Load(this);
         }
 
-        private Unit FillContent(object content)
+        private Unit FillContent(IFileSystemItem fileSystemItem)
         {
-            if (content == null)
+            if (fileSystemItem == null)
             {
                 //Content = null;
                 return Unit.Default;
             }
-            else if (content is Node node)
+            else if (fileSystemItem is IFile file)
+            {
+                return FillFile(file);
+            }
+            else if (fileSystemItem is IDirectory directory)
+            {
+                return FillDirectory(directory);
+            }
+            else throw new NotImplementedException($"{fileSystemItem.GetType().Name} is not yet supported.");
+        }
+
+        private Unit FillFile(IFile file)
+        {
+            if (file == null || file.Content == null)
+            {
+                //Content = null;
+                return Unit.Default;
+            }
+            else if (file.Content is Node node)
             {
                 Content = new GraphViewer()
                 {
@@ -52,11 +71,17 @@ namespace Crosslight.GUI.Views.Explorers
                     }
                 };
             }
-            else if (content is ILogical logical)
+            else if (file.Content is ILogical logical)
             {
                 Content = logical;
             }
-            else Content = content.ToString();
+            else Content = file.Content.ToString();
+            return Unit.Default;
+        }
+
+        private Unit FillDirectory(IDirectory directory)
+        {
+            Content = directory.Name;
             return Unit.Default;
         }
     }

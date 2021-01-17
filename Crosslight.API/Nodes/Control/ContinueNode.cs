@@ -3,7 +3,7 @@
 namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
-    /// ContinueNode represents the continue statement.
+    /// <see cref="ContinueNode"/> represents the continue statement.
     /// </summary>
     public class ContinueNode : JumpNode
     {

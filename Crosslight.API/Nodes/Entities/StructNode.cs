@@ -1,7 +1,7 @@
 ﻿namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
-    /// StructNode represents the struct abstraction in the language.
+    /// <see cref="StructNode"/> represents the struct abstraction in the language.
     /// </summary>
     public class StructNode : CompoundTypeNode
     {

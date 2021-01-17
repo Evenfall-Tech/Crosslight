@@ -1,7 +1,7 @@
 ﻿namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
-    /// InterfaceNode represents the interface abstraction in the language.
+    /// <see cref="InterfaceNode"/> represents the interface abstraction in the language.
     /// </summary>
     public class InterfaceNode : FunctionalTypeNode
     {

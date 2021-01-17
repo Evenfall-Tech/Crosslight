@@ -3,7 +3,7 @@
 namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
-    /// BreakNode represents the break statement.
+    /// <see cref="BreakNode"/> represents the break statement.
     /// </summary>
     public class BreakNode : JumpNode
     {

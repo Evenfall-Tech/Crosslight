@@ -1,4 +1,6 @@
-﻿using Crosslight.API.Lang;
+﻿using Crosslight.API.IO.FileSystem.Abstractions;
+using Crosslight.API.IO.FileSystem.Implementations;
+using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.Viewer.Nodes.Visitors;
 using Crosslight.Viewer.ViewModels.Graph;
@@ -31,21 +33,29 @@ namespace Crosslight.Viewer.Lang
             options = new ViewerOptions();
         }
 
-        public override object Encode(Node rootNode)
+        public override IFileSystemItem Encode(Node rootNode)
         {
-            if (options.LaunchApplication) return Program.LaunchApplication(
-                new Avalonia.ApplicationOptions()
+            if (options.LaunchApplication)
+                return new CustomFile(
+                    "Return Code",
+                    Program.LaunchApplication(
+                        new Avalonia.ApplicationOptions()
+                        {
+                            Options = options,
+                            RootNode = rootNode,
+                        }
+                    )
+                );
+            return new CustomFile(
+                "Graph Viewer",
+                new GraphViewer()
                 {
-                    Options = options,
-                    RootNode = rootNode,
-                });
-            return new GraphViewer()
-            {
-                ViewModel = new GraphViewerViewModel()
-                {
-                    RootNode = rootNode,
+                    ViewModel = new GraphViewerViewModel()
+                    {
+                        RootNode = rootNode,
+                    }
                 }
-            };
+            );
         }
     }
 }
