@@ -6,7 +6,7 @@ using System;
 namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
-    /// MethodNode represents the method abstraction in the language.
+    /// <see cref="MethodNode"/> represents the method abstraction in the language.
     /// </summary>
     public class MethodNode : FunctionNode, ITypeMember
     {

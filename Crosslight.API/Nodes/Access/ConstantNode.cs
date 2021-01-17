@@ -1,7 +1,7 @@
 ﻿namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// ConstantNode represents the constant abstraction in the language.
+    /// <see cref="ConstantNode"/> represents the constant abstraction in the language.
     /// </summary>
     public class ConstantNode : ValueNode
     {

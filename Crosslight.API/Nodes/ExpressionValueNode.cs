@@ -4,7 +4,7 @@ using System;
 namespace Crosslight.API.Nodes
 {
     /// <summary>
-    /// ExpressionValueNode represents the value of the expression.
+    /// <see cref="ExpressionValueNode"/> represents the value of the expression.
     /// </summary>
     public class ExpressionValueNode : ExpressionNode
     {

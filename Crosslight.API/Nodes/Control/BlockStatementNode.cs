@@ -3,7 +3,7 @@
 namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
-    /// BlockStatementNode represents something.
+    /// <see cref="BlockStatementNode"/> represents something.
     /// </summary>
     public class BlockStatementNode : StatementNode
     {

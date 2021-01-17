@@ -1,7 +1,7 @@
 ﻿namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
-    /// ClassNode represents the class abstraction in the language.
+    /// <see cref="ClassNode"/> represents the class abstraction in the language.
     /// </summary>
     public class ClassNode : CompoundTypeNode
     {

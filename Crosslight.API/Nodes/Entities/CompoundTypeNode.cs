@@ -3,6 +3,10 @@ using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Entities
 {
+    /// <summary>
+    /// <see cref="CompoundTypeNode"/> abstract node represents types
+    /// that can have inner declarations.
+    /// </summary>
     public abstract class CompoundTypeNode : FunctionalTypeNode
     {
         public override string Type => nameof(CompoundTypeNode);

@@ -3,7 +3,7 @@
 namespace Crosslight.API.Nodes.Access
 {
     /// <summary>
-    /// AttributeNode represents the attribute/annotation abstraction in the language.
+    /// <see cref="AttributeNode"/> represents the attribute/annotation abstraction in the language.
     /// </summary>
     public class AttributeNode : Node, IEquatable<AttributeNode>
     {

@@ -4,7 +4,7 @@ using System;
 namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
-    /// BlockNode represents the block of code.
+    /// <see cref="BlockNode"/> represents the block of code.
     /// </summary>
     public class BlockNode : Node
     {

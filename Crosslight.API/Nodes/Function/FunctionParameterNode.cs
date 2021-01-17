@@ -5,7 +5,7 @@ using System;
 namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
-    /// FunctionParameterNode represents parameters of the function.
+    /// <see cref="FunctionParameterNode"/> represents parameters of the function.
     /// </summary>
     public class FunctionParameterNode : ValueNode
     {

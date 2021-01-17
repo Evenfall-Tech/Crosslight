@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Crosslight.API.Nodes.Entities
 {
+    /// <summary>
+    /// <see cref="FunctionEntityNode"/> represents C# delegate declaration.
+    /// </summary>
     public class FunctionEntityNode : EntityNode
     {
         public override string Type => nameof(FunctionEntityNode);

@@ -4,7 +4,7 @@ using System;
 namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
-    /// LoopNode represents the loop.
+    /// <see cref="LoopNode"/> represents the loop.
     /// </summary>
     public class LoopNode : StatementNode
     {

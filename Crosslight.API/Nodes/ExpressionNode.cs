@@ -3,7 +3,7 @@
 namespace Crosslight.API.Nodes
 {
     /// <summary>
-    /// ExpressionNode represents the expression.
+    /// <see cref="ExpressionNode"/> represents the expression.
     /// </summary>
     public abstract class ExpressionNode : Node
     {

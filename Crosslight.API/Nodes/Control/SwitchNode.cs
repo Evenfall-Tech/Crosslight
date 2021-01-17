@@ -4,7 +4,7 @@ using System;
 namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
-    /// SwitchNode represents the switch operator.
+    /// <see cref="SwitchNode"/> represents the switch operator.
     /// </summary>
     public class SwitchNode : StatementNode
     {

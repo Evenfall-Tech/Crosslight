@@ -4,7 +4,7 @@ using Crosslight.API.Util;
 namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
-    /// TypeNode represents the type abstraction in the language.
+    /// <see cref="FunctionalTypeNode"/> represents the type abstraction in the language.
     /// E.g. in C# it is class/struct, for Java it is class,
     /// in C++ it is class/struct.
     /// </summary>
