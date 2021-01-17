@@ -4,6 +4,10 @@ using System.Text;
 
 namespace Crosslight.API.Nodes
 {
+    /// <summary>
+    /// <see cref="RootNode"/> represents a node that is
+    /// the root of the syntax tree.
+    /// </summary>
     public class RootNode : Node
     {
         public override string Type => nameof(RootNode);
