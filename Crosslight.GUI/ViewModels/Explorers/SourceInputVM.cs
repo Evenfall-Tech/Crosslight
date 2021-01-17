@@ -1,4 +1,4 @@
-﻿using Crosslight.API.IO;
+﻿using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using DynamicData;
 using DynamicData.Binding;
@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers
 {
@@ -48,7 +47,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             {
                 sources
                     .Connect()
-                    .Filter(x => x.Source is MultiFileSource)
+                    .Filter(x => x.Source is IPhysicalFile)
                     .Bind(out fileSources)
                     .Subscribe()
                     .DisposeWith(disposables);

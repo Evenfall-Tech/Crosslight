@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Crosslight.API.IO.FileSystem.Implementations;
 using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using ReactiveUI;
@@ -54,7 +55,7 @@ namespace Crosslight.GUI.Views.Explorers
             var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(id: id, openExisting: true);
             if (resultPanel != null)
             {
-                resultPanel.Result = node;
+                resultPanel.Result = new CustomFile("Node", node);
             }
         }
 

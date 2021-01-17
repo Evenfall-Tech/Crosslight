@@ -1,4 +1,5 @@
-﻿using Crosslight.API.Lang;
+﻿using Crosslight.API.IO.FileSystem.Abstractions;
+using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.CSharp.Nodes.Visitors;
 using System;
@@ -24,14 +25,14 @@ namespace Crosslight.CSharp.Lang
             throw new NotImplementedException();
         }
 
+        public override IFileSystemItem Encode(Node rootNode)
+        {
+            throw new NotImplementedException();
+        }
+
         public CSharpOutputLanguage()
         {
             options = new CSharpVisitOptions();
-        }
-
-        public override object Encode(Node rootNode)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

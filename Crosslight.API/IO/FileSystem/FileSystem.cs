@@ -115,5 +115,16 @@ namespace Crosslight.API.IO.FileSystem
 
             return resultingCollection;
         }
+
+        public static IDirectory FromItems(IEnumerable<IFileSystemItem> items, string name = null)
+        {
+            var resultingCollection = new FileSystemCollection(name ?? "File System Collection");
+            foreach (var item in items)
+            {
+                resultingCollection.Items.Add(item);
+            }
+
+            return resultingCollection;
+        }
     }
 }
