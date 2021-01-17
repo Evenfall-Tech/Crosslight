@@ -6,6 +6,6 @@ namespace Crosslight.API.IO.FileSystem.Abstractions
     {
         string Name { get; }
         IDirectory Parent { get; }
-        IEnumerable<IFileSystemItem> Items { get; }
+        IList<IFileSystemItem> Items { get; }
     }
 }

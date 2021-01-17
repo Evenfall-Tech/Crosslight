@@ -2,7 +2,7 @@
 
 namespace Crosslight.API.IO.FileSystem.Implementations
 {
-    public class StringFile : IFile
+    public class StringFile : IStringFile
     {
         public string Name { get; private set; }
 

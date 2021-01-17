@@ -1,5 +1,6 @@
 ﻿using CommandLine;
-using Crosslight.API.IO;
+using Crosslight.API.IO.FileSystem;
+using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Util;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -54,13 +55,13 @@ namespace Crosslight.CLI
             Parser.Default.ParseArguments<Options>(args)
                    .WithParsed(o =>
                    {
-                       Source source = null;
+                       IFileSystemItem source = null;
                        if (o.Json != null && File.Exists(o.Json))
                        {
                            JsonOptions jsonOptions = JsonConvert.DeserializeObject<JsonOptions>(File.ReadAllText(o.Json));
                            if (jsonOptions != null && jsonOptions.InputFiles != null && jsonOptions.InputFiles.Count() > 0)
                            {
-                               source = Source.FromFiles(jsonOptions.InputFiles);
+                               source = FileSystem.FromFiles(jsonOptions.InputFiles);
                            }
                        }
                        if (source == null)

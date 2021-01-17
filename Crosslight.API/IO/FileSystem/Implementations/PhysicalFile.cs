@@ -8,6 +8,8 @@ namespace Crosslight.API.IO.FileSystem.Implementations
 
         public string Name { get; private set; }
 
+        public string Path => Name + Extension;
+
         public object Content => Data;
 
         public IDirectory Parent { get; private set; }

@@ -1,4 +1,5 @@
 ﻿using Crosslight.API.IO;
+using Crosslight.API.IO.FileSystem.Abstractions;
 using ReactiveUI;
 using SkiaSharp;
 using System;
@@ -16,7 +17,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
     {
         public new const string ConstTitle = "Source Preview";
         private string sourceText;
-        private Source source;
+        private IFileSystemItem source;
         private string title;
 
         public string SourceText
@@ -24,7 +25,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             get => sourceText;
             set => this.RaiseAndSetIfChanged(ref sourceText, value);
         }
-        public Source Source
+        public IFileSystemItem Source
         {
             get => source;
             set => this.RaiseAndSetIfChanged(ref source, value);
@@ -56,39 +57,31 @@ namespace Crosslight.GUI.ViewModels.Explorers
             });
         }
 
-        public static string GenerateID(Source source)
+        public static string GenerateID(IFileSystemItem source)
         {
             if (source == null) return null;
-            if (source is MultiFileSource fileSource)
+            if (source is IPhysicalFile fileSource)
             {
-                if (fileSource.Count != 1)
-                    throw new NotImplementedException($"More than one file in {nameof(MultiFileSource)} is not supported.");
-                return fileSource.Files.First().GetHashCode().ToString();
+                return fileSource.Path.GetHashCode().ToString();
             }
-            else if (source is MultiStringSource stringSource)
+            else if (source is IStringFile stringSource)
             {
-                if (stringSource.Count != 1)
-                    throw new NotImplementedException($"More than one string in {nameof(MultiStringSource)} is not supported.");
-                return stringSource.Strings.First().GetHashCode().ToString();
+                return stringSource.Text.GetHashCode().ToString();
             }
             else
                 throw new NotImplementedException($"{source.GetType().Name} is not supported.");
         }
 
-        private Unit SetTitle(Source src)
+        private Unit SetTitle(IFileSystemItem src)
         {
             if (src == null) return Unit.Default;
-            if (src is MultiFileSource fileSource)
+            if (src is IPhysicalFile fileSource)
             {
-                if (fileSource.Count != 1)
-                    throw new NotImplementedException($"More than one file in {nameof(MultiFileSource)} is not supported.");
-                title = Path.GetFileName(fileSource.Files.First());
+                title = Path.GetFileName(fileSource.Path);
                 this.RaisePropertyChanged(nameof(Title));
             }
-            else if (src is MultiStringSource stringSource)
+            else if (src is IStringFile stringSource)
             {
-                if (stringSource.Count != 1)
-                    throw new NotImplementedException($"More than one string in {nameof(MultiStringSource)} is not supported.");
                 title = "String Source";
                 this.RaisePropertyChanged(nameof(Title));
             }
@@ -97,27 +90,23 @@ namespace Crosslight.GUI.ViewModels.Explorers
             return Unit.Default;
         }
 
-        private Unit SetSourceText(Source src)
+        private Unit SetSourceText(IFileSystemItem src)
         {
             if (src == null) return Unit.Default;
-            if (src is MultiFileSource fileSource)
+            if (src is IPhysicalFile fileSource)
             {
-                if (fileSource.Count != 1)
-                    throw new NotImplementedException($"More than one file in {nameof(MultiFileSource)} is not supported.");
-                SourceText = File.ReadAllText(fileSource.Files.First());
+                SourceText = File.ReadAllText(fileSource.Path);
             }
-            else if (src is MultiStringSource stringSource)
+            else if (src is IStringFile stringSource)
             {
-                if (stringSource.Count != 1)
-                    throw new NotImplementedException($"More than one string in {nameof(MultiStringSource)} is not supported.");
-                SourceText = stringSource.Strings.First();
+                SourceText = stringSource.Text;
             }
             else
                 throw new NotImplementedException($"{src.GetType().Name} is not supported.");
             return Unit.Default;
         }
 
-        private Unit SetID(Source src)
+        private Unit SetID(IFileSystemItem src)
         {
             ID = GenerateID(src);
             return Unit.Default;

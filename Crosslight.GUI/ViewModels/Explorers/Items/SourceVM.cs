@@ -1,22 +1,21 @@
-﻿using Crosslight.API.IO;
+﻿using Crosslight.API.IO.FileSystem;
+using Crosslight.API.IO.FileSystem.Abstractions;
 using ReactiveUI;
 using Splat;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
     public class SourceVM : ReactiveObject, IActivatableViewModel
     {
-        protected Source source;
+        protected IFileSystemItem source;
         protected string title;
 
-        public Source Source
+        public IFileSystemItem Source
         {
             get => source;
             set => this.RaiseAndSetIfChanged(ref source, value);
@@ -84,7 +83,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         public static SourceVM FromFile(string path)
         {
             var name = Path.GetFileName(path);
-            var src = Source.FromFile(path);
+            var src = FileSystem.FromFile(path);
             return new SourceVM()
             {
                 title = name,
