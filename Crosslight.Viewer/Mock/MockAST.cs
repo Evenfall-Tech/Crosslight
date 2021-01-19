@@ -8,13 +8,14 @@ using System;
 
 namespace Crosslight.Viewer.Mock
 {
-    public class MockAST : InputLanguage
+    public class MockAST : ILanguage
     {
-        public override string Name => "Mock";
+        public string Name => "Mock";
+        public LanguageType LanguageType => LanguageType.Input;
 
         private ViewerOptions options;
-        public override LanguageConfig Config { get; protected set; }
-        public override ILanguageOptions Options
+        public LanguageConfig Config { get; protected set; }
+        public ILanguageOptions Options
         {
             get => options;
             set
@@ -22,7 +23,7 @@ namespace Crosslight.Viewer.Mock
                 options = value as ViewerOptions;
             }
         }
-        public override void LoadOptionsFromConfig(LanguageConfig config)
+        public void LoadOptionsFromConfig(LanguageConfig config)
         {
             throw new NotImplementedException();
         }
@@ -55,7 +56,7 @@ namespace Crosslight.Viewer.Mock
             return node;
         }
 
-        public override IFileSystemItem Decode(IFileSystemItem source)
+        public IFileSystemItem Encode(IFileSystemItem source)
         {
             return FileSystem.CreateCustomFile(source?.Name ?? "AST", CreateAST(), null);
         }

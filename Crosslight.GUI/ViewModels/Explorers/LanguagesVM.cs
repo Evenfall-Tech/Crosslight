@@ -68,32 +68,32 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 var assembly = TypeLocator.LoadAssembly(s);
                 if (assembly != null)
                 {
-                    Type[] inp = TypeLocator.FindTypesInAssembly<InputLanguage>(assembly);
-                    Type[] oup = TypeLocator.FindTypesInAssembly<OutputLanguage>(assembly);
-                    if (inp != null && inp.Length > 0)
+                    Type[] languages = TypeLocator.FindTypesInAssembly<ILanguage>(assembly);
+                    if (languages != null && languages.Length > 0)
                     {
-                        foreach (var item in inp)
+                        foreach (var lang in languages)
                         {
-                            InputLanguage inputLanguage = TypeLocator.CreateTypeInstance<InputLanguage>(item);
-                            languageSource.AddOrUpdate(new InputLanguageVM()
+                            // TODO: refactor language selection to support any number of LanguageTypes.
+                            ILanguage language = TypeLocator.CreateTypeInstance<ILanguage>(lang);
+                            LanguageVM vmToAdd = null;
+                            vmToAdd = language.LanguageType switch
                             {
-                                Path = s,
-                                Title = inputLanguage.Name,
-                                InputLanguage = inputLanguage,
-                            });
-                        }
-                    }
-                    if (oup != null && oup.Length > 0)
-                    {
-                        foreach (var item in oup)
-                        {
-                            OutputLanguage outputLanguage = TypeLocator.CreateTypeInstance<OutputLanguage>(item);
-                            languageSource.AddOrUpdate(new OutputLanguageVM()
-                            {
-                                Path = s,
-                                Title = outputLanguage.Name,
-                                OutputLanguage = outputLanguage,
-                            });
+                                LanguageType.Input => new InputLanguageVM()
+                                {
+                                    Path = s,
+                                    Title = language.Name,
+                                    InputLanguage = language,
+                                },
+                                LanguageType.Output => new OutputLanguageVM()
+                                {
+                                    Path = s,
+                                    Title = language.Name,
+                                    OutputLanguage = language,
+                                },
+                                _ => throw new NotImplementedException(),
+                            };
+                            if (vmToAdd != null)
+                                languageSource.AddOrUpdate(vmToAdd);
                         }
                     }
                 }

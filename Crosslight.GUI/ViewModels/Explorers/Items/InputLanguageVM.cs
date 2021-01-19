@@ -12,8 +12,8 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
     public class InputLanguageVM : LanguageVM
     {
-        protected InputLanguage inputLanguage;
-        public InputLanguage InputLanguage
+        protected ILanguage inputLanguage;
+        public ILanguage InputLanguage
         {
             get => inputLanguage;
             set => this.RaiseAndSetIfChanged(ref inputLanguage, value);

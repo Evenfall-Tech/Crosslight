@@ -9,13 +9,14 @@ using System;
 
 namespace Crosslight.Viewer.Lang
 {
-    public class ViewerOutputLanguage : OutputLanguage
+    public class ViewerOutputLanguage : ILanguage
     {
-        public override string Name => "Viewer";
+        public string Name => "Viewer";
+        public LanguageType LanguageType => LanguageType.Output;
 
         private ViewerOptions options;
-        public override LanguageConfig Config { get; protected set; }
-        public override ILanguageOptions Options
+        public LanguageConfig Config { get; protected set; }
+        public ILanguageOptions Options
         {
             get => options;
             set
@@ -23,7 +24,7 @@ namespace Crosslight.Viewer.Lang
                 options = value as ViewerOptions;
             }
         }
-        public override void LoadOptionsFromConfig(LanguageConfig config)
+        public void LoadOptionsFromConfig(LanguageConfig config)
         {
             throw new NotImplementedException();
         }
@@ -33,8 +34,9 @@ namespace Crosslight.Viewer.Lang
             options = new ViewerOptions();
         }
 
-        public override IFileSystemItem Encode(Node rootNode)
+        public IFileSystemItem Encode(IFileSystemItem input)
         {
+            Node rootNode = (input as IFile).Content as Node;
             if (options.LaunchApplication)
                 return new CustomFile(
                     "Return Code",

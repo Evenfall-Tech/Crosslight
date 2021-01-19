@@ -28,36 +28,36 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 var locator =
                     Locator.Current
                     .GetService<ExplorerLocator>();
-                InputLanguage language =
+                ILanguage language =
                     locator
                     .Open<LanguagesVM>()?
                     .SelectedInputLanguage?
                     .InputLanguage;
-
-                IDirectory src = FileSystem.FromItems(
+                // TODO: refactor these for virtual file system
+                IFileSystemItem src = FileSystem.FromItems(
                     locator
                     .Open<SourceInputVM>()?
                     .SelectedSources?
                     .Select(s => s.Source));
 
-                return language.Decode(src);
+                return language.Encode(src);
             });
-            Encode = ReactiveCommand.Create<IFileSystemItem>(() =>
+            Encode = ReactiveCommand.Create(() =>
             {
                 var locator =
                     Locator.Current
                     .GetService<ExplorerLocator>();
-                OutputLanguage language =
+                ILanguage language =
                     locator
                     .Open<LanguagesVM>()?
                     .SelectedOutputLanguage?
                     .OutputLanguage;
-
-                Node src =
+                // TODO: refactor these for virtual file system
+                IFileSystemItem src =
                     locator.Open<ResultListVM>()
                     .SelectedIntermediateResults
-                    .FirstOrDefault(x => x.Result is Node)
-                    .Result as Node;
+                    .FirstOrDefault()
+                    .Result;
 
                 return language.Encode(src);
             });

@@ -15,16 +15,14 @@ using System.Linq;
 
 namespace Crosslight.CIL.Lang
 {
-    public class CILInputLanguage : InputLanguage
+    public class CILInputLanguage : ILanguage
     {
-        public override string Name => "CIL";
+        public string Name => "CIL";
+        public LanguageType LanguageType => LanguageType.Input;
 
         private CILVisitOptions options;
-        private List<TransformNodes> transforms;
-        // TODO: consider adding transforms on the API level.
-        private delegate void TransformNodes(List<Node> nodes);
-        public override LanguageConfig Config { get; protected set; }
-        public override ILanguageOptions Options
+        public LanguageConfig Config { get; protected set; }
+        public ILanguageOptions Options
         {
             get => options;
             set
@@ -32,7 +30,8 @@ namespace Crosslight.CIL.Lang
                 options = value as CILVisitOptions;
             }
         }
-        public override void LoadOptionsFromConfig(LanguageConfig config)
+
+        public void LoadOptionsFromConfig(LanguageConfig config)
         {
             throw new NotImplementedException();
         }
@@ -40,22 +39,11 @@ namespace Crosslight.CIL.Lang
         public CILInputLanguage()
         {
             options = new CILVisitOptions();
-            transforms = new List<TransformNodes>()
-            {
-                OptionMergeProjectsWithSameName
-            };
         }
 
-        public override IFileSystemItem Decode(IFileSystemItem source)
+        public IFileSystemItem Encode(IFileSystemItem source)
         {
-            var result = ParseSource(source, null);
-            // TODO: write a new transforming API
-            // Apply transforms.
-            // foreach (var transform in transforms)
-            // {
-            //     transform(nodes);
-            // }
-            return result;
+            return ParseSource(source, null);
         }
 
         private IFileSystemItem ParseSource(IFileSystemItem source, IDirectory parent = null)
@@ -113,6 +101,7 @@ namespace Crosslight.CIL.Lang
         }
 
         #region Option Methods
+        // TODO: pull this method into an intermediate language.
         private void OptionMergeProjectsWithSameName(List<Node> nodes)
         {
             if (options.MergeProjectsWithSameName)
