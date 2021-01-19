@@ -6,7 +6,7 @@ namespace Crosslight.API.Lang
     public abstract class InputLanguage
     {
         // TODO: replace Node return type with a more specialized root node type
-        public abstract Node Decode(IFileSystemItem source);
+        public abstract IFileSystemItem Decode(IFileSystemItem source);
         public abstract string Name { get; }
         public abstract LanguageConfig Config { get; protected set; }
         public abstract ILanguageOptions Options { get; set; }

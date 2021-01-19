@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.API.IO.FileSystem;
 using Crosslight.API.IO.FileSystem.Abstractions;
+using Crosslight.API.IO.FileSystem.Implementations;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.CIL.Lang;
@@ -13,6 +14,7 @@ using Crosslight.Viewer.ViewModels.Viewports;
 using Crosslight.Viewer.ViewModels.Windows;
 using Crosslight.Viewer.Views.Viewports;
 using ReactiveUI;
+using System.Linq;
 using System.Reactive.Disposables;
 
 namespace Crosslight.Viewer
@@ -53,7 +55,7 @@ namespace Crosslight.Viewer
                 OutputLanguage = null,
             };
 
-            Node ast = context.InputLanguage.Decode(source);
+            Node ast = GetNodeFromFSItem(context.InputLanguage.Decode(source));
             if (ast == null)
             {
                 return;
@@ -66,6 +68,23 @@ namespace Crosslight.Viewer
                     RootNode = ast,
                 }
             };
+        }
+
+        private Node GetNodeFromFSItem(IFileSystemItem item)
+        {
+            if (item is IPhysicalFile) return null;
+            if (item is IStringFile) return null;
+            if (item is IFile file) return file.Content as Node;
+            if (item is IDirectory directory)
+            {
+                foreach (var dirFile in directory.Items)
+                {
+                    var res = GetNodeFromFSItem(dirFile);
+                    if (res != null) return res;
+                }
+                return null;
+            }
+            return null;
         }
     }
 }

@@ -9,6 +9,8 @@ namespace Crosslight.API.IO.FileSystem
 {
     public static class FileSystem
     {
+        #region From
+
         public static IDirectory FromDirectory(string path, bool includeSubdirectories = true)
         {
             var sourceDirectory = new DirectoryInfo(path);
@@ -126,5 +128,36 @@ namespace Crosslight.API.IO.FileSystem
 
             return resultingCollection;
         }
+
+        #endregion
+
+        #region Create
+
+        public static IDirectory CreateDirectory(string name, IDirectory parent = null)
+        {
+            return new Implementations.Directory(name, parent);
+        }
+
+        public static IDirectory CreateFileSystemCollection(string name, IDirectory parent = null)
+        {
+            return new FileSystemCollection(name, parent);
+        }
+
+        public static IFile CreateCustomFile(string name, object content, IDirectory parent = null)
+        {
+            return new CustomFile(name, content, parent);
+        }
+
+        public static IPhysicalFile CreatePhysicalFile(string name, string extension, byte[] data, IDirectory parent = null)
+        {
+            return new PhysicalFile(name, extension, data, parent);
+        }
+
+        public static IStringFile CreateStringFile(string name, string text, IDirectory parent = null)
+        {
+            return new StringFile(name, text, parent);
+        }
+
+        #endregion
     }
 }

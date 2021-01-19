@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Crosslight.API.IO.FileSystem.Abstractions;
+using ReactiveUI;
 using Splat;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,10 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
     }
     public class ResultItemVM : ReactiveObject, IActivatableViewModel
     {
-        protected object result;
+        protected IFileSystemItem result;
         protected string name;
         protected ResultItemOrigin origin;
-        public object Result
+        public IFileSystemItem Result
         {
             get => result;
             set => this.RaiseAndSetIfChanged(ref result, value);

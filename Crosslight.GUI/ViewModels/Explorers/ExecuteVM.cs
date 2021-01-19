@@ -14,7 +14,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
     {
         public new const string ConstTitle = "Execute";
 
-        public ReactiveCommand<Unit, Node> Decode { get; }
+        public ReactiveCommand<Unit, IFileSystemItem> Decode { get; }
         public ReactiveCommand<Unit, IFileSystemItem> Encode { get; }
 
         public override string Title => ConstTitle;
@@ -40,8 +40,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     .SelectedSources?
                     .Select(s => s.Source));
 
-                Node nodeRoot = language.Decode(src);
-                return nodeRoot;
+                return language.Decode(src);
             });
             Encode = ReactiveCommand.Create<IFileSystemItem>(() =>
             {
