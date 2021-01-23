@@ -26,7 +26,7 @@ namespace Crosslight.CSharp.Lang
             throw new NotImplementedException();
         }
 
-        public IFileSystemItem Encode(IFileSystemItem rootNode)
+        public IFileSystemItem Translate(IFileSystemItem rootNode)
         {
             throw new NotImplementedException();
         }

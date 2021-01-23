@@ -55,7 +55,7 @@ namespace Crosslight.Viewer
                 OutputLanguage = null,
             };
 
-            Node ast = GetNodeFromFSItem(context.InputLanguage.Encode(source));
+            Node ast = GetNodeFromFSItem(context.InputLanguage.Translate(source));
             if (ast == null)
             {
                 return;

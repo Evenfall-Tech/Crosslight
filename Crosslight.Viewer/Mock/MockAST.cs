@@ -56,7 +56,7 @@ namespace Crosslight.Viewer.Mock
             return node;
         }
 
-        public IFileSystemItem Encode(IFileSystemItem source)
+        public IFileSystemItem Translate(IFileSystemItem source)
         {
             return FileSystem.CreateCustomFile(source?.Name ?? "AST", CreateAST(), null);
         }

@@ -34,7 +34,7 @@ namespace Crosslight.Viewer.Lang
             options = new ViewerOptions();
         }
 
-        public IFileSystemItem Encode(IFileSystemItem input)
+        public IFileSystemItem Translate(IFileSystemItem input)
         {
             Node rootNode = (input as IFile).Content as Node;
             if (options.LaunchApplication)

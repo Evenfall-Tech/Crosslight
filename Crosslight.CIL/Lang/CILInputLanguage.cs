@@ -41,7 +41,7 @@ namespace Crosslight.CIL.Lang
             options = new CILVisitOptions();
         }
 
-        public IFileSystemItem Encode(IFileSystemItem source)
+        public IFileSystemItem Translate(IFileSystemItem source)
         {
             return ParseSource(source, null);
         }

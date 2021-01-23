@@ -40,7 +40,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     .SelectedSources?
                     .Select(s => s.Source));
 
-                return language.Encode(src);
+                return language.Translate(src);
             });
             Encode = ReactiveCommand.Create(() =>
             {
@@ -59,7 +59,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     .FirstOrDefault()
                     .Result;
 
-                return language.Encode(src);
+                return language.Translate(src);
             });
 
             Activator = new ViewModelActivator();

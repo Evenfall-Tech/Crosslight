@@ -5,7 +5,7 @@ namespace Crosslight.API.Lang
 {
     public interface ILanguage
     {
-        IFileSystemItem Encode(IFileSystemItem source);
+        IFileSystemItem Translate(IFileSystemItem source);
         string Name { get; }
         LanguageType LanguageType { get; }
         LanguageConfig Config { get; }
