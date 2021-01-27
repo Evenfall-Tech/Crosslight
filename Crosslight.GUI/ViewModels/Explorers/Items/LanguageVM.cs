@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Crosslight.API.Lang;
+using ReactiveUI;
 using Splat;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,16 @@ using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
-    public abstract class LanguageVM : ReactiveObject
+    public class LanguageVM : ReactiveObject
     {
         protected string path;
         protected string title;
+        protected ILanguage language;
+        public ILanguage Language
+        {
+            get => language;
+            set => this.RaiseAndSetIfChanged(ref language, value);
+        }
         public string Path
         {
             get => path;
@@ -22,8 +29,39 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             get => title;
             set => this.RaiseAndSetIfChanged(ref title, value);
         }
-        protected abstract IObservable<bool> SelectCommandAvailable { get; }
-        public abstract ReactiveCommand<Unit, Unit> SelectCommand { get; }
-        public abstract ReactiveCommand<Unit, Unit> RemoveCommand { get; }
+        protected IObservable<bool> SelectCommandAvailable => this
+            .WhenAnyValue(x => x.Language, x => x.Path)
+            .Select(k => k.Item1 != null && !string.IsNullOrWhiteSpace(k.Item2));
+        public ReactiveCommand<Unit, Unit> SelectCommand => ReactiveCommand.Create(() =>
+        {
+            var locator = Locator.Current.GetService<ExplorerLocator>();
+            var props = locator.Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
+            if (props != null)
+            {
+                props.SelectedInstance = Language.Options;
+            }
+            var lang = locator.Open<LanguagesVM>();
+            if (lang != null)
+            {
+                lang.SelectedLanguage = this;
+            }
+        },
+        SelectCommandAvailable);
+        public ReactiveCommand<Unit, Unit> RemoveCommand => ReactiveCommand.Create(() =>
+        {
+            var locator = Locator.Current.GetService<ExplorerLocator>();
+            var props = locator.Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
+            if (props != null)
+            {
+                if (props.SelectedInstance == Language.Options)
+                    props.SelectedInstance = null;
+            }
+            var lang = locator.Open<LanguagesVM>();
+            if (lang != null)
+            {
+                lang.RemoveLanguage.Execute(this).Subscribe();
+            }
+        },
+        SelectCommandAvailable);
     }
 }

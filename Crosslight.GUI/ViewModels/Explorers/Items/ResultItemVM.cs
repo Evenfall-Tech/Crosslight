@@ -1,26 +1,19 @@
 ﻿using Crosslight.API.IO.FileSystem.Abstractions;
+using Crosslight.API.Lang;
 using ReactiveUI;
 using Splat;
 using System;
-using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
-    public enum ResultItemOrigin
-    {
-        Input,
-        Intermediate,
-        Output,
-    }
     public class ResultItemVM : ReactiveObject, IActivatableViewModel
     {
         protected IFileSystemItem result;
         protected string name;
-        protected ResultItemOrigin origin;
+        protected LanguageType origin;
         public IFileSystemItem Result
         {
             get => result;
@@ -31,7 +24,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             get => name;
             set => this.RaiseAndSetIfChanged(ref name, value);
         }
-        public ResultItemOrigin Origin
+        public LanguageType Origin
         {
             get => origin;
             set => this.RaiseAndSetIfChanged(ref origin, value);

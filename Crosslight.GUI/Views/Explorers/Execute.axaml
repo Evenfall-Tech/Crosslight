@@ -9,7 +9,6 @@
 				Spacing="5"
 				Margin="5"
 				MinWidth="150">
-		<Button Content="Decode" Name="decode"/>
-		<Button Content="Encode" Name="encode"/>
+		<Button Content="Translate" Name="translate"/>
 	</StackPanel>
 </UserControl>

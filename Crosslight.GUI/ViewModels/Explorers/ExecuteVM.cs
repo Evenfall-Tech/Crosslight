@@ -14,8 +14,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
     {
         public new const string ConstTitle = "Execute";
 
-        public ReactiveCommand<Unit, IFileSystemItem> Decode { get; }
-        public ReactiveCommand<Unit, IFileSystemItem> Encode { get; }
+        public ReactiveCommand<Unit, (IFileSystemItem result, ILanguage language)> Translate { get; }
 
         public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "execute";
@@ -23,7 +22,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ExecuteVM() : this(null) { }
         public ExecuteVM(IScreen screen) : base(screen)
         {
-            Decode = ReactiveCommand.Create(() =>
+            Translate = ReactiveCommand.Create<(IFileSystemItem, ILanguage)>(() =>
             {
                 var locator =
                     Locator.Current
@@ -31,35 +30,21 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 ILanguage language =
                     locator
                     .Open<LanguagesVM>()?
-                    .SelectedInputLanguage?
-                    .InputLanguage;
-                // TODO: refactor these for virtual file system
-                IFileSystemItem src = FileSystem.FromItems(
-                    locator
-                    .Open<SourceInputVM>()?
-                    .SelectedSources?
-                    .Select(s => s.Source));
+                    .SelectedLanguage?
+                    .Language;
 
-                return language.Translate(src);
-            });
-            Encode = ReactiveCommand.Create(() =>
-            {
-                var locator =
-                    Locator.Current
-                    .GetService<ExplorerLocator>();
-                ILanguage language =
-                    locator
-                    .Open<LanguagesVM>()?
-                    .SelectedOutputLanguage?
-                    .OutputLanguage;
-                // TODO: refactor these for virtual file system
                 IFileSystemItem src =
-                    locator.Open<ResultListVM>()
-                    .SelectedIntermediateResults
-                    .FirstOrDefault()
-                    .Result;
+                    FileSystem.FromItems(
+                        locator.Open<ResultListVM>()
+                            .SelectedResults
+                            .Select(x => x.Result)
+                    );
 
-                return language.Translate(src);
+                if (language != null && src != null)
+                {
+                    return (language.Translate(src), language);
+                }
+                return (null, null);
             });
 
             Activator = new ViewModelActivator();

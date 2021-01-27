@@ -17,7 +17,6 @@ namespace Crosslight.GUI.ViewModels.Explorers
             {
                 { typeof(LanguagesVM), (() => new LanguagesVM(), true) },
                 { typeof(PropertiesVM), (() => new PropertiesVM(), true) },
-                { typeof(SourceInputVM), (() => new SourceInputVM(), true) },
                 { typeof(ExecuteVM), (() => new ExecuteVM(), true) },
                 { typeof(ResultListVM), (() => new ResultListVM(), true) },
                 { typeof(SourcePreviewVM), (() => new SourcePreviewVM(), false) },

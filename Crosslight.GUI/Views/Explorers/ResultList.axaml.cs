@@ -17,39 +17,26 @@ namespace Crosslight.GUI.Views.Explorers
 {
     public class ResultList : ReactiveUserControl<ResultListVM>
     {
-        public ListBox ResultListInput => this.FindControl<ListBox>("resultListInput");
-        public ListBox ResultListInter => this.FindControl<ListBox>("resultListInter");
-        public ListBox ResultListOutput => this.FindControl<ListBox>("resultListOutput");
+        public ListBox ResultTypeList => this.FindControl<ListBox>("resultTypeList");
         public ResultList()
         {
-            Locator.CurrentMutable.Register(() => new ResultItem(), typeof(IViewFor<ResultItemVM>));
+            Locator.CurrentMutable.Register(() => new ResultType(), typeof(IViewFor<ResultTypeVM>));
             this.WhenActivated(disp =>
             {
-                this.OneWayBind(ViewModel, x => x.IntermediateResults, x => x.ResultListInter.Items)
+                this.OneWayBind(ViewModel, x => x.ResultTypes, x => x.ResultTypeList.Items)
                     .DisposeWith(disp);
-                this.OneWayBind(ViewModel, x => x.InputResults, x => x.ResultListInput.Items)
-                    .DisposeWith(disp);
-                this.OneWayBind(ViewModel, x => x.OutputResults, x => x.ResultListOutput.Items)
-                    .DisposeWith(disp);
-                Observable
-                    .FromEventPattern<EventHandler<SelectionChangedEventArgs>, SelectionChangedEventArgs>
-                        (h => ResultListInter.SelectionChanged += h, h => ResultListInter.SelectionChanged -= h)
-                    .Subscribe(x =>
-                    {
-                        if (x != null && x.EventArgs != null)
-                        {
-                            ViewModel.SelectedIntermediateResults.RemoveMany(x.EventArgs.RemovedItems.OfType<ResultItemVM>());
-                            ViewModel.SelectedIntermediateResults.AddRange(x.EventArgs.AddedItems.OfType<ResultItemVM>());
-                        }
-                    })
-                    .DisposeWith(disp);
-                ResultListInter
-                    .WhenAnyValue(x => x.SelectedItem)
-                    .Where(x => x is ResultItemVM)
-                    .Select(x => x as ResultItemVM)
-                    //.Select(x => x.SelectCommand.Execute())
-                    .Subscribe()
-                    .DisposeWith(disp);
+                //Observable
+                //    .FromEventPattern<EventHandler<SelectionChangedEventArgs>, SelectionChangedEventArgs>
+                //        (h => ResultListInter.SelectionChanged += h, h => ResultListInter.SelectionChanged -= h)
+                //    .Subscribe(x =>
+                //    {
+                //        if (x != null && x.EventArgs != null)
+                //        {
+                //            ViewModel.SelectedIntermediateResults.RemoveMany(x.EventArgs.RemovedItems.OfType<ResultItemVM>());
+                //            ViewModel.SelectedIntermediateResults.AddRange(x.EventArgs.AddedItems.OfType<ResultItemVM>());
+                //        }
+                //    })
+                //    .DisposeWith(disp);
             });
             this.InitializeComponent();
         }

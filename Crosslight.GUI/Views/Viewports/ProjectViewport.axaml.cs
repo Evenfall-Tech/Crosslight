@@ -38,7 +38,7 @@ namespace Crosslight.GUI.Views.Viewports
                         FillProjectMenu();
                         OpenExplorer<LanguagesVM>();
                         OpenExplorer<PropertiesVM>();
-                        OpenExplorer<SourceInputVM>();
+                        OpenExplorer<ResultListVM>();
                         OpenExplorer<ExecuteVM>();
                         return true;
                     })
@@ -84,12 +84,6 @@ namespace Crosslight.GUI.Views.Viewports
                                 Header = $"_{PropertiesVM.ConstTitle}",
                                 Command = openView,
                                 CommandParameter = typeof(PropertiesVM),
-                            },
-                            new MenuItemVM
-                            {
-                                Header = $"{SourceInputVM.ConstTitle}",
-                                Command = openView,
-                                CommandParameter = typeof(SourceInputVM),
                             },
                             new MenuItemVM
                             {
