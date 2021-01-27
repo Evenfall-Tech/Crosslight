@@ -32,13 +32,19 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     .Open<LanguagesVM>()?
                     .SelectedLanguage?
                     .Language;
+                var resultList = locator.Open<ResultListVM>();
 
-                IFileSystemItem src =
-                    FileSystem.FromItems(
-                        locator.Open<ResultListVM>()
-                            .SelectedResults
-                            .Select(x => x.Result)
-                    );
+                IFileSystemItem src;
+                if (resultList.SelectedResults.Count > 1)
+                {
+                    src = FileSystem.FromItems(resultList
+                        .SelectedResults
+                        .Select(x => x.Result));
+                }
+                else
+                {
+                    src = resultList.SelectedResults.FirstOrDefault()?.Result;
+                }
 
                 if (language != null && src != null)
                 {
