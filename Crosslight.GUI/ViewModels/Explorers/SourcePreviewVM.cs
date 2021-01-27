@@ -16,44 +16,41 @@ namespace Crosslight.GUI.ViewModels.Explorers
     public class SourcePreviewVM : ExplorerPanelVM, IActivatableViewModel
     {
         public new const string ConstTitle = "Source Preview";
-        private string sourceText;
-        private IFileSystemItem source;
-        private string title;
+        protected IFileSystemItem source;
+        protected ObservableAsPropertyHelper<string> sourceText;
+        protected ObservableAsPropertyHelper<string> title;
+        protected ObservableAsPropertyHelper<string> idObservable;
 
-        public string SourceText
-        {
-            get => sourceText;
-            set => this.RaiseAndSetIfChanged(ref sourceText, value);
-        }
         public IFileSystemItem Source
         {
             get => source;
             set => this.RaiseAndSetIfChanged(ref source, value);
         }
-        public IObservable<string> VisibleSourceText { get; }
+        public string SourceText => sourceText.Value;
 
-        public override string Title => $"Src: {title}";
+        public override string Title => title.Value;
+        public override string ID => idObservable.Value;
         public override string UrlPathSegment => $"source_preview_{title}";
         public ViewModelActivator Activator { get; }
         public SourcePreviewVM() : this(null) { }
         public SourcePreviewVM(IScreen screen) : base(screen)
         {
-            VisibleSourceText = this.WhenAnyValue(x => x.SourceText);
+            var fileObservable = this
+                .WhenAnyValue(x => x.Source)
+                .DistinctUntilChanged();
+            title = fileObservable
+                .Select(x => TitleFromFile(x))
+                .ToProperty(this, x => x.Title);
+            idObservable = fileObservable
+                .Select(x => IDFromFile(x))
+                .ToProperty(this, x => x.ID);
+            sourceText = fileObservable
+                .Select(x => SourceTextFromFile(x))
+                .ToProperty(this, x => x.SourceText);
 
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
             {
-                this.WhenAnyValue(x => x.Source)
-                    .DistinctUntilChanged()
-                    .Select(x =>
-                    {
-                        SetTitle(x);
-                        SetSourceText(x);
-                        SetID(x);
-                        return Unit.Default;
-                    })
-                    .Subscribe()
-                    .DisposeWith(disposables);
             });
         }
 
@@ -72,44 +69,40 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 throw new NotImplementedException($"{source.GetType().Name} is not supported.");
         }
 
-        private Unit SetTitle(IFileSystemItem src)
+        private string TitleFromFile(IFileSystemItem src)
         {
-            if (src == null) return Unit.Default;
+            if (src == null) return null;
             if (src is IPhysicalFile fileSource)
             {
-                title = Path.GetFileName(fileSource.Path);
-                this.RaisePropertyChanged(nameof(Title));
+                return $"Src: {Path.GetFileName(fileSource.Path)}";
             }
             else if (src is IStringFile stringSource)
             {
-                title = "String Source";
-                this.RaisePropertyChanged(nameof(Title));
+                return "Src: string source";
             }
             else
                 throw new NotImplementedException($"{src.GetType().Name} is not supported.");
-            return Unit.Default;
         }
 
-        private Unit SetSourceText(IFileSystemItem src)
+        private string SourceTextFromFile(IFileSystemItem src)
         {
-            if (src == null) return Unit.Default;
+            if (src == null) return null;
             if (src is IPhysicalFile fileSource)
             {
-                SourceText = File.ReadAllText(fileSource.Path);
+                return File.ReadAllText(fileSource.Path);
             }
             else if (src is IStringFile stringSource)
             {
-                SourceText = stringSource.Text;
+                return stringSource.Text;
             }
             else
                 throw new NotImplementedException($"{src.GetType().Name} is not supported.");
-            return Unit.Default;
         }
 
-        private Unit SetID(IFileSystemItem src)
+        private string IDFromFile(IFileSystemItem src)
         {
-            ID = GenerateID(src);
-            return Unit.Default;
+            if (src == null) return null;
+            return GenerateID(src);
         }
     }
 }

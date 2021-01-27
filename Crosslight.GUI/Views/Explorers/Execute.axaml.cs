@@ -44,7 +44,7 @@ namespace Crosslight.GUI.Views.Explorers
                 if (resultList != null)
                     await resultList.AddResultVM.Execute(new ResultItemVM()
                     {
-                        Name = translationResult.result.ToString(),
+                        Name = translationResult.result.Name,
                         Origin = translationResult.language.LanguageType,
                         Result = translationResult.result,
                     });

@@ -24,8 +24,8 @@ namespace Crosslight.GUI.Views.Explorers
             {
                 this.WhenAnyValue(x => x.ViewModel.Result)
                     .DistinctUntilChanged()
-                    .Select(x => FillContent(x))
-                    .Subscribe()
+                    .Select(x => ControlFromFile(x))
+                    .BindTo(this, x => x.Content)
                     .DisposeWith(disp);
             });
             this.InitializeComponent();
@@ -36,12 +36,11 @@ namespace Crosslight.GUI.Views.Explorers
             AvaloniaXamlLoader.Load(this);
         }
 
-        private Unit FillContent(IFileSystemItem fileSystemItem)
+        private object ControlFromFile(IFileSystemItem fileSystemItem)
         {
             if (fileSystemItem == null)
             {
-                //Content = null;
-                return Unit.Default;
+                return null;
             }
             else if (fileSystemItem is IFile file)
             {
@@ -54,16 +53,15 @@ namespace Crosslight.GUI.Views.Explorers
             else throw new NotImplementedException($"{fileSystemItem.GetType().Name} is not yet supported.");
         }
 
-        private Unit FillFile(IFile file)
+        private object FillFile(IFile file)
         {
             if (file == null || file.Content == null)
             {
-                //Content = null;
-                return Unit.Default;
+                return null;
             }
             else if (file.Content is Node node)
             {
-                Content = new GraphViewer()
+                return new GraphViewer()
                 {
                     ViewModel = new GraphViewerViewModel()
                     {
@@ -73,16 +71,15 @@ namespace Crosslight.GUI.Views.Explorers
             }
             else if (file.Content is ILogical logical)
             {
-                Content = logical;
+                return logical;
             }
-            else Content = file.Content.ToString();
+            else return file.Content.ToString();
             return Unit.Default;
         }
 
-        private Unit FillDirectory(IDirectory directory)
+        private object FillDirectory(IDirectory directory)
         {
-            Content = directory.Name;
-            return Unit.Default;
+            return directory.Name;
         }
     }
 }

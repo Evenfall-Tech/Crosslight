@@ -14,11 +14,13 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         protected IFileSystemItem result;
         protected string name;
         protected LanguageType origin;
+        protected ObservableAsPropertyHelper<string> id;
         public IFileSystemItem Result
         {
             get => result;
             set => this.RaiseAndSetIfChanged(ref result, value);
         }
+        public string ID => id.Value;
         public string Name
         {
             get => name;
@@ -67,6 +69,13 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
                     return false;
                 });
             }, Observable.Return(true));
+
+            id = this
+                .WhenAnyValue(x => x.Result)
+                .DistinctUntilChanged()
+                .Where(x => x != null)
+                .Select(x => x?.GetHashCode().ToString())
+                .ToProperty(this, x => x.ID, this.GetHashCode().ToString());
 
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>

@@ -30,8 +30,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             set => this.RaiseAndSetIfChanged(ref title, value);
         }
         protected IObservable<bool> SelectCommandAvailable => this
-            .WhenAnyValue(x => x.Language, x => x.Path)
-            .Select(k => k.Item1 != null && !string.IsNullOrWhiteSpace(k.Item2));
+            .WhenAnyValue(x => x.Language, x => x.Path, (language, path) => language != null && !string.IsNullOrWhiteSpace(path));
         public ReactiveCommand<Unit, Unit> SelectCommand => ReactiveCommand.Create(() =>
         {
             var locator = Locator.Current.GetService<ExplorerLocator>();

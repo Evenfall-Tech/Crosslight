@@ -1,4 +1,5 @@
 ﻿using Crosslight.API.Lang;
+using DynamicData.Binding;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
     {
         protected LanguageType languageType;
         protected ReadOnlyObservableCollection<ResultItemVM> results;
+        protected ObservableCollectionExtended<ResultItemVM> selectedResultsObservable;
 
         public LanguageType LanguageType
         {
@@ -23,9 +25,12 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             get => results;
             set => this.RaiseAndSetIfChanged(ref results, value);
         }
+        public ObservableCollectionExtended<ResultItemVM> SelectedResults => selectedResultsObservable;
         public ViewModelActivator Activator { get; }
         public ResultTypeVM()
         {
+            selectedResultsObservable = new ObservableCollectionExtended<ResultItemVM>();
+
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disp) =>
             {

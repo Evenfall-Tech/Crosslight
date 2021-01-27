@@ -27,6 +27,7 @@ namespace Crosslight.GUI.Views.Explorers.Items
                     .DisposeWith(disp);
                 Observable.FromEventPattern<EventHandler<RoutedEventArgs>, RoutedEventArgs>
                     (d => this.DoubleTapped += d, d => this.DoubleTapped -= d)
+                    // TODO: this can be refactored with side-effects.
                     .Select(async x => await ViewModel.OpenCommand.ExecuteIfPossible())
                     .Subscribe()
                     .DisposeWith(disp);

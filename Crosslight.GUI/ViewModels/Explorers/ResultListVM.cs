@@ -18,10 +18,10 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public new const string ConstTitle = "Result List";
         protected SourceCache<ResultItemVM, string> resultsSource;
         protected ObservableCollection<ResultTypeVM> resultTypes;
-        protected IObservableCollection<ResultItemVM> selectedResultsObservable;
+        protected ReadOnlyObservableCollection<ResultItemVM> selectedResultsObservable;
 
         public ObservableCollection<ResultTypeVM> ResultTypes => resultTypes;
-        public IObservableCollection<ResultItemVM> SelectedResults => selectedResultsObservable;
+        public ReadOnlyObservableCollection<ResultItemVM> SelectedResults => selectedResultsObservable;
         public ReactiveCommand<ResultItemVM, Unit> AddResultVM { get; }
         public ReactiveCommand<ResultItemVM, Unit> RemoveResultVM { get; }
 
@@ -31,8 +31,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ResultListVM() : this(null) { }
         public ResultListVM(IScreen screen) : base(screen)
         {
-            resultsSource = new SourceCache<ResultItemVM, string>(x => x.Name);
-            selectedResultsObservable = new ObservableCollectionExtended<ResultItemVM>();
+            resultsSource = new SourceCache<ResultItemVM, string>(x => x.ID);
 
             AddResultVM = ReactiveCommand.Create((ResultItemVM item) =>
             {
@@ -58,13 +57,13 @@ namespace Crosslight.GUI.ViewModels.Explorers
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
             {
-                var observable = resultsSource.Connect();
                 foreach (var languageType in languateEnumValues)
                 {
                     var resultTypeVM = resultTypes.FirstOrDefault(x => x.LanguageType == languageType);
                     if (resultTypeVM != null)
                     {
-                        observable
+                        resultsSource
+                            .Connect()
                             .Filter(x => x?.Origin == languageType)
                             .Bind(out var resultsObservable)
                             .Subscribe()
@@ -72,6 +71,13 @@ namespace Crosslight.GUI.ViewModels.Explorers
                         resultTypeVM.Results = resultsObservable;
                     }
                 }
+                // TODO: this code can probably be refactored without two change sets.
+                Observable
+                    .Merge(ResultTypes.Select(x => x.SelectedResults.ToObservableChangeSet()))
+                    .Bind(out selectedResultsObservable)
+                    .Do(x => Console.WriteLine(x?.Count))
+                    .Subscribe()
+                    .DisposeWith(disposables);
             });
         }
     }
