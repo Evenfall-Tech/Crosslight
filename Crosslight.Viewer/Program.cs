@@ -31,7 +31,7 @@ namespace Crosslight.Viewer
             => builder
                 .UseReactiveUI()
                 .UsePlatformDetect()
-                .LogToDebug();
+                .LogToTrace();
 
         public static AppBuilder ConfigureDefault()
             => AppBuilder.Configure<App>();

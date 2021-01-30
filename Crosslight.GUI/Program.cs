@@ -18,6 +18,6 @@ namespace Crosslight.GUI
             => AppBuilder.Configure<App>()
                 .UseReactiveUI()
                 .UsePlatformDetect()
-                .LogToDebug();
+                .LogToTrace();
     }
 }

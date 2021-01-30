@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.API.IO.FileSystem;
+using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using Crosslight.GUI.Views.Explorers.Items;
@@ -11,6 +12,7 @@ using DynamicData;
 using ReactiveUI;
 using Splat;
 using System;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -36,14 +38,25 @@ namespace Crosslight.GUI.Views.Explorers
                 Window window = GetWindow();
                 if (window == null) return;
                 var outPathStrings = await openFileDialog.ShowAsync(window);
-                if (outPathStrings.Length == 0) return;
+                IFileSystemItem fileSystemItem;
+                string name;
 
-                var filesToAdd = FileSystem.FromFiles(outPathStrings);
+                if (outPathStrings.Length == 0) return;
+                else if (outPathStrings.Length == 1)
+                {
+                    fileSystemItem = FileSystem.FromFile(outPathStrings[0]);
+                    name = Path.GetFileName((fileSystemItem as IPhysicalFile).Path);
+                }
+                else
+                {
+                    fileSystemItem = FileSystem.FromFiles(outPathStrings);
+                    name = fileSystemItem.Name;
+                }
                 await ViewModel.AddResultVM.Execute(new ResultItemVM()
                 {
-                    Name = filesToAdd.Name,
+                    Name = name,
                     Origin = API.Lang.LanguageType.Input,
-                    Result = filesToAdd,
+                    Result = fileSystemItem,
                 });
             });
             this.WhenActivated(disp =>

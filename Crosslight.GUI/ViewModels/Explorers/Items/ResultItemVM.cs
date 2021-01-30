@@ -9,12 +9,26 @@ using System.Reactive.Linq;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
+    public enum ResultItemState
+    {
+        None = 0,
+        NonExpandable,
+        Collapsed,
+        Expanded
+    }
     public class ResultItemVM : ReactiveObject, IActivatableViewModel
     {
         protected IFileSystemItem result;
         protected string name;
         protected LanguageType origin;
         protected ObservableAsPropertyHelper<string> id;
+        protected ResultItemState state;
+        protected bool isTopLevel;
+        public ResultItemState State
+        {
+            get => state;
+            set => this.RaiseAndSetIfChanged(ref state, value);
+        }
         public IFileSystemItem Result
         {
             get => result;
@@ -25,6 +39,11 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         {
             get => name;
             set => this.RaiseAndSetIfChanged(ref name, value);
+        }
+        public bool IsTopLevel
+        {
+            get => isTopLevel;
+            set => this.RaiseAndSetIfChanged(ref isTopLevel, value);
         }
         public LanguageType Origin
         {
@@ -37,6 +56,8 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         public ViewModelActivator Activator { get; }
         public ResultItemVM()
         {
+            IsTopLevel = true;
+
             OpenCommand = ReactiveCommand.Create(() =>
             {
                 string id = ResultsVM.GenerateID(Result);
@@ -78,9 +99,21 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
                 .ToProperty(this, x => x.ID, this.GetHashCode().ToString());
 
             Activator = new ViewModelActivator();
-            this.WhenActivated((CompositeDisposable disposables) =>
+            this.WhenActivated((CompositeDisposable disp) =>
             {
+                this.WhenAnyValue(x => x.Result)
+                    .Select(x => StateFromFile(x))
+                    .BindTo(this, x => x.State)
+                    .DisposeWith(disp);
             });
+        }
+
+        private ResultItemState StateFromFile(IFileSystemItem file)
+        {
+            if (file is null) throw new NullReferenceException();
+            if (file is IDirectory) return ResultItemState.Collapsed;
+            if (file is IFile) return ResultItemState.NonExpandable;
+            else throw new NotImplementedException($"{file.GetType().Name} file is not yet supported.");
         }
     }
 }

@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
+    <ProjectReference Include="..\Crosslight.Common.UI\Crosslight.Common.UI.csproj" />
     <ProjectReference Include="..\Crosslight.Common\Crosslight.Common.csproj" />
     <ProjectReference Include="..\Crosslight.Viewer\Crosslight.Viewer.csproj" />
   </ItemGroup>
@@ -20,6 +21,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-	<AvaloniaResource Include="Assets\**"/>
+	<AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 </Project>
