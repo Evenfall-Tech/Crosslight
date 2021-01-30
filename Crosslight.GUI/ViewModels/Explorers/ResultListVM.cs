@@ -1,30 +1,27 @@
-﻿using Crosslight.GUI.ViewModels.Explorers.Items;
+﻿using Crosslight.API.Lang;
+using Crosslight.GUI.ViewModels.Explorers.Items;
 using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers
 {
     public class ResultListVM : ExplorerPanelVM, IActivatableViewModel
     {
         public new const string ConstTitle = "Result List";
-        protected SourceCache<ResultItemVM, string> results;
-        protected ReadOnlyObservableCollection<ResultItemVM> intermediateResults;
-        protected ReadOnlyObservableCollection<ResultItemVM> inputResults;
-        protected ReadOnlyObservableCollection<ResultItemVM> outputResults;
-        protected IObservableCollection<ResultItemVM> selectedIntermediateResultsObservable;
+        protected SourceCache<ResultItemVM, string> resultsSource;
+        protected ObservableCollection<ResultTypeVM> resultTypes;
+        protected ReadOnlyObservableCollection<ResultItemVM> selectedResultsObservable;
 
-        public ReadOnlyObservableCollection<ResultItemVM> IntermediateResults => intermediateResults;
-        public ReadOnlyObservableCollection<ResultItemVM> InputResults => inputResults;
-        public ReadOnlyObservableCollection<ResultItemVM> OutputResults => outputResults;
-        public IObservableCollection<ResultItemVM> SelectedIntermediateResults => selectedIntermediateResultsObservable;
+        public ObservableCollection<ResultTypeVM> ResultTypes => resultTypes;
+        public ReadOnlyObservableCollection<ResultItemVM> SelectedResults => selectedResultsObservable;
         public ReactiveCommand<ResultItemVM, Unit> AddResultVM { get; }
         public ReactiveCommand<ResultItemVM, Unit> RemoveResultVM { get; }
 
@@ -34,39 +31,51 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ResultListVM() : this(null) { }
         public ResultListVM(IScreen screen) : base(screen)
         {
-            results = new SourceCache<ResultItemVM, string>(x => x.Name);
-            selectedIntermediateResultsObservable = new ObservableCollectionExtended<ResultItemVM>();
+            resultsSource = new SourceCache<ResultItemVM, string>(x => x.ID);
 
             AddResultVM = ReactiveCommand.Create((ResultItemVM item) =>
             {
                 if (item != null)
-                    results.AddOrUpdate(item);
+                    resultsSource.AddOrUpdate(item);
             }, Observable.Return(true));
             RemoveResultVM = ReactiveCommand.Create((ResultItemVM item) =>
             {
                 if (item != null)
-                    results.Remove(item);
+                    resultsSource.Remove(item);
             }, Observable.Return(true));
+
+            resultTypes = new ObservableCollection<ResultTypeVM>();
+            var languateEnumValues = (LanguageType[])Enum.GetValues(typeof(LanguageType));
+            foreach (var languageType in languateEnumValues)
+            {
+                resultTypes.Add(new ResultTypeVM()
+                {
+                    LanguageType = languageType,
+                });
+            }
 
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
             {
-                results
-                    .Connect()
-                    .Filter(x => x.Origin == ResultItemOrigin.Intermediate)
-                    .Bind(out intermediateResults)
-                    .Subscribe()
-                    .DisposeWith(disposables);
-                results
-                    .Connect()
-                    .Filter(x => x.Origin == ResultItemOrigin.Input)
-                    .Bind(out inputResults)
-                    .Subscribe()
-                    .DisposeWith(disposables);
-                results
-                    .Connect()
-                    .Filter(x => x.Origin == ResultItemOrigin.Output)
-                    .Bind(out outputResults)
+                foreach (var languageType in languateEnumValues)
+                {
+                    var resultTypeVM = resultTypes.FirstOrDefault(x => x.LanguageType == languageType);
+                    if (resultTypeVM != null)
+                    {
+                        resultsSource
+                            .Connect()
+                            .Filter(x => x?.Origin == languageType)
+                            .Bind(out var resultsObservable)
+                            .Subscribe()
+                            .DisposeWith(disposables);
+                        resultTypeVM.Results = resultsObservable;
+                    }
+                }
+                // TODO: this code can probably be refactored without two change sets.
+                Observable
+                    .Merge(ResultTypes.Select(x => x.SelectedResults.ToObservableChangeSet()))
+                    .Bind(out selectedResultsObservable)
+                    .Do(x => Console.WriteLine(x?.Count))
                     .Subscribe()
                     .DisposeWith(disposables);
             });

@@ -2,25 +2,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:controls="using:Crosslight.Common.UI.Controls"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="100"
              x:Class="Crosslight.GUI.Views.Explorers.Items.ResultItem"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
-	<UserControl.Styles>
-		<Style Selector="Button.NoStyle">
-			<Setter Property="BorderBrush" Value="Transparent"/>
-			<Setter Property="BorderThickness" Value="0.0"/>
-			<Setter Property="Background" Value="Transparent"/>
-		</Style>
-	</UserControl.Styles>
-	<Grid Name="clicker" Classes="NoStyle">
-		<DockPanel LastChildFill="True">
-			<Button Content="X" Name="remove"
-					DockPanel.Dock="Right"
-					Padding="0"
-			/>
-			<TextBlock Name="title"
-					   HorizontalAlignment="Stretch"
-					   TextAlignment="Left"/>
-		</DockPanel>
+	<Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,*">
+		<StackPanel Orientation="Horizontal"
+					Grid.Column="0">
+			<controls:IconButton x:Name="expand" Width="16" Height="16"/>
+			<Image x:Name="icon" Width="16" Height="16"/>
+		</StackPanel>
+		<Grid Grid.Column="1" x:Name="main">
+			<TextBlock x:Name="title"
+				   TextAlignment="Left"/>
+		</Grid>
+		<Button Content="X" x:Name="remove"
+				Grid.Column="2"
+				Padding="0">
+			<Image Source="avares://Crosslight.Common.UI/Assets/Icons/Editor/Close_16x.png"/>
+		</Button>
+		<TreeView x:Name="tree" Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="0" BorderBrush="Transparent"/>
 	</Grid>
 </UserControl>

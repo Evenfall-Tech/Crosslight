@@ -2,7 +2,7 @@
 
 namespace Crosslight.API.Exceptions
 {
-    public class VisitorException : Exception
+    public class VisitorException : CrosslightException
     {
         private const string ExceptionMessage = "Failed to apply visitor.";
 

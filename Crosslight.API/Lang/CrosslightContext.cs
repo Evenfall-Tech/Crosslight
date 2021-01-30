@@ -2,7 +2,7 @@
 {
     public class CrosslightContext
     {
-        public InputLanguage InputLanguage { get; set; }
-        public OutputLanguage OutputLanguage { get; set; }
+        public ILanguage InputLanguage { get; set; }
+        public ILanguage OutputLanguage { get; set; }
     }
 }

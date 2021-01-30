@@ -16,11 +16,10 @@ namespace Crosslight.GUI.Views.Explorers
         {
             this.WhenActivated(disposables =>
             {
-                this.WhenAnyObservable(x => x.ViewModel.VisibleSourceText)
-                    .BindTo(this, x => x.SourceText.Text)
+                this.OneWayBind(ViewModel, x => x.SourceText, x => x.SourceText.Text)
                     .DisposeWith(disposables);
             });
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void InitializeComponent()

@@ -7,7 +7,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public const string ConstTitle = "Explorer";
         protected string id;
         protected IScreen hostScreen;
-        public string ID
+        public virtual string ID
         {
             get => id;
             set => this.RaiseAndSetIfChanged(ref id, value);

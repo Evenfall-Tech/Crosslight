@@ -14,8 +14,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
     {
         public new const string ConstTitle = "Execute";
 
-        public ReactiveCommand<Unit, Node> Decode { get; }
-        public ReactiveCommand<Unit, IFileSystemItem> Encode { get; }
+        public ReactiveCommand<Unit, (IFileSystemItem result, ILanguage language)> Translate { get; }
 
         public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "execute";
@@ -23,44 +22,35 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ExecuteVM() : this(null) { }
         public ExecuteVM(IScreen screen) : base(screen)
         {
-            Decode = ReactiveCommand.Create(() =>
+            Translate = ReactiveCommand.Create<(IFileSystemItem, ILanguage)>(() =>
             {
                 var locator =
                     Locator.Current
                     .GetService<ExplorerLocator>();
-                InputLanguage language =
+                ILanguage language =
                     locator
                     .Open<LanguagesVM>()?
-                    .SelectedInputLanguage?
-                    .InputLanguage;
+                    .SelectedLanguage?
+                    .Language;
+                var resultList = locator.Open<ResultListVM>();
 
-                IDirectory src = FileSystem.FromItems(
-                    locator
-                    .Open<SourceInputVM>()?
-                    .SelectedSources?
-                    .Select(s => s.Source));
+                IFileSystemItem src;
+                if (resultList.SelectedResults.Count > 1)
+                {
+                    src = FileSystem.FromItems(resultList
+                        .SelectedResults
+                        .Select(x => x.Result));
+                }
+                else
+                {
+                    src = resultList.SelectedResults.FirstOrDefault()?.Result;
+                }
 
-                Node nodeRoot = language.Decode(src);
-                return nodeRoot;
-            });
-            Encode = ReactiveCommand.Create<IFileSystemItem>(() =>
-            {
-                var locator =
-                    Locator.Current
-                    .GetService<ExplorerLocator>();
-                OutputLanguage language =
-                    locator
-                    .Open<LanguagesVM>()?
-                    .SelectedOutputLanguage?
-                    .OutputLanguage;
-
-                Node src =
-                    locator.Open<ResultListVM>()
-                    .SelectedIntermediateResults
-                    .FirstOrDefault(x => x.Result is Node)
-                    .Result as Node;
-
-                return language.Encode(src);
+                if (language != null && src != null)
+                {
+                    return (language.Translate(src), language);
+                }
+                return (null, null);
             });
 
             Activator = new ViewModelActivator();

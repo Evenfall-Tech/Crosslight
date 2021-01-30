@@ -14,17 +14,12 @@ namespace Crosslight.Common.Runtime
             return Directory.GetFiles(path, "Crosslight.*.dll");
         }
 
-        public static InputLanguage[] LoadInputLanguageFromAssembly(string filePath)
+        public static ILanguage[] LoadLanguagesFromAssembly(string filePath)
         {
-            return LoadTypeInstanceFromAssembly<InputLanguage>(filePath);
+            return LoadTypeInstancesFromAssembly<ILanguage>(filePath);
         }
 
-        public static OutputLanguage[] LoadOutputLanguageFromAssembly(string filePath)
-        {
-            return LoadTypeInstanceFromAssembly<OutputLanguage>(filePath);
-        }
-
-        public static T[] LoadTypeInstanceFromAssembly<T>(string filePath) where T : class
+        public static T[] LoadTypeInstancesFromAssembly<T>(string filePath) where T : class
         {
             var assembly = LoadAssembly(filePath);
             return CreateTypeInstance<T>(assembly);

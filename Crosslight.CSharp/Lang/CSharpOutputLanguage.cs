@@ -6,13 +6,14 @@ using System;
 
 namespace Crosslight.CSharp.Lang
 {
-    public class CSharpOutputLanguage : OutputLanguage
+    public class CSharpOutputLanguage : ILanguage
     {
-        public override string Name => "CSharp";
+        public string Name => "CSharp";
+        public LanguageType LanguageType => LanguageType.Output;
 
         private CSharpVisitOptions options;
-        public override LanguageConfig Config { get; protected set; }
-        public override ILanguageOptions Options
+        public LanguageConfig Config { get; protected set; }
+        public ILanguageOptions Options
         {
             get => options;
             set
@@ -20,12 +21,12 @@ namespace Crosslight.CSharp.Lang
                 options = value as CSharpVisitOptions;
             }
         }
-        public override void LoadOptionsFromConfig(LanguageConfig config)
+        public void LoadOptionsFromConfig(LanguageConfig config)
         {
             throw new NotImplementedException();
         }
 
-        public override IFileSystemItem Encode(Node rootNode)
+        public IFileSystemItem Translate(IFileSystemItem rootNode)
         {
             throw new NotImplementedException();
         }

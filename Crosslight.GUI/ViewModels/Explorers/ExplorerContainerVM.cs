@@ -9,24 +9,12 @@ namespace Crosslight.GUI.ViewModels.Explorers
 {
     public class ExplorerContainerVM : ReactiveObject, IActivatableViewModel, IScreen
     {
-        protected string title;
-        protected string id;
-        private ExplorerPanelVM top;
-        public string Title
-        {
-            get => title;
-            set => this.RaiseAndSetIfChanged(ref title, value);
-        }
-        public string ID
-        {
-            get => id;
-            set => this.RaiseAndSetIfChanged(ref id, value);
-        }
-        public ExplorerPanelVM Top
-        {
-            get => top;
-            set => this.RaiseAndSetIfChanged(ref top, value);
-        }
+        protected readonly ObservableAsPropertyHelper<string> title;
+        protected readonly ObservableAsPropertyHelper<string> id;
+        protected readonly ObservableAsPropertyHelper<ExplorerPanelVM> top;
+        public string Title => title.Value;
+        public string ID => id.Value;
+        public ExplorerPanelVM Top => top.Value;
         public ReactiveCommand<Unit, Unit> Close { get; }
 
         public RoutingState Router { get; } = new RoutingState();
@@ -35,7 +23,6 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ViewModelActivator Activator { get; }
         public ExplorerContainerVM()
         {
-            title = "Explorer";
             GoNext = ReactiveCommand.CreateFromObservable(
                 (Func<IScreen, ExplorerPanelVM> x) =>
                 {
@@ -56,44 +43,25 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 Locator.Current.GetService<ExplorerLocator>().Close(this);
             });
 
+            top = Router.CurrentViewModel
+                .Where(x => x is ExplorerPanelVM)
+                .DistinctUntilChanged()
+                .Select(x => x as ExplorerPanelVM)
+                .ToProperty(this, x => x.Top);
+            id = this
+                .WhenAnyValue(x => x.Top, x => x.Top.ID, (top, id) => top.ID ?? id)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .DistinctUntilChanged()
+                .ToProperty(this, x => x.ID);
+            title = this
+                .WhenAnyValue(x => x.Top, x => x.Top.Title, (top, title) => top.Title ?? title)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .DistinctUntilChanged()
+                .ToProperty(this, x => x.Title, "Explorer");
+
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
             {
-                Router.CurrentViewModel
-                    .Where(x => x is ExplorerPanelVM)
-                    .DistinctUntilChanged()
-                    .Select(x =>
-                    {
-                        return Top = x as ExplorerPanelVM;
-                    })
-                    .Subscribe()
-                    .DisposeWith(disposables);
-                this.WhenAnyValue(x => x.Top)
-                    .DistinctUntilChanged()
-                    .Select(x =>
-                    {
-                        Title = x.Title;
-                        ID = x.ID;
-                        return Unit.Default;
-                    })
-                    .Subscribe()
-                    .DisposeWith(disposables);
-                this.WhenAnyValue(x => x.Top.ID)
-                    .DistinctUntilChanged()
-                    .Select(x =>
-                    {
-                        return ID = x;
-                    })
-                    .Subscribe()
-                    .DisposeWith(disposables);
-                this.WhenAnyValue(x => x.Top.Title)
-                    .DistinctUntilChanged()
-                    .Select(x =>
-                    {
-                        return Title = x;
-                    })
-                    .Subscribe()
-                    .DisposeWith(disposables);
             });
         }
     }

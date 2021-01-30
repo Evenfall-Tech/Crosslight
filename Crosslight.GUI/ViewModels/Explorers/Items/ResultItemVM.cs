@@ -1,36 +1,51 @@
-﻿using ReactiveUI;
+﻿using Crosslight.API.IO.FileSystem.Abstractions;
+using Crosslight.API.Lang;
+using ReactiveUI;
 using Splat;
 using System;
-using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
-    public enum ResultItemOrigin
+    public enum ResultItemState
     {
-        Input,
-        Intermediate,
-        Output,
+        None = 0,
+        NonExpandable,
+        Collapsed,
+        Expanded
     }
     public class ResultItemVM : ReactiveObject, IActivatableViewModel
     {
-        protected object result;
+        protected IFileSystemItem result;
         protected string name;
-        protected ResultItemOrigin origin;
-        public object Result
+        protected LanguageType origin;
+        protected ObservableAsPropertyHelper<string> id;
+        protected ResultItemState state;
+        protected bool isTopLevel;
+        public ResultItemState State
+        {
+            get => state;
+            set => this.RaiseAndSetIfChanged(ref state, value);
+        }
+        public IFileSystemItem Result
         {
             get => result;
             set => this.RaiseAndSetIfChanged(ref result, value);
         }
+        public string ID => id.Value;
         public string Name
         {
             get => name;
             set => this.RaiseAndSetIfChanged(ref name, value);
         }
-        public ResultItemOrigin Origin
+        public bool IsTopLevel
+        {
+            get => isTopLevel;
+            set => this.RaiseAndSetIfChanged(ref isTopLevel, value);
+        }
+        public LanguageType Origin
         {
             get => origin;
             set => this.RaiseAndSetIfChanged(ref origin, value);
@@ -41,6 +56,8 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         public ViewModelActivator Activator { get; }
         public ResultItemVM()
         {
+            IsTopLevel = true;
+
             OpenCommand = ReactiveCommand.Create(() =>
             {
                 string id = ResultsVM.GenerateID(Result);
@@ -74,10 +91,29 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
                 });
             }, Observable.Return(true));
 
+            id = this
+                .WhenAnyValue(x => x.Result)
+                .DistinctUntilChanged()
+                .Where(x => x != null)
+                .Select(x => x?.GetHashCode().ToString())
+                .ToProperty(this, x => x.ID, this.GetHashCode().ToString());
+
             Activator = new ViewModelActivator();
-            this.WhenActivated((CompositeDisposable disposables) =>
+            this.WhenActivated((CompositeDisposable disp) =>
             {
+                this.WhenAnyValue(x => x.Result)
+                    .Select(x => StateFromFile(x))
+                    .BindTo(this, x => x.State)
+                    .DisposeWith(disp);
             });
+        }
+
+        private ResultItemState StateFromFile(IFileSystemItem file)
+        {
+            if (file is null) throw new NullReferenceException();
+            if (file is IDirectory) return ResultItemState.Collapsed;
+            if (file is IFile) return ResultItemState.NonExpandable;
+            else throw new NotImplementedException($"{file.GetType().Name} file is not yet supported.");
         }
     }
 }

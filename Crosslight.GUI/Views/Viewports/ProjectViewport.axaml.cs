@@ -33,14 +33,13 @@ namespace Crosslight.GUI.Views.Viewports
                 this.WhenAnyValue(x => x.ViewModel)
                     .Where(x => x != null)
                     .DistinctUntilChanged()
-                    .Select(y =>
+                    .Do(y =>
                     {
                         FillProjectMenu();
                         OpenExplorer<LanguagesVM>();
                         OpenExplorer<PropertiesVM>();
-                        OpenExplorer<SourceInputVM>();
+                        OpenExplorer<ResultListVM>();
                         OpenExplorer<ExecuteVM>();
-                        return true;
                     })
                     .Subscribe()
                     .DisposeWith(disposables);
@@ -84,12 +83,6 @@ namespace Crosslight.GUI.Views.Viewports
                                 Header = $"_{PropertiesVM.ConstTitle}",
                                 Command = openView,
                                 CommandParameter = typeof(PropertiesVM),
-                            },
-                            new MenuItemVM
-                            {
-                                Header = $"{SourceInputVM.ConstTitle}",
-                                Command = openView,
-                                CommandParameter = typeof(SourceInputVM),
                             },
                             new MenuItemVM
                             {

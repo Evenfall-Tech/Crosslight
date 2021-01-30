@@ -1,4 +1,5 @@
-﻿using Crosslight.API.IO.FileSystem.Abstractions;
+﻿using Crosslight.API.IO.FileSystem;
+using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.API.Nodes.Componentization;
@@ -14,16 +15,14 @@ using System.Linq;
 
 namespace Crosslight.CIL.Lang
 {
-    public class CILInputLanguage : InputLanguage
+    public class CILInputLanguage : ILanguage
     {
-        public override string Name => "CIL";
+        public string Name => "CIL";
+        public LanguageType LanguageType => LanguageType.Input;
 
         private CILVisitOptions options;
-        private List<TransformNodes> transforms;
-        // TODO: consider adding transforms on the API level.
-        private delegate void TransformNodes(List<Node> nodes);
-        public override LanguageConfig Config { get; protected set; }
-        public override ILanguageOptions Options
+        public LanguageConfig Config { get; protected set; }
+        public ILanguageOptions Options
         {
             get => options;
             set
@@ -31,7 +30,8 @@ namespace Crosslight.CIL.Lang
                 options = value as CILVisitOptions;
             }
         }
-        public override void LoadOptionsFromConfig(LanguageConfig config)
+
+        public void LoadOptionsFromConfig(LanguageConfig config)
         {
             throw new NotImplementedException();
         }
@@ -39,62 +39,47 @@ namespace Crosslight.CIL.Lang
         public CILInputLanguage()
         {
             options = new CILVisitOptions();
-            transforms = new List<TransformNodes>()
-            {
-                OptionMergeProjectsWithSameName
-            };
         }
 
-        public override Node Decode(IFileSystemItem source)
+        public IFileSystemItem Translate(IFileSystemItem source)
         {
-            List<Node> nodes = new List<Node>();
-            ParseSource(source, nodes);
-            // Apply transforms.
-            foreach (var transform in transforms)
-            {
-                transform(nodes);
-            }
-            // Combine nodes under a root node parent.
-            if (nodes.Count > 1)
-            {
-                RootNode rootNode = new RootNode();
-                foreach (var n in nodes) rootNode.Children.Add(n);
-                return rootNode;
-            }
-            else return nodes.First();
+            return ParseSource(source, null);
         }
 
-        private Node ParseSource(IFileSystemItem source, List<Node> sink)
+        private IFileSystemItem ParseSource(IFileSystemItem source, IDirectory parent = null)
         {
             if (source is IDirectory directory)
             {
                 if (directory.Items.Count > 0)
                 {
-                    return directory.Items.Select(x => ParseSource(x, sink)).LastOrDefault();
+                    var resultingDirectory = FileSystem.CreateFileSystemCollection(directory.Name, parent);
+                    var items = directory.Items
+                        .Select(x => ParseSource(x, resultingDirectory));
+                    foreach (var item in items)
+                    {
+                        resultingDirectory.Items.Add(item);
+                    }
+                    return resultingDirectory;
                 }
+                else return FileSystem.CreateFileSystemCollection(directory.Name, parent);
             }
             else if (source is IStringFile stringFile)
             {
-                var result = ParseStringFile(stringFile);
-                sink.Add(result);
-                return result;
+                return ParseStringFile(stringFile, parent);
             }
             else if (source is IPhysicalFile physicalFile)
             {
-                var result = ParsePhysicalFile(physicalFile);
-                sink.Add(result);
-                return result;
+                return ParsePhysicalFile(physicalFile, parent);
             }
             else throw new ArgumentException($"{source.GetType().Name} is not supported in {Name}.");
-            return null;
         }
 
-        private Node ParseStringFile(IStringFile source)
+        private IFileSystemItem ParseStringFile(IStringFile source, IDirectory parent = null)
         {
             throw new NotImplementedException($"{source.GetType().Name} is not supported in {Name}.");
         }
 
-        private Node ParsePhysicalFile(IPhysicalFile source)
+        private IFileSystemItem ParsePhysicalFile(IPhysicalFile source, IDirectory parent = null)
         {
             string path = source.Path;
             CSharpDecompiler decompiler = GetDecompiler(path);
@@ -102,16 +87,21 @@ namespace Crosslight.CIL.Lang
 
             // TODO: add option loading
             // TODO: parse decompiler.TypeSystem.ReferencedModules for referenced modules.
-            return tree.AcceptVisitor(new CILAstVisitor(
-                new CILVisitOptions(options)
-                {
-                    ModuleName = path,
-                    ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,
-                }
-            ));
+            return FileSystem.CreateCustomFile(
+                source.Path,
+                tree.AcceptVisitor(new CILAstVisitor(
+                    new CILVisitOptions(options)
+                    {
+                        ModuleName = path,
+                        ProjectName = decompiler.TypeSystem.MainModule.AssemblyName,
+                    }
+                )),
+                parent
+            );
         }
 
         #region Option Methods
+        // TODO: pull this method into an intermediate language.
         private void OptionMergeProjectsWithSameName(List<Node> nodes)
         {
             if (options.MergeProjectsWithSameName)

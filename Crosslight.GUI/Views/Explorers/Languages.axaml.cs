@@ -8,6 +8,8 @@ using Crosslight.GUI.ViewModels.Explorers.Items;
 using Crosslight.GUI.Views.Explorers.Items;
 using ReactiveUI;
 using Splat;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -17,14 +19,11 @@ namespace Crosslight.GUI.Views.Explorers
     public class Languages : ReactiveUserControl<LanguagesVM>
     {
         public ReactiveCommand<Unit, Unit> LoadLanguage { get; set; }
+        public ItemsControl LanguageTypeList => this.FindControl<ItemsControl>("languageTypeList");
         public Button LoadLanguageButton => this.FindControl<Button>("loadLanguage");
-        public ListBox InputLanguages => this.FindControl<ListBox>("inputList");
-        public ListBox OutputLanguages => this.FindControl<ListBox>("outputList");
         public Languages()
         {
-            Locator.CurrentMutable.Register(() => new Language(), typeof(IViewFor<LanguageVM>));
-            Locator.CurrentMutable.Register(() => new Language(), typeof(IViewFor<InputLanguageVM>));
-            Locator.CurrentMutable.Register(() => new Language(), typeof(IViewFor<OutputLanguageVM>));
+            Locator.CurrentMutable.Register(() => new LanguageType(), typeof(IViewFor<LanguageTypeVM>));
             LoadLanguage = ReactiveCommand.CreateFromTask(async () =>
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog
@@ -41,19 +40,13 @@ namespace Crosslight.GUI.Views.Explorers
                     await ViewModel.AddLanguage.Execute(s);
                 }
             });
-            this.WhenActivated(disposables =>
+            this.WhenActivated(disp =>
             {
+                this.OneWayBind(ViewModel, x => x.LanguageTypes, x => x.LanguageTypeList.Items)
+                    .DisposeWith(disp);
                 this.WhenAnyValue(x => x.LoadLanguage)
                     .BindTo(this, x => x.LoadLanguageButton.Command)
-                    .DisposeWith(disposables);
-                this.OneWayBind(ViewModel, x => x.InputLanguages, x => x.InputLanguages.Items)
-                    .DisposeWith(disposables);
-                this.Bind(ViewModel, x => x.SelectedInputLanguage, x => x.InputLanguages.SelectedItem)
-                    .DisposeWith(disposables);
-                this.OneWayBind(ViewModel, x => x.OutputLanguages, x => x.OutputLanguages.Items)
-                    .DisposeWith(disposables);
-                this.Bind(ViewModel, x => x.SelectedOutputLanguage, x => x.OutputLanguages.SelectedItem)
-                    .DisposeWith(disposables);
+                    .DisposeWith(disp);
             });
             this.InitializeComponent();
         }
