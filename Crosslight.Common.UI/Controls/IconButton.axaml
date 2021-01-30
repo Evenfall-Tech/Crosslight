@@ -1,0 +1,27 @@
+<Button xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:Crosslight.Common.UI.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Crosslight.Common.UI.Controls.IconButton">
+	<Button.Styles>
+		<Style Selector="local|IconButton">
+			<Setter Property="Background" Value="{DynamicResource ThemeControlMidBrush}"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowBrush}"/>
+			<Setter Property="BorderThickness" Value="{DynamicResource ThemeBorderThickness}"/>
+			<Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="Padding" Value="4"/>
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Image Source="{TemplateBinding Icon}" x:Name="icon"/>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+		<Style Selector="local|IconButton:disabled">
+			<Setter Property="Opacity" Value="{DynamicResource ThemeDisabledOpacity}"/>
+		</Style>
+	</Button.Styles>
+</Button>
