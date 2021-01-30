@@ -11,7 +11,7 @@ namespace Crosslight.API.IO.FileSystem
     {
         #region From
 
-        public static IDirectory FromDirectory(string path, bool includeSubdirectories = true)
+        public static IDirectory FromFolder(string path, bool includeSubdirectories = true)
         {
             var sourceDirectory = new DirectoryInfo(path);
             if (!sourceDirectory.Exists)
@@ -37,7 +37,7 @@ namespace Crosslight.API.IO.FileSystem
                 var directories = System.IO.Directory.GetDirectories(path);
                 foreach (var dir in directories)
                 {
-                    IFileSystemItem subdirectory = FromDirectory(dir, true);
+                    IFileSystemItem subdirectory = FromFolder(dir, true);
                     if (subdirectory != null)
                     {
                         resultingDirectory.Items.Add(subdirectory);

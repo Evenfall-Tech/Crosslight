@@ -6,9 +6,20 @@
              x:Class="Crosslight.GUI.Views.Explorers.ResultList"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
 	<StackPanel>
-		<Button Content="From Files"
-				Name="loadFileSrc"
-				HorizontalAlignment="Stretch"/>
+		<WrapPanel>
+			<Button Name="loadFileSrc">
+				<Image Source="avares://Crosslight.Common.UI/Assets/Icons/Editor/AddDocument_16x.png"
+					   Width="16" Height="16"/>
+			</Button>
+			<Button Name="loadFileGroupSrc">
+				<Image Source="avares://Crosslight.Common.UI/Assets/Icons/Editor/AddDocumentGroup_16x.png"
+					   Width="16" Height="16"/>
+			</Button>
+			<Button Name="loadFolderSrc">
+				<Image Source="avares://Crosslight.Common.UI/Assets/Icons/Editor/AddFolder_16x.png"
+					   Width="16" Height="16"/>
+			</Button>
+		</WrapPanel>
 		<ItemsControl Name="resultTypeList"
 					  HorizontalAlignment="Stretch"/>
 	</StackPanel>

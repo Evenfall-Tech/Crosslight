@@ -151,7 +151,7 @@ namespace Crosslight.GUI.Views.Explorers.Items
                 {
                     ResultItemState.Collapsed => "avares://Crosslight.Common.UI/Assets/Icons/Editor/FolderClosed_16x.png",
                     ResultItemState.Expanded => "avares://Crosslight.Common.UI/Assets/Icons/Editor/FolderOpened_16x.png",
-                    ResultItemState.NonExpandable => "avares://Crosslight.Common.UI/Assets/Icons/Editor/DocumentCollection_16x.png",
+                    ResultItemState.NonExpandable => "avares://Crosslight.Common.UI/Assets/Icons/Editor/DocumentGroup_16x.png",
                     _ => null,
                 };
             }
