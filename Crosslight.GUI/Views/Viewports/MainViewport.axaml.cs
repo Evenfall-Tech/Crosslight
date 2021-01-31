@@ -22,12 +22,6 @@ namespace Crosslight.GUI.Views.Viewports
         public Menu ProjectMenu => this.FindControl<Menu>("projectMenu");
         public MainViewport()
         {
-            Locator.CurrentMutable.Register(() => new Languages(), typeof(IViewFor<LanguagesVM>));
-            Locator.CurrentMutable.Register(() => new Properties(), typeof(IViewFor<PropertiesVM>));
-            Locator.CurrentMutable.Register(() => new Execute(), typeof(IViewFor<ExecuteVM>));
-            Locator.CurrentMutable.Register(() => new Results(), typeof(IViewFor<ResultsVM>));
-            Locator.CurrentMutable.Register(() => new ResultList(), typeof(IViewFor<ResultListVM>));
-
             Locator.CurrentMutable.Register(() => new ExplorerContainer(), typeof(IViewFor<ExplorerContainerVM>));
             this.WhenActivated(disposables =>
             {

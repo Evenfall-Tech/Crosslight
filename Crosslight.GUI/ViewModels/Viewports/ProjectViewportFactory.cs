@@ -34,7 +34,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
                     new ProportionalDock
                     {
                         Orientation = Orientation.Vertical,
-                        Proportion = double.NaN,
+                        Proportion = 0.8,
                         ActiveDockable = null,
                         VisibleDockables = CreateList<IDockable>
                         (
@@ -48,6 +48,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
                             new ToolDock
                             {
                                 ActiveDockable = executeVM,
+                                Proportion = 0.2,
                                 VisibleDockables = CreateList<IDockable>(executeVM)
                             }
                         )

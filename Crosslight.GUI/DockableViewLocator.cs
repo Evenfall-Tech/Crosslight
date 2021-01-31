@@ -2,24 +2,27 @@
 using Avalonia.Controls.Templates;
 using Crosslight.GUI.ViewModels;
 using Dock.Model;
+using ReactiveUI;
+using Splat;
 using System;
 
 namespace Crosslight.GUI
 {
-    public class ViewLocator : IDataTemplate
+    public class DockableViewLocator : IDataTemplate
     {
         public IControl Build(object data)
         {
-            var name = data.GetType().FullName.Replace("VM", "");
-            var type = Type.GetType(name);
+            Type iViewForType = typeof(IViewFor<>).MakeGenericType(data.GetType());
+            var type = Locator.Current.GetService(iViewForType);
 
             if (type != null)
             {
-                return (Control)Activator.CreateInstance(type);
+                iViewForType.GetProperty("ViewModel").SetValue(type, data);
+                return type as IControl;
             }
             else
             {
-                return new TextBlock { Text = "Not Found: " + name };
+                return new TextBlock { Text = "Not Found: " + data.GetType().Name };
             }
         }
 
