@@ -19,7 +19,6 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 { typeof(PropertiesVM), (() => new PropertiesVM(), true) },
                 { typeof(ExecuteVM), (() => new ExecuteVM(), true) },
                 { typeof(ResultListVM), (() => new ResultListVM(), true) },
-                { typeof(SourcePreviewVM), (() => new SourcePreviewVM(), false) },
                 { typeof(ResultsVM), (() => new ResultsVM(), false) },
             };
             singletons = new Dictionary<Type, ExplorerPanelVM>();
