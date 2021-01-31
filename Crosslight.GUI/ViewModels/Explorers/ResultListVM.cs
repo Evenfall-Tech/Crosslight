@@ -45,7 +45,12 @@ namespace Crosslight.GUI.ViewModels.Explorers
             }, Observable.Return(true));
 
             resultTypes = new ObservableCollection<ResultTypeVM>();
-            var languateEnumValues = (LanguageType[])Enum.GetValues(typeof(LanguageType));
+            var languateEnumValues = ((LanguageType[])Enum.GetValues(typeof(LanguageType))).Except(
+                new LanguageType[]
+                {
+                    LanguageType.None,
+                }
+            );
             foreach (var languageType in languateEnumValues)
             {
                 resultTypes.Add(new ResultTypeVM()

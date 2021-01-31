@@ -59,17 +59,20 @@ namespace Crosslight.GUI.ViewModels.Explorers
                         foreach (var lang in languages)
                         {
                             ILanguage language = TypeLocator.CreateTypeInstance<ILanguage>(lang);
-                            var type = language.LanguageType;
-                            LanguageVM vmToAdd = null;
-                            vmToAdd = new LanguageVM()
+                            if (language != null)
                             {
-                                Path = s,
-                                Title = language.Name,
-                                Language = language,
-                            };
-                            if (vmToAdd != null)
-                            {
-                                languageSource.AddOrUpdate(vmToAdd);
+                                var type = language.LanguageType;
+                                LanguageVM vmToAdd = null;
+                                vmToAdd = new LanguageVM()
+                                {
+                                    Path = s,
+                                    Title = language.Name,
+                                    Language = language,
+                                };
+                                if (vmToAdd != null)
+                                {
+                                    languageSource.AddOrUpdate(vmToAdd);
+                                }
                             }
                         }
                     }
@@ -83,7 +86,12 @@ namespace Crosslight.GUI.ViewModels.Explorers
             }, Observable.Return(true));
 
             languageTypes = new ObservableCollection<LanguageTypeVM>();
-            var languateEnumValues = (LanguageType[])Enum.GetValues(typeof(LanguageType));
+            var languateEnumValues = ((LanguageType[])Enum.GetValues(typeof(LanguageType))).Except(
+                new LanguageType[]
+                {
+                    LanguageType.None,
+                }
+            );
             foreach (var languageType in languateEnumValues)
             {
                 languageTypes.Add(new LanguageTypeVM()
