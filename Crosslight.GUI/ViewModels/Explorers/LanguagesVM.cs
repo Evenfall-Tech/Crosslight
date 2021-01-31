@@ -40,12 +40,12 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ReactiveCommand<string, Unit> AddLanguage { get; }
         public ReactiveCommand<LanguageVM, Unit> RemoveLanguage { get; }
 
-        public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "languages";
         public ViewModelActivator Activator { get; }
         public LanguagesVM() : this(null) { }
         public LanguagesVM(IScreen screen) : base(screen)
         {
+            Title = ConstTitle;
             languageSource = new SourceCache<LanguageVM, string>(x => x.Title);
             AddLanguage = ReactiveCommand.Create((string s) =>
             {

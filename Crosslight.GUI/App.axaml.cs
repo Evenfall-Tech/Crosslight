@@ -2,7 +2,9 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Crosslight.GUI.Views;
+using ReactiveUI;
 using Splat;
+using System.Reflection;
 
 namespace Crosslight.GUI
 {
@@ -15,6 +17,7 @@ namespace Crosslight.GUI
 
         public override void OnFrameworkInitializationCompleted()
         {
+            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow()
