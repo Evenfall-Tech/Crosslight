@@ -37,22 +37,22 @@ namespace Crosslight.GUI.Views.Explorers
 
         private async Task ExecuteTranslate()
         {
-            var translationResult = await ViewModel.Translate.Execute();
-            if (translationResult.language != null && translationResult.result != null)
+            var (result, language) = await ViewModel.Translate.Execute();
+            if (language != null && result != null)
             {
                 var resultList = Locator.Current.GetService<ExplorerLocator>().Open<ResultListVM>(openExisting: true);
                 if (resultList != null)
                     await resultList.AddResultVM.Execute(new ResultItemVM()
                     {
-                        Name = translationResult.result.Name,
-                        Origin = translationResult.language.LanguageType,
-                        Result = translationResult.result,
+                        Name = result.Name,
+                        Origin = language.LanguageType,
+                        Result = result,
                     });
-                string id = ResultsVM.GenerateID(translationResult.result);
+                string id = ResultsVM.GenerateID(result);
                 var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(id: id, openExisting: true);
                 if (resultPanel != null)
                 {
-                    resultPanel.Result = translationResult.result;
+                    resultPanel.Result = result;
                 }
             }
         }
