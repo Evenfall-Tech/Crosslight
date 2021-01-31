@@ -1,4 +1,5 @@
-﻿using Crosslight.GUI.ViewModels.Explorers;
+﻿using Avalonia.Data;
+using Crosslight.GUI.ViewModels.Explorers;
 using Dock.Avalonia.Controls;
 using Dock.Model;
 using Dock.Model.Controls;
@@ -26,11 +27,14 @@ namespace Crosslight.GUI.ViewModels.Viewports
             var mainLayout = new ProportionalDock
             {
                 Orientation = Orientation.Horizontal,
+                Proportion = double.NaN,
+                ActiveDockable = null,
                 VisibleDockables = CreateList<IDockable>
                 (
                     new ProportionalDock
                     {
                         Orientation = Orientation.Vertical,
+                        Proportion = double.NaN,
                         ActiveDockable = null,
                         VisibleDockables = CreateList<IDockable>
                         (
@@ -52,6 +56,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
                     new ProportionalDock
                     {
                         Orientation = Orientation.Vertical,
+                        Proportion = double.NaN,
                         ActiveDockable = null,
                         VisibleDockables = CreateList<IDockable>
                         (
@@ -73,15 +78,14 @@ namespace Crosslight.GUI.ViewModels.Viewports
 
             var projectView = new ProjectViewportVM
             {
-                Id = "Project1",
-                Title = "Project1",
+                Id = "Project",
+                Title = "Project",
                 ActiveDockable = mainLayout,
                 VisibleDockables = CreateList<IDockable>(mainLayout)
             };
 
             var root = CreateRootDock();
 
-            root.IsCollapsable = true;
             root.ActiveDockable = projectView;
             root.DefaultDockable = projectView;
             root.VisibleDockables = CreateList<IDockable>(projectView);
@@ -105,14 +109,20 @@ namespace Crosslight.GUI.ViewModels.Viewports
                 [nameof(PropertiesVM)] = () => new PropertiesVM(),
                 [nameof(ExecuteVM)] = () => new ExecuteVM(),
                 [nameof(ResultListVM)] = () => new ResultListVM(),
-                ["Dashboard"] = () => layout,
-                ["Project1"] = () => context,
+                ["Project"] = () => context,
                 ["Home"] = () => context,
             };
 
             HostWindowLocator = new Dictionary<string, Func<IHostWindow>>
             {
-                [nameof(IDockWindow)] = () => new HostWindow()
+                [nameof(IDockWindow)] = () =>
+                {
+                    var hostWindow = new HostWindow()
+                    {
+                        [!HostWindow.TitleProperty] = new Binding("ActiveDockable.Title")
+                    };
+                    return hostWindow;
+                }
             };
 
             DockableLocator = new Dictionary<string, Func<IDockable>>();

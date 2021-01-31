@@ -11,7 +11,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
     {
         protected ObservableCollectionExtended<MenuItemVM> menuItems;
         protected IFactory factory;
-        protected IRootDock layout;
+        protected IDock layout;
 
         public ObservableCollectionExtended<MenuItemVM> MenuItems
         {
@@ -25,7 +25,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
             set => this.RaiseAndSetIfChanged(ref factory, value);
         }
 
-        public IRootDock Layout
+        public IDock Layout
         {
             get => layout;
             set => this.RaiseAndSetIfChanged(ref layout, value);
