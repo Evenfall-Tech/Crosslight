@@ -1,5 +1,6 @@
 ﻿using Crosslight.GUI.ViewModels.Explorers;
 using Dock.Model;
+using Dock.Model.Controls;
 using System;
 using System.Collections.Generic;
 
@@ -85,7 +86,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
                 {
                     parent = FindView(main.Layout, typeof(IDock), out _, IdUniversalDock) as IDock;
                 }
-                parent.VisibleDockables.Add(result);
+                AddChildToDock(parent, result);
                 parent.ActiveDockable = result;
                 // container.GoNext.Execute(x =>
                 // {
@@ -97,10 +98,76 @@ namespace Crosslight.GUI.ViewModels.Viewports
             return null;
         }
 
+        private void AddChildToDock(IDock parent, IDockable child)
+        {
+            if (parent == null || child == null) throw new NullReferenceException();
+            if (parent.VisibleDockables == null)
+            {
+                parent.VisibleDockables = main.Factory.CreateList<IDockable>();
+            }
+
+            IDock hostDock;
+            if (factory.ContainsKey(child.GetType()) && !factory[child.GetType()].singleton)
+            {
+                if (IdsMatch(factory[child.GetType()].parentId, parent.Id))
+                {
+                    hostDock = parent;
+                }
+                else
+                {
+                    hostDock = main.Factory.CreateToolDock();
+                }
+            }
+            else
+            {
+                hostDock = main.Factory.CreateToolDock();
+            }
+            UpdateId(hostDock, child);
+            if (hostDock.VisibleDockables == null)
+            {
+                hostDock.VisibleDockables = main.Factory.CreateList<IDockable>();
+            }
+            hostDock.Proportion = 0.2;
+
+            IDockable hostDockable = hostDock;
+            if (hostDock != parent)
+            {
+                main.Factory.AddDockable(hostDock, child);
+            }
+            else
+            {
+                hostDockable = child;
+            }
+
+            if (parent is IProportionalDock proportional)
+            {
+                if (hostDockable is IToolDock tool) tool.Alignment = Alignment.Left;
+                main.Factory.InsertDockable(proportional, hostDockable, 0);
+                main.Factory.InsertDockable(proportional, main.Factory.CreateSplitterDock(), 1);
+            }
+            else
+            {
+                main.Factory.AddDockable(parent, hostDockable);
+            }
+        }
+
+        private void UpdateId(IDock host, IDockable child)
+        {
+            string id = null;
+            if (factory.ContainsKey(child.GetType()))
+            {
+                id = factory[child.GetType()].parentId;
+            }
+            if (!string.IsNullOrEmpty(id))
+            {
+                host.Id = id;
+            }
+        }
+
         private bool IdsMatch(string searchedId, string foundId)
         {
             if (string.IsNullOrEmpty(searchedId)) return true;
-            return searchedId == foundId;
+            return foundId.Contains(searchedId);
         }
 
         private IDockable FindView(IDockable root, Type view, out IDock relativeParent, string id = null)
