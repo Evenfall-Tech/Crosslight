@@ -41,6 +41,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
                         (
                             new DocumentDock
                             {
+                                Id = DockableExplorerLocator.IdResultsDock,
                                 IsCollapsable = false,
                                 ActiveDockable = null,
                                 VisibleDockables = CreateList<IDockable>()
