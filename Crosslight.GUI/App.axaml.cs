@@ -22,9 +22,9 @@ namespace Crosslight.GUI
         {
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
 
-            var factory = new ProjectViewportFactory(new ProjectViewportVM());
-            var layout = factory.CreateLayout();
-            factory.InitLayout(layout);
+            // var factory = new ProjectViewportFactory(new ProjectViewportVM());
+            // var layout = factory.CreateLayout();
+            // factory.InitLayout(layout);
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
@@ -32,31 +32,31 @@ namespace Crosslight.GUI
                 {
                     ViewModel = new MainWindowVM()
                     {
-                        MainViewport = new MainViewportVM()
-                        {
-                            Factory = factory,
-                            Layout = layout
-                        }
+                        // MainViewport = new MainViewportVM()
+                        // {
+                        //     Factory = factory,
+                        //     Layout = layout
+                        // }
                     }
                 };
 
-                mainWindow.Closing += (sender, e) =>
-                {
-                    if (layout is IDock dock)
-                    {
-                        dock.Close();
-                    }
-                };
+                // mainWindow.Closing += (sender, e) =>
+                // {
+                //     if (layout is IDock dock)
+                //     {
+                //         dock.Close();
+                //     }
+                // };
 
                 desktop.MainWindow = mainWindow;
 
-                desktop.Exit += (sennder, e) =>
-                {
-                    if (layout is IDock dock)
-                    {
-                        dock.Close();
-                    }
-                };
+                // desktop.Exit += (sennder, e) =>
+                // {
+                //     if (layout is IDock dock)
+                //     {
+                //         dock.Close();
+                //     }
+                // };
             }
 
             base.OnFrameworkInitializationCompleted();

@@ -2,6 +2,7 @@
 using Dock.Model.Controls;
 using DynamicData.Binding;
 using ReactiveUI;
+using Splat;
 using System.Reactive;
 using System.Reactive.Disposables;
 
@@ -36,6 +37,8 @@ namespace Crosslight.GUI.ViewModels.Viewports
         public ViewModelActivator Activator { get; }
         public MainViewportVM()
         {
+            Locator.CurrentMutable.RegisterLazySingleton(() => new DockableExplorerLocator(this), typeof(IExplorerLocator));
+
             menuItems = new ObservableCollectionExtended<MenuItemVM>();
 
             Activator = new ViewModelActivator();

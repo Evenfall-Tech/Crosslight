@@ -40,7 +40,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             );
             Close = ReactiveCommand.Create(() =>
             {
-                Locator.Current.GetService<ExplorerLocator>().Close(this);
+                Locator.Current.GetService<IExplorerLocator>().Close(Top);
             });
 
             top = Router.CurrentViewModel

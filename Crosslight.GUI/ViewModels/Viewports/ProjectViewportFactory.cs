@@ -19,13 +19,14 @@ namespace Crosslight.GUI.ViewModels.Viewports
 
         public override IDock CreateLayout()
         {
-            var languagesVM = new LanguagesVM() { Id = nameof(LanguagesVM), Title = nameof(LanguagesVM) };
-            var propertiesVM = new PropertiesVM() { Id = nameof(PropertiesVM), Title = nameof(PropertiesVM) };
-            var executeVM = new ExecuteVM() { Id = nameof(ExecuteVM), Title = nameof(ExecuteVM) };
-            var resultListVM = new ResultListVM() { Id = nameof(ResultListVM), Title = nameof(ResultListVM) };
+            var languagesVM = new LanguagesVM() { Id = nameof(LanguagesVM) };
+            var propertiesVM = new PropertiesVM() { Id = nameof(PropertiesVM) };
+            var executeVM = new ExecuteVM() { Id = nameof(ExecuteVM) };
+            var resultListVM = new ResultListVM() { Id = nameof(ResultListVM) };
 
             var mainLayout = new ProportionalDock
             {
+                Id = DockableExplorerLocator.IdUniversalDock,
                 Orientation = Orientation.Horizontal,
                 Proportion = double.NaN,
                 ActiveDockable = null,
@@ -47,6 +48,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
                             new SplitterDock(),
                             new ToolDock
                             {
+                                Id = DockableExplorerLocator.IdExecuteDock,
                                 ActiveDockable = executeVM,
                                 Proportion = 0.2,
                                 VisibleDockables = CreateList<IDockable>(executeVM)
@@ -63,12 +65,17 @@ namespace Crosslight.GUI.ViewModels.Viewports
                         (
                             new ToolDock
                             {
+                                Id =
+                                    DockableExplorerLocator.IdResultListDock +
+                                    " " +
+                                    DockableExplorerLocator.IdLanguagesDock,
                                 ActiveDockable = resultListVM,
                                 VisibleDockables = CreateList<IDockable>(resultListVM, languagesVM)
                             },
                             new SplitterDock(),
                             new ToolDock
                             {
+                                Id = DockableExplorerLocator.IdPropertiesDock,
                                 ActiveDockable = propertiesVM,
                                 VisibleDockables = CreateList<IDockable>(propertiesVM)
                             }
@@ -120,7 +127,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
                 {
                     var hostWindow = new HostWindow()
                     {
-                        [!HostWindow.TitleProperty] = new Binding("ActiveDockable.Title")
+                        [!Avalonia.Controls.Window.TitleProperty] = new Binding("ActiveDockable.Title")
                     };
                     return hostWindow;
                 }

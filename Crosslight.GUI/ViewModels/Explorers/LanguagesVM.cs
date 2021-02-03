@@ -31,7 +31,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 if (value != null && value != selectedLanguage)
                 {
                     this.RaiseAndSetIfChanged(ref selectedLanguage, value);
-                    PropertiesVM properties = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
+                    PropertiesVM properties = Locator.Current.GetService<IExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
                     if (properties != null)
                         properties.SelectedInstance = selectedLanguage.Language.Options;
                 }

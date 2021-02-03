@@ -26,7 +26,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             {
                 var locator =
                     Locator.Current
-                    .GetService<ExplorerLocator>();
+                    .GetService<IExplorerLocator>();
                 ILanguage language =
                     locator
                     .Open<LanguagesVM>()?

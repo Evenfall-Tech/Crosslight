@@ -25,8 +25,6 @@ namespace Crosslight.GUI.ViewModels.Viewports
             Id = nameof(ProjectViewportVM);
             Title = nameof(ProjectViewportVM);
 
-            Locator.CurrentMutable.RegisterLazySingleton(() => new ExplorerLocator(this));
-
             containerSource = new SourceList<ExplorerContainerVM>();
 
             Activator = new ViewModelActivator();

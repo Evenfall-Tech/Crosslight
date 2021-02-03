@@ -55,14 +55,14 @@ namespace Crosslight.GUI.Views.Viewports
 
         private void OpenExplorer<T>() where T : ExplorerPanelVM
         {
-            Locator.Current.GetService<ExplorerLocator>().Open<T>(openExisting: true, createNewExplorer: true);
+            Locator.Current.GetService<IExplorerLocator>().Open<T>(openExisting: true, createNewExplorer: true);
         }
 
         private void FillProjectMenu()
         {
             var openView = ReactiveCommand.Create<Type>(t =>
             {
-                Locator.Current.GetService<ExplorerLocator>().Open(t, openExisting: true);
+                Locator.Current.GetService<IExplorerLocator>().Open(t, openExisting: true);
             });
             this.ViewModel.MenuItems.AddRange(new[]
             {

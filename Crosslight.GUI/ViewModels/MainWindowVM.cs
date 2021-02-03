@@ -3,6 +3,7 @@ using Crosslight.GUI.ViewModels.Viewports;
 using Dock.Model.Controls;
 using DynamicData;
 using ReactiveUI;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

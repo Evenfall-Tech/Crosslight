@@ -13,7 +13,7 @@ namespace Crosslight.API.Nodes.Access
         /// Concrete implementations may also keep the name (like name
         /// of the variable) or the value (like value of the literal).
         /// </summary>
-        public FunctionalTypeNode ValueType { get; protected set; }
+        public EntityNode ValueType { get; protected set; }
         public ValueNode()
         {
         }
