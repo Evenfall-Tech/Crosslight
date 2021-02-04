@@ -19,12 +19,6 @@ namespace Crosslight.GUI.Views.Explorers
         public RoutedViewHost RoutedView => this.FindControl<RoutedViewHost>("routedView");
         public ExplorerContainer()
         {
-            Locator.CurrentMutable.Register(() => new Languages(), typeof(IViewFor<LanguagesVM>));
-            Locator.CurrentMutable.Register(() => new Properties(), typeof(IViewFor<PropertiesVM>));
-            Locator.CurrentMutable.Register(() => new SourcePreview(), typeof(IViewFor<SourcePreviewVM>));
-            Locator.CurrentMutable.Register(() => new Execute(), typeof(IViewFor<ExecuteVM>));
-            Locator.CurrentMutable.Register(() => new Results(), typeof(IViewFor<ResultsVM>));
-            Locator.CurrentMutable.Register(() => new ResultList(), typeof(IViewFor<ResultListVM>));
             this.WhenActivated(disposables =>
             {
                 this.OneWayBind(ViewModel, x => x.Title, x => x.Title.Text)

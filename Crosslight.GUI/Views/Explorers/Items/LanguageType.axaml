@@ -8,6 +8,7 @@
 	<Grid RowDefinitions="Auto,*">
 		<TextBlock Name="name"/>
 		<ListBox HorizontalAlignment="Stretch"
+				 VirtualizationMode="None"
 				 Grid.Row="1"
 				 Name="list">
 		</ListBox>

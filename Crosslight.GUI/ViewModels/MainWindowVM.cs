@@ -1,7 +1,9 @@
 ﻿using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Viewports;
+using Dock.Model.Controls;
 using DynamicData;
 using ReactiveUI;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,11 +14,11 @@ namespace Crosslight.GUI.ViewModels
 {
     public class MainWindowVM : BaseViewModel, IActivatableViewModel
     {
-        private ProjectViewportVM project;
-        public ProjectViewportVM Project
+        private MainViewportVM mainViewport;
+        public MainViewportVM MainViewport
         {
-            get => project;
-            set => this.RaiseAndSetIfChanged(ref project, value);
+            get => mainViewport;
+            set => this.RaiseAndSetIfChanged(ref mainViewport, value);
         }
 
         public ViewModelActivator Activator { get; }
@@ -25,7 +27,20 @@ namespace Crosslight.GUI.ViewModels
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
             {
-                project = new ProjectViewportVM();
+                var factory = new ProjectViewportFactory(new object());
+                MainViewport = new MainViewportVM()
+                {
+                    Factory = factory,
+                    Layout = factory.CreateLayout() as IRootDock,
+                };
+                if (MainViewport.Layout != null)
+                {
+                    MainViewport.Factory?.InitLayout(mainViewport.Layout);
+                    if (MainViewport.Layout is { } root)
+                    {
+                        root.Navigate("Home");
+                    }
+                }
             });
         }
     }

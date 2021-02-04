@@ -5,26 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Crosslight.GUI.Views.Viewports.ProjectViewport"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
-	<DockPanel LastChildFill="True">
-		<Menu Name="projectMenu" DockPanel.Dock="Top">
-			<Menu.Styles>
-				<Style Selector="MenuItem">
-					<Setter Property="Header" Value="{Binding Header}"/>
-					<Setter Property="Items" Value="{Binding Items}"/>
-					<Setter Property="Command" Value="{Binding Command}"/>
-					<Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
-				</Style>
-			</Menu.Styles>
-		</Menu>
-		<ScrollViewer VerticalScrollBarVisibility="Visible"
-					  HorizontalScrollBarVisibility="Disabled">
-			<ItemsControl Name="explorerContainer">
-				<ItemsControl.ItemsPanel>
-					<ItemsPanelTemplate>
-						<WrapPanel Orientation="Horizontal"/>
-					</ItemsPanelTemplate>
-				</ItemsControl.ItemsPanel>
-			</ItemsControl>
-		</ScrollViewer>
-	</DockPanel>
+	<Grid RowDefinitions="*">
+		<ContentControl x:Name="content" Margin="4" Grid.Row="0"/>
+	</Grid>
 </UserControl>

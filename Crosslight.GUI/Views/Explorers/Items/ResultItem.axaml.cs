@@ -42,7 +42,7 @@ namespace Crosslight.GUI.Views.Explorers.Items
         public Control MainControl => this.FindControl<Control>("main");
         public TreeView Tree => this.FindControl<TreeView>("tree");
         public ReactiveCommand<Unit, ResultItemState> CommandExpand
-            => ReactiveCommand.Create(() => ViewModel.State = SwitchState(ViewModel.State));
+            => ReactiveCommand.Create(() => ViewModel.State = ResultItemVM.SwitchState(ViewModel.State));
         public ResultItem()
         {
             this.WhenActivated(disp =>
@@ -114,17 +114,6 @@ namespace Crosslight.GUI.Views.Explorers.Items
             {
                 ResultItemState.Expanded => true,
                 _ => false,
-            };
-        }
-
-        private ResultItemState SwitchState(ResultItemState state)
-        {
-            return state switch
-            {
-                ResultItemState.Collapsed => ResultItemState.Expanded,
-                ResultItemState.Expanded => ResultItemState.Collapsed,
-                ResultItemState.NonExpandable => ResultItemState.NonExpandable,
-                _ => ResultItemState.None,
             };
         }
 

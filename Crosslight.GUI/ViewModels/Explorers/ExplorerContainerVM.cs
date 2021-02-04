@@ -40,7 +40,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             );
             Close = ReactiveCommand.Create(() =>
             {
-                Locator.Current.GetService<ExplorerLocator>().Close(this);
+                Locator.Current.GetService<IExplorerLocator>().Close(Top);
             });
 
             top = Router.CurrentViewModel
@@ -49,7 +49,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 .Select(x => x as ExplorerPanelVM)
                 .ToProperty(this, x => x.Top);
             id = this
-                .WhenAnyValue(x => x.Top, x => x.Top.ID, (top, id) => top.ID ?? id)
+                .WhenAnyValue(x => x.Top, x => x.Top.Id, (top, id) => top.Id ?? id)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .DistinctUntilChanged()
                 .ToProperty(this, x => x.ID);

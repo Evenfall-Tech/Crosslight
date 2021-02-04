@@ -25,7 +25,8 @@ namespace Crosslight.GUI.ViewModels.Explorers
             set => this.RaiseAndSetIfChanged(ref selectedInstanceName, value);
         }
 
-        public override string Title => title.Value;
+        private string TitleValue => title.Value;
+
         public override string UrlPathSegment { get; } = "properties";
         public ViewModelActivator Activator { get; }
         public PropertiesVM() : this(null) { }
@@ -34,7 +35,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             title = this
                 .WhenAnyValue(x => x.SelectedInstanceName)
                 .Select(x => string.IsNullOrWhiteSpace(x) ? ConstTitle : $"{ConstTitle} of {x}")
-                .ToProperty(this, x => x.Title);
+                .ToProperty(this, x => x.TitleValue);
 
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
@@ -43,6 +44,9 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 this.WhenAnyValue(x => x.SelectedInstance)
                     .Do(x => SelectedInstanceName = x?.GetType().Name)
                     .Subscribe()
+                    .DisposeWith(disposables);
+                this.WhenAnyValue(x => x.TitleValue)
+                    .BindTo(this, x => x.Title)
                     .DisposeWith(disposables);
             });
         }

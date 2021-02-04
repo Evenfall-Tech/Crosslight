@@ -16,17 +16,17 @@ namespace Crosslight.GUI.ViewModels.Explorers
 
         public ReactiveCommand<Unit, (IFileSystemItem result, ILanguage language)> Translate { get; }
 
-        public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "execute";
         public ViewModelActivator Activator { get; }
         public ExecuteVM() : this(null) { }
         public ExecuteVM(IScreen screen) : base(screen)
         {
+            Title = ConstTitle;
             Translate = ReactiveCommand.Create<(IFileSystemItem, ILanguage)>(() =>
             {
                 var locator =
                     Locator.Current
-                    .GetService<ExplorerLocator>();
+                    .GetService<IExplorerLocator>();
                 ILanguage language =
                     locator
                     .Open<LanguagesVM>()?
