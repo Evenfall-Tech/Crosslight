@@ -107,7 +107,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
             }
 
             IDock hostDock;
-            if (factory.ContainsKey(child.GetType()) && !factory[child.GetType()].singleton)
+            if (factory.ContainsKey(child.GetType()))
             {
                 if (IdsMatch(factory[child.GetType()].parentId, parent.Id))
                 {
@@ -115,13 +115,13 @@ namespace Crosslight.GUI.ViewModels.Viewports
                 }
                 else
                 {
-                    hostDock = main.Factory.CreateToolDock();
+                    if (!factory[child.GetType()].singleton)
+                        hostDock = main.Factory.CreateDocumentDock();
+                    else
+                        hostDock = main.Factory.CreateToolDock();
                 }
             }
-            else
-            {
-                hostDock = main.Factory.CreateToolDock();
-            }
+            else throw new NotImplementedException();
             UpdateId(hostDock, child);
             if (hostDock.VisibleDockables == null)
             {
@@ -160,7 +160,10 @@ namespace Crosslight.GUI.ViewModels.Viewports
             }
             if (!string.IsNullOrEmpty(id))
             {
-                host.Id = id;
+                if (host.Id == null)
+                    host.Id = id;
+                else if (!host.Id.Contains(id))
+                    host.Id += " " + id;
             }
         }
 
