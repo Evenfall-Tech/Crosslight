@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Crosslight.GUI.ViewModels.Explorers
 {
-    public class ExplorerLocator
+    public class ExplorerLocator : IExplorerLocator
     {
         private readonly ProjectViewportVM projectViewportVM;
         private readonly Dictionary<Type, (Func<ExplorerPanelVM> func, bool singleton)> factory;

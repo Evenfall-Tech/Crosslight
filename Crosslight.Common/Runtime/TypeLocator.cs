@@ -34,6 +34,7 @@ namespace Crosslight.Common.Runtime
 
         public static T CreateTypeInstance<T>(Type type) where T : class
         {
+            if (type.IsInterface) return null;
             return (T)Activator.CreateInstance(type);
         }
 

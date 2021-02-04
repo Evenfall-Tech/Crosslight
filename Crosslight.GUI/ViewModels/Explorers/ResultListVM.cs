@@ -25,12 +25,12 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ReactiveCommand<ResultItemVM, Unit> AddResultVM { get; }
         public ReactiveCommand<ResultItemVM, Unit> RemoveResultVM { get; }
 
-        public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "result_list";
         public ViewModelActivator Activator { get; }
         public ResultListVM() : this(null) { }
         public ResultListVM(IScreen screen) : base(screen)
         {
+            Title = ConstTitle;
             resultsSource = new SourceCache<ResultItemVM, string>(x => x.ID);
 
             AddResultVM = ReactiveCommand.Create((ResultItemVM item) =>
@@ -45,7 +45,12 @@ namespace Crosslight.GUI.ViewModels.Explorers
             }, Observable.Return(true));
 
             resultTypes = new ObservableCollection<ResultTypeVM>();
-            var languateEnumValues = (LanguageType[])Enum.GetValues(typeof(LanguageType));
+            var languateEnumValues = ((LanguageType[])Enum.GetValues(typeof(LanguageType))).Except(
+                new LanguageType[]
+                {
+                    LanguageType.None,
+                }
+            );
             foreach (var languageType in languateEnumValues)
             {
                 resultTypes.Add(new ResultTypeVM()

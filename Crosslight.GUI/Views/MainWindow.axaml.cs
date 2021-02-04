@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.GUI.ViewModels;
 using Crosslight.GUI.ViewModels.Explorers;
+using Crosslight.GUI.ViewModels.Viewports;
 using Crosslight.GUI.Views.Explorers;
 using Crosslight.GUI.Views.Viewports;
 using ReactiveUI;
@@ -15,12 +16,15 @@ namespace Crosslight.GUI.Views
 {
     public class MainWindow : ReactiveWindow<MainWindowVM>
     {
-        ProjectViewport ProjectViewport => this.FindControl<ProjectViewport>("projectViewport");
+        MainViewport MainViewport => this.FindControl<MainViewport>("mainViewport");
         public MainWindow()
         {
+            Locator.CurrentMutable.Register(() => new MainViewport(), typeof(IViewFor<MainViewportVM>));
+            Locator.CurrentMutable.Register(() => new ProjectViewport(), typeof(IViewFor<ProjectViewportVM>));
+
             this.WhenActivated(disposables =>
             {
-                this.OneWayBind(ViewModel, x => x.Project, x => x.ProjectViewport.ViewModel)
+                this.Bind(ViewModel, x => x.MainViewport, x => x.MainViewport.ViewModel)
                     .DisposeWith(disposables);
             });
             InitializeComponent();

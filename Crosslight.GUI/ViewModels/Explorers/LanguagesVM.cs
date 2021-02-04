@@ -31,7 +31,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 if (value != null && value != selectedLanguage)
                 {
                     this.RaiseAndSetIfChanged(ref selectedLanguage, value);
-                    PropertiesVM properties = Locator.Current.GetService<ExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
+                    PropertiesVM properties = Locator.Current.GetService<IExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
                     if (properties != null)
                         properties.SelectedInstance = selectedLanguage.Language.Options;
                 }
@@ -40,12 +40,12 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ReactiveCommand<string, Unit> AddLanguage { get; }
         public ReactiveCommand<LanguageVM, Unit> RemoveLanguage { get; }
 
-        public override string Title => ConstTitle;
         public override string UrlPathSegment { get; } = "languages";
         public ViewModelActivator Activator { get; }
         public LanguagesVM() : this(null) { }
         public LanguagesVM(IScreen screen) : base(screen)
         {
+            Title = ConstTitle;
             languageSource = new SourceCache<LanguageVM, string>(x => x.Title);
             AddLanguage = ReactiveCommand.Create((string s) =>
             {
@@ -59,17 +59,20 @@ namespace Crosslight.GUI.ViewModels.Explorers
                         foreach (var lang in languages)
                         {
                             ILanguage language = TypeLocator.CreateTypeInstance<ILanguage>(lang);
-                            var type = language.LanguageType;
-                            LanguageVM vmToAdd = null;
-                            vmToAdd = new LanguageVM()
+                            if (language != null)
                             {
-                                Path = s,
-                                Title = language.Name,
-                                Language = language,
-                            };
-                            if (vmToAdd != null)
-                            {
-                                languageSource.AddOrUpdate(vmToAdd);
+                                var type = language.LanguageType;
+                                LanguageVM vmToAdd = null;
+                                vmToAdd = new LanguageVM()
+                                {
+                                    Path = s,
+                                    Title = language.Name,
+                                    Language = language,
+                                };
+                                if (vmToAdd != null)
+                                {
+                                    languageSource.AddOrUpdate(vmToAdd);
+                                }
                             }
                         }
                     }
@@ -83,7 +86,12 @@ namespace Crosslight.GUI.ViewModels.Explorers
             }, Observable.Return(true));
 
             languageTypes = new ObservableCollection<LanguageTypeVM>();
-            var languateEnumValues = (LanguageType[])Enum.GetValues(typeof(LanguageType));
+            var languateEnumValues = ((LanguageType[])Enum.GetValues(typeof(LanguageType))).Except(
+                new LanguageType[]
+                {
+                    LanguageType.None,
+                }
+            );
             foreach (var languageType in languateEnumValues)
             {
                 languageTypes.Add(new LanguageTypeVM()

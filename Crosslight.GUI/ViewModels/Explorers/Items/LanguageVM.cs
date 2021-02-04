@@ -33,7 +33,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             .WhenAnyValue(x => x.Language, x => x.Path, (language, path) => language != null && !string.IsNullOrWhiteSpace(path));
         public ReactiveCommand<Unit, Unit> SelectCommand => ReactiveCommand.Create(() =>
         {
-            var locator = Locator.Current.GetService<ExplorerLocator>();
+            var locator = Locator.Current.GetService<IExplorerLocator>();
             var props = locator.Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
             if (props != null)
             {
@@ -48,7 +48,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
         SelectCommandAvailable);
         public ReactiveCommand<Unit, Unit> RemoveCommand => ReactiveCommand.Create(() =>
         {
-            var locator = Locator.Current.GetService<ExplorerLocator>();
+            var locator = Locator.Current.GetService<IExplorerLocator>();
             var props = locator.Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
             if (props != null)
             {

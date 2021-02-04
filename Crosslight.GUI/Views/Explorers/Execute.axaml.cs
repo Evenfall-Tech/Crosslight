@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.API.IO.FileSystem.Implementations;
+using Crosslight.GUI.ViewModels;
 using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using ReactiveUI;
@@ -37,22 +38,22 @@ namespace Crosslight.GUI.Views.Explorers
 
         private async Task ExecuteTranslate()
         {
-            var (result, language) = await ViewModel.Translate.Execute();
-            if (language != null && result != null)
+            var translationResult = await ViewModel.Translate.Execute();
+            if (translationResult.language != null && translationResult.result != null)
             {
-                var resultList = Locator.Current.GetService<ExplorerLocator>().Open<ResultListVM>(openExisting: true);
+                var resultList = Locator.Current.GetService<IExplorerLocator>().Open<ResultListVM>(openExisting: true);
                 if (resultList != null)
                     await resultList.AddResultVM.Execute(new ResultItemVM()
                     {
-                        Name = result.Name,
-                        Origin = language.LanguageType,
-                        Result = result,
+                        Name = translationResult.result.Name,
+                        Origin = translationResult.language.LanguageType,
+                        Result = translationResult.result,
                     });
-                string id = ResultsVM.GenerateID(result);
-                var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(id: id, openExisting: true);
+                string id = ResultsVM.GenerateID(translationResult.result);
+                var resultPanel = Locator.Current.GetService<IExplorerLocator>().Open<ResultsVM>(id: id, openExisting: true);
                 if (resultPanel != null)
                 {
-                    resultPanel.Result = result;
+                    resultPanel.Result = translationResult.result;
                 }
             }
         }

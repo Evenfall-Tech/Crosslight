@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="500"
              x:Class="Crosslight.GUI.Views.Explorers.ResultList"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
-	<StackPanel>
+	<Grid RowDefinitions="Auto,*">
 		<WrapPanel>
 			<Button Name="loadFileSrc">
 				<Image Source="avares://Crosslight.Common.UI/Assets/Icons/Editor/AddDocument_16x.png"
@@ -20,7 +20,9 @@
 					   Width="16" Height="16"/>
 			</Button>
 		</WrapPanel>
-		<ItemsControl Name="resultTypeList"
-					  HorizontalAlignment="Stretch"/>
-	</StackPanel>
+		<ScrollViewer Grid.Row="1">
+			<ItemsControl Name="resultTypeList"
+						  HorizontalAlignment="Stretch"/>
+		</ScrollViewer>
+	</Grid>
 </UserControl>

@@ -22,9 +22,8 @@ namespace Crosslight.GUI.ViewModels.Explorers
             set => this.RaiseAndSetIfChanged(ref result, value);
         }
 
-        public override string ID => idObservable.Value;
-        public override string Title => $"{ConstTitle} {ID}";
-        public override string UrlPathSegment => $"result_{ID}";
+        private string IdValue => idObservable.Value;
+        public override string UrlPathSegment => $"result_{Id}";
         public ViewModelActivator Activator { get; }
         public ResultsVM() : this(null) { }
         public ResultsVM(IScreen screen) : base(screen)
@@ -33,14 +32,17 @@ namespace Crosslight.GUI.ViewModels.Explorers
                 .DistinctUntilChanged()
                 .Where(x => x != null)
                 .Select(x => GenerateID(x))
-                .ToProperty(this, x => x.ID);
+                .ToProperty(this, x => x.IdValue);
 
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
             {
-                this.WhenAnyValue(x => x.ID)
-                    .Do(x => this.RaisePropertyChanged(nameof(Title)))
-                    .Subscribe()
+                this.WhenAnyValue(x => x.IdValue)
+                    .BindTo(this, x => x.Id)
+                    .DisposeWith(disposables);
+                this.WhenAnyValue(x => x.Id)
+                    .Select(x => $"{ConstTitle} {x}")
+                    .BindTo(this, x => x.Title)
                     .DisposeWith(disposables);
             });
         }

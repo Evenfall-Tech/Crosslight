@@ -1,4 +1,6 @@
 ﻿using Crosslight.GUI.ViewModels.Explorers;
+using Dock.Model;
+using Dock.Model.Controls;
 using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
@@ -7,29 +9,23 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Viewports
 {
-    public class ProjectViewportVM : BaseViewModel, IActivatableViewModel
+    public class ProjectViewportVM : RootDock, IActivatableViewModel
     {
         protected SourceList<ExplorerContainerVM> containerSource;
         protected ReadOnlyObservableCollection<ExplorerContainerVM> containers;
-        protected ObservableCollectionExtended<MenuItemVM> menuItems;
+
         public ReadOnlyObservableCollection<ExplorerContainerVM> Containers => containers;
-        public ObservableCollectionExtended<MenuItemVM> MenuItems
-        {
-            get => menuItems;
-            set => this.RaiseAndSetIfChanged(ref menuItems, value);
-        }
 
         public ViewModelActivator Activator { get; }
         public ProjectViewportVM()
         {
-            Locator.CurrentMutable.RegisterLazySingleton(() => new ExplorerLocator(this));
+            Id = nameof(ProjectViewportVM);
+            Title = nameof(ProjectViewportVM);
 
             containerSource = new SourceList<ExplorerContainerVM>();
-            menuItems = new ObservableCollectionExtended<MenuItemVM>();
 
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
@@ -39,6 +35,15 @@ namespace Crosslight.GUI.ViewModels.Viewports
                     .Subscribe()
                     .DisposeWith(disposables);
             });
+        }
+        public override IDockable Clone()
+        {
+            var projectVM = new ProjectViewportVM();
+
+            CloneHelper.CloneDockProperties(this, projectVM);
+            CloneHelper.CloneRootDockProperties(this, projectVM);
+
+            return projectVM;
         }
 
         public void AddExplorer(ExplorerContainerVM vm) => containerSource.Add(vm);

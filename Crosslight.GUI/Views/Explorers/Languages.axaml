@@ -6,11 +6,13 @@
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Crosslight.GUI.Views.Explorers.Languages"
         DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
-	<StackPanel Orientation="Vertical">
+	<Grid RowDefinitions="Auto,*">
 		<WrapPanel Orientation="Horizontal">
 			<Button Content="Load" Name="loadLanguage"/>
 		</WrapPanel>
-		<ItemsControl HorizontalAlignment="Stretch"
-					  Name="languageTypeList"/>
-	</StackPanel>
+		<ScrollViewer Grid.Row="1">
+			<ItemsControl HorizontalAlignment="Stretch"
+					      Name="languageTypeList"/>
+		</ScrollViewer>
+	</Grid>
 </UserControl>

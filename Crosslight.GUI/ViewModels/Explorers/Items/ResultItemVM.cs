@@ -60,16 +60,27 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
 
             OpenCommand = ReactiveCommand.Create(() =>
             {
-                string id = ResultsVM.GenerateID(Result);
-                var resultPanel = Locator.Current.GetService<ExplorerLocator>().Open<ResultsVM>(id: id, openExisting: true);
-                if (resultPanel != null)
+                if (Result is IDirectory)
                 {
-                    resultPanel.Result = Result;
+                    State = SwitchState(State);
+                }
+                else if (Result is IFile)
+                {
+                    string id = ResultsVM.GenerateID(Result);
+                    var resultPanel = Locator.Current.GetService<IExplorerLocator>().Open<ResultsVM>(id: id, openExisting: true);
+                    if (resultPanel != null)
+                    {
+                        resultPanel.Result = Result;
+                    }
+                }
+                else
+                {
+                    throw new NotImplementedException();
                 }
             }, Observable.Return(true));
             RemoveCommand = ReactiveCommand.Create(() =>
             {
-                var locator = Locator.Current.GetService<ExplorerLocator>();
+                var locator = Locator.Current.GetService<IExplorerLocator>();
                 var props = locator.Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
                 if (props != null)
                 {
@@ -106,6 +117,17 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
                     .BindTo(this, x => x.State)
                     .DisposeWith(disp);
             });
+        }
+
+        public static ResultItemState SwitchState(ResultItemState state)
+        {
+            return state switch
+            {
+                ResultItemState.Collapsed => ResultItemState.Expanded,
+                ResultItemState.Expanded => ResultItemState.Collapsed,
+                ResultItemState.NonExpandable => ResultItemState.NonExpandable,
+                _ => ResultItemState.None,
+            };
         }
 
         private ResultItemState StateFromFile(IFileSystemItem file)
