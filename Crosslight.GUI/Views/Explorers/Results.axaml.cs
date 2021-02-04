@@ -6,10 +6,13 @@ using Avalonia.ReactiveUI;
 using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Nodes;
 using Crosslight.GUI.ViewModels.Explorers;
+using Crosslight.GUI.ViewModels.Explorers.Items;
 using Crosslight.Viewer.ViewModels.Graph;
 using Crosslight.Viewer.Views.Graph;
 using ReactiveUI;
+using Splat;
 using System;
+using System.IO;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -79,7 +82,15 @@ namespace Crosslight.GUI.Views.Explorers
 
         private object FillDirectory(IDirectory directory)
         {
-            return directory.Name;
+            var view = Locator.Current.GetService<IViewFor<ResultItemVM>>();
+            string fullPath = Path.GetFullPath(directory.Name).TrimEnd(Path.DirectorySeparatorChar);
+            string name = Path.GetFileName(fullPath);
+            view.ViewModel = new ResultItemVM()
+            {
+                Name = name,
+                Result = directory,
+            };
+            return view;
         }
     }
 }
