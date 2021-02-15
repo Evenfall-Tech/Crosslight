@@ -1,0 +1,364 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:local="clr-namespace:Crosslight.Common.UI.Controls;assembly=Crosslight.Common.UI"
+             xmlns:p="clr-namespace:Crosslight.Common.UI.Controls.HexEditorControl.Properties;assembly=Crosslight.Common.UI"
+			 xmlns:i18n="clr-namespace:Crosslight.Common.UI.Localizer;assembly=Crosslight.Common.UI"
+			 mc:Ignorable="d" d:DesignWidth="804" d:DesignHeight="350"
+             x:Class="Crosslight.Common.UI.Controls.HexEditor"
+			 BorderBrush="#FF443E3E"
+             BorderThickness="1"
+             Focusable="True"
+             FontSize="11"
+			 DragDrop.AllowDrop="True">
+	<!--#region Ressources-->
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Dictionary/BrushesDictionary.xaml" />
+				<ResourceInclude Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Dictionary/ToolTipDictionary.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<!--#endregion-->
+
+	<!--#region Build-in Context Menu-->
+	<UserControl.ContextMenu>
+		<ContextMenu x:Name="CMenu" IsVisible="False">
+			<MenuItem
+                x:Name="UndoCMenu"
+                Header="{i18n:Localize HexEditor/UndoString}">
+				<MenuItem.Icon>
+					<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Undo-Icon.ico" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<Separator />
+			<MenuItem Header="{i18n:Localize HexEditor/BookmarksString}">
+				<MenuItem
+                    x:Name="BookMarkCMenu"
+                    Width="Auto"
+                    Header="{i18n:Localize HexEditor/SetBookMarkString}">
+					<MenuItem.Icon>
+						<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Add-Bookmark-Icon.ico" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<Separator />
+				<MenuItem
+                    x:Name="ClearBookMarkCMenu"
+                    Width="Auto"
+                    Header="{i18n:Localize HexEditor/ClearBookMarkString}">
+					<MenuItem.Icon>
+						<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Clear-Bookmark-Icon.ico" />
+					</MenuItem.Icon>
+				</MenuItem>
+			</MenuItem>
+			<Separator />
+			<MenuItem
+                x:Name="CopyHexaCMenu"
+                Header="{i18n:Localize HexEditor/CopyAsHexadecimalString}">
+				<MenuItem.Icon>
+					<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Copy-Icon.ico" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem
+                x:Name="CopyAsciicMenu"
+                Header="{i18n:Localize HexEditor/CopyAsASCIIString}">
+				<MenuItem.Icon>
+					<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Copy-Icon.ico" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem x:Name="CopyAsCMenu" Header="{i18n:Localize HexEditor/CopySelectionAsString}">
+				<MenuItem
+                    x:Name="CopyCcMenu"
+                    Header="C" />
+				<MenuItem
+                    x:Name="CopyCSharpCMenu"
+                    Header="C#" />
+				<MenuItem
+                    x:Name="CopyFSharpCMenu"
+                    Header="F#" />
+				<MenuItem
+                    x:Name="CopyJavaCMenu"
+                    Header="Java" />
+				<MenuItem
+                    x:Name="CopyVbNetCMenu"
+                    Header="Visual Basic.Net" />
+				<MenuItem
+                    x:Name="CopyPascalCMenu"
+                    Header="Pascal" />
+				<MenuItem
+                    x:Name="CopyTblcMenu"
+                    Header="{i18n:Localize HexEditor/CopyAsTBLString}" />
+			</MenuItem>
+			<Separator />
+			<MenuItem
+                x:Name="PasteMenu"
+                Header="{i18n:Localize HexEditor/PasteNotInsertString}">
+				<MenuItem.Icon>
+					<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Paste-Icon.ico" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<Separator />
+			<MenuItem
+                x:Name="FillByteCMenu"
+                Header="{i18n:Localize HexEditor/FillSelectionString}">
+				<MenuItem.Icon>
+					<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/0x-Icon.ico" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem
+                x:Name="ReplaceByteCMenu"
+                Header="{i18n:Localize HexEditor/ReplaceSelectionString}">
+				<MenuItem.Icon>
+					<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/0x-Icon.ico" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<Separator />
+			<MenuItem
+                x:Name="DeleteCMenu"
+                Header="{i18n:Localize HexEditor/DeleteString}">
+				<MenuItem.Icon>
+					<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Delete-Icon.ico" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<Separator />
+			<MenuItem
+                x:Name="FindAllCMenu"
+                Header="{i18n:Localize HexEditor/FindSelectionString}">
+				<MenuItem.Icon>
+					<Image Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Find-Icon.ico" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<Separator />
+			<MenuItem
+                x:Name="SelectAllCMenu"
+                Header="{i18n:Localize HexEditor/SelectAllString}" />
+		</ContextMenu>
+	</UserControl.ContextMenu>
+	<!--#endregion-->
+
+	<Grid
+        x:Name="BaseGrid"
+        Background="White"
+		ColumnDefinitions="Auto,Auto,207*,10*,20"
+		RowDefinitions="30,287*,Auto,Auto">
+		<!--#region Data/Infos StackPanel-->
+		<LayoutTransformControl
+			x:Name="LinesInfoStackPanelLayout"
+			Grid.Row="1"
+			Margin="2,0,0,0"
+			HorizontalAlignment="Left" >
+			<StackPanel x:Name="LinesInfoStackPanel"/>
+		</LayoutTransformControl>
+
+		<LayoutTransformControl
+			x:Name="HexDataStackPanelLayout"
+			Grid.Row="1"
+			Grid.Column="1"
+			Margin="5,0" >
+			<StackPanel x:Name="HexDataStackPanel"/>
+		</LayoutTransformControl>
+
+		<LayoutTransformControl
+			x:Name="HexHeaderStackPanelLayout"
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5,0" >
+			<StackPanel
+                x:Name="HexHeaderStackPanel"
+                Orientation="Horizontal" />
+		</LayoutTransformControl>
+
+		<LayoutTransformControl
+			x:Name="StringDataStackPanelLayout"
+			Grid.Row="1"
+			Grid.Column="2"
+			Margin="5,0,0,0" >
+			<StackPanel x:Name="StringDataStackPanel"/>
+		</LayoutTransformControl>
+		<!--#endregion-->
+
+		<!--#region Statusbar definition-->
+		<Grid
+            x:Name="StatusBarGrid"
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            VerticalAlignment="Top"
+            Background="WhiteSmoke"
+            IsVisible="True">
+
+			<Separator
+                Height="1"
+                Margin="0,0,0,27"
+                Background="{Binding $parent[HexEditor].BorderBrush}" />
+
+			<ItemsControl Height="27" ItemsPanel="DockPanel">
+				<ContentControl Padding="0">
+					<StackPanel Orientation="Horizontal">
+						<Label
+                            Width="40"
+                            Content="{Binding $parent[HexEditor].ZoomScale}"
+                            ContentStringFormat="P0"
+                            ToolTip.Tip="{i18n:Localize HexEditor/ZoomString}" />
+						<Button
+							x:Name="ZoomResetButton"
+                            BorderThickness="0"
+                            Content="X"
+                            FontWeight="Bold"
+                            ToolTip.Tip="{i18n:Localize HexEditor/ZoomResetString}" />
+					</StackPanel>
+				</ContentControl>
+				<Separator />
+				<ContentControl Width="110" Padding="0">
+					<StackPanel Orientation="Horizontal">
+						<Label
+                            Padding="5,5,0,5"
+                            Content="{i18n:Localize HexEditor/LineStatusBarTagString}"
+                            FontWeight="Bold" />
+						<Label Content="{Binding $parent[HexEditor].SelectionLine, Converter={StaticResource LongHexConverter}}" />
+					</StackPanel>
+				</ContentControl>
+				<Separator />
+				<ContentControl Width="125" Padding="0">
+					<StackPanel Orientation="Horizontal">
+						<Label
+                            Padding="5,5,0,5"
+                            Content="{i18n:Localize HexEditor/PositionString}"
+                            FontWeight="Bold" />
+						<Label Content="{Binding $parent[HexEditor].SelectionStart, Converter={StaticResource LongHexConverter}}" />
+					</StackPanel>
+				</ContentControl>
+				<Separator />
+				<ContentControl Width="125" Padding="0">
+					<StackPanel Orientation="Horizontal">
+						<Label
+                            Padding="5,5,0,5"
+                            Content="{i18n:Localize HexEditor/LengthString}"
+                            FontWeight="Bold" />
+						<Label x:Name="FileLengthKbLabel" Content="{Binding $parent[HexEditor].FileLengthKbLabelText, StringFormat=N0}" />
+					</StackPanel>
+				</ContentControl>
+				<Separator />
+				<ContentControl
+                    x:Name="ByteCountPanel"
+                    Padding="0"
+                    IsVisible="False">
+					<StackPanel Orientation="Horizontal">
+						<Label
+                            Padding="5,5,0,5"
+                            Content="{i18n:Localize HexEditor/CountOfString}"
+                            FontWeight="Bold" />
+						<Label x:Name="CountOfByteLabel" ToolTip.Tip="{i18n:Localize HexEditor/CountOfByteString}" />
+						<Label Padding="0,5" Content=":" />
+						<Label
+                            x:Name="CountOfByteSumLabel"
+                            ContentStringFormat="N0"
+                            ToolTip.Tip="{i18n:Localize HexEditor/CountOfByteSumString}" />
+					</StackPanel>
+				</ContentControl>
+			</ItemsControl>
+		</Grid>
+
+		<Label
+            x:Name="ReadOnlyLabel"
+            Grid.Row="2"
+            Grid.Column="2"
+            Height="27"
+            Margin="670,1,0,0"
+            Padding="0,5,0,5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            Content="ReadOnly"
+            FontWeight="Bold"
+            IsVisible="{Binding $parent[HexEditor].ReadOnlyMode, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<!--#endregion-->
+
+		<!--#region Scrollbar, marker, and move rectangle-->
+		<ScrollBar
+            x:Name="VerticalScrollBar"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="4"
+            Width="20"
+            HorizontalAlignment="Right"
+            LargeChange="100"
+            SmallChange="1" />
+
+		<Grid
+            x:Name="MarkerGrid"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="4"
+            Margin="0,17" />
+
+		<Rectangle
+            x:Name="BottomRectangle"
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Height="10"
+            VerticalAlignment="Bottom"
+            Fill="#FFF4F4F5"
+            Opacity="0" />
+
+		<Rectangle
+            x:Name="TopRectangle"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Height="10"
+            VerticalAlignment="Top"
+            Fill="#FFF4F4F5"
+            Opacity="0" />
+		<!--#endregion-->
+
+		<!--#region Long process-->
+		<ProgressBar
+            x:Name="LongProgressProgressBar"
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            Height="3"
+            BorderThickness="0"
+            Maximum="1"
+            Minimum="0" />
+
+		<!--  TODO: ADD TEXTBLOCK FOR DETAIL  -->
+		<Border
+            x:Name="CancelLongProcessButton"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Width="120"
+            Height="50"
+            BorderBrush="Gray"
+            BorderThickness="2"
+            CornerRadius="4">
+			<Button
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                Click="CancelLongProcessButton_Click"
+                Content="{i18n:Localize HexEditor/CancelLongProcessString}"
+                FontWeight="Bold"
+                Opacity="0.9"
+                ToolTip.Tip="{i18n:Localize HexEditor/CancelLongProcessToolTipString}" />
+		</Border>
+
+		<Label
+            x:Name="TblLabel"
+            Grid.Row="2"
+            Grid.RowSpan="2"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Margin="0,1,05,1"
+            HorizontalAlignment="Right"
+            Content="{i18n:Localize HexEditor/TBLString}"
+            FontWeight="Bold"
+            IsVisible="False" />
+		<!--#endregion-->
+	</Grid>
+</UserControl>

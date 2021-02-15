@@ -1,0 +1,96 @@
+﻿<!--
+    Apache 2.0  - 2016-2018
+    Author : Derek Tremblay (derektremblay666@gmail.com)
+-->
+
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i18n="clr-namespace:Crosslight.Common.UI.Localizer;assembly=Crosslight.Common.UI" 
+    xmlns:p="clr-namespace:Crosslight.Common.UI.Controls.HexEditorControl.Properties;assembly=Crosslight.Common.UI">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="./MiscelanousDictionary.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--  USED FOR TOOLTIP OF IBYTECONTROL  -->
+    <ToolTip x:Key="ByteToolTip">
+        <ToolTip.RenderTransform>
+            <ScaleTransform ScaleX="0.7" ScaleY="0.7" />
+        </ToolTip.RenderTransform>
+		<StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Label
+				Width="120"
+				Content="{i18n:Localize HexEditor/ValueString}"
+				FontWeight="Bold" />
+				<Label
+				Width="50"
+				Content="{i18n:Localize HexEditor/ByteString}"
+				FontWeight="Bold" />
+				<Label Width="70" Content="{Binding Byte, UpdateSourceTrigger=PropertyChanged}" />
+				<Label Content="{i18n:Localize HexEditor/HexString}" FontWeight="Bold" />
+				<Label Content="{Binding Byte, Converter={StaticResource LongHexConverter}, UpdateSourceTrigger=PropertyChanged}" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Label
+				Width="120"
+				Content="{i18n:Localize HexEditor/PositionString}"
+				FontWeight="Bold" />
+				<Label
+				Width="50"
+				Content="{i18n:Localize HexEditor/LongString}"
+				FontWeight="Bold" />
+				<Label Width="70" Content="{Binding BytePositionInStream, UpdateSourceTrigger=PropertyChanged}" />
+				<Label Content="{i18n:Localize HexEditor/HexString}" FontWeight="Bold" />
+				<Label Content="{Binding BytePositionInStream, Converter={StaticResource LongHexConverter}, UpdateSourceTrigger=PropertyChanged}" />
+			</StackPanel>
+			<Separator />
+			<StackPanel Orientation="Horizontal">
+				<Label
+				Width="120"
+				Content="{i18n:Localize HexEditor/ByteActionString}"
+				FontWeight="Bold" />
+				<Label Content="{Binding Action, UpdateSourceTrigger=PropertyChanged}" />
+				<Label Content="{Binding OriginByte, UpdateSourceTrigger=PropertyChanged}" />
+			</StackPanel>
+			<Separator />
+			<StackPanel Orientation="Horizontal">
+				<Label
+				Width="120"
+				Content="{i18n:Localize HexEditor/DescriptionString}"
+				FontWeight="Bold" />
+				<Label Content="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+			</StackPanel>
+		</StackPanel>
+    </ToolTip>
+
+	<!--  USED FOR TOOLTIP OF SCROLL MARKER  -->
+	<ToolTip x:Key="ScrollMarkerSearchToolTip">
+		<StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Label
+                    Width="120"
+                    Content="{i18n:Localize HexEditor/PositionString}"
+                    FontWeight="Bold" />
+				<Label Content="{i18n:Localize HexEditor/LongString}" FontWeight="Bold" />
+				<Label Content="{Binding BytePositionInStream, UpdateSourceTrigger=PropertyChanged}" />
+				<Label Content="{i18n:Localize HexEditor/HexString}" FontWeight="Bold" />
+				<Label Content="{Binding BytePositionInStream, Converter={StaticResource LongHexConverter}, UpdateSourceTrigger=PropertyChanged}" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Label
+                    Width="120"
+                    Content="{i18n:Localize HexEditor/DescriptionString}"
+                    FontWeight="Bold" />
+				<Label Content="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+			</StackPanel>
+			<Separator />
+			<StackPanel Orientation="Horizontal">
+				<Label Content="{i18n:Localize HexEditor/ClickToGoAtPositionString}" FontWeight="Bold" />
+			</StackPanel>
+		</StackPanel>
+	</ToolTip>
+</ResourceDictionary>

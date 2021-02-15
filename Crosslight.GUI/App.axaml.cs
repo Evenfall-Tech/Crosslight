@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Crosslight.Common.UI.Localizer;
 using Crosslight.GUI.ViewModels;
 using Crosslight.GUI.ViewModels.Viewports;
 using Crosslight.GUI.Views;
@@ -20,6 +21,7 @@ namespace Crosslight.GUI
 
         public override void OnFrameworkInitializationCompleted()
         {
+            Localizer.Instance.LoadLanguage("en-US");
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
 
             // var factory = new ProjectViewportFactory(new ProjectViewportVM());

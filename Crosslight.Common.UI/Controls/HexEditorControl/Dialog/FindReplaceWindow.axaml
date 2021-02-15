@@ -1,0 +1,206 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i18n="clr-namespace:Crosslight.Common.UI.Localizer;assembly=Crosslight.Common.UI"
+		xmlns:controls="clr-namespace:Crosslight.Common.UI.Controls;assembly=Crosslight.Common.UI"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		Width="193"
+        Height="340"
+        MinWidth="550"
+        MinHeight="360"
+        MaxWidth="700"
+        MaxHeight="500"
+		Icon="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Logo-Icon.ico"
+        ShowInTaskbar="False"
+		WindowStartupLocation="CenterOwner"
+        x:Class="Crosslight.Common.UI.Controls.HexEditorControl.Dialog.FindReplaceWindow"
+        Title="{i18n:Localize HexEditor/FindAndReplaceString}">
+	<Grid>
+
+		<Popup
+            x:Name="SettingPopup"
+            OpacityMask="WhiteSmoke"
+            PlacementTarget="{Binding ElementName=SettingButton}"
+            StaysOpen="False">
+
+			<StackPanel Margin="1,0.5,0.5,0.8" Background="{x:Static ThemeControlHighlightLowBrush}">
+				<MenuItem
+                    x:Name="HighlightMenuItem"
+                    Header="{i18n:Localize HexEditor/ReplaceTrimSettingString}"
+                    IsSelected="True" />
+				<MenuItem
+                    x:Name="TrimMenuItem"
+                    Header="{i18n:Localize HexEditor/HighLightSettingString}"
+                    IsSelected="True" />
+			</StackPanel>
+
+		</Popup>
+
+		<Button
+            x:Name="FindNextButton"
+            Width="100"
+            Height="27"
+            Margin="0,73,14,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/FindNextString}"
+            TabIndex="3" />
+
+		<Button
+            x:Name="CloseButton"
+            Width="100"
+            Height="27"
+            Margin="0,0,14,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="{i18n:Localize HexEditor/CloseString}"
+            IsCancel="True"
+            TabIndex="10" />
+
+		<controls:HexEditor
+            x:Name="FindHexEdit"
+            Height="110"
+            Margin="10,41,129,0"
+            VerticalAlignment="Top"
+            AllowAutoHighLightSelectionByte="False"
+            AllowContextMenu="False"
+            AllowDeleteByte="True"
+            AllowDrop="True"
+            AllowExtend="True"
+            AllowFileDrop="False"
+            AllowZoom="False"
+            AppendNeedConfirmation="False"
+            ByteModifiedColor="White"
+            BytePerLine="8"
+            ByteSpacerPositioning="Nothing"
+            HideByteDeleted="False"
+            IsStatusBarVisible="False" />
+
+		<Label
+            Margin="10,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/FindWhatString}" />
+
+		<Button
+            x:Name="ReplaceButton"
+            Width="100"
+            Height="28"
+            Margin="0,169,14,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/ReplaceString}"
+            TabIndex="6" />
+
+		<Button
+            x:Name="ReplaceAllButton"
+            Width="100"
+            Height="27"
+            Margin="0,234,14,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/ReplaceAllString}"
+            TabIndex="9" />
+
+		<controls:HexEditor
+            x:Name="ReplaceHexEdit"
+            Margin="10,187,129,10"
+            AllowAutoHighLightSelectionByte="False"
+            AllowContextMenu="False"
+            AllowDeleteByte="True"
+            AllowDrop="True"
+            AllowExtend="True"
+            AllowFileDrop="False"
+            AllowZoom="False"
+            AppendNeedConfirmation="False"
+            ByteModifiedColor="White"
+            BytePerLine="8"
+            ByteSpacerPositioning="Nothing"
+            HideByteDeleted="False"
+            IsStatusBarVisible="False" />
+
+		<Label
+            Height="26"
+            Margin="10,156,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/ReplaceWithString}" />
+
+		<Button
+            x:Name="FindAllButton"
+            Width="100"
+            Height="27"
+            Margin="0,137,14,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/FindAllString}"
+            TabIndex="5" />
+
+		<Button
+            x:Name="FindFirstButton"
+            Width="100"
+            Height="27"
+            Margin="0,41,14,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/FindFirstString}"
+            TabIndex="2" />
+
+		<Button
+            x:Name="FindLastButton"
+            Width="100"
+            Height="27"
+            Margin="0,105,14,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/FindLastString}"
+            TabIndex="4" />
+
+		<Button
+            x:Name="ClearButton"
+            Width="61"
+            Height="26"
+            Margin="0,10,129,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/ClearString}"
+            TabIndex="1" />
+
+		<Button
+            x:Name="ClearReplaceButton"
+            Width="61"
+            Height="26"
+            Margin="0,156,129,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/ClearString}"
+            TabIndex="11" />
+
+		<Button
+            x:Name="ReplaceNextButton"
+            Width="100"
+            Height="27"
+            Margin="0,202,14,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="{i18n:Localize HexEditor/ReplaceNextString}"
+            TabIndex="7" />
+
+		<Button
+            x:Name="SettingButton"
+            Width="100"
+            Height="26"
+            Margin="0,10,14,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top">
+
+			<Image
+                Width="31"
+                Height="23"
+                Source="avares://Crosslight.Common.UI/Assets/Controls/HexEditorControl/Icon/Settings-Icon.ico" />
+		</Button>
+
+
+	</Grid>
+</Window>
