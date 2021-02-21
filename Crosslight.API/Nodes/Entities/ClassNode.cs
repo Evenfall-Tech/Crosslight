@@ -1,9 +1,11 @@
-﻿namespace Crosslight.API.Nodes.Entities
+﻿using Crosslight.API.Nodes.Interfaces;
+
+namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
     /// <see cref="ClassNode"/> represents the class abstraction in the language.
     /// </summary>
-    public class ClassNode : CompoundTypeNode
+    public class ClassNode : CompoundTypeNode, IAttributedNode, IModifiedNode, IGenericDefinitionNode, INamedNode
     {
         public override string Type => nameof(ClassNode);
         public ClassNode(string name) : base(name)

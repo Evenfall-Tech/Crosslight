@@ -1,9 +1,11 @@
-﻿namespace Crosslight.API.Nodes.Entities
+﻿using Crosslight.API.Nodes.Interfaces;
+
+namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
     /// <see cref="StructNode"/> represents the struct abstraction in the language.
     /// </summary>
-    public class StructNode : CompoundTypeNode
+    public class StructNode : CompoundTypeNode, IAttributedNode, IModifiedNode, IGenericDefinitionNode, INamedNode
     {
         public override string Type => nameof(StructNode);
         public StructNode(string name) : base(name)

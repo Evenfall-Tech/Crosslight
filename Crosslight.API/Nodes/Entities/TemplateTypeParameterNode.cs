@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crosslight.API.Nodes.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,7 +16,7 @@ namespace Crosslight.API.Nodes.Entities
     /// template type paremeter T for generics.
     /// Supports [in|out] variance.
     /// </summary>
-    public class TemplateTypeParameterNode : AttributedNode
+    public class TemplateTypeParameterNode : AttributedNode, INamedNode
     {
         public override string Type => nameof(TemplateTypeParameterNode);
         public TemplateTypeParameterVariance Variance { get; protected set; }

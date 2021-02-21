@@ -1,32 +1,28 @@
-﻿using Crosslight.API.Nodes.Entities;
+﻿using Crosslight.API.Nodes.Access;
+using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Function
 {
     /// <summary>
-    /// <see cref="FunctionNode"/> represents the function abstraction in the language.
+    /// <see cref="BaseFunctionNode"/> is the parent node for function and method nodes.
     /// </summary>
-    public class FunctionNode : EntityNode
+    public abstract class BaseFunctionNode : EntityNode, INamedNode, IModifiedNode
     {
-        public override string Type => nameof(FunctionNode);
+        public override string Type => nameof(BaseFunctionNode);
         public SyncedList<FunctionParameterNode, Node> Parameters { get; protected set; }
-        private readonly SyncedProperty<FunctionReturnTypeNode, Node> returnType;
         private readonly SyncedProperty<FunctionBodyNode, Node> body;
-        public FunctionReturnTypeNode ReturnType
-        {
-            get => returnType.Value;
-            protected set => returnType.Value = value;
-        }
+        // TODO: Replace body with ExecutableNode <- FunctionBodyNode.
         public FunctionBodyNode Body
         {
             get => body.Value;
             protected set => body.Value = value;
         }
         public string Name { get; }
-        public FunctionNode(string name)
+        public BaseFunctionNode(string name)
         {
             Parameters = new SyncedList<FunctionParameterNode, Node>(Children);
-            returnType = new SyncedProperty<FunctionReturnTypeNode, Node>(Children);
             body = new SyncedProperty<FunctionBodyNode, Node>(Children);
             Name = name;
         }

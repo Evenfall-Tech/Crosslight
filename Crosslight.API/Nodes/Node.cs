@@ -1,11 +1,12 @@
-﻿using Crosslight.API.Nodes.Metadata;
+﻿using Crosslight.API.Nodes.Interfaces;
+using Crosslight.API.Nodes.Metadata;
 using Crosslight.API.Util;
 using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes
 {
-    public abstract class Node
+    public abstract class Node : INode
     {
         public virtual Node Parent { get; set; } = null;
         // TODO: remove this if it ends up unused.

@@ -1,4 +1,5 @@
-﻿using Crosslight.API.Util;
+﻿using Crosslight.API.Nodes.Interfaces;
+using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Entities
 {
@@ -6,7 +7,7 @@ namespace Crosslight.API.Nodes.Entities
     /// <see cref="InheritedTypeNode"/> abstract node represents a type
     /// that has one or more base types.
     /// </summary>
-    public abstract class InheritedTypeNode : EntityNode
+    public abstract class InheritedTypeNode : EntityNode, IAttributedNode, IModifiedNode, IGenericDefinitionNode, INamedNode
     {
         public override string Type => nameof(InheritedTypeNode);
         public string Name { get; }

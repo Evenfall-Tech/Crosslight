@@ -1,4 +1,5 @@
 ﻿using Crosslight.API.Nodes.Access;
+using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Entities
@@ -6,7 +7,7 @@ namespace Crosslight.API.Nodes.Entities
     /// <summary>
     /// <see cref="AttributedNode"/> represents a node containing attributes.
     /// </summary>
-    public abstract class AttributedNode : Node
+    public abstract class AttributedNode : Node, IAttributedNode
     {
         public override string Type => nameof(AttributedNode);
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }

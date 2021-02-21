@@ -1,9 +1,11 @@
-﻿namespace Crosslight.API.Nodes.Entities
+﻿using Crosslight.API.Nodes.Interfaces;
+
+namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
     /// <see cref="InterfaceNode"/> represents the interface abstraction in the language.
     /// </summary>
-    public class InterfaceNode : FunctionalTypeNode
+    public class InterfaceNode : FunctionalTypeNode, IAttributedNode, IModifiedNode, IGenericDefinitionNode, INamedNode
     {
         public override string Type => nameof(InterfaceNode);
         public InterfaceNode(string name) : base(name)

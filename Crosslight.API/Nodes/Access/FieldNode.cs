@@ -1,4 +1,5 @@
 ﻿using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Util;
 using System;
 
@@ -7,7 +8,7 @@ namespace Crosslight.API.Nodes.Access
     /// <summary>
     /// <see cref="FieldNode"/> represents the field abstraction in the language.
     /// </summary>
-    public class FieldNode : VariableNode, ITypeMember
+    public class FieldNode : VariableNode, ITypeMemberNode
     {
         public override string Type => nameof(FieldNode);
         public FunctionalTypeNode OwningType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

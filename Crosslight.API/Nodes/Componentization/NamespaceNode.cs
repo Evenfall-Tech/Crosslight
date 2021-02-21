@@ -1,5 +1,6 @@
 ﻿using Crosslight.API.Nodes.Access;
 using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Util;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Crosslight.API.Nodes.Componentization
     /// <summary>
     /// <see cref="NamespaceNode"/> represents the namespace abstraction in the language.
     /// </summary>
-    public class NamespaceNode : Node
+    public class NamespaceNode : Node, INamedNode, IAttributedNode
     {
         public override string Type => nameof(NamespaceNode);
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
@@ -18,7 +19,7 @@ namespace Crosslight.API.Nodes.Componentization
         public SyncedList<ValueNode, Node> Values { get; protected set; }
         public SyncedList<NamespaceNode, Node> Namespaces { get; protected set; }
         public string[] Identifiers { get; }
-        public string FullName { get => throw new NotImplementedException(); }
+        public string Name => string.Join(".", Identifiers);
         public NamespaceNode(string name) : this(name.Split('.'))
         { }
         public NamespaceNode(IEnumerable<string> identifiers)
