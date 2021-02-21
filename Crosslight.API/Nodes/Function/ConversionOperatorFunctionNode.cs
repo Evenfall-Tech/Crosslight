@@ -7,6 +7,7 @@ namespace Crosslight.API.Nodes.Function
 {
     public class ConversionOperatorFunctionNode : BaseMethodNode, ITypeMemberNode, INamedNode, IModifiedNode, IFuncWithReturnTypeNode
     {
+        public override string Type => nameof(ConversionOperatorFunctionNode);
         SyncedProperty<ImplicitOrExplicitKeywordNode, Node> Keyword { get; set; }
 
         private readonly SyncedProperty<FunctionReturnTypeNode, Node> returnType;

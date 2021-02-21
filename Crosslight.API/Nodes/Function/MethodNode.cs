@@ -7,6 +7,7 @@ namespace Crosslight.API.Nodes.Function
 {
     public class MethodNode : BaseMethodNode, ITypeMemberNode, INamedNode, IModifiedNode, IGenericDefinitionNode, IFuncWithReturnTypeNode
     {
+        public override string Type => nameof(MethodNode);
         public SyncedList<TypeConstraintNode, Node> Constraints { get; protected set; }
         public SyncedList<TemplateTypeParameterNode, Node> TypeParameters { get; protected set; }
         FunctionalTypeNode ExplicitInterfaceSpecifier { get; set; }

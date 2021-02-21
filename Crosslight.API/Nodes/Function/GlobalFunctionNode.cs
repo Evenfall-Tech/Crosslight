@@ -6,6 +6,7 @@ namespace Crosslight.API.Nodes.Function
 {
     public class GlobalFunctionNode : BaseFunctionNode, INamedNode, IModifiedNode, IFuncWithReturnTypeNode
     {
+        public override string Type => nameof(GlobalFunctionNode);
         private readonly SyncedProperty<FunctionReturnTypeNode, Node> returnType;
         public FunctionReturnTypeNode ReturnType
         {

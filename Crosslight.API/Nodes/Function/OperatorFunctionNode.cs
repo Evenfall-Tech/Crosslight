@@ -6,6 +6,7 @@ namespace Crosslight.API.Nodes.Function
 {
     public class OperatorFunctionNode : BaseMethodNode, ITypeMemberNode, INamedNode, IModifiedNode, IFuncWithReturnTypeNode
     {
+        public override string Type => nameof(OperatorFunctionNode);
         private readonly SyncedProperty<FunctionReturnTypeNode, Node> returnType;
         private readonly SyncedProperty<OperatorNode, Node> operatorToken;
         public FunctionReturnTypeNode ReturnType
