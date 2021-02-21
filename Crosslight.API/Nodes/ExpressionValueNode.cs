@@ -1,5 +1,4 @@
 ﻿using Crosslight.API.Nodes.Access;
-using System;
 
 namespace Crosslight.API.Nodes
 {

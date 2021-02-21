@@ -1,8 +1,6 @@
 ﻿using Crosslight.API.Nodes.Access;
 using Crosslight.API.Nodes.Interfaces;
-using Crosslight.API.Nodes.Metadata;
 using Crosslight.API.Util;
-using System;
 
 namespace Crosslight.API.Nodes.Componentization
 {

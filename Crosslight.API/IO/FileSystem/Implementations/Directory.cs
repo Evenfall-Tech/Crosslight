@@ -1,5 +1,4 @@
 ﻿using Crosslight.API.IO.FileSystem.Abstractions;
-using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.IO.FileSystem.Implementations

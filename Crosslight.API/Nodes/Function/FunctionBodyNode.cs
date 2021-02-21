@@ -1,6 +1,5 @@
 ﻿using Crosslight.API.Nodes.Control;
 using Crosslight.API.Util;
-using System;
 
 namespace Crosslight.API.Nodes.Function
 {

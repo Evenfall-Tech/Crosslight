@@ -1,7 +1,6 @@
 ﻿using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Nodes.Metadata;
 using Crosslight.API.Util;
-using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes
@@ -30,7 +29,7 @@ namespace Crosslight.API.Nodes
         {
             return visitor.Visit(this);
         }
-        public virtual S AcceptVisitor<T,S>(IVisitor<T,S> visitor, T data)
+        public virtual S AcceptVisitor<T, S>(IVisitor<T, S> visitor, T data)
         {
             return visitor.Visit(this, data);
         }

@@ -1,5 +1,4 @@
 ﻿using Crosslight.API.Util;
-using System;
 
 namespace Crosslight.API.Nodes.Unary
 {

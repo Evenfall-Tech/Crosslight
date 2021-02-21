@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Crosslight.API.Nodes
+﻿namespace Crosslight.API.Nodes
 {
     /// <summary>
     /// <see cref="RootNode"/> represents a node that is

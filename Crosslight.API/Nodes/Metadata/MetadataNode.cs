@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes.Metadata
+﻿namespace Crosslight.API.Nodes.Metadata
 {
     /// <summary>
     /// <see cref="MetadataNode"/> represents compiler metadata or useful information.

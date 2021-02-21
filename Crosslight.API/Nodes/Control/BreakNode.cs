@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes.Control
+﻿namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
     /// <see cref="BreakNode"/> represents the break statement.

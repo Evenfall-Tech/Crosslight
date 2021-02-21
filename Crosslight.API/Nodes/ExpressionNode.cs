@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes
+﻿namespace Crosslight.API.Nodes
 {
     /// <summary>
     /// <see cref="ExpressionNode"/> represents the expression.

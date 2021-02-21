@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes.Control
+﻿namespace Crosslight.API.Nodes.Control
 {
     /// <summary>
     /// <see cref="JumpNode"/> is an abstract class that represents control flow operations.

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Crosslight.API.Nodes.Entities
+﻿namespace Crosslight.API.Nodes.Entities
 {
     /// <summary>
     /// <see cref="FunctionEntityNode"/> represents C# delegate declaration.

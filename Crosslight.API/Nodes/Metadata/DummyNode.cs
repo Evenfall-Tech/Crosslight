@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes.Metadata
+﻿namespace Crosslight.API.Nodes.Metadata
 {
     /// <summary>
     /// <see cref="DummyNode"/> represents a node for debugging and misc. info.

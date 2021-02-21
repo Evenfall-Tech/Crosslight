@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crosslight.API.Nodes
+﻿namespace Crosslight.API.Nodes
 {
     /// <summary>
     /// <see cref="StatementNode"/> represents the statement abstraction.
