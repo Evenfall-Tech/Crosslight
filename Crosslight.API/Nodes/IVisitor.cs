@@ -5,7 +5,7 @@ namespace Crosslight.API.Nodes
 {
     public interface IVisitor
     {
-        object Visit(Node node);
+        // object Visit(Node node);
         object Visit(FunctionEntityNode node);
         object Visit(EnumNode node);
         object Visit(StructNode node);
@@ -17,7 +17,7 @@ namespace Crosslight.API.Nodes
     }
     public interface IVisitor<out S>
     {
-        S Visit(Node node);
+        // S Visit(Node node);
         S Visit(FunctionEntityNode node);
         S Visit(EnumNode node);
         S Visit(StructNode node);
@@ -29,7 +29,7 @@ namespace Crosslight.API.Nodes
     }
     public interface IVisitor<in T, out S>
     {
-        S Visit(Node node, T data);
+        // S Visit(Node node, T data);
         S Visit(FunctionEntityNode node, T data);
         S Visit(EnumNode node, T data);
         S Visit(StructNode node, T data);

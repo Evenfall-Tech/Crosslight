@@ -21,7 +21,8 @@ namespace Crosslight.API.Nodes
         {
             return "Node";
         }
-        public virtual object AcceptVisitor(IVisitor visitor)
+        // TODO: fix this.
+        /*public virtual object AcceptVisitor(IVisitor visitor)
         {
             return visitor.Visit(this);
         }
@@ -32,6 +33,6 @@ namespace Crosslight.API.Nodes
         public virtual S AcceptVisitor<T, S>(IVisitor<T, S> visitor, T data)
         {
             return visitor.Visit(this, data);
-        }
+        }*/
     }
 }

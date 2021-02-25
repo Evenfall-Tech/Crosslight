@@ -1,4 +1,4 @@
-﻿using Crosslight.API.Nodes.Access;
+﻿using Crosslight.API.Nodes.Access.Modifiers;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Interfaces

@@ -1,4 +1,5 @@
-﻿using Crosslight.API.Nodes.Entities;
+﻿using Crosslight.API.Nodes.Access.Modifiers;
+using Crosslight.API.Nodes.Entities;
 using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Util;
 using System;
@@ -23,7 +24,8 @@ namespace Crosslight.API.Nodes.Access
         {
             return "FieldNode";
         }
-        public override object AcceptVisitor(IVisitor visitor)
+        // TODO: fix this.
+        /*public override object AcceptVisitor(IVisitor visitor)
         {
             return visitor.Visit(this);
         }
@@ -34,6 +36,6 @@ namespace Crosslight.API.Nodes.Access
         public override S AcceptVisitor<T, S>(IVisitor<T, S> visitor, T data)
         {
             return visitor.Visit(this, data);
-        }
+        }*/
     }
 }

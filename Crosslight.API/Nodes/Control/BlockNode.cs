@@ -18,7 +18,8 @@ namespace Crosslight.API.Nodes.Control
         {
             return "BlockNode";
         }
-        public override object AcceptVisitor(IVisitor visitor)
+        // TODO: fix this.
+        /*public override object AcceptVisitor(IVisitor visitor)
         {
             return visitor.Visit(this);
         }
@@ -29,6 +30,6 @@ namespace Crosslight.API.Nodes.Control
         public override S AcceptVisitor<T, S>(IVisitor<T, S> visitor, T data)
         {
             return visitor.Visit(this, data);
-        }
+        }*/
     }
 }

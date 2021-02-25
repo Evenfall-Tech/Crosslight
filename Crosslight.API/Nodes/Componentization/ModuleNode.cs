@@ -25,7 +25,8 @@ namespace Crosslight.API.Nodes.Componentization
         {
             return $"Module {Name}";
         }
-        public override object AcceptVisitor(IVisitor visitor)
+        // TODO: fix this.
+        /*public override object AcceptVisitor(IVisitor visitor)
         {
             return visitor.Visit(this);
         }
@@ -36,6 +37,6 @@ namespace Crosslight.API.Nodes.Componentization
         public override S AcceptVisitor<T, S>(IVisitor<T, S> visitor, T data)
         {
             return visitor.Visit(this, data);
-        }
+        }*/
     }
 }

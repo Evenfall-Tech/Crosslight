@@ -15,7 +15,8 @@ namespace Crosslight.API.Nodes.Entities
         {
             return "ClassNode";
         }
-        public override object AcceptVisitor(IVisitor visitor)
+        // TODO: fix this.
+        /*public override object AcceptVisitor(IVisitor visitor)
         {
             return visitor.Visit(this);
         }
@@ -26,6 +27,6 @@ namespace Crosslight.API.Nodes.Entities
         public override S AcceptVisitor<T, S>(IVisitor<T, S> visitor, T data)
         {
             return visitor.Visit(this, data);
-        }
+        }*/
     }
 }
