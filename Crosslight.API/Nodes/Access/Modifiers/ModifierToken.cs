@@ -3,5 +3,6 @@
     public enum ModifierToken
     {
         None,
+        Custom,
     }
 }
