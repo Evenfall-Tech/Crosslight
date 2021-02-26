@@ -3,10 +3,10 @@
     /// <summary>
     /// <see cref="EnumNode"/> represents the enum abstraction in the language.
     /// </summary>
-    public class EnumNode : EntityNode
+    public class EnumNode : InheritedTypeNode
     {
         public override string Type => nameof(EnumNode);
-        public EnumNode(string name)
+        public EnumNode(string name) : base(name)
         {
         }
         public override string ToString()

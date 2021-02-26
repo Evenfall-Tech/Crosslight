@@ -1,4 +1,5 @@
 ﻿using Crosslight.API.Nodes.Access;
+using Crosslight.API.Nodes.Entities;
 using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Util;
 
@@ -10,15 +11,13 @@ namespace Crosslight.API.Nodes.Componentization
     /// in C++ it is static program.
     /// Nothing is higher than ProjectNode, so its Parent property is null.
     /// </summary>
-    public class ProjectNode : Node, INamedNode, IAttributedNode
+    public class ProjectNode : AttributedNode, INamedNode, IAttributedNode
     {
         public override string Type => nameof(ProjectNode);
-        public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         public SyncedList<ModuleNode, Node> Modules { get; protected set; }
         public string Name { get; }
         public ProjectNode(string name)
         {
-            Attributes = new SyncedList<AttributeNode, Node>(Children);
             Modules = new SyncedList<ModuleNode, Node>(Children);
             Name = name;
         }

@@ -6,6 +6,7 @@ namespace Crosslight.API.Nodes.Entities
     /// <summary>
     /// <see cref="InheritedTypeNode"/> abstract node represents a type
     /// that has one or more base types.
+    /// Similar to Base Type Declaration Syntax.
     /// </summary>
     public abstract class InheritedTypeNode : EntityNode, IAttributedNode, IModifiedNode, IGenericDefinitionNode, INamedNode
     {
