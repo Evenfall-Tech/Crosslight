@@ -38,6 +38,35 @@ namespace Crosslight.API.Nodes.Access.Modifiers
             {
                 case ModifierToken.None:
                     return ModifierGroup.None;
+                case ModifierToken.Custom:
+                    return ModifierGroup.Custom;
+                case ModifierToken.Internal:
+                case ModifierToken.Public:
+                case ModifierToken.Protected:
+                case ModifierToken.Private:
+                case ModifierToken.Readonly:
+                    return ModifierGroup.Access;
+                case ModifierToken.Abstract:
+                case ModifierToken.Virtual:
+                case ModifierToken.Sealed:
+                case ModifierToken.New:
+                case ModifierToken.Override:
+                case ModifierToken.Static:
+                    return ModifierGroup.InheritanceControl;
+                case ModifierToken.Implicit:
+                case ModifierToken.Explicit:
+                    return ModifierGroup.ConversionType;
+                case ModifierToken.Async:
+                    return ModifierGroup.Parallelism;
+                case ModifierToken.Volatile:
+                case ModifierToken.Unsafe:
+                case ModifierToken.Extern:
+                    return ModifierGroup.Optimizations;
+                case ModifierToken.In:
+                case ModifierToken.Out:
+                case ModifierToken.Ref:
+                case ModifierToken.Params:
+                    return ModifierGroup.ParameterPassing;
                 default:
                     throw new NotImplementedException();
             }

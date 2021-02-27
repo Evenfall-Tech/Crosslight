@@ -3,5 +3,12 @@
     public enum ModifierGroup
     {
         None,
+        Custom,
+        Access,
+        InheritanceControl,
+        ConversionType,
+        Parallelism,
+        Optimizations,
+        ParameterPassing,
     }
 }
