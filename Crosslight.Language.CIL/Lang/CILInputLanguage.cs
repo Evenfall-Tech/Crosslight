@@ -3,8 +3,8 @@ using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
 using Crosslight.API.Nodes.Componentization;
-using Crosslight.CIL.Nodes;
-using Crosslight.CIL.Nodes.Visitors;
+using Crosslight.Language.CIL.Nodes;
+using Crosslight.Language.CIL.Nodes.Visitors;
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Syntax;
@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Crosslight.CIL.Lang
+namespace Crosslight.Language.CIL.Lang
 {
     public class CILInputLanguage : ILanguage
     {

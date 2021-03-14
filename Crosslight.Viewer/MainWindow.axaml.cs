@@ -8,7 +8,7 @@ using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.IO.FileSystem.Implementations;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes;
-using Crosslight.CIL.Lang;
+using Crosslight.Language.CIL.Lang;
 using Crosslight.Viewer.ViewModels.Graph;
 using Crosslight.Viewer.ViewModels.Viewports;
 using Crosslight.Viewer.ViewModels.Windows;

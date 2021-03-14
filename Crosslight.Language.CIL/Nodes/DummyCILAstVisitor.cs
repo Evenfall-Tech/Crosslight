@@ -1,643 +1,652 @@
 ﻿using Crosslight.API.Nodes;
-using Crosslight.CIL.Nodes.Visitors;
+using Crosslight.API.Nodes.Metadata;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Syntax.PatternMatching;
-using System;
 
-namespace Crosslight.CIL.Nodes
+namespace Crosslight.Language.CIL.Nodes
 {
-    public class CILAstVisitor : IAstVisitor<Node>
+    public class DummyCILAstVisitor : IAstVisitor<Node>
     {
-        public VisitContext VisitContext { get; }
-
-        public CILAstVisitor(CILVisitOptions options)
+        private Node CreateDummy(AstNode astNode)
         {
-            VisitContext = new VisitContext()
+            Node result = new DummyNode(astNode.GetType().Name);
+            foreach (var child in astNode.Children)
             {
-                Options = options,
-            };
-            VisitContext.VisitFactory = new VisitFactory(VisitContext);
+                var adapted = child.AcceptVisitor(this);
+                result.Children.Add(adapted);
+            }
+            return result;
+        }
+
+        private Node CreateDummy(AstNode astNode, string name)
+        {
+            Node result = new DummyNode(name);
+            foreach (var child in astNode.Children)
+            {
+                var adapted = child.AcceptVisitor(this);
+                result.Children.Add(adapted);
+            }
+            return result;
         }
 
         public Node VisitAccessor(Accessor accessor)
         {
-            throw new NotImplementedException();
+            return CreateDummy(accessor);
         }
 
         public Node VisitAnonymousMethodExpression(AnonymousMethodExpression anonymousMethodExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(anonymousMethodExpression);
         }
 
         public Node VisitAnonymousTypeCreateExpression(AnonymousTypeCreateExpression anonymousTypeCreateExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(anonymousTypeCreateExpression);
         }
 
         public Node VisitArrayCreateExpression(ArrayCreateExpression arrayCreateExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(arrayCreateExpression);
         }
 
         public Node VisitArrayInitializerExpression(ArrayInitializerExpression arrayInitializerExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(arrayInitializerExpression);
         }
 
         public Node VisitArraySpecifier(ArraySpecifier arraySpecifier)
         {
-            throw new NotImplementedException();
+            return CreateDummy(arraySpecifier);
         }
 
         public Node VisitAsExpression(AsExpression asExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(asExpression);
         }
 
         public Node VisitAssignmentExpression(AssignmentExpression assignmentExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(assignmentExpression);
         }
 
         public Node VisitAttribute(ICSharpCode.Decompiler.CSharp.Syntax.Attribute attribute)
         {
-            throw new NotImplementedException();
+            return CreateDummy(attribute);
         }
 
         public Node VisitAttributeSection(AttributeSection attributeSection)
         {
-            throw new NotImplementedException();
+            return CreateDummy(attributeSection);
         }
 
         public Node VisitBaseReferenceExpression(BaseReferenceExpression baseReferenceExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(baseReferenceExpression);
         }
 
         public Node VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(binaryOperatorExpression);
         }
 
         public Node VisitBlockStatement(BlockStatement blockStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(blockStatement);
         }
 
         public Node VisitBreakStatement(BreakStatement breakStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(breakStatement);
         }
 
         public Node VisitCaseLabel(CaseLabel caseLabel)
         {
-            throw new NotImplementedException();
+            return CreateDummy(caseLabel);
         }
 
         public Node VisitCastExpression(CastExpression castExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(castExpression);
         }
 
         public Node VisitCatchClause(CatchClause catchClause)
         {
-            throw new NotImplementedException();
+            return CreateDummy(catchClause);
         }
 
         public Node VisitCheckedExpression(CheckedExpression checkedExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(checkedExpression);
         }
 
         public Node VisitCheckedStatement(CheckedStatement checkedStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(checkedStatement);
         }
 
         public Node VisitComment(Comment comment)
         {
-            throw new NotImplementedException();
+            return CreateDummy(comment);
         }
 
         public Node VisitComposedType(ComposedType composedType)
         {
-            throw new NotImplementedException();
+            return CreateDummy(composedType);
         }
 
         public Node VisitConditionalExpression(ConditionalExpression conditionalExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(conditionalExpression);
         }
 
         public Node VisitConstraint(Constraint constraint)
         {
-            throw new NotImplementedException();
+            return CreateDummy(constraint);
         }
 
         public Node VisitConstructorDeclaration(ConstructorDeclaration constructorDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(constructorDeclaration);
         }
 
         public Node VisitConstructorInitializer(ConstructorInitializer constructorInitializer)
         {
-            throw new NotImplementedException();
+            return CreateDummy(constructorInitializer);
         }
 
         public Node VisitContinueStatement(ContinueStatement continueStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(continueStatement);
         }
 
         public Node VisitCSharpTokenNode(CSharpTokenNode cSharpTokenNode)
         {
-            throw new NotImplementedException();
+            return CreateDummy(cSharpTokenNode, $"token: {cSharpTokenNode}");
         }
 
         public Node VisitCustomEventDeclaration(CustomEventDeclaration customEventDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(customEventDeclaration);
         }
 
         public Node VisitDefaultValueExpression(DefaultValueExpression defaultValueExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(defaultValueExpression);
         }
 
         public Node VisitDelegateDeclaration(DelegateDeclaration delegateDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(delegateDeclaration);
         }
 
         public Node VisitDestructorDeclaration(DestructorDeclaration destructorDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(destructorDeclaration);
         }
 
         public Node VisitDirectionExpression(DirectionExpression directionExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(directionExpression);
         }
 
         public Node VisitDocumentationReference(DocumentationReference documentationReference)
         {
-            throw new NotImplementedException();
+            return CreateDummy(documentationReference);
         }
 
         public Node VisitDoWhileStatement(DoWhileStatement doWhileStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(doWhileStatement);
         }
 
         public Node VisitEmptyStatement(EmptyStatement emptyStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(emptyStatement);
         }
 
         public Node VisitEnumMemberDeclaration(EnumMemberDeclaration enumMemberDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(enumMemberDeclaration);
         }
 
         public Node VisitErrorNode(AstNode errorNode)
         {
-            throw new NotImplementedException();
+            return CreateDummy(errorNode);
         }
 
         public Node VisitEventDeclaration(EventDeclaration eventDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(eventDeclaration);
         }
 
         public Node VisitExpressionStatement(ExpressionStatement expressionStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(expressionStatement);
         }
 
         public Node VisitExternAliasDeclaration(ExternAliasDeclaration externAliasDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(externAliasDeclaration);
         }
 
         public Node VisitFieldDeclaration(FieldDeclaration fieldDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(fieldDeclaration);
         }
 
         public Node VisitFixedFieldDeclaration(FixedFieldDeclaration fixedFieldDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(fixedFieldDeclaration);
         }
 
         public Node VisitFixedStatement(FixedStatement fixedStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(fixedStatement);
         }
 
         public Node VisitFixedVariableInitializer(FixedVariableInitializer fixedVariableInitializer)
         {
-            throw new NotImplementedException();
+            return CreateDummy(fixedVariableInitializer);
         }
 
         public Node VisitForeachStatement(ForeachStatement foreachStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(foreachStatement);
         }
 
         public Node VisitForStatement(ForStatement forStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(forStatement);
         }
 
         public Node VisitFunctionPointerType(FunctionPointerType functionPointerType)
         {
-            throw new NotImplementedException();
+            return CreateDummy(functionPointerType);
         }
 
         public Node VisitGotoCaseStatement(GotoCaseStatement gotoCaseStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(gotoCaseStatement);
         }
 
         public Node VisitGotoDefaultStatement(GotoDefaultStatement gotoDefaultStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(gotoDefaultStatement);
         }
 
         public Node VisitGotoStatement(GotoStatement gotoStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(gotoStatement);
         }
 
         public Node VisitIdentifier(Identifier identifier)
         {
-            throw new NotImplementedException();
+            return CreateDummy(identifier, $"Id: {identifier.Name}");
         }
 
         public Node VisitIdentifierExpression(IdentifierExpression identifierExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(identifierExpression);
         }
 
         public Node VisitIfElseStatement(IfElseStatement ifElseStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(ifElseStatement);
         }
 
         public Node VisitIndexerDeclaration(IndexerDeclaration indexerDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(indexerDeclaration);
         }
 
         public Node VisitIndexerExpression(IndexerExpression indexerExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(indexerExpression);
         }
 
         public Node VisitInterpolatedStringExpression(InterpolatedStringExpression interpolatedStringExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(interpolatedStringExpression);
         }
 
         public Node VisitInterpolatedStringText(InterpolatedStringText interpolatedStringText)
         {
-            throw new NotImplementedException();
+            return CreateDummy(interpolatedStringText);
         }
 
         public Node VisitInterpolation(Interpolation interpolation)
         {
-            throw new NotImplementedException();
+            return CreateDummy(interpolation);
         }
 
         public Node VisitInvocationExpression(InvocationExpression invocationExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(invocationExpression);
         }
 
         public Node VisitIsExpression(IsExpression isExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(isExpression);
         }
 
         public Node VisitLabelStatement(LabelStatement labelStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(labelStatement);
         }
 
         public Node VisitLambdaExpression(LambdaExpression lambdaExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(lambdaExpression);
         }
 
         public Node VisitLocalFunctionDeclarationStatement(LocalFunctionDeclarationStatement localFunctionDeclarationStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(localFunctionDeclarationStatement);
         }
 
         public Node VisitLockStatement(LockStatement lockStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(lockStatement);
         }
 
         public Node VisitMemberReferenceExpression(MemberReferenceExpression memberReferenceExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(memberReferenceExpression);
         }
 
         public Node VisitMemberType(MemberType memberType)
         {
-            throw new NotImplementedException();
+            return CreateDummy(memberType);
         }
 
         public Node VisitMethodDeclaration(MethodDeclaration methodDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(methodDeclaration);
         }
 
         public Node VisitNamedArgumentExpression(NamedArgumentExpression namedArgumentExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(namedArgumentExpression);
         }
 
         public Node VisitNamedExpression(NamedExpression namedExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(namedExpression);
         }
 
         public Node VisitNamespaceDeclaration(NamespaceDeclaration namespaceDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(namespaceDeclaration);
         }
 
         public Node VisitNullNode(AstNode nullNode)
         {
-            throw new NotImplementedException();
+            return CreateDummy(nullNode);
         }
 
         public Node VisitNullReferenceExpression(NullReferenceExpression nullReferenceExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(nullReferenceExpression);
         }
 
         public Node VisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(objectCreateExpression);
         }
 
         public Node VisitOperatorDeclaration(OperatorDeclaration operatorDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(operatorDeclaration);
         }
 
         public Node VisitOutVarDeclarationExpression(OutVarDeclarationExpression outVarDeclarationExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(outVarDeclarationExpression);
         }
 
         public Node VisitParameterDeclaration(ParameterDeclaration parameterDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(parameterDeclaration);
         }
 
         public Node VisitParenthesizedExpression(ParenthesizedExpression parenthesizedExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(parenthesizedExpression);
         }
 
         public Node VisitPatternPlaceholder(AstNode placeholder, Pattern pattern)
         {
-            throw new NotImplementedException();
+            return CreateDummy(placeholder);
         }
 
         public Node VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(pointerReferenceExpression);
         }
 
         public Node VisitPreProcessorDirective(PreProcessorDirective preProcessorDirective)
         {
-            throw new NotImplementedException();
+            return CreateDummy(preProcessorDirective);
         }
 
         public Node VisitPrimitiveExpression(PrimitiveExpression primitiveExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(primitiveExpression, $"primExp: {primitiveExpression.Format} '{primitiveExpression.Value}'");
         }
 
         public Node VisitPrimitiveType(PrimitiveType primitiveType)
         {
-            throw new NotImplementedException();
+            return CreateDummy(primitiveType, $"primT: {primitiveType.Keyword}");
         }
 
         public Node VisitPropertyDeclaration(PropertyDeclaration propertyDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(propertyDeclaration);
         }
 
         public Node VisitQueryContinuationClause(QueryContinuationClause queryContinuationClause)
         {
-            throw new NotImplementedException();
+            return CreateDummy(queryContinuationClause);
         }
 
         public Node VisitQueryExpression(QueryExpression queryExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(queryExpression);
         }
 
         public Node VisitQueryFromClause(QueryFromClause queryFromClause)
         {
-            throw new NotImplementedException();
+            return CreateDummy(queryFromClause);
         }
 
         public Node VisitQueryGroupClause(QueryGroupClause queryGroupClause)
         {
-            throw new NotImplementedException();
+            return CreateDummy(queryGroupClause);
         }
 
         public Node VisitQueryJoinClause(QueryJoinClause queryJoinClause)
         {
-            throw new NotImplementedException();
+            return CreateDummy(queryJoinClause);
         }
 
         public Node VisitQueryLetClause(QueryLetClause queryLetClause)
         {
-            throw new NotImplementedException();
+            return CreateDummy(queryLetClause);
         }
 
         public Node VisitQueryOrderClause(QueryOrderClause queryOrderClause)
         {
-            throw new NotImplementedException();
+            return CreateDummy(queryOrderClause);
         }
 
         public Node VisitQueryOrdering(QueryOrdering queryOrdering)
         {
-            throw new NotImplementedException();
+            return CreateDummy(queryOrdering);
         }
 
         public Node VisitQuerySelectClause(QuerySelectClause querySelectClause)
         {
-            throw new NotImplementedException();
+            return CreateDummy(querySelectClause);
         }
 
         public Node VisitQueryWhereClause(QueryWhereClause queryWhereClause)
         {
-            throw new NotImplementedException();
+            return CreateDummy(queryWhereClause);
         }
 
         public Node VisitReturnStatement(ReturnStatement returnStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(returnStatement);
         }
 
         public Node VisitSimpleType(SimpleType simpleType)
         {
-            throw new NotImplementedException();
+            return CreateDummy(simpleType);
         }
 
         public Node VisitSizeOfExpression(SizeOfExpression sizeOfExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(sizeOfExpression);
         }
 
         public Node VisitStackAllocExpression(StackAllocExpression stackAllocExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(stackAllocExpression);
         }
 
         public Node VisitSwitchSection(SwitchSection switchSection)
         {
-            throw new NotImplementedException();
+            return CreateDummy(switchSection);
         }
 
         public Node VisitSwitchStatement(SwitchStatement switchStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(switchStatement);
         }
 
         public Node VisitSyntaxTree(SyntaxTree syntaxTree)
         {
-            var visitor = VisitContext.VisitFactory.GetVisitor(nameof(SyntaxTree)) as ICILVisitor<SyntaxTree>;
-            return syntaxTree.AcceptVisitor(visitor);
+            return CreateDummy(syntaxTree);
         }
 
         public Node VisitThisReferenceExpression(ThisReferenceExpression thisReferenceExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(thisReferenceExpression);
         }
 
         public Node VisitThrowExpression(ThrowExpression throwExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(throwExpression);
         }
 
         public Node VisitThrowStatement(ThrowStatement throwStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(throwStatement);
         }
 
         public Node VisitTryCatchStatement(TryCatchStatement tryCatchStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(tryCatchStatement);
         }
 
         public Node VisitTupleExpression(TupleExpression tupleExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(tupleExpression);
         }
 
         public Node VisitTupleType(TupleAstType tupleType)
         {
-            throw new NotImplementedException();
+            return CreateDummy(tupleType);
         }
 
         public Node VisitTupleTypeElement(TupleTypeElement tupleTypeElement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(tupleTypeElement);
         }
 
         public Node VisitTypeDeclaration(TypeDeclaration typeDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(typeDeclaration, $"typedecl: {typeDeclaration.ClassType}");
         }
 
         public Node VisitTypeOfExpression(TypeOfExpression typeOfExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(typeOfExpression);
         }
 
         public Node VisitTypeParameterDeclaration(TypeParameterDeclaration typeParameterDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(typeParameterDeclaration);
         }
 
         public Node VisitTypeReferenceExpression(TypeReferenceExpression typeReferenceExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(typeReferenceExpression);
         }
 
         public Node VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(unaryOperatorExpression);
         }
 
         public Node VisitUncheckedExpression(UncheckedExpression uncheckedExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(uncheckedExpression);
         }
 
         public Node VisitUncheckedStatement(UncheckedStatement uncheckedStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(uncheckedStatement);
         }
 
         public Node VisitUndocumentedExpression(UndocumentedExpression undocumentedExpression)
         {
-            throw new NotImplementedException();
+            return CreateDummy(undocumentedExpression);
         }
 
         public Node VisitUnsafeStatement(UnsafeStatement unsafeStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(unsafeStatement);
         }
 
         public Node VisitUsingAliasDeclaration(UsingAliasDeclaration usingAliasDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(usingAliasDeclaration);
         }
 
         public Node VisitUsingDeclaration(UsingDeclaration usingDeclaration)
         {
-            throw new NotImplementedException();
+            return CreateDummy(usingDeclaration, $"using: {usingDeclaration.Namespace}");
         }
 
         public Node VisitUsingStatement(UsingStatement usingStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(usingStatement);
         }
 
         public Node VisitVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(variableDeclarationStatement);
         }
 
         public Node VisitVariableInitializer(VariableInitializer variableInitializer)
         {
-            throw new NotImplementedException();
+            return CreateDummy(variableInitializer);
         }
 
         public Node VisitWhileStatement(WhileStatement whileStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(whileStatement);
         }
 
         public Node VisitYieldBreakStatement(YieldBreakStatement yieldBreakStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(yieldBreakStatement);
         }
 
         public Node VisitYieldReturnStatement(YieldReturnStatement yieldReturnStatement)
         {
-            throw new NotImplementedException();
+            return CreateDummy(yieldReturnStatement);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Crosslight.CIL.Nodes.Visitors
+namespace Crosslight.Language.CIL.Nodes.Visitors
 {
     public class VisitContext
     {

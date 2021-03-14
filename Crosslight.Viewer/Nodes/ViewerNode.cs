@@ -7,6 +7,7 @@ namespace Crosslight.Viewer.Nodes
 {
     public class ViewerNode : Node
     {
+        public Node Parent { get; set; } = null;
         public Node Content { get; set; }
 
         public override string Type => nameof(ViewerNode);

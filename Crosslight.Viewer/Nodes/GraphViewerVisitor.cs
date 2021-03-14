@@ -85,11 +85,6 @@ namespace Crosslight.Viewer.Nodes
             return Visit((Node)node);
         }
 
-        object IVisitor.Visit(Node node)
-        {
-            return Visit((Node)node);
-        }
-
         object IVisitor.Visit(FunctionEntityNode node)
         {
             return Visit((Node)node);

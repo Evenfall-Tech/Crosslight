@@ -1,12 +1,12 @@
-﻿using Crosslight.CIL.Nodes.Visitors.Syntax;
-using Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope;
+﻿using Crosslight.Language.CIL.Nodes.Visitors.Syntax;
+using Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Attribute = ICSharpCode.Decompiler.CSharp.Syntax.Attribute;
 
-namespace Crosslight.CIL.Nodes.Visitors
+namespace Crosslight.Language.CIL.Nodes.Visitors
 {
     /// <summary>
     /// A factory to create visitors for AST nodes.

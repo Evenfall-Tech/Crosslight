@@ -1,7 +1,7 @@
 ﻿using Crosslight.API.Lang;
 using System;
 
-namespace Crosslight.CIL.Nodes.Visitors
+namespace Crosslight.Language.CIL.Nodes.Visitors
 {
     public class CILVisitOptions : ILanguageOptions
     {

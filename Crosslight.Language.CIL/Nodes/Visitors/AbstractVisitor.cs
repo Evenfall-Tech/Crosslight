@@ -2,7 +2,7 @@
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Syntax.PatternMatching;
 
-namespace Crosslight.CIL.Nodes.Visitors
+namespace Crosslight.Language.CIL.Nodes.Visitors
 {
     public abstract class AbstractVisitor<T> : IAstVisitor<Node>, ICILVisitor<T> where T : AstNode
     {

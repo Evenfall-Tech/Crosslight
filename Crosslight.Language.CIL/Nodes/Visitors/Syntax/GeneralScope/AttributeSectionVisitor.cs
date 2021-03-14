@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using Attribute = ICSharpCode.Decompiler.CSharp.Syntax.Attribute;
 
-namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
+namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope
 {
     public class AttributeSectionVisitor : AbstractVisitor<AttributeSection>
     {

@@ -6,7 +6,7 @@ using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Linq;
 
-namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
+namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope
 {
     public class NamespaceDeclarationVisitor : AbstractVisitor<NamespaceDeclaration>
     {

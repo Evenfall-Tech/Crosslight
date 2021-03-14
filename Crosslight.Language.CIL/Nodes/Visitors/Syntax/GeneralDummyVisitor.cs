@@ -1,11 +1,7 @@
 ﻿using Crosslight.API.Nodes;
 using ICSharpCode.Decompiler.CSharp.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Crosslight.CIL.Nodes.Visitors.Syntax
+namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax
 {
     public class GeneralDummyVisitor : ICILVisitor
     {

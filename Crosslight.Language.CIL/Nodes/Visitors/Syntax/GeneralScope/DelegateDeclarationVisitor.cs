@@ -1,18 +1,14 @@
 ﻿using Crosslight.API.Exceptions;
 using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Access;
-using Crosslight.API.Nodes.Metadata;
+using Crosslight.API.Nodes.Entities;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Attribute = ICSharpCode.Decompiler.CSharp.Syntax.Attribute;
 
-namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
+namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope
 {
-    public class AttributeVisitor : AbstractVisitor<Attribute>
+    public class DelegateDeclarationVisitor : AbstractVisitor<DelegateDeclaration>
     {
-        public AttributeVisitor(VisitContext context) : base(context)
+        public DelegateDeclarationVisitor(VisitContext context) : base(context)
         {
 
         }
@@ -23,10 +19,10 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
 
             try
             {
-                if (!(node is Attribute converted))
-                    throw new WrongVisitorException(nameof(AttributeVisitor), node.GetType().Name);
+                if (!(node is DelegateDeclaration delegateDeclaration))
+                    throw new WrongVisitorException(nameof(DelegateDeclarationVisitor), node.GetType().Name);
 
-                return Visit(converted);
+                return Visit(delegateDeclaration);
             }
             catch (VisitorException e)
             {
@@ -38,20 +34,18 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
             }
         }
 
-        public override Node Visit(Attribute node)
+        public override Node Visit(DelegateDeclaration node)
         {
             try
             {
-                var root = new AttributeNode(node.Type.ToString());
-                // TODO: parse whole Attribute. Has Type and Arguments.
+                FunctionEntityNode root = new FunctionEntityNode(null);
                 foreach (var c in node.Children)
                 {
-                    var outNode = Context?.VisitFactory?.GetVisitor(c)?.Visit(c);
+                    Node outNode = Context?.VisitFactory?.GetVisitor(c)?.Visit(c);
                     if (outNode != null)
                     {
                         root.Children.Add(outNode);
                     }
-                    //throw new NotImplementedException();
                 }
                 return root;
             }
@@ -61,9 +55,9 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
             }
         }
 
-        public override Node VisitAttribute(Attribute node)
+        public override Node VisitDelegateDeclaration(DelegateDeclaration delegateDeclaration)
         {
-            return Visit(node);
+            return Visit(delegateDeclaration);
         }
     }
 }

@@ -4,7 +4,7 @@ using Crosslight.API.Nodes.Entities;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 
-namespace Crosslight.CIL.Nodes.Visitors.Syntax.GeneralScope
+namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope
 {
     public class TypeDeclarationVisitor : AbstractVisitor<TypeDeclaration>
     {

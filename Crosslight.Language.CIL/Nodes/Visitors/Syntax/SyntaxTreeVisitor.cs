@@ -2,17 +2,14 @@
 using Crosslight.API.Nodes;
 using Crosslight.API.Nodes.Access;
 using Crosslight.API.Nodes.Componentization;
-using Crosslight.API.Nodes.Metadata;
-using Crosslight.CIL.Util.ILSpy;
+using Crosslight.Language.CIL.Util.ILSpy;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
 
-namespace Crosslight.CIL.Nodes.Visitors.Syntax
+namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax
 {
     public class SyntaxTreeVisitor : AbstractVisitor<SyntaxTree>
     {
@@ -60,7 +57,7 @@ namespace Crosslight.CIL.Nodes.Visitors.Syntax
                 var assemblyAttributes = attributes
                     .Where(s => s.AttributeTarget == "assembly");
                 attributes = attributes.Except(assemblyAttributes);
-                
+
                 // Parse attributes.
                 foreach (var at in attributes)
                 {
