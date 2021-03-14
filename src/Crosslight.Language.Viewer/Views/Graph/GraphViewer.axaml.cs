@@ -63,7 +63,6 @@ namespace Crosslight.Language.Viewer.Views.Graph
         private IEnumerable<GraphConnectionViewer> AddConnections(IEnumerable<NodeViewModel> nodes)
         {
             List<IControl> result = new List<IControl>();
-            Random r = new Random(42);
 
             return nodes
                 .SelectMany(
