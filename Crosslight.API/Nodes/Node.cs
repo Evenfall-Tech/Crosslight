@@ -1,13 +1,13 @@
 ﻿using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Nodes.Metadata;
 using Crosslight.API.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Crosslight.API.Nodes
 {
     public abstract class Node : INode
     {
-        public virtual Node Parent { get; set; } = null;
         // TODO: remove this if it ends up unused.
         public SyncedList<MetadataNode, Node> Metadatas { get; protected set; }
         public virtual IList<Node> Children { get; protected set; } = null;
@@ -21,18 +21,17 @@ namespace Crosslight.API.Nodes
         {
             return "Node";
         }
-        // TODO: fix this.
-        /*public virtual object AcceptVisitor(IVisitor visitor)
+        public virtual object AcceptVisitor(IVisitor visitor)
         {
-            return visitor.Visit(this);
+            throw new NotImplementedException();
         }
         public virtual S AcceptVisitor<S>(IVisitor<S> visitor)
         {
-            return visitor.Visit(this);
+            throw new NotImplementedException();
         }
         public virtual S AcceptVisitor<T, S>(IVisitor<T, S> visitor, T data)
         {
-            return visitor.Visit(this, data);
-        }*/
+            throw new NotImplementedException();
+        }
     }
 }
