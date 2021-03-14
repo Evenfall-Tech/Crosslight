@@ -1,0 +1,15 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:vp="clr-namespace:Crosslight.Language.Viewer.Views.Viewports"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Crosslight.Language.Viewer.MainWindow"
+        Title="Crosslight.Language.Viewer"
+        DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
+	<Grid ColumnDefinitions="100,*">
+		<Button Content="Open" Click="OnButtonClick" Grid.Column="0"/>
+		<vp:ViewerViewport Name="viewerViewport"
+						   Grid.Column="1"/>
+	</Grid>
+</Window>
