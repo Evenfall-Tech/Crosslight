@@ -5,15 +5,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Nodes\Generated\" />
     <Folder Include="Util\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.7.0" />
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.9.2" />
+    <PackageReference Include="Antlr4BuildTasks" Version="8.14.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Antlr4 Include="Grammar\CSharpLexer.g4">
+	  <Listener>true</Listener>
+	  <Visitor>true</Visitor>
+      <CustomToolNamespace>Crosslight.Language.CSharp.Nodes.Generated</CustomToolNamespace>
+      <Package>Crosslight.Language.CSharp.Nodes.Generated</Package>
+    </Antlr4>
+    <Antlr4 Include="Grammar\CSharpParser.g4">
+      <CustomToolNamespace>Crosslight.Language.CSharp.Nodes.Generated</CustomToolNamespace>
+      <Package>Crosslight.Language.CSharp.Nodes.Generated</Package>
+    </Antlr4>
+    <Antlr4 Include="Grammar\CSharpPreprocessorParser.g4">
+      <CustomToolNamespace>Crosslight.Language.CSharp.Nodes.Generated</CustomToolNamespace>
+      <Package>Crosslight.Language.CSharp.Nodes.Generated</Package>
+    </Antlr4>
   </ItemGroup>
 
 </Project>

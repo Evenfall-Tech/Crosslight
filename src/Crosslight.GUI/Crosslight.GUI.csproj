@@ -17,6 +17,8 @@
     <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
     <ProjectReference Include="..\Crosslight.Common.UI\Crosslight.Common.UI.csproj" />
     <ProjectReference Include="..\Crosslight.Common\Crosslight.Common.csproj" />
+    <ProjectReference Include="..\Crosslight.Language.CIL\Crosslight.Language.CIL.csproj" />
+    <ProjectReference Include="..\Crosslight.Language.CSharp\Crosslight.Language.CSharp.csproj" />
     <ProjectReference Include="..\Crosslight.Language.Viewer\Crosslight.Language.Viewer.csproj" />
   </ItemGroup>
   <ItemGroup>

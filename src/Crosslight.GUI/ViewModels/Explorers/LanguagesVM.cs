@@ -46,7 +46,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public LanguagesVM(IScreen screen) : base(screen)
         {
             Title = ConstTitle;
-            languageSource = new SourceCache<LanguageVM, string>(x => x.Title);
+            languageSource = new SourceCache<LanguageVM, string>(x => x.Title + x.Language.LanguageType.ToString());
             AddLanguage = ReactiveCommand.Create((string s) =>
             {
                 if (string.IsNullOrWhiteSpace(s)) return;
