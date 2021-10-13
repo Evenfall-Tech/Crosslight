@@ -3,31 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.API", "Crosslight.API\Crosslight.API.csproj", "{3970499E-1481-4F25-8715-E3F5145A11F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.API", "src\Crosslight.API\Crosslight.API.csproj", "{3970499E-1481-4F25-8715-E3F5145A11F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CIL", "Crosslight.CIL\Crosslight.CIL.csproj", "{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Language.Viewer", "src\Crosslight.Language.Viewer\Crosslight.Language.Viewer.csproj", "{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3970499E-1481-4F25-8715-E3F5145A11F3} = {3970499E-1481-4F25-8715-E3F5145A11F3}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Viewer", "Crosslight.Viewer\Crosslight.Viewer.csproj", "{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}"
-	ProjectSection(ProjectDependencies) = postProject
-		{3970499E-1481-4F25-8715-E3F5145A11F3} = {3970499E-1481-4F25-8715-E3F5145A11F3}
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Common", "src\Crosslight.Common\Crosslight.Common.csproj", "{3069DD94-ED36-434F-8C1B-9E346642BE9E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Common", "Crosslight.Common\Crosslight.Common.csproj", "{3069DD94-ED36-434F-8C1B-9E346642BE9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CLI", "src\Crosslight.CLI\Crosslight.CLI.csproj", "{1C5CE012-94ED-435C-B1DC-22422C45ABC1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CLI", "Crosslight.CLI\Crosslight.CLI.csproj", "{1C5CE012-94ED-435C-B1DC-22422C45ABC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Language.CSharp", "src\Crosslight.Language.CSharp\Crosslight.Language.CSharp.csproj", "{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CSharp", "Crosslight.CSharp\Crosslight.CSharp.csproj", "{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.GUI", "Crosslight.GUI\Crosslight.GUI.csproj", "{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.GUI", "src\Crosslight.GUI\Crosslight.GUI.csproj", "{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6D0E9F49-7DE5-4FE7-B64F-ADC1B463C895} = {6D0E9F49-7DE5-4FE7-B64F-ADC1B463C895}
 		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5} = {1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crosslight.Common.UI", "Crosslight.Common.UI\Crosslight.Common.UI.csproj", "{6D0E9F49-7DE5-4FE7-B64F-ADC1B463C895}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Common.UI", "src\Crosslight.Common.UI\Crosslight.Common.UI.csproj", "{6D0E9F49-7DE5-4FE7-B64F-ADC1B463C895}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Language.CIL", "src\Crosslight.Language.CIL\Crosslight.Language.CIL.csproj", "{7E93687F-0274-4DEE-8380-D1FDE2C13D05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{7573A60B-05E6-4CCF-BCA2-D4E39088A7CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +38,6 @@ Global
 		{3970499E-1481-4F25-8715-E3F5145A11F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3970499E-1481-4F25-8715-E3F5145A11F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3970499E-1481-4F25-8715-E3F5145A11F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E5AE8AB-6671-44A6-886B-7D6BC0D4F973}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -67,9 +62,18 @@ Global
 		{6D0E9F49-7DE5-4FE7-B64F-ADC1B463C895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D0E9F49-7DE5-4FE7-B64F-ADC1B463C895}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D0E9F49-7DE5-4FE7-B64F-ADC1B463C895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E93687F-0274-4DEE-8380-D1FDE2C13D05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E93687F-0274-4DEE-8380-D1FDE2C13D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E93687F-0274-4DEE-8380-D1FDE2C13D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E93687F-0274-4DEE-8380-D1FDE2C13D05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5} = {7573A60B-05E6-4CCF-BCA2-D4E39088A7CF}
+		{17EFBA85-5721-4E5E-9F02-B987DD08ADB8} = {7573A60B-05E6-4CCF-BCA2-D4E39088A7CF}
+		{7E93687F-0274-4DEE-8380-D1FDE2C13D05} = {7573A60B-05E6-4CCF-BCA2-D4E39088A7CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC271FE7-C3F8-49CD-9A23-4FA55EE21416}

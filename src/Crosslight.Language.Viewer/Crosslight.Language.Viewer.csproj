@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+	<AvaloniaResource Include="Assets\**\*.*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
+    <ProjectReference Include="..\Crosslight.Language.CIL\Crosslight.Language.CIL.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\Graph\GraphViewer.axaml.cs">
+      <DependentUpon>GraphViewer.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

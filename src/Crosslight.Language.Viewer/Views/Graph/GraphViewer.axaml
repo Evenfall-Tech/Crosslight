@@ -1,0 +1,30 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:cnv="clr-namespace:Crosslight.Language.Viewer.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Crosslight.Language.Viewer.Views.Graph.GraphViewer"
+        DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}">
+	<Grid RowDefinitions="Auto,*">
+		<StackPanel Orientation="Horizontal" Spacing="4">
+			<Button Name="navBack" Content="Prev"/>
+			<Button Name="navForw" Content="Next"/>
+			<TextBlock Name="navName" Text="Hi"/>
+		</StackPanel>
+		<ScrollViewer
+			HorizontalScrollBarVisibility="Visible"
+			VerticalScrollBarVisibility="Visible"
+			Grid.Row="1">
+			<cnv:AutoResizeCanvas Name="graphCanvas"/>
+		</ScrollViewer>
+		<rxui:RoutedViewHost Name="rvh" Grid.Row="1">
+			<rxui:RoutedViewHost.DefaultContent>
+				<TextBlock Text="Default content"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+			</rxui:RoutedViewHost.DefaultContent>
+		</rxui:RoutedViewHost>
+	</Grid>
+</UserControl>

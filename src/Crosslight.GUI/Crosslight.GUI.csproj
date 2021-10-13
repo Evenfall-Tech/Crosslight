@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+    <PackageReference Include="Dock.Avalonia" Version="0.10.0" />
+    <PackageReference Include="Dock.Avalonia.Themes.Default" Version="0.10.0" />
+    <PackageReference Include="Dock.Model" Version="0.10.0" />
+    <PackageReference Include="Dock.Model.ReactiveUI" Version="0.10.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
+    <ProjectReference Include="..\Crosslight.Common.UI\Crosslight.Common.UI.csproj" />
+    <ProjectReference Include="..\Crosslight.Common\Crosslight.Common.csproj" />
+    <ProjectReference Include="..\Crosslight.Language.Viewer\Crosslight.Language.Viewer.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\Explorers\ExplorerContainer.axaml.cs">
+      <DependentUpon>ExplorerContainer.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+	<AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+</Project>
