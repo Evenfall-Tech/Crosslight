@@ -1,0 +1,37 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Crosslight.Language.Viewer.Views.Graph.GraphNodeViewer"
+        DataContext="{Binding ViewModel,RelativeSource={RelativeSource Self}}"
+			 Canvas.Left="{Binding Left}"
+			 Canvas.Top="{Binding Top}">
+	<UserControl.Styles>
+		<Style Selector="Button.Active">
+			<Setter Property="BorderBrush" Value="MidnightBlue"/>
+			<Setter Property="BorderThickness" Value="2.0,2.0"/>
+			<Setter Property="Padding" Value="5.0"/>
+			<Setter Property="Background" Value="White"/>
+		</Style>
+		<Style Selector="Button.Inactive">
+			<Setter Property="BorderBrush" Value="#FF0C0C38"/>
+			<Setter Property="BorderThickness" Value="2.0,2.0"/>
+			<Setter Property="Padding" Value="5.0"/>
+			<Setter Property="Background" Value="LightGray"/>
+		</Style>
+		<Style Selector="Button.Primary">
+			<Setter Property="BorderBrush" Value="Indigo"/>
+			<Setter Property="BorderThickness" Value="2.0,2.0"/>
+			<Setter Property="Padding" Value="5.0"/>
+			<Setter Property="Background" Value="Azure"/>
+		</Style>
+	</UserControl.Styles>
+	<Button Name="nodeButton">
+		<StackPanel Orientation="Horizontal"
+					VerticalAlignment="Center">
+			<Image Name="nodeIcon" Width="16" Height="16" Margin="0,0,4,0"/>
+			<TextBlock Name="nodeText"/>
+		</StackPanel>
+	</Button>
+</UserControl>
