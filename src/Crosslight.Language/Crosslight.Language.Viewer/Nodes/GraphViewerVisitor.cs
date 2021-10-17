@@ -1,6 +1,7 @@
 ﻿using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Componentization;
-using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Nodes.Implementations;
+using Crosslight.API.Nodes.Implementations.Componentization;
+using Crosslight.API.Nodes.Implementations.Entities;
 using Crosslight.Language.Viewer.Models.Graph;
 using System.Collections.Generic;
 
@@ -85,32 +86,32 @@ namespace Crosslight.Language.Viewer.Nodes
             return Visit((Node)node);
         }
 
-        object IVisitor.Visit(FunctionEntityNode node)
+        object IVisitor.Visit(FunctionEntityDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        object IVisitor.Visit(EnumNode node)
+        object IVisitor.Visit(EnumDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        object IVisitor.Visit(StructNode node)
+        object IVisitor.Visit(StructDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        object IVisitor.Visit(InterfaceNode node)
+        object IVisitor.Visit(InterfaceDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        object IVisitor.Visit(ClassNode node)
+        object IVisitor.Visit(ClassDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        object IVisitor.Visit(NamespaceNode node)
+        object IVisitor.Visit(NamespaceDeclarationNode node)
         {
             return Visit((Node)node);
         }
@@ -121,6 +122,11 @@ namespace Crosslight.Language.Viewer.Nodes
         }
 
         object IVisitor.Visit(ProjectNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        public object Visit(CustomCompoundTypeDeclarationNode node)
         {
             return Visit((Node)node);
         }

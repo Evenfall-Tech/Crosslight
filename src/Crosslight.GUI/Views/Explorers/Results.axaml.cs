@@ -4,7 +4,7 @@ using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.API.IO.FileSystem.Abstractions;
-using Crosslight.API.Nodes;
+using Crosslight.API.Nodes.Implementations;
 using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using Crosslight.Language.Viewer.ViewModels.Graph;

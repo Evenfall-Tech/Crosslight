@@ -1,6 +1,7 @@
 ﻿using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Componentization;
-using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Nodes.Implementations;
+using Crosslight.API.Nodes.Implementations.Componentization;
+using Crosslight.API.Nodes.Implementations.Entities;
 
 namespace Crosslight.Language.Viewer.Nodes
 {
@@ -16,32 +17,32 @@ namespace Crosslight.Language.Viewer.Nodes
             return result;
         }
 
-        public object Visit(FunctionEntityNode node)
+        public object Visit(FunctionEntityDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        public object Visit(EnumNode node)
+        public object Visit(EnumDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        public object Visit(StructNode node)
+        public object Visit(StructDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        public object Visit(InterfaceNode node)
+        public object Visit(InterfaceDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        public object Visit(ClassNode node)
+        public object Visit(ClassDeclarationNode node)
         {
             return Visit((Node)node);
         }
 
-        public object Visit(NamespaceNode node)
+        public object Visit(NamespaceDeclarationNode node)
         {
             return Visit((Node)node);
         }
@@ -52,6 +53,11 @@ namespace Crosslight.Language.Viewer.Nodes
         }
 
         public object Visit(ProjectNode node)
+        {
+            return Visit((Node)node);
+        }
+
+        public object Visit(CustomCompoundTypeDeclarationNode node)
         {
             return Visit((Node)node);
         }

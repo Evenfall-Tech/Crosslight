@@ -3,8 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Crosslight.API.Nodes.Componentization;
-using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Nodes.Implementations.Componentization;
+using Crosslight.API.Nodes.Implementations.Entities;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -18,12 +18,12 @@ namespace Crosslight.Language.Viewer.Views.Utils
         {
             { nameof(ProjectNode), "Assembly_16x.png" },
             { nameof(ModuleNode), "Module_16x.png" },
-            { nameof(NamespaceNode), "Namespace_16x.png" },
-            { nameof(FunctionEntityNode), "Delegate_16x.png" },
-            { nameof(EnumNode), "Enumerator_16x.png" },
-            { nameof(InterfaceNode), "Interface_16x.png" },
-            { nameof(ClassNode), "Class_16x.png" },
-            { nameof(StructNode), "Structure_16x.png" },
+            { nameof(NamespaceDeclarationNode), "Namespace_16x.png" },
+            { nameof(FunctionEntityDeclarationNode), "Delegate_16x.png" },
+            { nameof(EnumDeclarationNode), "Enumerator_16x.png" },
+            { nameof(InterfaceDeclarationNode), "Interface_16x.png" },
+            { nameof(ClassDeclarationNode), "Class_16x.png" },
+            { nameof(StructDeclarationNode), "Structure_16x.png" },
         };
         private static IAssetLoader assets;
         private static IAssetLoader Assets

@@ -1,6 +1,6 @@
 ﻿using Crosslight.API.Exceptions;
-using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Nodes.Implementations;
+using Crosslight.API.Nodes.Implementations.Entities;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 
@@ -38,7 +38,7 @@ namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope
         {
             try
             {
-                EntityNode root;
+                MemberDeclarationNode root;
                 switch (node.ClassType)
                 {
                     case ClassType.Class:
@@ -72,24 +72,24 @@ namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope
             }
         }
 
-        private ClassNode VisitClass(TypeDeclaration node)
+        private ClassDeclarationNode VisitClass(TypeDeclaration node)
         {
-            return new ClassNode(node.Name);
+            return new ClassDeclarationNode(node.Name);
         }
 
-        private StructNode VisitStruct(TypeDeclaration node)
+        private StructDeclarationNode VisitStruct(TypeDeclaration node)
         {
-            return new StructNode(node.Name);
+            return new StructDeclarationNode(node.Name);
         }
 
-        private InterfaceNode VisitInterface(TypeDeclaration node)
+        private InterfaceDeclarationNode VisitInterface(TypeDeclaration node)
         {
-            return new InterfaceNode(node.Name);
+            return new InterfaceDeclarationNode(node.Name);
         }
 
-        private EnumNode VisitEnum(TypeDeclaration node)
+        private EnumDeclarationNode VisitEnum(TypeDeclaration node)
         {
-            return new EnumNode(node.Name);
+            return new EnumDeclarationNode(node.Name);
         }
 
         public override Node VisitTypeDeclaration(TypeDeclaration typeDeclaration)
