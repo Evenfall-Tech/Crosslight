@@ -1,6 +1,6 @@
 ﻿using Crosslight.API.Exceptions;
-using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Nodes.Implementations;
+using Crosslight.API.Nodes.Implementations.Entities;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 
@@ -38,7 +38,7 @@ namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope
         {
             try
             {
-                FunctionEntityNode root = new FunctionEntityNode(null);
+                FunctionEntityDeclarationNode root = new FunctionEntityDeclarationNode(null);
                 foreach (var c in node.Children)
                 {
                     Node outNode = Context?.VisitFactory?.GetVisitor(c)?.Visit(c);

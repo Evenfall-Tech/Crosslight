@@ -1,7 +1,7 @@
 ﻿using Crosslight.API.Exceptions;
-using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Access;
-using Crosslight.API.Nodes.Metadata;
+using Crosslight.API.Nodes.Implementations;
+using Crosslight.API.Nodes.Implementations.Access;
+using Crosslight.API.Nodes.Implementations.Metadata;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;

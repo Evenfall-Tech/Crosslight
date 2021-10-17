@@ -1,7 +1,7 @@
 ﻿using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.IO.FileSystem.Implementations;
 using Crosslight.API.Lang;
-using Crosslight.API.Nodes;
+using Crosslight.API.Nodes.Implementations;
 using Crosslight.Language.Viewer.Nodes.Visitors;
 using Crosslight.Language.Viewer.ViewModels.Graph;
 using Crosslight.Language.Viewer.Views.Graph;

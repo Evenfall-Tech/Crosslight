@@ -1,7 +1,7 @@
 ﻿using Crosslight.API.Exceptions;
-using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Componentization;
-using Crosslight.API.Nodes.Entities;
+using Crosslight.API.Nodes.Implementations;
+using Crosslight.API.Nodes.Implementations.Componentization;
+using Crosslight.API.Nodes.Implementations.Entities;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Linq;
@@ -40,28 +40,28 @@ namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope
         {
             try
             {
-                var root = new NamespaceNode(node.Identifiers);
+                var root = new NamespaceDeclarationNode(node.Identifiers);
                 foreach (var m in node.Members)
                 {
                     if (m is TypeDeclaration td)
                     {
                         var visitor = Context?.VisitFactory?.GetVisitor(nameof(TypeDeclaration)) as ICILVisitor<TypeDeclaration>;
                         Node outNode = td.AcceptVisitor(visitor);
-                        if (!(outNode is EntityNode entity))
+                        if (!(outNode is MemberDeclarationNode member))
                         {
                             throw new VisitorException($"{nameof(TypeDeclaration)} visitor returned {outNode.Type}.");
                         }
-                        root.Entities.Add(entity);
+                        root.Members.Add(member);
                     }
                     else if (m is DelegateDeclaration dd)
                     {
                         var visitor = Context?.VisitFactory?.GetVisitor(nameof(DelegateDeclaration)) as ICILVisitor<DelegateDeclaration>;
                         Node outNode = dd.AcceptVisitor(visitor);
-                        if (!(outNode is FunctionEntityNode delegateNode))
+                        if (!(outNode is FunctionEntityDeclarationNode delegateNode))
                         {
                             throw new VisitorException($"{nameof(DelegateDeclaration)} visitor returned {outNode.Type}.");
                         }
-                        root.Entities.Add(delegateNode);
+                        root.Members.Add(delegateNode);
                     }
                     else
                     {
