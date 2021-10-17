@@ -13,7 +13,7 @@
         }
         public override string ToString()
         {
-            return "ConstantNode";
+            return Type;
         }
         // TODO: fix this.
         /*public override object AcceptVisitor(IVisitor visitor)

@@ -13,7 +13,7 @@
         }
         public override string ToString()
         {
-            return "LiteralNode";
+            return Type;
         }
         // TODO: fix this.
         /*

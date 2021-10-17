@@ -19,7 +19,7 @@ namespace Crosslight.API.Nodes.Implementations
         }
         public override string ToString()
         {
-            return "Node";
+            return nameof(Node);
         }
         public virtual object AcceptVisitor(IVisitor visitor)
         {

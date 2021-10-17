@@ -17,7 +17,7 @@ namespace Crosslight.API.Nodes.Implementations.Access
         }
         public override string ToString()
         {
-            return "VariableNode";
+            return Type;
         }
         // TODO: fix this.
         /*public override object AcceptVisitor(IVisitor visitor)

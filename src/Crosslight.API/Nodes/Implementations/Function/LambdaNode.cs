@@ -30,7 +30,7 @@ namespace Crosslight.API.Nodes.Implementations.Function
         }
         public override string ToString()
         {
-            return "LambdaNode";
+            return Type;
         }
         // TODO: fix this.
         /*public override object AcceptVisitor(IVisitor visitor)

@@ -12,7 +12,7 @@
         }
         public override string ToString()
         {
-            return nameof(RootNode);
+            return Type;
         }
         // TODO: fix this.
         /*public override object AcceptVisitor(IVisitor visitor)

@@ -16,7 +16,7 @@ namespace Crosslight.API.Nodes.Implementations.Access.Modifiers
         }
         public override string ToString()
         {
-            return "ModifierNode";
+            return Type;
         }
         // TODO: fix this.
         /*public override object AcceptVisitor(IVisitor visitor)

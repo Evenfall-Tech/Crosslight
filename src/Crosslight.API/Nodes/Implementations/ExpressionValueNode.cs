@@ -15,7 +15,7 @@ namespace Crosslight.API.Nodes.Implementations
         }
         public override string ToString()
         {
-            return "ExpressionValueNode";
+            return Type;
         }
         // TODO: fix this.
         /*public override object AcceptVisitor(IVisitor visitor)

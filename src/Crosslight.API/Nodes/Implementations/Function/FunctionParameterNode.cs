@@ -18,7 +18,7 @@ namespace Crosslight.API.Nodes.Implementations.Function
         }
         public override string ToString()
         {
-            return "FunctionParameterNode";
+            return Type;
         }
         // TODO: fix this.
         /*public override object AcceptVisitor(IVisitor visitor)

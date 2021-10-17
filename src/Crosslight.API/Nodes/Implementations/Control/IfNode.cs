@@ -39,7 +39,7 @@ namespace Crosslight.API.Nodes.Implementations.Control
         }
         public override string ToString()
         {
-            return "IfNode";
+            return Type;
         }
         // TODO: fix this.
         /*public override object AcceptVisitor(IVisitor visitor)

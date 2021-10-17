@@ -36,7 +36,7 @@ namespace Crosslight.API.Nodes.Implementations.Expressions
 
         public override string ToString()
         {
-            return nameof(UnaryExpressionNode);
+            return Type;
         }
     }
 }
