@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
+    <ProjectReference Include="..\..\Crosslight.API\Crosslight.API.csproj" />
   </ItemGroup>
 
 </Project>

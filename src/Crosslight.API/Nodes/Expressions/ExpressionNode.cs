@@ -1,4 +1,4 @@
-﻿namespace Crosslight.API.Nodes
+﻿namespace Crosslight.API.Nodes.Expressions
 {
     /// <summary>
     /// <see cref="ExpressionNode"/> represents the expression.
@@ -11,7 +11,7 @@
         }
         public override string ToString()
         {
-            return "ExpressionNode";
+            return nameof(ExpressionNode);
         }
     }
 }

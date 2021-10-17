@@ -17,7 +17,7 @@
     <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
     <ProjectReference Include="..\Crosslight.Common.UI\Crosslight.Common.UI.csproj" />
     <ProjectReference Include="..\Crosslight.Common\Crosslight.Common.csproj" />
-    <ProjectReference Include="..\Crosslight.Language.Viewer\Crosslight.Language.Viewer.csproj" />
+    <ProjectReference Include="..\Crosslight.Language\Crosslight.Language.Viewer\Crosslight.Language.Viewer.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\Explorers\ExplorerContainer.axaml.cs">
