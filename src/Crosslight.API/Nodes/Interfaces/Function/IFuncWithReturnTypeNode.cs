@@ -1,4 +1,4 @@
-﻿using Crosslight.API.Nodes.Function;
+﻿using Crosslight.API.Nodes.Implementations.Function;
 
 namespace Crosslight.API.Nodes.Interfaces.Function
 {

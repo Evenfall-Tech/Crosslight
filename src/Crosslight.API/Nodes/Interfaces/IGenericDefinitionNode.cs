@@ -1,4 +1,5 @@
-﻿using Crosslight.API.Nodes.Entities;
+﻿using Crosslight.API.Nodes.Implementations;
+using Crosslight.API.Nodes.Implementations.Entities;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Interfaces
