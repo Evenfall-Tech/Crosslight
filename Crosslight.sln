@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.API", "src\Crosslight.API\Crosslight.API.csproj", "{3970499E-1481-4F25-8715-E3F5145A11F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Language.Viewer", "src\Crosslight.Language.Viewer\Crosslight.Language.Viewer.csproj", "{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Language.Viewer", "src\Crosslight.Language\Crosslight.Language.Viewer\Crosslight.Language.Viewer.csproj", "{1D84EC56-54D0-4BF8-AB2E-0C7361AF80F5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3970499E-1481-4F25-8715-E3F5145A11F3} = {3970499E-1481-4F25-8715-E3F5145A11F3}
 	EndProjectSection
@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Common", "src\Cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.CLI", "src\Crosslight.CLI\Crosslight.CLI.csproj", "{1C5CE012-94ED-435C-B1DC-22422C45ABC1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Language.CSharp", "src\Crosslight.Language.CSharp\Crosslight.Language.CSharp.csproj", "{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Language.CSharp", "src\Crosslight.Language\Crosslight.Language.CSharp\Crosslight.Language.CSharp.csproj", "{17EFBA85-5721-4E5E-9F02-B987DD08ADB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.GUI", "src\Crosslight.GUI\Crosslight.GUI.csproj", "{FE836FD2-0334-4434-A7D1-F9643EFCD5C8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.GUI", "src\Cross
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Common.UI", "src\Crosslight.Common.UI\Crosslight.Common.UI.csproj", "{6D0E9F49-7DE5-4FE7-B64F-ADC1B463C895}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Language.CIL", "src\Crosslight.Language.CIL\Crosslight.Language.CIL.csproj", "{7E93687F-0274-4DEE-8380-D1FDE2C13D05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crosslight.Language.CIL", "src\Crosslight.Language\Crosslight.Language.CIL\Crosslight.Language.CIL.csproj", "{7E93687F-0274-4DEE-8380-D1FDE2C13D05}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{7573A60B-05E6-4CCF-BCA2-D4E39088A7CF}"
 EndProject

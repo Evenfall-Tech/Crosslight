@@ -12,7 +12,7 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
+    <ProjectReference Include="..\..\Crosslight.API\Crosslight.API.csproj" />
     <ProjectReference Include="..\Crosslight.Language.CIL\Crosslight.Language.CIL.csproj" />
   </ItemGroup>
   <ItemGroup>
