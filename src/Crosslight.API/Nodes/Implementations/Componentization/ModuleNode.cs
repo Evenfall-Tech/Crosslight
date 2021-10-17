@@ -1,6 +1,7 @@
 ﻿using Crosslight.API.Nodes.Implementations.Access;
 using Crosslight.API.Nodes.Implementations.Entities;
 using Crosslight.API.Nodes.Interfaces;
+using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Implementations.Componentization
@@ -10,19 +11,22 @@ namespace Crosslight.API.Nodes.Implementations.Componentization
     /// E.g. in C# it is module, for Java it is package,
     /// in C++ it is library.
     /// </summary>
-    public class ModuleNode : AttributedNode, INamedNode, IAttributedNode
+    public class ModuleNode : Node, IIdentifierProvider, IAttributesProvider
     {
         public override string Type => nameof(ModuleNode);
-        public SyncedList<NamespaceNode, Node> Namespaces { get; protected set; }
-        public string Name { get; }
-        public ModuleNode(string name)
+        public string Identifier { get; }
+        public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
+        public SyncedList<NamespaceDeclarationNode, Node> Namespaces { get; protected set; }
+
+        public ModuleNode(string identifier)
         {
-            Namespaces = new SyncedList<NamespaceNode, Node>(Children);
-            Name = name;
+            Attributes = new SyncedList<AttributeNode, Node>(Children);
+            Namespaces = new SyncedList<NamespaceDeclarationNode, Node>(Children);
+            Identifier = identifier;
         }
         public override string ToString()
         {
-            return $"Module {Name}";
+            return $"Module {Identifier}";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

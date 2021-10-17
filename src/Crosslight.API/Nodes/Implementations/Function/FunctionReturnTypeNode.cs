@@ -11,7 +11,8 @@ namespace Crosslight.API.Nodes.Implementations.Function
     {
         public override string Type => nameof(FunctionReturnTypeNode);
         public SyncedList<AttributeNode, Node> ReturnTypeAttributes { get; protected set; }
-        public FunctionalTypeNode ReturnType { get; protected set; }
+        // TODO: rewrite with a reference
+        public FunctionalTypeDeclarationNode ReturnType { get; protected set; }
         public FunctionReturnTypeNode()
         {
             ReturnTypeAttributes = new SyncedList<AttributeNode, Node>(Children);

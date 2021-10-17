@@ -1,4 +1,7 @@
-﻿using Crosslight.API.Nodes.Interfaces;
+﻿using Crosslight.API.Nodes.Implementations.Access;
+using Crosslight.API.Nodes.Interfaces;
+using Crosslight.API.Nodes.Interfaces.Access;
+using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Implementations.Entities
 {
@@ -13,14 +16,17 @@ namespace Crosslight.API.Nodes.Implementations.Entities
     /// template type paremeter T for generics.
     /// Supports [in|out] variance.
     /// </summary>
-    public class TemplateTypeParameterNode : AttributedNode, INamedNode
+    public class TemplateTypeParameterNode : Node, IAttributesProvider, IIdentifierProvider
     {
         public override string Type => nameof(TemplateTypeParameterNode);
         public TemplateTypeParameterVariance Variance { get; protected set; }
-        public string Name { get; }
-        public TemplateTypeParameterNode(string name)
+        public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
+        public string Identifier { get; }
+
+        public TemplateTypeParameterNode(string identifier)
         {
-            Name = name;
+            Identifier = identifier;
+            Attributes = new SyncedList<AttributeNode, Node>(Children);
         }
         public override string ToString()
         {

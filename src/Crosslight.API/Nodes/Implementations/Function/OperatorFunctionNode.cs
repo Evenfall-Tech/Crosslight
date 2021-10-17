@@ -1,10 +1,11 @@
 ﻿using Crosslight.API.Nodes.Interfaces;
-using Crosslight.API.Nodes.Interfaces.Function;
+using Crosslight.API.Nodes.Interfaces.Access;
+using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Implementations.Function
 {
-    public class OperatorFunctionNode : BaseMethodNode, ITypeMemberNode, INamedNode, IModifiedNode, IFuncWithReturnTypeNode
+    public class OperatorFunctionNode : BaseMethodNode, /*ITypeMemberNode, */IIdentifierProvider, IModifiersProvider, IAttributesProvider/*, IFuncWithReturnTypeNode*/
     {
         public override string Type => nameof(OperatorFunctionNode);
         private readonly SyncedProperty<FunctionReturnTypeNode, Node> returnType;

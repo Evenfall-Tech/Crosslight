@@ -1,19 +1,22 @@
 ﻿using Crosslight.API.Nodes.Interfaces;
+using Crosslight.API.Nodes.Interfaces.Access;
+using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
+using Crosslight.API.Nodes.Interfaces.Entities;
 
 namespace Crosslight.API.Nodes.Implementations.Entities
 {
     /// <summary>
-    /// <see cref="StructNode"/> represents the struct abstraction in the language.
+    /// <see cref="InterfaceDeclarationNode"/> represents the interface abstraction in the language.
     /// </summary>
-    public class StructNode : CompoundTypeNode, IAttributedNode, IModifiedNode, IGenericDefinitionNode, INamedNode
+    public class InterfaceDeclarationNode : CompoundTypeDeclarationNode, IAttributesProvider, IModifiersProvider, IGenericDefinitionProvider, IIdentifierProvider
     {
-        public override string Type => nameof(StructNode);
-        public StructNode(string name) : base(name)
+        public override string Type => nameof(InterfaceDeclarationNode);
+        public InterfaceDeclarationNode(string identifier) : base(identifier)
         {
         }
         public override string ToString()
         {
-            return Type;
+            return $"Interface {Identifier}";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

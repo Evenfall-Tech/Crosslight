@@ -9,16 +9,13 @@ namespace Crosslight.API.Nodes.Implementations.Access
     /// <summary>
     /// <see cref="FieldNode"/> represents the field abstraction in the language.
     /// </summary>
-    public class FieldNode : VariableNode, ITypeMemberNode
+    public class FieldNode : VariableNode/*, ITypeMemberNode*/
     {
         public override string Type => nameof(FieldNode);
-        public FunctionalTypeNode OwningType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
-        public SyncedList<ModifierNode, Node> Modifiers { get; protected set; }
+        // TODO: consider if this should be added.
+        // public FunctionalTypeNode OwningType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public FieldNode(string name) : base(name)
         {
-            Attributes = new SyncedList<AttributeNode, Node>(Children);
-            Modifiers = new SyncedList<ModifierNode, Node>(Children);
         }
         public override string ToString()
         {

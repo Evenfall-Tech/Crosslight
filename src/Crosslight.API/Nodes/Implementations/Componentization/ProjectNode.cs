@@ -1,6 +1,7 @@
 ﻿using Crosslight.API.Nodes.Implementations.Access;
 using Crosslight.API.Nodes.Implementations.Entities;
 using Crosslight.API.Nodes.Interfaces;
+using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Implementations.Componentization
@@ -11,19 +12,21 @@ namespace Crosslight.API.Nodes.Implementations.Componentization
     /// in C++ it is static program.
     /// Nothing is higher than ProjectNode, so its Parent property is null.
     /// </summary>
-    public class ProjectNode : AttributedNode, INamedNode, IAttributedNode
+    public class ProjectNode : Node, IIdentifierProvider, IAttributesProvider
     {
         public override string Type => nameof(ProjectNode);
+        public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         public SyncedList<ModuleNode, Node> Modules { get; protected set; }
-        public string Name { get; }
-        public ProjectNode(string name)
+        public string Identifier { get; }
+        public ProjectNode(string identifier)
         {
+            Attributes = new SyncedList<AttributeNode, Node>(Children);
             Modules = new SyncedList<ModuleNode, Node>(Children);
-            Name = name;
+            Identifier = identifier;
         }
         public override string ToString()
         {
-            return $"Project {Name}";
+            return $"Project {Identifier}";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

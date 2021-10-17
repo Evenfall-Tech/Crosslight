@@ -1,4 +1,4 @@
-﻿using Crosslight.API.Nodes;
+﻿using Crosslight.API.Nodes.Implementations;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 
 namespace Crosslight.Language.CIL.Nodes.Visitors

@@ -1,15 +1,19 @@
-﻿namespace Crosslight.API.Nodes.Implementations.Access
+﻿using Crosslight.API.Nodes.Interfaces;
+using Crosslight.API.Nodes.Interfaces.Access;
+using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
+
+namespace Crosslight.API.Nodes.Implementations.Access
 {
     /// <summary>
     /// <see cref="VariableNode"/> represents the variable abstraction in the language.
     /// </summary>
-    public class VariableNode : ValueNode
+    public class VariableNode : ValueNode, IAttributesProvider, IModifiersProvider, IIdentifierProvider
     {
         public override string Type => nameof(VariableNode);
-        public string Name { get; }
-        public VariableNode(string name)
+        public string Identifier { get; }
+        public VariableNode(string identifier)
         {
-            Name = name;
+            Identifier = identifier;
         }
         public override string ToString()
         {

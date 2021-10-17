@@ -1,4 +1,4 @@
-﻿using Crosslight.API.Nodes;
+﻿using Crosslight.API.Nodes.Implementations;
 using Crosslight.Language.Viewer.Models.Graph;
 using Crosslight.Language.Viewer.Nodes;
 using DynamicData;

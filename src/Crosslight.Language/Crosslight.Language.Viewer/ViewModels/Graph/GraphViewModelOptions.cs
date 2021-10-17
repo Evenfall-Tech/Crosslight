@@ -1,6 +1,6 @@
-﻿using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Componentization;
-using Crosslight.API.Nodes.Metadata;
+﻿using Crosslight.API.Nodes.Implementations;
+using Crosslight.API.Nodes.Implementations.Componentization;
+using Crosslight.API.Nodes.Implementations.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,7 +20,7 @@ namespace Crosslight.Language.Viewer.ViewModels.Graph
             { nameof(MetadataNode), (MaxVisibilityParent, MaxVisibilityChild) },
             { nameof(ProjectNode), (MaxVisibilityParent, 3) }, // Module, Namespace, Entity
             { nameof(ModuleNode), (MaxVisibilityParent, 2) }, // Namespace, Entity
-            { nameof(NamespaceNode), (MaxVisibilityParent, 2) }, // Entity, Base Children
+            { nameof(NamespaceDeclarationNode), (MaxVisibilityParent, 2) }, // Entity, Base Children
         };
         public static int NavigationStackSize { get; } = MaxNaviationStackSize;
 

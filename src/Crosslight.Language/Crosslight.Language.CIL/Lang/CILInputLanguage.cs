@@ -1,8 +1,8 @@
 ﻿using Crosslight.API.IO.FileSystem;
 using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Lang;
-using Crosslight.API.Nodes;
-using Crosslight.API.Nodes.Componentization;
+using Crosslight.API.Nodes.Implementations;
+using Crosslight.API.Nodes.Implementations.Componentization;
 using Crosslight.Language.CIL.Nodes;
 using Crosslight.Language.CIL.Nodes.Visitors;
 using ICSharpCode.Decompiler;
@@ -106,7 +106,7 @@ namespace Crosslight.Language.CIL.Lang
         {
             if (options.MergeProjectsWithSameName)
             {
-                var uniqueProjects = nodes.OfType<ProjectNode>().GroupBy(e => e.Name);
+                var uniqueProjects = nodes.OfType<ProjectNode>().GroupBy(e => e.Identifier);
                 List<ProjectNode> toRemove = new List<ProjectNode>();
                 if (uniqueProjects.Count() != nodes.Count)
                 {

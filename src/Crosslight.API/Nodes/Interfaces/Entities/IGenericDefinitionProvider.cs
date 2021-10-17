@@ -2,11 +2,12 @@
 using Crosslight.API.Nodes.Implementations.Entities;
 using Crosslight.API.Util;
 
-namespace Crosslight.API.Nodes.Interfaces
+namespace Crosslight.API.Nodes.Interfaces.Entities
 {
-    public interface IGenericDefinitionNode : INode
+    public interface IGenericDefinitionProvider
     {
-        SyncedList<TypeConstraintNode, Node> Constraints { get; }
         SyncedList<TemplateTypeParameterNode, Node> TypeParameters { get; }
+        SyncedList<TypeConstraintNode, Node> Constraints { get; }
+        int Arity { get; }
     }
 }

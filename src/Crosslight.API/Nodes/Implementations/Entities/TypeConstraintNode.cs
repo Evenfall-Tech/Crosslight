@@ -12,7 +12,7 @@ namespace Crosslight.API.Nodes.Implementations.Entities
         // TODO: complete constraint class.
         public override string Type => nameof(TypeConstraintNode);
         private readonly SyncedProperty<TemplateTypeParameterNode, Node> typeParemeter;
-        public SyncedList<InheritedTypeNode, Node> BaseTypes { get; protected set; }
+        public SyncedList<BaseTypeDeclarationNode, Node> BaseTypes { get; protected set; }
         public TemplateTypeParameterNode TypeParemeter
         {
             get => typeParemeter.Value;
@@ -22,7 +22,7 @@ namespace Crosslight.API.Nodes.Implementations.Entities
         public TypeConstraintNode(string name)
         {
             typeParemeter = new SyncedProperty<TemplateTypeParameterNode, Node>(Children);
-            BaseTypes = new SyncedList<InheritedTypeNode, Node>(Children);
+            BaseTypes = new SyncedList<BaseTypeDeclarationNode, Node>(Children);
             Name = name;
         }
         public override string ToString()

@@ -2,9 +2,9 @@
 using Crosslight.API.Nodes.Implementations.Access;
 using Crosslight.API.Util;
 
-namespace Crosslight.API.Nodes.Interfaces
+namespace Crosslight.API.Nodes.Interfaces.Access
 {
-    public interface IAttributedNode : INode
+    public interface IAttributesProvider
     {
         SyncedList<AttributeNode, Node> Attributes { get; }
     }

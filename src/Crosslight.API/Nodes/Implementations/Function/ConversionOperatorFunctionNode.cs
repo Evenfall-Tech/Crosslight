@@ -1,11 +1,12 @@
 ﻿using Crosslight.API.Nodes.Implementations.Access;
 using Crosslight.API.Nodes.Interfaces;
-using Crosslight.API.Nodes.Interfaces.Function;
+using Crosslight.API.Nodes.Interfaces.Access;
+using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Implementations.Function
 {
-    public class ConversionOperatorFunctionNode : BaseMethodNode, ITypeMemberNode, INamedNode, IModifiedNode, IFuncWithReturnTypeNode
+    public class ConversionOperatorFunctionNode : BaseMethodNode, /*ITypeMemberNode, */IIdentifierProvider, IAttributesProvider, IModifiersProvider/*, IFuncWithReturnTypeNode*/
     {
         public override string Type => nameof(ConversionOperatorFunctionNode);
         SyncedProperty<ImplicitOrExplicitKeywordNode, Node> Keyword { get; set; }
