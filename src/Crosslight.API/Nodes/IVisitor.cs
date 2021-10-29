@@ -1,5 +1,6 @@
 ﻿using Crosslight.API.Nodes.Implementations.Componentization;
 using Crosslight.API.Nodes.Implementations.Entities;
+using Crosslight.API.Nodes.Implementations.Entities.Types;
 
 namespace Crosslight.API.Nodes
 {

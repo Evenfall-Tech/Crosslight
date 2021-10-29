@@ -5,6 +5,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Crosslight.API.Nodes.Implementations.Componentization;
 using Crosslight.API.Nodes.Implementations.Entities;
+using Crosslight.API.Nodes.Implementations.Entities.Types;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
