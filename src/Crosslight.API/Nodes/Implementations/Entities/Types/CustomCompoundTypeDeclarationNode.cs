@@ -3,7 +3,7 @@ using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
 using Crosslight.API.Nodes.Interfaces.Entities;
 
-namespace Crosslight.API.Nodes.Implementations.Entities
+namespace Crosslight.API.Nodes.Implementations.Entities.Types
 {
     /// <summary>
     /// <see cref="CustomCompoundTypeDeclarationNode"/> is reserved for custom type declarations from other languages.

@@ -3,20 +3,20 @@ using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
 using Crosslight.API.Nodes.Interfaces.Entities;
 
-namespace Crosslight.API.Nodes.Implementations.Entities
+namespace Crosslight.API.Nodes.Implementations.Entities.Types
 {
     /// <summary>
-    /// <see cref="ClassDeclarationNode"/> represents the class abstraction in the language.
+    /// <see cref="InterfaceDeclarationNode"/> represents the interface abstraction in the language.
     /// </summary>
-    public class ClassDeclarationNode : CompoundTypeDeclarationNode, IAttributesProvider, IModifiersProvider, IGenericDefinitionProvider, IIdentifierProvider
+    public class InterfaceDeclarationNode : CompoundTypeDeclarationNode, IAttributesProvider, IModifiersProvider, IGenericDefinitionProvider, IIdentifierProvider
     {
-        public override string Type => nameof(ClassDeclarationNode);
-        public ClassDeclarationNode(string identifier) : base(identifier)
+        public override string Type => nameof(InterfaceDeclarationNode);
+        public InterfaceDeclarationNode(string identifier) : base(identifier)
         {
         }
         public override string ToString()
         {
-            return $"Class {Identifier}";
+            return $"Interface {Identifier}";
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

@@ -1,22 +1,24 @@
 ﻿using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
-using Crosslight.API.Nodes.Interfaces.Entities;
+using Crosslight.API.Util;
 
-namespace Crosslight.API.Nodes.Implementations.Entities
+namespace Crosslight.API.Nodes.Implementations.Entities.Types
 {
     /// <summary>
-    /// <see cref="StructDeclarationNode"/> represents the struct abstraction in the language.
+    /// <see cref="EnumDeclarationNode"/> represents the enum abstraction in the language.
     /// </summary>
-    public class StructDeclarationNode : CompoundTypeDeclarationNode, IAttributesProvider, IModifiersProvider, IGenericDefinitionProvider, IIdentifierProvider
+    public class EnumDeclarationNode : BaseTypeDeclarationNode, IIdentifierProvider, IAttributesProvider, IModifiersProvider
     {
-        public override string Type => nameof(StructDeclarationNode);
-        public StructDeclarationNode(string identifier) : base(identifier)
+        public override string Type => nameof(EnumDeclarationNode);
+        public SyncedList<EnumMemberDeclarationNode, Node> Members { get; protected set; }
+        public EnumDeclarationNode(string identifier) : base(identifier)
         {
+            Members = new SyncedList<EnumMemberDeclarationNode, Node>(Children);
         }
         public override string ToString()
         {
-            return $"Struct {Identifier}";
+            return Type;
         }
         public override object AcceptVisitor(IVisitor visitor)
         {

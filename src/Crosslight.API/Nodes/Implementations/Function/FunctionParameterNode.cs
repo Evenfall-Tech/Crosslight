@@ -6,15 +6,13 @@ namespace Crosslight.API.Nodes.Implementations.Function
     /// <summary>
     /// <see cref="FunctionParameterNode"/> represents parameters of the function.
     /// </summary>
-    public class FunctionParameterNode : ValueNode
+    public class FunctionParameterNode : VariableListDeclarationNode // TODO: this was value node
     {
         public override string Type => nameof(FunctionParameterNode);
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
-        public string Name { get; }
-        public FunctionParameterNode(string name)
+        public FunctionParameterNode(string identifier) : base(identifier)
         {
             Attributes = new SyncedList<AttributeNode, Node>(Children);
-            Name = name;
         }
         public override string ToString()
         {

@@ -9,7 +9,8 @@ namespace Crosslight.API.Nodes.Implementations
     public class ExpressionValueNode : ExpressionNode
     {
         public override string Type => nameof(ExpressionValueNode);
-        public ValueNode Value { get; set; }
+        // TODO: fix this
+        //public ValueNode Value { get; set; }
         public ExpressionValueNode()
         {
         }
