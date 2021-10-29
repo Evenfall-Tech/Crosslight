@@ -1,6 +1,7 @@
 ﻿using Crosslight.API.Exceptions;
 using Crosslight.API.Nodes.Implementations;
 using Crosslight.API.Nodes.Implementations.Entities;
+using Crosslight.API.Nodes.Implementations.Entities.Types;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 

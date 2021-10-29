@@ -5,10 +5,10 @@ using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
 using Crosslight.API.Nodes.Interfaces.Entities;
 using Crosslight.API.Util;
 
-namespace Crosslight.API.Nodes.Implementations.Entities
+namespace Crosslight.API.Nodes.Implementations.Entities.Types
 {
     /// <summary>
-    /// <see cref="FunctionalTypeDeclarationNode"/> represents the functional type abstraction in the language.
+    /// <see cref="FunctionalTypeDeclarationNode"/> is reserved for the functional type abstraction in the language.
     /// </summary>
     public abstract class FunctionalTypeDeclarationNode : BaseTypeDeclarationNode, IAttributesProvider, IModifiersProvider, IGenericDefinitionProvider, IIdentifierProvider
     {

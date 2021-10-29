@@ -1,5 +1,6 @@
 ﻿using Crosslight.API.Nodes.Implementations.Access;
 using Crosslight.API.Nodes.Implementations.Entities;
+using Crosslight.API.Nodes.Implementations.Entities.Types;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Implementations.Function

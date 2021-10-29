@@ -4,7 +4,7 @@ using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
 using Crosslight.API.Util;
 
-namespace Crosslight.API.Nodes.Implementations.Entities
+namespace Crosslight.API.Nodes.Implementations.Entities.Types
 {
     /// <summary>
     /// <see cref="BaseTypeDeclarationNode"/> abstract node represents a type

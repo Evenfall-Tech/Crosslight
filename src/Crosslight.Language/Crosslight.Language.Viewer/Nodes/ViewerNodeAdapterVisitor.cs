@@ -2,6 +2,7 @@
 using Crosslight.API.Nodes.Implementations;
 using Crosslight.API.Nodes.Implementations.Componentization;
 using Crosslight.API.Nodes.Implementations.Entities;
+using Crosslight.API.Nodes.Implementations.Entities.Types;
 
 namespace Crosslight.Language.Viewer.Nodes
 {
