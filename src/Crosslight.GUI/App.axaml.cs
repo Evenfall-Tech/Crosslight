@@ -2,9 +2,7 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Crosslight.GUI.ViewModels;
-using Crosslight.GUI.ViewModels.Viewports;
 using Crosslight.GUI.Views;
-using Dock.Model;
 using ReactiveUI;
 using Splat;
 using System.Reflection;

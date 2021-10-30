@@ -70,9 +70,9 @@ namespace Crosslight.Language.Viewer.ViewModels.Graph
                     this.RaisePropertyChanged(InternalNavigationChanged);
                     return Router.NavigateBack.Execute().Select<Unit, IRoutableViewModel>(x => null);
                 }),
-                navigationChanged.Select(_ => 
-                    navigationStack.Count > 1 && 
-                    navigationCurrent != null && 
+                navigationChanged.Select(_ =>
+                    navigationStack.Count > 1 &&
+                    navigationCurrent != null &&
                     navigationCurrent.Previous != null
                 )
             );

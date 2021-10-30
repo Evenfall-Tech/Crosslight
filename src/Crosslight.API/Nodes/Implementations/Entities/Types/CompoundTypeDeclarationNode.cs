@@ -1,4 +1,4 @@
-﻿using Crosslight.API.Nodes.Implementations.Access;
+﻿using Crosslight.API.Nodes.Implementations.Entities.Generics;
 using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
@@ -17,13 +17,13 @@ namespace Crosslight.API.Nodes.Implementations.Entities.Types
     {
         public override string Type => nameof(CompoundTypeDeclarationNode);
         public SyncedList<TemplateTypeParameterNode, Node> TypeParameters { get; protected set; }
-        public SyncedList<TypeConstraintNode, Node> Constraints { get; protected set; }
+        public SyncedList<TemplateTypeParameterConstraintClauseNode, Node> Constraints { get; protected set; }
         public int Arity { get; protected set; }
         public SyncedList<MemberDeclarationNode, Node> Members { get; protected set; }
         public CompoundTypeDeclarationNode(string identifier) : base(identifier)
         {
             TypeParameters = new SyncedList<TemplateTypeParameterNode, Node>(Children);
-            Constraints = new SyncedList<TypeConstraintNode, Node>(Children);
+            Constraints = new SyncedList<TemplateTypeParameterConstraintClauseNode, Node>(Children);
             Members = new SyncedList<MemberDeclarationNode, Node>(Children);
         }
         public override string ToString()

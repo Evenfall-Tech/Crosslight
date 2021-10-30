@@ -5,7 +5,6 @@ using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.API.IO.FileSystem;
 using Crosslight.API.IO.FileSystem.Abstractions;
-using Crosslight.API.IO.FileSystem.Implementations;
 using Crosslight.API.Lang;
 using Crosslight.API.Nodes.Implementations;
 using Crosslight.Language.CIL.Lang;
@@ -14,7 +13,6 @@ using Crosslight.Language.Viewer.ViewModels.Viewports;
 using Crosslight.Language.Viewer.ViewModels.Windows;
 using Crosslight.Language.Viewer.Views.Viewports;
 using ReactiveUI;
-using System.Linq;
 using System.Reactive.Disposables;
 
 namespace Crosslight.Language.Viewer

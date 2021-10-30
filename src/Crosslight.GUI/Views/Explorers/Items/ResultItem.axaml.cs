@@ -9,7 +9,6 @@ using Avalonia.ReactiveUI;
 using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.Common.UI.Controls;
 using Crosslight.GUI.Util;
-using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using ReactiveUI;
 using Splat;

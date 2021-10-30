@@ -3,13 +3,10 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.GUI.ViewModels;
-using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Viewports;
-using Crosslight.GUI.Views.Explorers;
 using Crosslight.GUI.Views.Viewports;
 using ReactiveUI;
 using Splat;
-using System;
 using System.Reactive.Disposables;
 
 namespace Crosslight.GUI.Views

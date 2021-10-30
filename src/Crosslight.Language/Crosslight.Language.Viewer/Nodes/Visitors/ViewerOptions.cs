@@ -1,5 +1,4 @@
 ﻿using Crosslight.API.Lang;
-using System;
 
 namespace Crosslight.Language.Viewer.Nodes.Visitors
 {

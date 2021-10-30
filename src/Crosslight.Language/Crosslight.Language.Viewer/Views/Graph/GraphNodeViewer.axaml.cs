@@ -1,15 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Layout;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 using Avalonia.ReactiveUI;
 using Crosslight.Language.Viewer.ViewModels.Graph;
 using Crosslight.Language.Viewer.Views.Utils;
 using ReactiveUI;
 using System;
-using System.Linq;
 using System.Reactive.Disposables;
 
 namespace Crosslight.Language.Viewer.Views.Graph

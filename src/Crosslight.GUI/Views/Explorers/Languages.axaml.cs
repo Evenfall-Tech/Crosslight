@@ -8,8 +8,6 @@ using Crosslight.GUI.ViewModels.Explorers.Items;
 using Crosslight.GUI.Views.Explorers.Items;
 using ReactiveUI;
 using Splat;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;

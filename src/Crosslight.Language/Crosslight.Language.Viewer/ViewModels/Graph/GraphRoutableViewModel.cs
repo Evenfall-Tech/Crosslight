@@ -1,8 +1,5 @@
 ﻿using Crosslight.Language.Viewer.Models.Graph;
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Crosslight.Language.Viewer.ViewModels.Graph
 {

@@ -3,7 +3,7 @@ using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Util;
 
-namespace Crosslight.API.Nodes.Implementations.Entities
+namespace Crosslight.API.Nodes.Implementations.Entities.Generics
 {
     public enum TemplateTypeParameterVariance
     {
@@ -23,9 +23,10 @@ namespace Crosslight.API.Nodes.Implementations.Entities
         public SyncedList<AttributeNode, Node> Attributes { get; protected set; }
         public string Identifier { get; }
 
-        public TemplateTypeParameterNode(string identifier)
+        public TemplateTypeParameterNode(string identifier, TemplateTypeParameterVariance variance)
         {
             Identifier = identifier;
+            Variance = variance;
             Attributes = new SyncedList<AttributeNode, Node>(Children);
         }
         public override string ToString()

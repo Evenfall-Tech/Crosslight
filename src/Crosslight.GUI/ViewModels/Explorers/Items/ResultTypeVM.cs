@@ -1,11 +1,8 @@
 ﻿using Crosslight.API.Lang;
 using DynamicData.Binding;
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {

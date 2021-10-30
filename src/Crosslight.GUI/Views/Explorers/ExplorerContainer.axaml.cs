@@ -1,14 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Crosslight.GUI.ViewModels.Explorers;
 using ReactiveUI;
-using Splat;
-using System;
-using System.Linq;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
 
 namespace Crosslight.GUI.Views.Explorers
 {

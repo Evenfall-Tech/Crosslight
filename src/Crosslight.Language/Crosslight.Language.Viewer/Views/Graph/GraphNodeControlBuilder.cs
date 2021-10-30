@@ -1,7 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Media;
-using Crosslight.Language.Viewer.ViewModels.Graph;
-using System;
+﻿using Crosslight.Language.Viewer.ViewModels.Graph;
 
 namespace Crosslight.Language.Viewer.Views.Graph
 {
