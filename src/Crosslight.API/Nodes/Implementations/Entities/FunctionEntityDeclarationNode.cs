@@ -1,4 +1,5 @@
-﻿using Crosslight.API.Nodes.Interfaces;
+﻿using Crosslight.API.Nodes.Implementations.Entities.Generics;
+using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
 using Crosslight.API.Nodes.Interfaces.Entities;
@@ -14,7 +15,7 @@ namespace Crosslight.API.Nodes.Implementations.Entities
     {
         public override string Type => nameof(FunctionEntityDeclarationNode);
         public SyncedList<TemplateTypeParameterNode, Node> TypeParameters { get; protected set; }
-        public SyncedList<TypeConstraintNode, Node> Constraints { get; protected set; }
+        public SyncedList<TemplateTypeParameterConstraintClauseNode, Node> Constraints { get; protected set; }
         public int Arity { get; protected set; }
         public string Identifier { get; }
 

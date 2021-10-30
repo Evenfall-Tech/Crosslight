@@ -2,7 +2,6 @@
 using Crosslight.Common.Runtime;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using DynamicData;
-using DynamicData.Binding;
 using ReactiveUI;
 using Splat;
 using System;

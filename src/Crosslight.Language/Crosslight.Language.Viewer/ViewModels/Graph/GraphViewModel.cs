@@ -1,6 +1,5 @@
 ﻿using Crosslight.Language.Viewer.Models.Graph;
 using Crosslight.Language.Viewer.ViewModels.Utils;
-using DynamicData.Annotations;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,6 @@
 ﻿using Crosslight.API.IO.FileSystem;
 using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Lang;
-using Crosslight.API.Nodes;
 using ReactiveUI;
 using Splat;
 using System.Linq;

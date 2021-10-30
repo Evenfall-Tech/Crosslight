@@ -1,11 +1,7 @@
 ﻿using Crosslight.API.Nodes.Implementations.Access;
-using Crosslight.API.Nodes.Implementations.Access.Modifiers;
-using Crosslight.API.Nodes.Implementations.Entities;
-using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
 using Crosslight.API.Util;
-using System;
 
 namespace Crosslight.API.Nodes.Implementations.Entities.Fields
 {
@@ -15,11 +11,16 @@ namespace Crosslight.API.Nodes.Implementations.Entities.Fields
     public abstract class BaseFieldDeclarationNode : MemberDeclarationNode, IAttributesProvider, IModifiersProvider
     {
         public override string Type => nameof(BaseFieldDeclarationNode);
-        
-        public SyncedProperty<VariableListDeclarationNode, Node> Declaration { get; protected set; }
+
+        private readonly SyncedProperty<VariableListDeclarationNode, Node> declaration;
+        public VariableListDeclarationNode Declaration
+        {
+            get => declaration.Value;
+            set => declaration.Value = value;
+        }
         public BaseFieldDeclarationNode()
         {
-            Declaration = new SyncedProperty<VariableListDeclarationNode, Node>(Children);
+            declaration = new SyncedProperty<VariableListDeclarationNode, Node>(Children);
         }
 
         public override string ToString()

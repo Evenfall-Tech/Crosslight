@@ -1,9 +1,7 @@
 ﻿using Crosslight.API.Nodes.Implementations;
 using Crosslight.API.Nodes.Implementations.Componentization;
 using Crosslight.API.Nodes.Implementations.Metadata;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Crosslight.Language.Viewer.ViewModels.Graph
 {

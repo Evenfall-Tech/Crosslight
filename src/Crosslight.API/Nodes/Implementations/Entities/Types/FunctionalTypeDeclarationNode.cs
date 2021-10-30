@@ -1,4 +1,5 @@
-﻿using Crosslight.API.Nodes.Implementations.Function;
+﻿using Crosslight.API.Nodes.Implementations.Entities.Generics;
+using Crosslight.API.Nodes.Implementations.Entities.Methods;
 using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
@@ -14,15 +15,15 @@ namespace Crosslight.API.Nodes.Implementations.Entities.Types
     {
         public override string Type => nameof(FunctionalTypeDeclarationNode);
         public SyncedList<TemplateTypeParameterNode, Node> TypeParameters { get; protected set; }
-        public SyncedList<TypeConstraintNode, Node> Constraints { get; protected set; }
+        public SyncedList<TemplateTypeParameterConstraintClauseNode, Node> Constraints { get; protected set; }
         public int Arity { get; protected set; }
-        public SyncedList<BaseMethodNode, Node> Methods { get; protected set; }
+        public SyncedList<BaseMethodDeclarationNode, Node> Methods { get; protected set; }
 
         public FunctionalTypeDeclarationNode(string identifier) : base(identifier)
         {
             TypeParameters = new SyncedList<TemplateTypeParameterNode, Node>(Children);
-            Constraints = new SyncedList<TypeConstraintNode, Node>(Children);
-            Methods = new SyncedList<BaseMethodNode, Node>(Children);
+            Constraints = new SyncedList<TemplateTypeParameterConstraintClauseNode, Node>(Children);
+            Methods = new SyncedList<BaseMethodDeclarationNode, Node>(Children);
         }
         public override string ToString()
         {

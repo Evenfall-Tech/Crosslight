@@ -49,9 +49,9 @@ namespace Crosslight.GUI.ViewModels.Explorers
             if (openExisting)
             {
                 container = projectViewportVM.Containers.FirstOrDefault(
-                    x => 
+                    x =>
                     x != null && x.Top != null &&
-                    explorerType.IsAssignableFrom(x.Top.GetType()) && 
+                    explorerType.IsAssignableFrom(x.Top.GetType()) &&
                     (id == null || x.ID == id));
                 result = container?.Top;
                 if (result != null) return result;

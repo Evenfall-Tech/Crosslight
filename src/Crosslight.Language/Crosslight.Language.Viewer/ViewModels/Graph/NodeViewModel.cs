@@ -14,9 +14,9 @@ namespace Crosslight.Language.Viewer.ViewModels.Graph
     }
     public class NodeViewModel : ViewModelBase, IViewModelFor<NodeModel>
     {
-        public const string LeftProp   = nameof(Left);
-        public const string TopProp    = nameof(Top);
-        public const string WidthProp  = nameof(Width);
+        public const string LeftProp = nameof(Left);
+        public const string TopProp = nameof(Top);
+        public const string WidthProp = nameof(Width);
         public const string HeightProp = nameof(Height);
 
         private double left, top, width, height;
@@ -71,7 +71,7 @@ namespace Crosslight.Language.Viewer.ViewModels.Graph
             set => this.RaiseAndSetIfChanged(ref parent, value);
         }
         public ReactiveCommand<Unit, NodeModel> SetStartNode => ReactiveCommand.Create(
-            () => Parent.StartNode = Model, 
+            () => Parent.StartNode = Model,
             this.WhenAnyValue<NodeViewModel, bool, GraphViewModel>(x => x.Parent, x => x != null).DistinctUntilChanged()
         );
         // TODO: replace with observable

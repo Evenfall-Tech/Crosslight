@@ -1,5 +1,4 @@
 ﻿using Crosslight.API.Nodes.Implementations.Expressions.Types;
-using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Implementations.Access
@@ -12,11 +11,16 @@ namespace Crosslight.API.Nodes.Implementations.Access
     {
         public override string Type => nameof(VariableListDeclarationNode);
 
-        public SyncedProperty<TypeReferenceNode, Node> DeclarationType { get; protected set; }
+        private readonly SyncedProperty<TypeReferenceNode, Node> declarationType;
+        public TypeReferenceNode DeclarationType
+        {
+            get => declarationType.Value;
+            set => declarationType.Value = value;
+        }
         public SyncedList<VariableDeclarationNode, Node> Variables { get; protected set; }
         public VariableListDeclarationNode()
         {
-            DeclarationType = new SyncedProperty<TypeReferenceNode, Node>(Children);
+            declarationType = new SyncedProperty<TypeReferenceNode, Node>(Children);
             Variables = new SyncedList<VariableDeclarationNode, Node>(Children);
         }
         public override string ToString()

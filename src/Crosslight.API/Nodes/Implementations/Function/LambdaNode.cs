@@ -1,4 +1,8 @@
-﻿using Crosslight.API.Util;
+﻿using Crosslight.API.Nodes.Implementations.Control;
+using Crosslight.API.Nodes.Implementations.Entities.Methods;
+using Crosslight.API.Nodes.Implementations.Expressions;
+using Crosslight.API.Nodes.Implementations.Expressions.Types;
+using Crosslight.API.Util;
 
 namespace Crosslight.API.Nodes.Implementations.Function
 {
@@ -7,26 +11,34 @@ namespace Crosslight.API.Nodes.Implementations.Function
     /// </summary>
     public class LambdaNode : Node
     {
+        // TODO: fix this mess, inherit from anonymous expression
         public override string Type => nameof(LambdaNode);
-        public SyncedList<FunctionParameterNode, Node> Parameters { get; protected set; }
+        public SyncedList<ParameterNode, Node> Parameters { get; protected set; }
         // TODO: in C++11 lambdas might have return type specified
-        private readonly SyncedProperty<FunctionReturnTypeNode, Node> returnType;
-        private readonly SyncedProperty<FunctionBodyNode, Node> body;
-        public FunctionReturnTypeNode ReturnType
+        private readonly SyncedProperty<TypeReferenceNode, Node> returnType;
+        private readonly SyncedProperty<BlockNode, Node> body;
+        private readonly SyncedProperty<ExpressionNode, Node> expressionBody;
+        public TypeReferenceNode ReturnType
         {
             get => returnType.Value;
             protected set => returnType.Value = value;
         }
-        public FunctionBodyNode Body
+        public BlockNode Body
         {
             get => body.Value;
             protected set => body.Value = value;
         }
+        public ExpressionNode ExpressionBody
+        {
+            get => expressionBody.Value;
+            protected set => expressionBody.Value = value;
+        }
         public LambdaNode()
         {
-            Parameters = new SyncedList<FunctionParameterNode, Node>(Children);
-            returnType = new SyncedProperty<FunctionReturnTypeNode, Node>(Children);
-            body = new SyncedProperty<FunctionBodyNode, Node>(Children);
+            Parameters = new SyncedList<ParameterNode, Node>(Children);
+            returnType = new SyncedProperty<TypeReferenceNode, Node>(Children);
+            body = new SyncedProperty<BlockNode, Node>(Children);
+            expressionBody = new SyncedProperty<ExpressionNode, Node>(Children);
         }
         public override string ToString()
         {

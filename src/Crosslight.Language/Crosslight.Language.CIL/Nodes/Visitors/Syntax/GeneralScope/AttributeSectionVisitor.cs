@@ -1,12 +1,9 @@
 ﻿using Crosslight.API.Exceptions;
 using Crosslight.API.Nodes.Implementations;
 using Crosslight.API.Nodes.Implementations.Access;
-using Crosslight.API.Nodes.Implementations.Metadata;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Attribute = ICSharpCode.Decompiler.CSharp.Syntax.Attribute;
 
 namespace Crosslight.Language.CIL.Nodes.Visitors.Syntax.GeneralScope

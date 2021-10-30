@@ -41,7 +41,7 @@ namespace Crosslight.Common.Runtime
         public static Type[] FindTypesInAssembly<T>(Assembly assembly) where T : class
         {
             var type = typeof(T);
-           return assembly.GetTypes().Where(p => type.IsAssignableFrom(p)).ToArray();
+            return assembly.GetTypes().Where(p => type.IsAssignableFrom(p)).ToArray();
         }
         public static Assembly LoadAssembly(string filePath) => Assembly.LoadFrom(filePath);
     }

@@ -1,10 +1,10 @@
 ﻿namespace Crosslight.API.Nodes.Implementations
 {
-    public class OperatorNode : Node
+    public class TokenNode : Node
     {
-        public override string Type => nameof(OperatorNode);
+        public override string Type => nameof(TokenNode);
         public string Token { get; protected set; }
-        public OperatorNode(string token)
+        public TokenNode(string token)
         {
             Token = token;
         }

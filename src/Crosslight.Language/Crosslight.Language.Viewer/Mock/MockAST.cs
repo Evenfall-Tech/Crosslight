@@ -1,7 +1,6 @@
 ﻿using Crosslight.API.IO.FileSystem;
 using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.API.Lang;
-using Crosslight.API.Nodes;
 using Crosslight.Language.Viewer.Nodes;
 using Crosslight.Language.Viewer.Nodes.Visitors;
 using System;

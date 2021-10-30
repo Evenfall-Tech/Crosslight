@@ -2,10 +2,8 @@
 using ReactiveUI;
 using Splat;
 using System;
-using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
