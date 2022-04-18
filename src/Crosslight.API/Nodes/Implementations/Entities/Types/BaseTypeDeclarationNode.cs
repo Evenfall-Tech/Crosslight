@@ -1,4 +1,5 @@
-﻿using Crosslight.API.Nodes.Interfaces;
+﻿using Crosslight.API.Nodes.Implementations.Entities.Inheritance;
+using Crosslight.API.Nodes.Interfaces;
 using Crosslight.API.Nodes.Interfaces.Access;
 using Crosslight.API.Nodes.Interfaces.Access.Modifiers;
 using Crosslight.API.Util;
@@ -14,10 +15,10 @@ namespace Crosslight.API.Nodes.Implementations.Entities.Types
     {
         public override string Type => nameof(BaseTypeDeclarationNode);
         public string Identifier { get; }
-        public SyncedList<BaseTypeDeclarationNode, Node> BaseTypes { get; protected set; }
+        public SyncedList<BaseTypeNode, Node> BaseTypes { get; protected set; }
         public BaseTypeDeclarationNode(string identifier)
         {
-            BaseTypes = new SyncedList<BaseTypeDeclarationNode, Node>(Children);
+            BaseTypes = new SyncedList<BaseTypeNode, Node>(Children);
             Identifier = identifier;
         }
         public override string ToString()
