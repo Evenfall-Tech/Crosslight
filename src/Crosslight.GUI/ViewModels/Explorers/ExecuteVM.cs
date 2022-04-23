@@ -1,6 +1,6 @@
 ﻿using Crosslight.API.IO.FileSystem;
 using Crosslight.API.IO.FileSystem.Abstractions;
-using Crosslight.API.Lang;
+using Crosslight.API.Transformers;
 using ReactiveUI;
 using Splat;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
     {
         public new const string ConstTitle = "Execute";
 
-        public ReactiveCommand<Unit, (IFileSystemItem result, ILanguage language)> Translate { get; }
+        public ReactiveCommand<Unit, (IFileSystemItem result, ITransformer transformer)> Translate { get; }
 
         public override string UrlPathSegment { get; } = "execute";
         public ViewModelActivator Activator { get; }
@@ -21,16 +21,16 @@ namespace Crosslight.GUI.ViewModels.Explorers
         public ExecuteVM(IScreen screen) : base(screen)
         {
             Title = ConstTitle;
-            Translate = ReactiveCommand.Create<(IFileSystemItem, ILanguage)>(() =>
+            Translate = ReactiveCommand.Create<(IFileSystemItem, ITransformer)>(() =>
             {
                 var locator =
                     Locator.Current
                     .GetService<IExplorerLocator>();
-                ILanguage language =
+                ITransformer transformer =
                     locator
-                    .Open<LanguagesVM>()?
-                    .SelectedLanguage?
-                    .Language;
+                    .Open<TransformersVM>()?
+                    .SelectedTransformer?
+                    .Transformer;
                 var resultList = locator.Open<ResultListVM>();
 
                 IFileSystemItem src;
@@ -45,9 +45,9 @@ namespace Crosslight.GUI.ViewModels.Explorers
                     src = resultList.SelectedResults.FirstOrDefault()?.Result;
                 }
 
-                if (language != null && src != null)
+                if (transformer != null && src != null)
                 {
-                    return (language.Translate(src), language);
+                    return (transformer.Translate(src), transformer);
                 }
                 return (null, null);
             });

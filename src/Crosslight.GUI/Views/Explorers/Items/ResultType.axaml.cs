@@ -39,7 +39,7 @@ namespace Crosslight.GUI.Views.Explorers.Items
                         }
                     })
                     .DisposeWith(disp);
-                this.OneWayBind(ViewModel, x => x.LanguageType, x => x.ResultName.Text)
+                this.OneWayBind(ViewModel, x => x.TransformerType, x => x.ResultName.Text)
                     .DisposeWith(disp);
             });
             InitializeComponent();

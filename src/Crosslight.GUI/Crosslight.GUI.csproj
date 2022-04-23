@@ -17,11 +17,20 @@
     <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
     <ProjectReference Include="..\Crosslight.Common.UI\Crosslight.Common.UI.csproj" />
     <ProjectReference Include="..\Crosslight.Common\Crosslight.Common.csproj" />
-    <ProjectReference Include="..\Crosslight.Language\Crosslight.Language.Viewer\Crosslight.Language.Viewer.csproj" />
+    <ProjectReference Include="..\Crosslight.Transformer\Crosslight.Transformer.Viewer\Crosslight.Transformer.Viewer.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\Explorers\ExplorerContainer.axaml.cs">
       <DependentUpon>ExplorerContainer.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Explorers\Items\TransformerType.axaml.cs">
+      <DependentUpon>TransformerType.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Explorers\Items\Transformer.axaml.cs">
+      <DependentUpon>Transformer.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Explorers\Transformers.axaml.cs">
+      <DependentUpon>Transformers.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

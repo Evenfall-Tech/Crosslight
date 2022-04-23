@@ -13,7 +13,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
         public const string IdResultListDock = nameof(ResultListVM) + "Dock";
         public const string IdExecuteDock = nameof(ExecuteVM) + "Dock";
         public const string IdPropertiesDock = nameof(PropertiesVM) + "Dock";
-        public const string IdLanguagesDock = nameof(LanguagesVM) + "Dock";
+        public const string IdTransformersDock = nameof(TransformersVM) + "Dock";
 
         private readonly MainViewportVM main;
         private readonly Dictionary<Type, (Func<ExplorerPanelVM> func, bool singleton, string parentId)> factory;
@@ -24,7 +24,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
             main = mainViewport;
             factory = new Dictionary<Type, (Func<ExplorerPanelVM> func, bool singleton, string parentId)>()
             {
-                { typeof(LanguagesVM), (() => new LanguagesVM() { Id = nameof(LanguagesVM) }, true, IdLanguagesDock) },
+                { typeof(TransformersVM), (() => new TransformersVM() { Id = nameof(TransformersVM) }, true, IdTransformersDock) },
                 { typeof(PropertiesVM), (() => new PropertiesVM() { Id = nameof(PropertiesVM) }, true, IdPropertiesDock) },
                 { typeof(ExecuteVM), (() => new ExecuteVM() { Id = nameof(ExecuteVM) }, true, IdExecuteDock) },
                 { typeof(ResultListVM), (() => new ResultListVM() { Id = nameof(ResultListVM) }, true, IdResultListDock) },

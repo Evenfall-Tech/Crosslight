@@ -15,7 +15,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             projectViewportVM = viewportVM;
             factory = new Dictionary<Type, (Func<ExplorerPanelVM> func, bool singleton)>()
             {
-                { typeof(LanguagesVM), (() => new LanguagesVM(), true) },
+                { typeof(TransformersVM), (() => new TransformersVM(), true) },
                 { typeof(PropertiesVM), (() => new PropertiesVM(), true) },
                 { typeof(ExecuteVM), (() => new ExecuteVM(), true) },
                 { typeof(ResultListVM), (() => new ResultListVM(), true) },

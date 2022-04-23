@@ -88,7 +88,7 @@ namespace Crosslight.GUI.Views.Explorers
                 await ViewModel.AddResultVM.Execute(new ResultItemVM()
                 {
                     Name = name,
-                    Origin = API.Lang.LanguageType.Input,
+                    Origin = API.Transformers.TransformerType.Input,
                     Result = fileSystemItem,
                 });
             });
@@ -119,7 +119,7 @@ namespace Crosslight.GUI.Views.Explorers
                 await ViewModel.AddResultVM.Execute(new ResultItemVM()
                 {
                     Name = name,
-                    Origin = API.Lang.LanguageType.Input,
+                    Origin = API.Transformers.TransformerType.Input,
                     Result = fileSystemItem,
                 });
             });
@@ -140,7 +140,7 @@ namespace Crosslight.GUI.Views.Explorers
                 await ViewModel.AddResultVM.Execute(new ResultItemVM()
                 {
                     Name = name,
-                    Origin = API.Lang.LanguageType.Input,
+                    Origin = API.Transformers.TransformerType.Input,
                     Result = fileSystemItem,
                 });
             });

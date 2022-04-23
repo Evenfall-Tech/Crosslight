@@ -37,7 +37,7 @@ namespace Crosslight.GUI.Views.Viewports
                     .Do(y =>
                     {
                         FillProjectMenu();
-                        //OpenExplorer<LanguagesVM>();
+                        //OpenExplorer<TransformersVM>();
                         //OpenExplorer<PropertiesVM>();
                         //OpenExplorer<ResultListVM>();
                         //OpenExplorer<ExecuteVM>();
@@ -75,9 +75,9 @@ namespace Crosslight.GUI.Views.Viewports
                         {
                             new MenuItemVM
                             {
-                                Header = $"_{LanguagesVM.ConstTitle}",
+                                Header = $"_{TransformersVM.ConstTitle}",
                                 Command = openView,
-                                CommandParameter = typeof(LanguagesVM),
+                                CommandParameter = typeof(TransformersVM),
                             },
                             new MenuItemVM
                             {

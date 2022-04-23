@@ -37,14 +37,14 @@ namespace Crosslight.GUI.Views.Explorers
         private async Task ExecuteTranslate()
         {
             var translationResult = await ViewModel.Translate.Execute();
-            if (translationResult.language != null && translationResult.result != null)
+            if (translationResult.transformer != null && translationResult.result != null)
             {
                 var resultList = Locator.Current.GetService<IExplorerLocator>().Open<ResultListVM>(openExisting: true);
                 if (resultList != null)
                     await resultList.AddResultVM.Execute(new ResultItemVM()
                     {
                         Name = translationResult.result.Name,
-                        Origin = translationResult.language.LanguageType,
+                        Origin = translationResult.transformer.TransformerType,
                         Result = translationResult.result,
                     });
                 string id = ResultsVM.GenerateID(translationResult.result);
