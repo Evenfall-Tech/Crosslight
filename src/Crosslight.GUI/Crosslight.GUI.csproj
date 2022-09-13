@@ -4,14 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.0" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
-    <PackageReference Include="Dock.Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia" Version="0.10.18" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
+    <PackageReference Include="Dock.Avalonia" Version="0.10.18.1" />
     <PackageReference Include="Dock.Avalonia.Themes.Default" Version="0.10.0" />
-    <PackageReference Include="Dock.Model" Version="0.10.0" />
-    <PackageReference Include="Dock.Model.ReactiveUI" Version="0.10.0" />
+    <PackageReference Include="Dock.Model" Version="0.10.18.1" />
+    <PackageReference Include="Dock.Model.ReactiveUI" Version="0.10.18.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Crosslight.API\Crosslight.API.csproj" />
