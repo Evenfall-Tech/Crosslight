@@ -1,0 +1,65 @@
+cmake_minimum_required(VERSION 3.19.0)
+
+set(PROJECT_NAME "crosslight_core")
+set(BINARY_NAME "clcore")
+
+project("${PROJECT_NAME}")
+
+set(LIBRARY_VERSION_MAJOR 0)
+set(LIBRARY_VERSION_STRING 0.1)
+
+include(GNUInstallDirs)
+
+set(LIBRARY_BASE_PATH "${PROJECT_SOURCE_DIR}")
+
+
+
+set(PUBLIC_SOURCES_FILES
+	"${LIBRARY_BASE_PATH}/src/node.c"
+)
+
+set(PRIVATE_SOURCES_FILES
+	"${LIBRARY_BASE_PATH}/private_src/priv.c"
+)
+
+set(PUBLIC_HEADERS_FILES
+	"${LIBRARY_BASE_PATH}/include/core/definitions.h"
+	"${LIBRARY_BASE_PATH}/include/core/node.h"
+)
+
+set(PRIVATE_HEADERS_FILES
+	"${LIBRARY_BASE_PATH}/private_include/core/priv.h"
+)
+
+set(CMAKE_C_VISIBILITY_PRESET hidden)
+
+add_library(
+	${BINARY_NAME} SHARED
+	${PUBLIC_SOURCES_FILES}
+	${PRIVATE_SOURCES_FILES}
+	${PUBLIC_HEADERS_FILES}
+	${PRIVATE_HEADERS_FILES}
+)
+
+target_include_directories(
+	${BINARY_NAME}
+	INTERFACE "${LIBRARY_BASE_PATH}/include"
+	PRIVATE "${LIBRARY_BASE_PATH}/private_include"
+)
+
+set_target_properties(
+	${BINARY_NAME} PROPERTIES
+	VERSION		${LIBRARY_VERSION_STRING}
+	SOVERSION	${LIBRARY_VERSION_MAJOR}
+	PUBLIC_HEADER "${PUBLIC_HEADERS_FILES}"
+)
+
+
+# TODO: add definitions.
+#target_compile_options(${BINARY_NAME} PRIVATE "-g")
+
+install(
+	TARGETS ${BINARY_NAME}
+	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
