@@ -1,4 +1,4 @@
-﻿using Crosslight.API.Lang;
+﻿using Crosslight.API.Transformers;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using DynamicData;
 using DynamicData.Binding;
@@ -45,31 +45,31 @@ namespace Crosslight.GUI.ViewModels.Explorers
             }, Observable.Return(true));
 
             resultTypes = new ObservableCollection<ResultTypeVM>();
-            var languateEnumValues = ((LanguageType[])Enum.GetValues(typeof(LanguageType))).Except(
-                new LanguageType[]
+            var transformerEnumValues = ((TransformerType[])Enum.GetValues(typeof(TransformerType))).Except(
+                new TransformerType[]
                 {
-                    LanguageType.None,
+                    TransformerType.None,
                 }
             );
-            foreach (var languageType in languateEnumValues)
+            foreach (var transformerType in transformerEnumValues)
             {
                 resultTypes.Add(new ResultTypeVM()
                 {
-                    LanguageType = languageType,
+                    TransformerType = transformerType,
                 });
             }
 
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
             {
-                foreach (var languageType in languateEnumValues)
+                foreach (var transformerType in transformerEnumValues)
                 {
-                    var resultTypeVM = resultTypes.FirstOrDefault(x => x.LanguageType == languageType);
+                    var resultTypeVM = resultTypes.FirstOrDefault(x => x.TransformerType == transformerType);
                     if (resultTypeVM != null)
                     {
                         resultsSource
                             .Connect()
-                            .Filter(x => x?.Origin == languageType)
+                            .Filter(x => x?.Origin == transformerType)
                             .Bind(out var resultsObservable)
                             .Subscribe()
                             .DisposeWith(disposables);

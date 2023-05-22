@@ -1,7 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.Media;
 using ReactiveUI;
@@ -10,16 +8,15 @@ using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Crosslight.GUI.Views.Explorers.Items
 {
     public class PropertyBuilder
     {
         private delegate IControl ControlFactory(
-            object infoFor, 
-            PropertyInfo info, 
-            IViewFor view, 
+            object infoFor,
+            PropertyInfo info,
+            IViewFor view,
             CompositeDisposable disp);
         private Dictionary<Type, ControlFactory> factoryDict;
 

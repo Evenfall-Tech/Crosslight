@@ -1,5 +1,5 @@
 ﻿using Crosslight.API.IO.FileSystem.Abstractions;
-using Crosslight.API.Lang;
+using Crosslight.API.Transformers;
 using ReactiveUI;
 using Splat;
 using System;
@@ -20,7 +20,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
     {
         protected IFileSystemItem result;
         protected string name;
-        protected LanguageType origin;
+        protected TransformerType origin;
         protected ObservableAsPropertyHelper<string> id;
         protected ResultItemState state;
         protected bool isTopLevel;
@@ -45,7 +45,7 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             get => isTopLevel;
             set => this.RaiseAndSetIfChanged(ref isTopLevel, value);
         }
-        public LanguageType Origin
+        public TransformerType Origin
         {
             get => origin;
             set => this.RaiseAndSetIfChanged(ref origin, value);

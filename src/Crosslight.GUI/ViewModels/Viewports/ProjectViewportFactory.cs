@@ -19,7 +19,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
 
         public override IDock CreateLayout()
         {
-            var languagesVM = new LanguagesVM() { Id = nameof(LanguagesVM) };
+            var transformersVM = new TransformersVM() { Id = nameof(TransformersVM) };
             var propertiesVM = new PropertiesVM() { Id = nameof(PropertiesVM) };
             var executeVM = new ExecuteVM() { Id = nameof(ExecuteVM) };
             var resultListVM = new ResultListVM() { Id = nameof(ResultListVM) };
@@ -69,9 +69,9 @@ namespace Crosslight.GUI.ViewModels.Viewports
                                 Id =
                                     DockableExplorerLocator.IdResultListDock +
                                     " " +
-                                    DockableExplorerLocator.IdLanguagesDock,
+                                    DockableExplorerLocator.IdTransformersDock,
                                 ActiveDockable = resultListVM,
-                                VisibleDockables = CreateList<IDockable>(resultListVM, languagesVM)
+                                VisibleDockables = CreateList<IDockable>(resultListVM, transformersVM)
                             },
                             new SplitterDock(),
                             new ToolDock
@@ -114,7 +114,7 @@ namespace Crosslight.GUI.ViewModels.Viewports
                 [nameof(IDockWindow)] = () => context,
                 [nameof(IDocument)] = () => context,
                 [nameof(ITool)] = () => context,
-                [nameof(LanguagesVM)] = () => new LanguagesVM(),
+                [nameof(TransformersVM)] = () => new TransformersVM(),
                 [nameof(PropertiesVM)] = () => new PropertiesVM(),
                 [nameof(ExecuteVM)] = () => new ExecuteVM(),
                 [nameof(ResultListVM)] = () => new ResultListVM(),

@@ -2,9 +2,7 @@
 using Dock.Model;
 using Dock.Model.Controls;
 using DynamicData;
-using DynamicData.Binding;
 using ReactiveUI;
-using Splat;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

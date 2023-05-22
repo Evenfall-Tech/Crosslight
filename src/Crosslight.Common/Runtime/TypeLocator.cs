@@ -1,4 +1,4 @@
-﻿using Crosslight.API.Lang;
+﻿using Crosslight.API.Transformers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,9 +14,9 @@ namespace Crosslight.Common.Runtime
             return Directory.GetFiles(path, "Crosslight.*.dll");
         }
 
-        public static ILanguage[] LoadLanguagesFromAssembly(string filePath)
+        public static ITransformer[] LoadTransformersFromAssembly(string filePath)
         {
-            return LoadTypeInstancesFromAssembly<ILanguage>(filePath);
+            return LoadTypeInstancesFromAssembly<ITransformer>(filePath);
         }
 
         public static T[] LoadTypeInstancesFromAssembly<T>(string filePath) where T : class
@@ -41,7 +41,7 @@ namespace Crosslight.Common.Runtime
         public static Type[] FindTypesInAssembly<T>(Assembly assembly) where T : class
         {
             var type = typeof(T);
-           return assembly.GetTypes().Where(p => type.IsAssignableFrom(p)).ToArray();
+            return assembly.GetTypes().Where(p => type.IsAssignableFrom(p)).ToArray();
         }
         public static Assembly LoadAssembly(string filePath) => Assembly.LoadFrom(filePath);
     }

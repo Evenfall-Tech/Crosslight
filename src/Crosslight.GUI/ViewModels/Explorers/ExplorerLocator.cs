@@ -15,7 +15,7 @@ namespace Crosslight.GUI.ViewModels.Explorers
             projectViewportVM = viewportVM;
             factory = new Dictionary<Type, (Func<ExplorerPanelVM> func, bool singleton)>()
             {
-                { typeof(LanguagesVM), (() => new LanguagesVM(), true) },
+                { typeof(TransformersVM), (() => new TransformersVM(), true) },
                 { typeof(PropertiesVM), (() => new PropertiesVM(), true) },
                 { typeof(ExecuteVM), (() => new ExecuteVM(), true) },
                 { typeof(ResultListVM), (() => new ResultListVM(), true) },
@@ -49,9 +49,9 @@ namespace Crosslight.GUI.ViewModels.Explorers
             if (openExisting)
             {
                 container = projectViewportVM.Containers.FirstOrDefault(
-                    x => 
+                    x =>
                     x != null && x.Top != null &&
-                    explorerType.IsAssignableFrom(x.Top.GetType()) && 
+                    explorerType.IsAssignableFrom(x.Top.GetType()) &&
                     (id == null || x.ID == id));
                 result = container?.Top;
                 if (result != null) return result;

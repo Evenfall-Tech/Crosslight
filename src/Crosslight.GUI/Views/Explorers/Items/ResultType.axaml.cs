@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
@@ -7,7 +6,6 @@ using DynamicData;
 using ReactiveUI;
 using Splat;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -41,7 +39,7 @@ namespace Crosslight.GUI.Views.Explorers.Items
                         }
                     })
                     .DisposeWith(disp);
-                this.OneWayBind(ViewModel, x => x.LanguageType, x => x.ResultName.Text)
+                this.OneWayBind(ViewModel, x => x.TransformerType, x => x.ResultName.Text)
                     .DisposeWith(disp);
             });
             InitializeComponent();

@@ -2,7 +2,7 @@
 
 A language translation / interpretation engine for cross-language compilation / execution. Run Crosslight from GUI or CLI, select languages for input and output, specify input and output files and see the magic!
 
-| Language | Input | Output |
+| Transformer | Input | Output |
 |-|-|-|
 | Crosslight Nodes | TODO | TODO |
 | [CIL](https://github.com/mcmikecreations/Crosslight/projects/1) | [In Progress](https://github.com/mcmikecreations/Crosslight/issues?q=is%3Aopen+is%3Aissue+project%3Amcmikecreations%2FCrosslight%2F1+label%3Ainput) | TODO |

@@ -1,23 +1,21 @@
-﻿using Crosslight.API.Lang;
+﻿using Crosslight.API.Transformers;
 using ReactiveUI;
 using Splat;
 using System;
-using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
-    public class LanguageVM : ReactiveObject
+    public class TransformerVM : ReactiveObject
     {
         protected string path;
         protected string title;
-        protected ILanguage language;
-        public ILanguage Language
+        protected ITransformer transformer;
+        public ITransformer Transformer
         {
-            get => language;
-            set => this.RaiseAndSetIfChanged(ref language, value);
+            get => transformer;
+            set => this.RaiseAndSetIfChanged(ref transformer, value);
         }
         public string Path
         {
@@ -30,19 +28,19 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             set => this.RaiseAndSetIfChanged(ref title, value);
         }
         protected IObservable<bool> SelectCommandAvailable => this
-            .WhenAnyValue(x => x.Language, x => x.Path, (language, path) => language != null && !string.IsNullOrWhiteSpace(path));
+            .WhenAnyValue(x => x.Transformer, x => x.Path, (transformer, path) => transformer != null && !string.IsNullOrWhiteSpace(path));
         public ReactiveCommand<Unit, Unit> SelectCommand => ReactiveCommand.Create(() =>
         {
             var locator = Locator.Current.GetService<IExplorerLocator>();
             var props = locator.Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
             if (props != null)
             {
-                props.SelectedInstance = Language.Options;
+                props.SelectedInstance = Transformer.Options;
             }
-            var lang = locator.Open<LanguagesVM>();
-            if (lang != null)
+            var transformer = locator.Open<TransformersVM>();
+            if (transformer != null)
             {
-                lang.SelectedLanguage = this;
+                transformer.SelectedTransformer = this;
             }
         },
         SelectCommandAvailable);
@@ -52,13 +50,13 @@ namespace Crosslight.GUI.ViewModels.Explorers.Items
             var props = locator.Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
             if (props != null)
             {
-                if (props.SelectedInstance == Language.Options)
+                if (props.SelectedInstance == Transformer.Options)
                     props.SelectedInstance = null;
             }
-            var lang = locator.Open<LanguagesVM>();
-            if (lang != null)
+            var transformer = locator.Open<TransformersVM>();
+            if (transformer != null)
             {
-                lang.RemoveLanguage.Execute(this).Subscribe();
+                transformer.RemoveTransformer.Execute(this).Subscribe();
             }
         },
         SelectCommandAvailable);

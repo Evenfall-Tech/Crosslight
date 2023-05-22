@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Crosslight.GUI.ViewModels;
 using Dock.Model;
 using ReactiveUI;
 using Splat;

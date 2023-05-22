@@ -1,13 +1,6 @@
-﻿using Crosslight.GUI.ViewModels.Explorers;
-using Crosslight.GUI.ViewModels.Viewports;
+﻿using Crosslight.GUI.ViewModels.Viewports;
 using Dock.Model.Controls;
-using DynamicData;
 using ReactiveUI;
-using Splat;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Reactive.Disposables;
 
 namespace Crosslight.GUI.ViewModels

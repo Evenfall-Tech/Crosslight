@@ -1,24 +1,21 @@
-﻿using Crosslight.API.Lang;
+﻿using Crosslight.API.Transformers;
 using DynamicData.Binding;
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
-using System.Text;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
     public class ResultTypeVM : ReactiveObject, IActivatableViewModel
     {
-        protected LanguageType languageType;
+        protected TransformerType transformerType;
         protected ReadOnlyObservableCollection<ResultItemVM> results;
         protected ObservableCollectionExtended<ResultItemVM> selectedResultsObservable;
 
-        public LanguageType LanguageType
+        public TransformerType TransformerType
         {
-            get => languageType;
-            set => this.RaiseAndSetIfChanged(ref languageType, value);
+            get => transformerType;
+            set => this.RaiseAndSetIfChanged(ref transformerType, value);
         }
         public ReadOnlyObservableCollection<ResultItemVM> Results
         {

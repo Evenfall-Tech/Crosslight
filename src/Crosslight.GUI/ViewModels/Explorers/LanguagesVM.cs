@@ -1,8 +1,7 @@
-﻿using Crosslight.API.Lang;
+﻿using Crosslight.API.Transformers;
 using Crosslight.Common.Runtime;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using DynamicData;
-using DynamicData.Binding;
 using ReactiveUI;
 using Splat;
 using System;
@@ -15,110 +14,110 @@ using System.Reactive.Linq;
 
 namespace Crosslight.GUI.ViewModels.Explorers
 {
-    public class LanguagesVM : ExplorerPanelVM, IActivatableViewModel
+    public class TransformersVM : ExplorerPanelVM, IActivatableViewModel
     {
-        public new const string ConstTitle = "Languages";
-        protected SourceCache<LanguageVM, string> languageSource;
-        protected ObservableCollection<LanguageTypeVM> languageTypes;
-        protected LanguageVM selectedLanguage;
+        public new const string ConstTitle = "Transformers";
+        protected SourceCache<TransformerVM, string> transformerSource;
+        protected ObservableCollection<TransformerTypeVM> transformerTypes;
+        protected TransformerVM selectedTransformer;
 
-        public ObservableCollection<LanguageTypeVM> LanguageTypes => languageTypes;
-        public LanguageVM SelectedLanguage
+        public ObservableCollection<TransformerTypeVM> TransformerTypes => transformerTypes;
+        public TransformerVM SelectedTransformer
         {
-            get => selectedLanguage;
+            get => selectedTransformer;
             set
             {
-                if (value != null && value != selectedLanguage)
+                if (value != null && value != selectedTransformer)
                 {
-                    this.RaiseAndSetIfChanged(ref selectedLanguage, value);
+                    this.RaiseAndSetIfChanged(ref selectedTransformer, value);
                     PropertiesVM properties = Locator.Current.GetService<IExplorerLocator>().Open<PropertiesVM>(openExisting: true, createNewExplorer: false);
                     if (properties != null)
-                        properties.SelectedInstance = selectedLanguage.Language.Options;
+                        properties.SelectedInstance = selectedTransformer.Transformer.Options;
                 }
             }
         }
-        public ReactiveCommand<string, Unit> AddLanguage { get; }
-        public ReactiveCommand<LanguageVM, Unit> RemoveLanguage { get; }
+        public ReactiveCommand<string, Unit> AddTransformer { get; }
+        public ReactiveCommand<TransformerVM, Unit> RemoveTransformer { get; }
 
-        public override string UrlPathSegment { get; } = "languages";
+        public override string UrlPathSegment { get; } = "transformers";
         public ViewModelActivator Activator { get; }
-        public LanguagesVM() : this(null) { }
-        public LanguagesVM(IScreen screen) : base(screen)
+        public TransformersVM() : this(null) { }
+        public TransformersVM(IScreen screen) : base(screen)
         {
             Title = ConstTitle;
-            languageSource = new SourceCache<LanguageVM, string>(x => x.Title);
-            AddLanguage = ReactiveCommand.Create((string s) =>
+            transformerSource = new SourceCache<TransformerVM, string>(x => x.Title);
+            AddTransformer = ReactiveCommand.Create((string s) =>
             {
                 if (string.IsNullOrWhiteSpace(s)) return;
                 var assembly = TypeLocator.LoadAssembly(s);
                 if (assembly != null)
                 {
-                    Type[] languages = TypeLocator.FindTypesInAssembly<ILanguage>(assembly);
-                    if (languages != null && languages.Length > 0)
+                    Type[] transformers = TypeLocator.FindTypesInAssembly<ITransformer>(assembly);
+                    if (transformers != null && transformers.Length > 0)
                     {
-                        foreach (var lang in languages)
+                        foreach (var trans in transformers)
                         {
-                            ILanguage language = TypeLocator.CreateTypeInstance<ILanguage>(lang);
-                            if (language != null)
+                            ITransformer transformer = TypeLocator.CreateTypeInstance<ITransformer>(trans);
+                            if (transformer != null)
                             {
-                                var type = language.LanguageType;
-                                LanguageVM vmToAdd = null;
-                                vmToAdd = new LanguageVM()
+                                var type = transformer.TransformerType;
+                                TransformerVM vmToAdd = null;
+                                vmToAdd = new TransformerVM()
                                 {
                                     Path = s,
-                                    Title = language.Name,
-                                    Language = language,
+                                    Title = transformer.Name,
+                                    Transformer = transformer,
                                 };
                                 if (vmToAdd != null)
                                 {
-                                    languageSource.AddOrUpdate(vmToAdd);
+                                    transformerSource.AddOrUpdate(vmToAdd);
                                 }
                             }
                         }
                     }
                 }
             }, Observable.Return(true));
-            RemoveLanguage = ReactiveCommand.Create((LanguageVM lang) =>
+            RemoveTransformer = ReactiveCommand.Create((TransformerVM transformer) =>
             {
-                if (SelectedLanguage == lang)
-                    SelectedLanguage = null;
-                languageSource.Remove(lang);
+                if (SelectedTransformer == transformer)
+                    SelectedTransformer = null;
+                transformerSource.Remove(transformer);
             }, Observable.Return(true));
 
-            languageTypes = new ObservableCollection<LanguageTypeVM>();
-            var languateEnumValues = ((LanguageType[])Enum.GetValues(typeof(LanguageType))).Except(
-                new LanguageType[]
+            transformerTypes = new ObservableCollection<TransformerTypeVM>();
+            var transformerEnumValues = ((TransformerType[])Enum.GetValues(typeof(TransformerType))).Except(
+                new TransformerType[]
                 {
-                    LanguageType.None,
+                    TransformerType.None,
                 }
             );
-            foreach (var languageType in languateEnumValues)
+            foreach (var transformerType in transformerEnumValues)
             {
-                languageTypes.Add(new LanguageTypeVM()
+                transformerTypes.Add(new TransformerTypeVM()
                 {
-                    LanguageType = languageType,
+                    TransformerType = transformerType,
                 });
             }
 
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disposables) =>
             {
-                var observable = languageSource.Connect();
-                foreach (var languageType in languateEnumValues)
+                var observable = transformerSource.Connect();
+                foreach (var transformerType in transformerEnumValues)
                 {
-                    var languageTypeVM = languageTypes.FirstOrDefault(x => x.LanguageType == languageType);
-                    if (languageTypeVM != null)
+                    var transformerTypeVM = transformerTypes.FirstOrDefault(x => x.TransformerType == transformerType);
+                    if (transformerTypeVM != null)
                     {
                         observable
-                            .Filter(x => x?.Language?.LanguageType == languageType)
-                            .Bind(out var languagesObservable)
+                            .Filter(x => x?.Transformer?.TransformerType == transformerType)
+                            .Bind(out var transformersObservable)
                             .Subscribe()
                             .DisposeWith(disposables);
-                        languageTypeVM.Languages = languagesObservable;
-                        this.WhenAnyValue(x => x.SelectedLanguage)
+                        transformerTypeVM.Transformers = transformersObservable;
+                        this.WhenAnyValue(x => x.SelectedTransformer)
                             .DistinctUntilChanged()
                             .Do(x => Console.WriteLine(x?.Path))
-                            .BindTo(languageTypeVM, x => x.Selected)
+                            .BindTo(transformerTypeVM, x => x.Selected)
                             .DisposeWith(disposables);
                     }
                 }

@@ -1,34 +1,34 @@
-﻿using Crosslight.API.Lang;
+﻿using Crosslight.API.Transformers;
 using ReactiveUI;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 
 namespace Crosslight.GUI.ViewModels.Explorers.Items
 {
-    public class LanguageTypeVM : ReactiveObject, IActivatableViewModel
+    public class TransformerTypeVM : ReactiveObject, IActivatableViewModel
     {
-        protected LanguageType languageType;
-        protected ReadOnlyObservableCollection<LanguageVM> languages;
-        protected LanguageVM selected;
+        protected TransformerType transformerType;
+        protected ReadOnlyObservableCollection<TransformerVM> transformers;
+        protected TransformerVM selected;
 
-        public LanguageType LanguageType
+        public TransformerType TransformerType
         {
-            get => languageType;
-            set => this.RaiseAndSetIfChanged(ref languageType, value);
+            get => transformerType;
+            set => this.RaiseAndSetIfChanged(ref transformerType, value);
         }
-        public ReadOnlyObservableCollection<LanguageVM> Languages
+        public ReadOnlyObservableCollection<TransformerVM> Transformers
         {
-            get => languages;
-            set => this.RaiseAndSetIfChanged(ref languages, value);
+            get => transformers;
+            set => this.RaiseAndSetIfChanged(ref transformers, value);
         }
-        public LanguageVM Selected
+        public TransformerVM Selected
         {
             get => selected;
             set => this.RaiseAndSetIfChanged(ref selected, value);
         }
 
         public ViewModelActivator Activator { get; }
-        public LanguageTypeVM()
+        public TransformerTypeVM()
         {
             Activator = new ViewModelActivator();
             this.WhenActivated((CompositeDisposable disp) =>

@@ -24,8 +24,8 @@ namespace Crosslight.CLI
         public class JsonOptions
         {
             public IEnumerable<string> InputFiles { get; set; }
-            public string InputLanguageAssembly { get; set; }
-            public string OutputLanguageAssembly { get; set; }
+            public string InputTransformerAssembly { get; set; }
+            public string OutputTransformerAssembly { get; set; }
         }
         static void Main(string[] args)
         {

@@ -8,12 +8,9 @@ using Crosslight.API.IO.FileSystem.Abstractions;
 using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Explorers.Items;
 using Crosslight.GUI.Views.Explorers.Items;
-using DynamicData;
 using ReactiveUI;
 using Splat;
-using System;
 using System.IO;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -91,7 +88,7 @@ namespace Crosslight.GUI.Views.Explorers
                 await ViewModel.AddResultVM.Execute(new ResultItemVM()
                 {
                     Name = name,
-                    Origin = API.Lang.LanguageType.Input,
+                    Origin = API.Transformers.TransformerType.Input,
                     Result = fileSystemItem,
                 });
             });
@@ -122,7 +119,7 @@ namespace Crosslight.GUI.Views.Explorers
                 await ViewModel.AddResultVM.Execute(new ResultItemVM()
                 {
                     Name = name,
-                    Origin = API.Lang.LanguageType.Input,
+                    Origin = API.Transformers.TransformerType.Input,
                     Result = fileSystemItem,
                 });
             });
@@ -143,7 +140,7 @@ namespace Crosslight.GUI.Views.Explorers
                 await ViewModel.AddResultVM.Execute(new ResultItemVM()
                 {
                     Name = name,
-                    Origin = API.Lang.LanguageType.Input,
+                    Origin = API.Transformers.TransformerType.Input,
                     Result = fileSystemItem,
                 });
             });

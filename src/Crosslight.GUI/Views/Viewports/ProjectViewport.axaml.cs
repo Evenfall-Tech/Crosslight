@@ -2,17 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using Crosslight.GUI.ViewModels;
-using Crosslight.GUI.ViewModels.Explorers;
 using Crosslight.GUI.ViewModels.Viewports;
-using Crosslight.GUI.Views.Explorers;
-using Dock.Avalonia.Controls;
-using DynamicData.Binding;
 using ReactiveUI;
-using Splat;
-using System;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
 
 namespace Crosslight.GUI.Views.Viewports
 {
