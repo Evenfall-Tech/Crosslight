@@ -43,7 +43,7 @@ add_library(
 
 target_include_directories(
 	${BINARY_NAME}
-	INTERFACE "${LIBRARY_BASE_PATH}/include"
+	PUBLIC "${LIBRARY_BASE_PATH}/include"
 	PRIVATE "${LIBRARY_BASE_PATH}/private_include"
 )
 

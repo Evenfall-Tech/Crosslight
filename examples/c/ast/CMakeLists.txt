@@ -20,7 +20,7 @@ include(CheckIncludeFile)
 	
 file(
 	GLOB SOURCES
-	"${APP_BASE_PATH}/src/*.c"
+	"${APP_BASE_PATH}/src/*.cpp"
 )
 
 add_executable(
