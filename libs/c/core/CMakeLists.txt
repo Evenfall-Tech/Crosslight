@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.19.0)
 set(PROJECT_NAME "crosslight_core")
 set(BINARY_NAME "clcore")
 
-project("${PROJECT_NAME}")
+project("${PROJECT_NAME}" C)
 
 set(LIBRARY_VERSION_MAJOR 0)
 set(LIBRARY_VERSION_STRING 0.1)

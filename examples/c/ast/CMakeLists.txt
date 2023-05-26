@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.19.0)
 set(PROJECT_NAME "Example AST")
 set(BINARY_NAME "ast")
 
-project("${PROJECT_NAME}")
+project("${PROJECT_NAME}" CXX)
 
 set(APP_VERSION_STRING 0.1)
 
@@ -17,7 +17,15 @@ find_package(Threads REQUIRED)
 include(CheckIncludeFile)
 
 
-	
+
+# Locate llvm on your system
+find_package(LLVM REQUIRED CONFIG)
+
+message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
+
+
+
 file(
 	GLOB SOURCES
 	"${APP_BASE_PATH}/src/*.cpp"
@@ -28,9 +36,19 @@ add_executable(
 )
 
 target_include_directories(
-	${BINARY_NAME} PRIVATE "${APP_BASE_PATH}/"
+	${BINARY_NAME}
+	PRIVATE "${APP_BASE_PATH}/"
+	PRIVATE "${LLVM_INCLUDE_DIRS}"
 )
+
+target_compile_definitions(
+	${BINARY_NAME}
+	PRIVATE "${LLVM_DEFINITIONS}"
+)
+
+# Link against LLVM libraries
+llvm_map_components_to_libnames(llvm_libs core executionengine interpreter mc mcjit support nativecodegen)
 
 target_link_directories(${BINARY_NAME} PRIVATE "/usr/local/lib/")
 	
-target_link_libraries(${BINARY_NAME} PRIVATE "clcore")
+target_link_libraries(${BINARY_NAME} PRIVATE "clcore" ${llvm_libs})
