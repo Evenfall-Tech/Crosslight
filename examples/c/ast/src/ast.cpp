@@ -40,11 +40,19 @@
 #include "llvm/Support/Casting.h"
 #include "llvm/Support/TargetSelect.h"
 #include "llvm/Support/raw_ostream.h"
+
+#include <llvm-c/Core.h>
+#include <llvm-c/ExecutionEngine.h>
+#include <llvm-c/Target.h>
+#include <llvm-c/Analysis.h>
+#include <llvm-c/BitWriter.h>
+
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
 #include <string>
 #include <vector>
+
 #include "core/node.h"
 
 using namespace llvm;
@@ -101,6 +109,7 @@ static Function *CreateFibFunction(Module *M, LLVMContext &Context) {
 }
 
 int main(int argc, char **argv) {
+    // C++ code
     int n = argc > 1 ? atol(argv[1]) : 24;
 
     InitializeNativeTarget();
@@ -144,6 +153,67 @@ int main(int argc, char **argv) {
 
     // import result of execution
     outs() << "Result: " << GV.IntVal << "\n";
+
+    // C code
+    LLVMModuleRef mod = LLVMModuleCreateWithName("my_module");
+
+    LLVMTypeRef param_types[] = { LLVMInt32Type(), LLVMInt32Type() };
+    LLVMTypeRef ret_type = LLVMFunctionType(LLVMInt32Type(), param_types, 2, 0);
+    LLVMValueRef sum = LLVMAddFunction(mod, "sum", ret_type);
+
+    LLVMBasicBlockRef entry = LLVMAppendBasicBlock(sum, "entry");
+
+    LLVMBuilderRef builder = LLVMCreateBuilder();
+    LLVMPositionBuilderAtEnd(builder, entry);
+    LLVMValueRef tmp = LLVMBuildAdd(builder, LLVMGetParam(sum, 0), LLVMGetParam(sum, 1), "tmp");
+    LLVMBuildRet(builder, tmp);
+
+    char *error = NULL;
+    LLVMVerifyModule(mod, LLVMAbortProcessAction, &error);
+    LLVMDisposeMessage(error);
+
+    LLVMExecutionEngineRef engine;
+    error = NULL;
+    LLVMLinkInMCJIT();
+    LLVMInitializeNativeTarget();
+    if (LLVMCreateExecutionEngineForModule(&engine, mod, &error) != 0) {
+        fprintf(stderr, "failed to create execution engine\n");
+        abort();
+    }
+    if (error) {
+        fprintf(stderr, "error: %s\n", error);
+        LLVMDisposeMessage(error);
+        exit(EXIT_FAILURE);
+    }
+
+    long long x;
+    long long y;
+
+    if (argc < 3) {
+        fprintf(stderr, "usage: %s x y\n", argv[0]);
+        x = 2;
+        y = 3;
+        //exit(EXIT_FAILURE);
+    }
+    else {
+        x = strtoll(argv[1], NULL, 10);
+        y = strtoll(argv[2], NULL, 10);
+    }
+
+    LLVMGenericValueRef args[] = {
+        LLVMCreateGenericValueOfInt(LLVMInt32Type(), x, 0),
+        LLVMCreateGenericValueOfInt(LLVMInt32Type(), y, 0)
+    };
+    int(*fn)(int, int) = (int(*) (int, int)) LLVMGetFunctionAddress(engine, "sum");
+    printf("%d\n", (*fn)(x, y));
+
+    // Write out bitcode to file
+    if (LLVMWriteBitcodeToFile(mod, "sum.bc") != 0) {
+        fprintf(stderr, "error writing bitcode to file, skipping\n");
+    }
+
+    LLVMDisposeBuilder(builder);
+    LLVMDisposeExecutionEngine(engine);
 
     struct cl_node node;
 

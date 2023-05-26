@@ -47,7 +47,7 @@ target_compile_definitions(
 )
 
 # Link against LLVM libraries
-llvm_map_components_to_libnames(llvm_libs core executionengine interpreter mc mcjit support nativecodegen)
+llvm_map_components_to_libnames(llvm_libs core executionengine interpreter mc mcjit support nativecodegen analysis native bitwriter)
 
 target_link_directories(${BINARY_NAME} PRIVATE "/usr/local/lib/")
 	
