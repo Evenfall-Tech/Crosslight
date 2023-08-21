@@ -14,13 +14,14 @@ file(
 
 # set ANTLR4 JAR file path for ANTLR_TARGET command
 get_target_property(ANTLR_EXECUTABLE cl_lang target_antlr_executable)
-get_target_property(ANTLR4_INCLUDE_DIRS cl_lang target_antlr_dirs)
-add_subdirectory("grammar")
+
+ANTLR_TARGET(
+  TypescriptGrammarLexer LexerTs.g4 LEXER
+  PACKAGE cl::lang::typescript)
 
 add_executable(
   ${BINARY_NAME} src/main.cpp
-  ${TypescriptGrammarLexer_CXX_OUTPUTS})
+  ${ANTLR_TypescriptGrammarLexer_CXX_OUTPUTS})
 
-add_dependencies(${BINARY_NAME} cl_lang_ts_grammar)
 target_link_libraries(${BINARY_NAME} PRIVATE cl_lang)
-target_include_directories(${BINARY_NAME} PRIVATE ${ANTLR4_INCLUDE_DIRS} ${TypescriptGrammarLexer_OUTPUT_DIR})
+target_include_directories(${BINARY_NAME} PRIVATE ${ANTLR_TypescriptGrammarLexer_OUTPUT_DIR})

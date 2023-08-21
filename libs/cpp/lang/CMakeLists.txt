@@ -40,8 +40,9 @@ add_library(
   ${BINARY_NAME} INTERFACE)
 
 target_link_libraries(${BINARY_NAME} INTERFACE antlr4_static)
-target_include_directories(${BINARY_NAME} INTERFACE "${PROJECT_SOURCE_DIR}/include")
+target_include_directories(${BINARY_NAME} INTERFACE
+  "${PROJECT_SOURCE_DIR}/include"
+  ${ANTLR4_INCLUDE_DIRS})
 set_target_properties(
   ${BINARY_NAME} PROPERTIES
-  target_antlr_executable ${ANTLR_EXECUTABLE}
-  target_antlr_dirs "${ANTLR4_INCLUDE_DIRS}")
+  target_antlr_executable ${ANTLR_EXECUTABLE})
