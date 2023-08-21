@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
 
 set(PROJECT_NAME "crosslight_lang")
-set(BINARY_NAME "cllang")
+set(BINARY_NAME "cl_lang")
 
 project("${PROJECT_NAME}")
 
@@ -35,18 +35,13 @@ set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/antlr/antlr-4.13.0-compl
 # add macros to generate ANTLR Cpp code from grammar
 find_package(ANTLR REQUIRED)
 
-# generate lexer and parser implementations in the subdirectory
-add_subdirectory("grammar")
-
-# include generated files in project environment
-include_directories(${SampleGrammarLexer_OUTPUT_DIR})
-include_directories(${SampleGrammarParser_OUTPUT_DIR})
-
 # add generated grammar to demo binary target
-add_executable(
-  ${BINARY_NAME} src/main.cpp
-  ${SampleGrammarLexer_CXX_OUTPUTS}
-  ${SampleGrammarParser_CXX_OUTPUTS})
+add_library(
+  ${BINARY_NAME} INTERFACE)
 
-add_dependencies(${BINARY_NAME} samplegrammar)
-target_link_libraries(${BINARY_NAME} antlr4_static)
+target_link_libraries(${BINARY_NAME} INTERFACE antlr4_static)
+target_include_directories(${BINARY_NAME} INTERFACE "${PROJECT_SOURCE_DIR}/include")
+set_target_properties(
+  ${BINARY_NAME} PROPERTIES
+  target_antlr_executable ${ANTLR_EXECUTABLE}
+  target_antlr_dirs "${ANTLR4_INCLUDE_DIRS}")

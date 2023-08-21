@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.19.0)
 set(PROJECT_NAME "Example AST")
 set(BINARY_NAME "ast")
 
-project("${PROJECT_NAME}" CXX)
+project("${PROJECT_NAME}" LANGUAGES CXX)
 
 set(APP_VERSION_STRING 0.1)
 

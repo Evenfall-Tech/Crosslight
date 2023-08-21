@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19.0)
 
 set(PROJECT_NAME "crosslight_core")
-set(BINARY_NAME "clcore")
+set(BINARY_NAME "cl_core")
 
 project("${PROJECT_NAME}" C)
 
