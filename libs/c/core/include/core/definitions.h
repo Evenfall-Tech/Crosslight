@@ -1,3 +1,4 @@
 #pragma once
 
-#define EXPORT __attribute__((__visibility__("default")))
+#include "core/def_platforms.h"
+#include "core/def_visibility.h"

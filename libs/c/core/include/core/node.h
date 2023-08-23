@@ -13,4 +13,6 @@ struct cl_node {
     size_t child_count;
 };
 
-size_t EXPORT cl_node_append(struct cl_node* parent, struct cl_node* child);
+CL_C_DECL
+size_t
+cl_node_append(struct cl_node* parent, struct cl_node* child);

@@ -1,8 +1,16 @@
 #include <iostream>
 
+#include "core/language.h"
+
 #include "antlr4-runtime.h"
 #include "LexerTs.h"
 //#include "TParser.h"
+
+CL_RESULT
+language_init() {
+  printf("HELLO");
+  return 0;
+}
 
 using namespace cl::lang::typescript;
 using namespace antlr4;

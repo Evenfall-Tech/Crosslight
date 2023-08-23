@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
 set(PROJECT_NAME "crosslight_lang")
 set(BINARY_NAME "cl_lang")
 
-project("${PROJECT_NAME}")
+project("${PROJECT_NAME}" CXX)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -37,12 +37,22 @@ find_package(ANTLR REQUIRED)
 
 # add generated grammar to demo binary target
 add_library(
-  ${BINARY_NAME} INTERFACE)
+    ${BINARY_NAME} INTERFACE
+    "${PROJECT_SOURCE_DIR}/include/lang/plugin.hpp"
+)
 
-target_link_libraries(${BINARY_NAME} INTERFACE antlr4_static)
+target_link_libraries(${BINARY_NAME} INTERFACE antlr4_shared cl_core)
 target_include_directories(${BINARY_NAME} INTERFACE
-  "${PROJECT_SOURCE_DIR}/include"
-  ${ANTLR4_INCLUDE_DIRS})
+    "${PROJECT_SOURCE_DIR}/include"
+    ${ANTLR4_INCLUDE_DIRS}
+)
 set_target_properties(
-  ${BINARY_NAME} PROPERTIES
-  target_antlr_executable ${ANTLR_EXECUTABLE})
+    ${BINARY_NAME} PROPERTIES
+    target_antlr_executable ${ANTLR_EXECUTABLE}
+    target_antlr_libraries "${ANTLR4_RUNTIME_LIBRARIES}"
+)
+
+#add_custom_command(TARGET ${BINARY_NAME}
+#    POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy ${ANTLR4_RUNTIME_LIBRARIES} .
+#    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

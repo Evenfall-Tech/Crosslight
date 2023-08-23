@@ -27,23 +27,23 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
 
 file(
-	GLOB SOURCES
-	"${APP_BASE_PATH}/src/*.cpp"
+    GLOB SOURCES
+    "${APP_BASE_PATH}/src/*.cpp"
 )
 
 add_executable(
-	${BINARY_NAME} ${SOURCES}
+    ${BINARY_NAME} ${SOURCES}
 )
 
 target_include_directories(
-	${BINARY_NAME}
-	PRIVATE "${APP_BASE_PATH}/"
-	PRIVATE "${LLVM_INCLUDE_DIRS}"
+    ${BINARY_NAME}
+    PRIVATE "${APP_BASE_PATH}/"
+    PRIVATE "${LLVM_INCLUDE_DIRS}"
 )
 
 target_compile_definitions(
-	${BINARY_NAME}
-	PRIVATE "${LLVM_DEFINITIONS}"
+    ${BINARY_NAME}
+    PRIVATE "${LLVM_DEFINITIONS}"
 )
 
 # Link against LLVM libraries
