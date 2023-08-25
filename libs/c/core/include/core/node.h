@@ -1,18 +1,14 @@
 #pragma once
 
 #include <stdlib.h>
-#include "core/definitions.h"
 
 /**
  * @brief Base type for language node trees.
-*/
+ */
 struct cl_node {
     void* payload; /**< Payload node containing specialized fields. */
-    struct cl_node* parent; /**< Parent of the current node. Used only for faster traversing. */
-    struct cl_node* children;
-    size_t child_count;
+    size_t payload_type; /**< Type of the payload contained in this node. */
+    struct cl_node* parent; /**< Parent of the current node. Used for faster traversing. */
+    struct cl_node* children; /**< Children of the current node. */
+    size_t child_count; /**< Number of children the current node has. */
 };
-
-CL_C_DECL
-size_t
-cl_node_append(struct cl_node* parent, struct cl_node* child);

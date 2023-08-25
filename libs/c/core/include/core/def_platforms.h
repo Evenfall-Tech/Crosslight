@@ -1,7 +1,16 @@
-#pragma once
-
-/* Using information from https://sourceforge.net/p/predef/wiki/OperatingSystems/
+/**
+ * @file def_platforms.h
+ * @version 1
+ * @brief Pre-defined Compiler Macros Wiki
+ * @link https://github.com/cpredef/predef
+ * 
+ * @author Alibek Omarov <a1ba.omarov@gmail.com>
+ * @copyright (c) 2022 Alibek Omarov
+ *
+ * This library is released under CC-BY 4.0 <https://creativecommons.org/licenses/by/4.0/> license
  */
+
+#pragma once
 
 #if defined(_WIN32) || defined(__WIN32__) || \
     defined(__TOS_WIN__) || defined(__WINDOWS__) || \

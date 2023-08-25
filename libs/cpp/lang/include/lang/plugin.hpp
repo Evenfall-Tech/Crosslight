@@ -96,13 +96,13 @@ public:
     plugin(const plugin&) = delete;
     plugin& operator=(const plugin&) = delete;
 
-    plugin(plugin &&other) noexcept : m_handle(other.m_handle) {
-        other.m_handle = nullptr;
+    plugin(plugin &&other) noexcept : _handle(other._handle) {
+        other._handle = nullptr;
     }
 
     plugin& operator=(plugin &&other) noexcept {
         if (this != &other)
-            std::swap(m_handle, other.m_handle);
+            std::swap(_handle, other._handle);
         return *this;
     }
 
@@ -130,9 +130,9 @@ public:
         if (!final_path.empty() && final_path.find_last_of('/') != final_path.size() - 1)
             final_path += '/';
 
-        m_handle = open((final_path + final_name).c_str());
+        _handle = open((final_path + final_name).c_str());
 
-        if (!m_handle)
+        if (!_handle)
             throw load_error("Could not load library \"" + final_path + final_name + "\"\n" + get_error_description());
     }
 
@@ -164,8 +164,8 @@ public:
     ///@}
 
     ~plugin() {
-        if (m_handle)
-            close(m_handle);
+        if (_handle)
+            close(_handle);
     }
 
     /**
@@ -180,10 +180,10 @@ public:
     native_symbol_type get_symbol(const char *symbol_name) const {
         if (!symbol_name)
             throw std::invalid_argument("Null parameter");
-        if (!m_handle)
+        if (!_handle)
             throw std::logic_error("The dynamic library handle is null");
 
-        auto symbol = locate_symbol(m_handle, symbol_name);
+        auto symbol = locate_symbol(_handle, symbol_name);
 
         if (symbol == nullptr)
             throw symbol_error("Could not get symbol \"" + std::string(symbol_name) + "\"\n" + get_error_description());
@@ -206,13 +206,13 @@ public:
      */
     template<typename T>
     T *get_function(const char *symbol_name) const {
-#if (defined(__GNUC__) && __GNUC__ >= 8)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-function-type"
+#if HEDLEY_GNUC_VERSION_CHECK(8, 0, 0)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wcast-function-type"
 #endif
         return reinterpret_cast<T *>(get_symbol(symbol_name));
-#if (defined(__GNUC__) && __GNUC__ >= 8)
-#pragma GCC diagnostic pop
+#if HEDLEY_GNUC_VERSION_CHECK(8, 0, 0)
+#  pragma GCC diagnostic pop
 #endif
     }
 
@@ -251,9 +251,9 @@ public:
      *  @return true if the symbol exists in the dynamic library, false otherwise
      */
     bool has_symbol(const char *symbol_name) const noexcept {
-        if (!m_handle || !symbol_name)
+        if (!_handle || !symbol_name)
             return false;
-        return locate_symbol(m_handle, symbol_name) != nullptr;
+        return locate_symbol(_handle, symbol_name) != nullptr;
     }
 
     bool has_symbol(const std::string &symbol) const noexcept {
@@ -264,14 +264,14 @@ public:
      *  @return the dynamic library handle
      */
     native_handle_type native_handle() noexcept {
-        return m_handle;
+        return _handle;
     }
 
 protected:
-    native_handle_type m_handle{nullptr};
+    native_handle_type _handle{nullptr};
 
     static native_handle_type open(const char *path) noexcept {
-#if (defined(_WIN32) || defined(_WIN64))
+#if CL_WINDOWS == 1
         return LoadLibraryA(path);
 #else
         return dlopen(path, RTLD_NOW | RTLD_LOCAL);
@@ -287,7 +287,7 @@ protected:
     }
 
     static std::string get_error_description() noexcept {
-#if (defined(_WIN32) || defined(_WIN64))
+#if CL_WINDOWS == 1
         constexpr const size_t buf_size = 512;
         auto error_code = GetLastError();
         if (!error_code)

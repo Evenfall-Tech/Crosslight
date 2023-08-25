@@ -39,6 +39,7 @@ find_package(ANTLR REQUIRED)
 add_library(
     ${BINARY_NAME} INTERFACE
     "${PROJECT_SOURCE_DIR}/include/lang/plugin.hpp"
+    "${PROJECT_SOURCE_DIR}/include/lang/config.hpp"
 )
 
 target_link_libraries(${BINARY_NAME} INTERFACE antlr4_shared cl_core)

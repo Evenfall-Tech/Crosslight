@@ -3,9 +3,9 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/libs/c/core/include/**",
-                "${workspaceFolder}/libs/c/core/private_include/**"
-                "${workspaceFolder}/libs/cpp/lang/include/**",
+                "${workspaceFolder}/libs/c/core/private_include",
+                "${workspaceFolder}/libs/cpp/lang/include",
+                "${workspaceFolder}/libs/c/core/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
@@ -17,9 +17,9 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/libs/c/core/include/**",
-                "${workspaceFolder}/libs/c/core/private_include/**"
-                "${workspaceFolder}/libs/cpp/lang/include/**",
+                "${workspaceFolder}/libs/c/core/include",
+                "${workspaceFolder}/libs/c/core/private_include",
+                "${workspaceFolder}/libs/cpp/lang/include"
             ],
             "defines": [],
             "macFrameworkPath": [

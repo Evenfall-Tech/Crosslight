@@ -16,10 +16,11 @@ set(LIBRARY_BASE_PATH "${PROJECT_SOURCE_DIR}")
 
 set(PUBLIC_SOURCES_FILES
     "${LIBRARY_BASE_PATH}/src/node.c"
+    "${LIBRARY_BASE_PATH}/src/config.c"
 )
 
 set(PRIVATE_SOURCES_FILES
-    "${LIBRARY_BASE_PATH}/private_src/priv.c"
+    "${LIBRARY_BASE_PATH}/private_src/utils.c"
 )
 
 set(PUBLIC_HEADERS_FILES
@@ -27,17 +28,21 @@ set(PUBLIC_HEADERS_FILES
     "${LIBRARY_BASE_PATH}/include/core/def_utils.h"
     "${LIBRARY_BASE_PATH}/include/core/def_visibility.h"
     "${LIBRARY_BASE_PATH}/include/core/definitions.h"
+    "${LIBRARY_BASE_PATH}/include/core/message.h"
+    "${LIBRARY_BASE_PATH}/include/core/resource.h"
+    "${LIBRARY_BASE_PATH}/include/core/result.h"
+    "${LIBRARY_BASE_PATH}/include/core/config.h"
     "${LIBRARY_BASE_PATH}/include/core/node.h"
 )
 
 set(PRIVATE_HEADERS_FILES
-    "${LIBRARY_BASE_PATH}/private_include/core/priv.h"
+    "${LIBRARY_BASE_PATH}/private_include/core/utils.h"
 )
 
 # set(CMAKE_C_VISIBILITY_PRESET hidden)
 
 add_library(
-    ${BINARY_NAME} STATIC
+    ${BINARY_NAME} SHARED
     ${PUBLIC_SOURCES_FILES}
     ${PRIVATE_SOURCES_FILES}
     ${PUBLIC_HEADERS_FILES}
