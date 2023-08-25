@@ -23,6 +23,8 @@ CL_C_DECL struct cl_config* cl_config_new();
  * 
  * @param[in] config Config instance to delete.
  * @return `0` if deletion failed, `1` otherwise.
+ * 
+ * @todo Free all items inside config.
  */
 CL_C_DECL size_t cl_config_delete(struct cl_config* config);
 

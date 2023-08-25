@@ -31,6 +31,16 @@ cl_config_delete(struct cl_config* config) {
         return 1;
     }
 
+    if (config->items != 0 && config->item_count > 0) {
+        for (size_t i = 0; i < config->item_count; ++i) {
+            free(config->items[i].key);
+            free(config->items[i].value);
+        }
+
+        config->item_count = 0;
+        free(config->items);
+    }
+
     free(config);
 
     return 1;
