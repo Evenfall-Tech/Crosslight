@@ -15,22 +15,19 @@ file(
 add_executable(
     ${BINARY_NAME} ${SOURCES}
 )
+
 target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang)
+
 add_dependencies(${BINARY_NAME} cl_lang_ts)
+
 set_target_properties(
     ${BINARY_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CL_BINARY_DIR}/examples"
+    RUNTIME_OUTPUT_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
 )
 
-file(
-    GLOB RUNTIME_MODULES
-    "${CL_BINARY_DIR}/bin/*.so"
-    "${CL_BINARY_DIR}/bin/*.dylib"
-    "${CL_BINARY_DIR}/bin/*.dll"
-)
 add_custom_command(
     TARGET ${BINARY_NAME}
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${RUNTIME_MODULES} .
-    WORKING_DIRECTORY "${CL_BINARY_DIR}/examples"
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cl_core> $<TARGET_FILE:cl_lang_ts> .
+    WORKING_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
 )

@@ -46,6 +46,11 @@ target_compile_definitions(
     PRIVATE "${LLVM_DEFINITIONS}"
 )
 
+set_target_properties(
+    ${BINARY_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
+)
+
 # Link against LLVM libraries
 llvm_map_components_to_libnames(llvm_libs core executionengine interpreter mc mcjit support nativecodegen analysis native bitwriter)
 

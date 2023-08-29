@@ -5,8 +5,8 @@ set(BINARY_NAME "cl_core")
 
 project("${PROJECT_NAME}" C)
 
-set(LIBRARY_VERSION_MAJOR 0)
-set(LIBRARY_VERSION_STRING 0.1)
+set(LIBRARY_VERSION_MAJOR ${CL_VERSION_MAJOR})
+set(LIBRARY_VERSION_STRING ${CL_VERSION_STRING})
 
 include(GNUInstallDirs)
 
@@ -63,7 +63,7 @@ set_target_properties(
     target_lang   "${LIBRARY_BASE_PATH}/include/core/language.h"
 )
 
-
+file(GENERATE OUTPUT "log.txt" CONTENT "$<TARGET_FILE:${BINARY_NAME}>")
 # TODO: add definitions.
 #target_compile_options(${BINARY_NAME} PRIVATE "-g")
 
