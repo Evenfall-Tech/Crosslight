@@ -28,6 +28,6 @@ set_target_properties(
 add_custom_command(
     TARGET ${BINARY_NAME}
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cl_core> $<TARGET_FILE:cl_lang_ts> .
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cl_core> $<TARGET_FILE:cl_lang_typescript> .
     WORKING_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
 )

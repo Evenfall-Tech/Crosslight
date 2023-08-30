@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19.0)
 
-set(PROJECT_NAME "crosslight_lang_ts")
-set(BINARY_NAME "cl_lang_ts")
+set(PROJECT_NAME "crosslight_lang_typescript")
+set(BINARY_NAME "cl_lang_typescript")
 
 project("${PROJECT_NAME}" LANGUAGES CXX)
 

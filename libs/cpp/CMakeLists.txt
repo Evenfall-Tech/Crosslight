@@ -1,2 +1,2 @@
 add_subdirectory("lang")
-add_subdirectory("lang_ts")
+add_subdirectory("lang_typescript")
