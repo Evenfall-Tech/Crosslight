@@ -1,3 +1,5 @@
+# Based on commit https://github.com/antlr/grammars-v4/commit/6590fdd07b9fa1b4a66025c8315ee2c93bbcbe7d
+
 cmake_minimum_required(VERSION 3.19.0)
 
 set(PROJECT_NAME "crosslight_lang_typescript")
@@ -24,17 +26,31 @@ ANTLR_TARGET(
     PACKAGE cl::lang::typescript
 )
 
+ANTLR_TARGET(
+    TypescriptGrammarParser ParserTs.g4 PARSER
+    PACKAGE cl::lang::typescript
+    DEPENDS_ANTLR TypescriptGrammarLexer
+    COMPILE_FLAGS -lib ${ANTLR_TypescriptGrammarLexer_OUTPUT_DIR}
+)
+
 add_library(
     ${BINARY_NAME} MODULE
-    src/main.cpp
     ${LANG_API}
     ${ANTLR_TypescriptGrammarLexer_CXX_OUTPUTS}
+    ${ANTLR_TypescriptGrammarParser_CXX_OUTPUTS}
+    src/main.cpp
+    src/LexerTsBase.cpp
+    private_include/lang_typescript/LexerTsBase.hpp
+    src/ParserTsBase.cpp
+    private_include/lang_typescript/ParserTsBase.hpp
 )
 
 target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang)
 
 target_include_directories(${BINARY_NAME} PRIVATE
     ${ANTLR_TypescriptGrammarLexer_OUTPUT_DIR}
+    ${ANTLR_TypescriptGrammarParser_OUTPUT_DIR}
+    "${CMAKE_CURRENT_SOURCE_DIR}/private_include"
 )
 
 set_target_properties(

@@ -18,7 +18,7 @@ add_executable(
 
 target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang)
 
-add_dependencies(${BINARY_NAME} cl_lang_ts)
+add_dependencies(${BINARY_NAME} cl_lang_typescript)
 
 set_target_properties(
     ${BINARY_NAME} PROPERTIES

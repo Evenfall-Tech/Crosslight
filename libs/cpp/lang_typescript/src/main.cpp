@@ -1,21 +1,17 @@
 #include <iostream>
+#include <memory>
 
 #include "core/language.h"
 
 #include "antlr4-runtime.h"
 #include "LexerTs.h"
-//#include "TParser.h"
-
-CL_RESULT
-language_init() {
-  printf("HELLO");
-  return 0;
-}
+#include "ParserTs.h"
 
 using namespace cl::lang::typescript;
 using namespace antlr4;
 
-int main(int , const char **) {
+CL_RESULT
+language_init() {
   ANTLRInputStream input(u8"//hello world");
   LexerTs lexer(&input);
   CommonTokenStream tokens(&lexer);
@@ -31,10 +27,9 @@ int main(int , const char **) {
     }
   }
 
-  /*TParser parser(&tokens);
-  tree::ParseTree* tree = parser.main();
+  ParserTs parser(&tokens);
+  tree::ParseTree* tree = parser.program();
 
-  std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;*/
-
+  std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
   return 0;
 }

@@ -6,18 +6,22 @@ options {
     superClass=LexerTsBase;
 }
 
+@header {
+    #include "lang_typescript/LexerTsBase.hpp"
+}
 
-MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
-SingleLineComment:              '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
-RegularExpressionLiteral:       '/' RegularExpressionFirstChar RegularExpressionChar* {this.IsRegexPossible()}? '/' IdentifierPart*;
+
+MultiLineComment:               '/*' .*? '*/'             ;//-> channel(HIDDEN);
+SingleLineComment:              '//' ~[\r\n\u2028\u2029]* ;//-> channel(HIDDEN);
+RegularExpressionLiteral:       '/' RegularExpressionFirstChar RegularExpressionChar* {IsRegexPossible()}? '/' IdentifierPart*;
 
 OpenBracket:                    '[';
 CloseBracket:                   ']';
 OpenParen:                      '(';
 CloseParen:                     ')';
-OpenBrace:                      '{' {this.ProcessOpenBrace();};
-TemplateCloseBrace:             {this.IsInTemplateString()}? '}' -> popMode;
-CloseBrace:                     '}' {this.ProcessCloseBrace();};
+OpenBrace:                      '{' {ProcessOpenBrace();};
+TemplateCloseBrace:             {IsInTemplateString()}? '}' -> popMode;
+CloseBrace:                     '}' {ProcessCloseBrace();};
 SemiColon:                      ';';
 Comma:                          ',';
 Assign:                         '=';
@@ -82,7 +86,7 @@ DecimalLiteral:                 DecimalIntegerLiteral '.' [0-9]* ExponentPart?
 /// Numeric Literals
 
 HexIntegerLiteral:              '0' [xX] HexDigit+;
-OctalIntegerLiteral:            '0' [0-7]+ {!this.IsStrictMode()}?;
+OctalIntegerLiteral:            '0' [0-7]+ {!IsStrictMode()}?;
 OctalIntegerLiteral2:           '0' [oO] [0-7]+;
 BinaryIntegerLiteral:           '0' [bB] [01]+;
 
@@ -177,27 +181,27 @@ Identifier:                     IdentifierStart IdentifierPart*;
 
 /// String Literals
 StringLiteral:                 ('"' DoubleStringCharacter* '"'
-             |                  '\'' SingleStringCharacter* '\'') {this.ProcessStringLiteral();}
+             |                  '\'' SingleStringCharacter* '\'') {ProcessStringLiteral();}
              ;
 
-BackTick:                       '`' {this.IncreaseTemplateDepth();} -> pushMode(TEMPLATE);
+BackTick:                       '`' {IncreaseTemplateDepth();} -> pushMode(TEMPLATE);
 
-WhiteSpaces:                    [\t\u000B\u000C\u0020\u00A0]+ -> channel(HIDDEN);
+WhiteSpaces:                    [\t\u000B\u000C\u0020\u00A0]+ ;//-> channel(HIDDEN);
 
-LineTerminator:                 [\r\n\u2028\u2029] -> channel(HIDDEN);
+LineTerminator:                 [\r\n\u2028\u2029] ;//-> channel(HIDDEN);
 
 /// Comments
 
 
-HtmlComment:                    '<!--' .*? '-->' -> channel(HIDDEN);
-CDataComment:                   '<![CDATA[' .*? ']]>' -> channel(HIDDEN);
+HtmlComment:                    '<!--' .*? '-->' ;//-> channel(HIDDEN);
+CDataComment:                   '<![CDATA[' .*? ']]>' ;//-> channel(HIDDEN);
 UnexpectedCharacter:            . -> channel(ERROR);
 
 mode TEMPLATE;
 
 TemplateStringEscapeAtom:       '\\' .;
-BackTickInside:                 '`' {this.DecreaseTemplateDepth();} -> type(BackTick), popMode;
-TemplateStringStartExpression:  '${' {this.StartTemplateString();} -> pushMode(DEFAULT_MODE);
+BackTickInside:                 '`' {DecreaseTemplateDepth();} -> type(BackTick), popMode;
+TemplateStringStartExpression:  '${' {StartTemplateString();} -> pushMode(DEFAULT_MODE);
 TemplateStringAtom:             ~[`\\];
 
 // Fragment rules
