@@ -707,8 +707,6 @@ singleExpression
     | '(' expressionSequence ')'                                             # ParenthesizedExpression
     | typeArguments expressionSequence?                                      # GenericTypes
     | singleExpression As asExpression                                       # CastAsExpression
-    | MultiLineComment                                                       # MultiLineCommentExpression
-    | SingleLineComment                                                      # SingleLineCommentExpression
     ;
 
 asExpression

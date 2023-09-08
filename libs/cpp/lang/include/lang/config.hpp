@@ -59,4 +59,4 @@ private:
     struct cl_config* _handle;
 };
 
-}
+} // namespace cl::lang

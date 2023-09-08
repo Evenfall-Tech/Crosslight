@@ -27,7 +27,7 @@ ANTLR_TARGET(
 )
 
 ANTLR_TARGET(
-    TypescriptGrammarParser ParserTs.g4 PARSER
+    TypescriptGrammarParser ParserTs.g4 PARSER VISITOR
     PACKAGE cl::lang::typescript
     DEPENDS_ANTLR TypescriptGrammarLexer
     COMPILE_FLAGS -lib ${ANTLR_TypescriptGrammarLexer_OUTPUT_DIR}
@@ -35,14 +35,17 @@ ANTLR_TARGET(
 
 add_library(
     ${BINARY_NAME} MODULE
-    ${LANG_API}
-    ${ANTLR_TypescriptGrammarLexer_CXX_OUTPUTS}
-    ${ANTLR_TypescriptGrammarParser_CXX_OUTPUTS}
-    src/main.cpp
     src/LexerTsBase.cpp
     private_include/lang_typescript/LexerTsBase.hpp
     src/ParserTsBase.cpp
     private_include/lang_typescript/ParserTsBase.hpp
+    ${ANTLR_TypescriptGrammarLexer_CXX_OUTPUTS}
+    ${ANTLR_TypescriptGrammarParser_CXX_OUTPUTS}
+    
+    ${LANG_API}
+    src/main.cpp
+    private_include/lang_typescript/language.hpp
+    src/language.cpp
 )
 
 target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang)

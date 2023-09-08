@@ -45,8 +45,8 @@
 namespace cl::lang {
 
 /**
- *  The plugin class can hold a dynamic library instance and interact with it 
- *  by getting its symbols like functions or global variables
+ *  @brief The plugin class can hold a dynamic library instance and interact with it 
+ *  by getting its symbols like functions or global variables.
  */
 class plugin {
 public:
@@ -304,7 +304,7 @@ protected:
     }
 };
 
-}
+} // namespace cl::lang
 
 #undef DYLIB_WIN_MAC_OTHER
 #undef DYLIB_WIN_OTHER

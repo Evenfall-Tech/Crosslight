@@ -12,7 +12,12 @@ using namespace antlr4;
 
 CL_RESULT
 language_init() {
-  ANTLRInputStream input(u8"//hello world");
+  ANTLRInputStream input(
+    u8"export interface IVector {"
+    u8"data: byte[];"
+    u8"length: size;"
+    u8"}"
+    );
   LexerTs lexer(&input);
   CommonTokenStream tokens(&lexer);
 

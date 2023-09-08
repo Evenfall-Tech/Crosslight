@@ -11,8 +11,8 @@ options {
 }
 
 
-MultiLineComment:               '/*' .*? '*/'             ;//-> channel(HIDDEN);
-SingleLineComment:              '//' ~[\r\n\u2028\u2029]* ;//-> channel(HIDDEN);
+MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
+SingleLineComment:              '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
 RegularExpressionLiteral:       '/' RegularExpressionFirstChar RegularExpressionChar* {IsRegexPossible()}? '/' IdentifierPart*;
 
 OpenBracket:                    '[';
@@ -186,15 +186,15 @@ StringLiteral:                 ('"' DoubleStringCharacter* '"'
 
 BackTick:                       '`' {IncreaseTemplateDepth();} -> pushMode(TEMPLATE);
 
-WhiteSpaces:                    [\t\u000B\u000C\u0020\u00A0]+ ;//-> channel(HIDDEN);
+WhiteSpaces:                    [\t\u000B\u000C\u0020\u00A0]+ -> channel(HIDDEN);
 
-LineTerminator:                 [\r\n\u2028\u2029] ;//-> channel(HIDDEN);
+LineTerminator:                 [\r\n\u2028\u2029] -> channel(HIDDEN);
 
 /// Comments
 
 
-HtmlComment:                    '<!--' .*? '-->' ;//-> channel(HIDDEN);
-CDataComment:                   '<![CDATA[' .*? ']]>' ;//-> channel(HIDDEN);
+HtmlComment:                    '<!--' .*? '-->' -> channel(HIDDEN);
+CDataComment:                   '<![CDATA[' .*? ']]>' -> channel(HIDDEN);
 UnexpectedCharacter:            . -> channel(ERROR);
 
 mode TEMPLATE;
