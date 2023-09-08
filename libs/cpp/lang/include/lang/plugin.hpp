@@ -27,7 +27,7 @@
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
 #  undef WIN32_LEAN_AND_MEAN
-#elif CL_UNIX == 1
+#elif CL_UNIX == 1 || CL_MACOS == 1
 #  include <dlfcn.h>
 #endif
 
@@ -52,7 +52,7 @@ class plugin {
 public:
     struct filename_components {
         static constexpr const char *prefix = DYLIB_WIN_OTHER("", "lib");
-        static constexpr const char *suffix = DYLIB_WIN_MAC_OTHER(".dll", ".dylib", ".so");
+        static constexpr const char *suffix = DYLIB_WIN_OTHER(".dll", ".so");
     };
     using native_handle_type = DYLIB_WIN_OTHER(HINSTANCE, void *);
     using native_symbol_type = DYLIB_WIN_OTHER(FARPROC, void *);

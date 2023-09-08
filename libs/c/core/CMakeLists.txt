@@ -57,10 +57,12 @@ target_include_directories(
 
 set_target_properties(
     ${BINARY_NAME} PROPERTIES
-    VERSION	      ${LIBRARY_VERSION_STRING}
-    SOVERSION     ${LIBRARY_VERSION_MAJOR}
-    PUBLIC_HEADER "${PUBLIC_HEADERS_FILES}"
-    target_lang   "${LIBRARY_BASE_PATH}/include/core/language.h"
+    VERSION	            ${LIBRARY_VERSION_STRING}
+    SOVERSION           ${LIBRARY_VERSION_MAJOR}
+    C_STANDARD          17
+    C_STANDARD_REQUIRED ON
+    PUBLIC_HEADER       "${PUBLIC_HEADERS_FILES}"
+    target_lang         "${LIBRARY_BASE_PATH}/include/core/language.h"
 )
 
 file(GENERATE OUTPUT "log.txt" CONTENT "$<TARGET_FILE:${BINARY_NAME}>")

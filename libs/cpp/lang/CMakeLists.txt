@@ -49,8 +49,10 @@ target_include_directories(${BINARY_NAME} INTERFACE
 )
 set_target_properties(
     ${BINARY_NAME} PROPERTIES
+    CXX_STANDARD            17
+    CXX_STANDARD_REQUIRED   ON
     target_antlr_executable ${ANTLR_EXECUTABLE}
-    target_antlr_libraries "${ANTLR4_RUNTIME_LIBRARIES}"
+    target_antlr_libraries  "${ANTLR4_RUNTIME_LIBRARIES}"
 )
 
 #add_custom_command(TARGET ${BINARY_NAME}

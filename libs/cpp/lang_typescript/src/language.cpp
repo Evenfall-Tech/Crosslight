@@ -19,3 +19,11 @@ std::unique_ptr<tree::ParseTree> language::parse_source(const std::unique_ptr<cl
         // Given type is supported.
     }
 }
+
+const std::set<const char*>& language::resource_types_input() {
+    return _types_input;
+}
+
+const std::set<const char*>& language::resource_types_output() {
+    return _types_output;
+}
