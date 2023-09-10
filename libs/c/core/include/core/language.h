@@ -51,4 +51,4 @@ CL_C_DECL const struct cl_resource_types* language_resource_types_output(const v
  * @param[in] types Types instance to delete.
  * @return `0` if deletion failed, `1` otherwise.
  */
-CL_C_DECL size_t cl_resource_types_term(const void* context, const struct cl_resource_types* types);
+CL_C_DECL size_t language_resource_types_term(const void* context, const struct cl_resource_types* types);

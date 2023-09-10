@@ -83,7 +83,7 @@ language_resource_types_output(const void* context) {
 }
 
 size_t
-cl_resource_types_term(const void* context, const struct cl_resource_types* types) {
+language_resource_types_term(const void* context, const struct cl_resource_types* types) {
     if (context == 0) {
         return 0;
     }
