@@ -14,8 +14,12 @@ int main(int argc, char **argv) {
 
     cl::lang::plugin lib("./", "cl_lang_typescript");
 
-    auto init = lib.get_function<int()>("language_init");
-    std::cout << init() << std::endl;
+    auto init = lib.get_function<void*(const struct cl_config*)>("language_init");
+    auto term = lib.get_function<std::size_t(const void*)>("language_term");
+
+    void* lang = init(config->handle_get());
+    std::cout << lang << std::endl;
+    term(lang);
 
     return 0;
 }

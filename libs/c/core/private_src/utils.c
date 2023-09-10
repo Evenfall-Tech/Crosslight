@@ -9,7 +9,7 @@ cl_utils_string_duplicate(const char* value) {
     }
 
     size_t length = strlen(value);
-    char* result = malloc(length);
+    char* result = malloc(length + 1);
 
     if (result == 0) {
         return 0;

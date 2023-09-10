@@ -14,8 +14,8 @@ class language : public cl::lang::language {
 public:
     language();
     std::unique_ptr<cl_node> parse_source(const std::unique_ptr<cl_resource>& resource);
-    virtual const std::set<const char*>& resource_types_input() override;
-    virtual const std::set<const char*>& resource_types_output() override;
+    virtual const std::set<const char*>& resource_types_input() const override;
+    virtual const std::set<const char*>& resource_types_output() const override;
 private:
     std::set<const char*> _types_input;
     std::set<const char*> _types_output;

@@ -32,6 +32,7 @@ add_library(
     ${BINARY_NAME} SHARED
     ${PUBLIC_HEADERS_FILES}
     "${LIBRARY_BASE_PATH}/src/language.cpp"
+    "${LIBRARY_BASE_PATH}/src/config.cpp"
 )
 
 target_link_libraries(
@@ -54,10 +55,10 @@ set_target_properties(
     target_antlr_libraries  "${ANTLR4_RUNTIME_LIBRARIES}"
 )
 
-#add_custom_command(TARGET ${BINARY_NAME}
-#    POST_BUILD
-#    COMMAND ${CMAKE_COMMAND} -E copy ${ANTLR4_RUNTIME_LIBRARIES} .
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_custom_command(TARGET ${BINARY_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${ANTLR4_RUNTIME_LIBRARIES} .
+    WORKING_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
 install(
     TARGETS ${BINARY_NAME}

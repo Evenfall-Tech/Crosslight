@@ -16,6 +16,7 @@ The following is the directory structure inside a typical `build` or `out` build
 #### c/core
 
 The core Crosslight interface with definitions for nodes, languages, etc.
+All structures from the C libraries need to be allocated with malloc, because users may delete them with free.
 
 > **Note:**
 - Defines target property `target_lang` pointing to the language declaration header file.

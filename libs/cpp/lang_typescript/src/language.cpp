@@ -47,6 +47,9 @@ language::parse_source(const std::unique_ptr<cl_resource>& resource) {
 
             //std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
 
+            auto* types = cl_resource_types_input();
+            cl_resource_types_term(types);
+
             return {};
         }
     }
@@ -55,11 +58,11 @@ language::parse_source(const std::unique_ptr<cl_resource>& resource) {
 }
 
 const std::set<const char*>&
-language::resource_types_input() {
+language::resource_types_input() const {
     return _types_input;
 }
 
 const std::set<const char*>&
-language::resource_types_output() {
+language::resource_types_output() const {
     return _types_output;
 }

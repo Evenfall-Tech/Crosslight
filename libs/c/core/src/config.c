@@ -12,7 +12,8 @@ struct cl_config {
     size_t item_count;
 };
 
-struct cl_config* cl_config_new() {
+struct cl_config*
+cl_config_init() {
     struct cl_config* result = malloc(sizeof(struct cl_config));
 
     if (result == 0) {
@@ -26,7 +27,7 @@ struct cl_config* cl_config_new() {
 }
 
 size_t
-cl_config_delete(struct cl_config* config) {
+cl_config_term(struct cl_config* config) {
     if (config == 0) {
         return 1;
     }

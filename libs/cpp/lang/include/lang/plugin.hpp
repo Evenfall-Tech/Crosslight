@@ -45,7 +45,7 @@
 namespace cl::lang {
 
 /**
- *  @brief The plugin class can hold a dynamic library instance and interact with it 
+ * @brief The plugin class can hold a dynamic library instance and interact with it 
  *  by getting its symbols like functions or global variables.
  */
 class plugin {
@@ -64,9 +64,9 @@ public:
     static constexpr bool no_filename_decorations = false;
 
     /**
-     *  This exception is raised when the library failed to load a dynamic library or a symbol
+     * @brief This exception is raised when the library failed to load a dynamic library or a symbol
      *
-     *  @param message the error message
+     * @param message the error message
      */
     class exception : public std::runtime_error {
     public:
@@ -74,9 +74,9 @@ public:
     };
 
     /**
-     *  This exception is raised when the library failed to load or encountered symbol resolution issues
+     * @brief This exception is raised when the library failed to load or encountered symbol resolution issues
      *
-     *  @param message the error message
+     * @param message the error message
      */
     class load_error : public exception {
     public:
@@ -84,9 +84,9 @@ public:
     };
 
     /**
-     *  This exception is raised when the library failed to load a symbol
+     * @brief This exception is raised when the library failed to load a symbol
      *
-     *  @param message the error message
+     * @param message the error message
      */
     class symbol_error : public exception {
     public:
@@ -107,14 +107,14 @@ public:
     }
 
     /**
-     *  @brief Loads a dynamic library
+     * @brief Loads a dynamic library
      *
-     *  @throws plugin::load_error if the library could not be opened (including
+     * @throws plugin::load_error if the library could not be opened (including
      *  the case of the library file not being found)
      *
-     *  @param dir_path the directory path where is located the dynamic library you want to load
-     *  @param name the name of the dynamic library to load
-     *  @param decorations add os decorations to the library name
+     * @param dir_path the directory path where is located the dynamic library you want to load
+     * @param name the name of the dynamic library to load
+     * @param decorations add os decorations to the library name
      */
     ///@{
     plugin(const char *dir_path, const char *lib_name, bool decorations = add_filename_decorations) {
@@ -169,13 +169,13 @@ public:
     }
 
     /**
-     *  Get a symbol from the dynamic library currently loaded in the object
+     * @brief Get a symbol from the dynamic library currently loaded in the object
      * 
-     *  @throws plugin::symbol_error if the symbol could not be found
+     * @throws plugin::symbol_error if the symbol could not be found
      *
-     *  @param symbol_name the symbol name to get from the dynamic library
+     * @param symbol_name the symbol name to get from the dynamic library
      *
-     *  @return a pointer to the requested symbol
+     * @return a pointer to the requested symbol
      */
     native_symbol_type get_symbol(const char *symbol_name) const {
         if (!symbol_name)
@@ -195,14 +195,14 @@ public:
     }
 
     /**
-     *  Get a function from the dynamic library currently loaded in the object
+     * @brief Get a function from the dynamic library currently loaded in the object
      * 
-     *  @throws plugin::symbol_error if the symbol could not be found
+     * @throws plugin::symbol_error if the symbol could not be found
      *
-     *  @param T the template argument must be the function prototype to get
-     *  @param symbol_name the symbol name of a function to get from the dynamic library
+     * @param T the template argument must be the function prototype to get
+     * @param symbol_name the symbol name of a function to get from the dynamic library
      *
-     *  @return a pointer to the requested function
+     * @return a pointer to the requested function
      */
     template<typename T>
     T *get_function(const char *symbol_name) const {
@@ -222,14 +222,14 @@ public:
     }
 
     /**
-     *  Get a variable from the dynamic library currently loaded in the object
+     * @brief Get a variable from the dynamic library currently loaded in the object
      * 
-     *  @throws plugin::symbol_error if the symbol could not be found
+     * @throws plugin::symbol_error if the symbol could not be found
      *
-     *  @param T the template argument must be the type of the variable to get
-     *  @param symbol_name the symbol name of a variable to get from the dynamic library
+     * @param T the template argument must be the type of the variable to get
+     * @param symbol_name the symbol name of a variable to get from the dynamic library
      *
-     *  @return a reference to the requested variable
+     * @return a reference to the requested variable
      */
     template<typename T>
     T &get_variable(const char *symbol_name) const {
@@ -242,13 +242,13 @@ public:
     }
 
     /**
-     *  Check if a symbol exists in the currently loaded dynamic library. 
-     *  This method will return false if no dynamic library is currently loaded 
-     *  or if the symbol name is nullptr
+     * @brief Check if a symbol exists in the currently loaded dynamic library. 
+     * This method will return false if no dynamic library is currently loaded 
+     * or if the symbol name is nullptr
      *
-     *  @param symbol_name the symbol name to look for
+     * @param symbol_name the symbol name to look for
      *
-     *  @return true if the symbol exists in the dynamic library, false otherwise
+     * @return true if the symbol exists in the dynamic library, false otherwise
      */
     bool has_symbol(const char *symbol_name) const noexcept {
         if (!_handle || !symbol_name)
@@ -261,7 +261,7 @@ public:
     }
 
     /**
-     *  @return the dynamic library handle
+     * @return the dynamic library handle
      */
     native_handle_type native_handle() noexcept {
         return _handle;
