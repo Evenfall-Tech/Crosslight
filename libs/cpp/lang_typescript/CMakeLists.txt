@@ -2,19 +2,15 @@
 
 cmake_minimum_required(VERSION 3.19.0)
 
-set(PROJECT_NAME "crosslight_lang_typescript")
 set(BINARY_NAME "cl_lang_typescript")
-
-project("${PROJECT_NAME}" LANGUAGES CXX)
 
 set(LIBRARY_VERSION_MAJOR ${CL_VERSION_MAJOR})
 set(LIBRARY_VERSION_STRING ${CL_VERSION_STRING})
-
-set(APP_BASE_PATH "${PROJECT_SOURCE_DIR}")
+set(LIBRARY_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 file(
 	  GLOB SOURCES
-	  "${APP_BASE_PATH}/src/*.cpp"
+	  "${LIBRARY_BASE_PATH}/src/*.cpp"
 )
 
 # set ANTLR4 JAR file path for ANTLR_TARGET command
@@ -53,7 +49,7 @@ target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang)
 target_include_directories(${BINARY_NAME} PRIVATE
     ${ANTLR_TypescriptGrammarLexer_OUTPUT_DIR}
     ${ANTLR_TypescriptGrammarParser_OUTPUT_DIR}
-    "${CMAKE_CURRENT_SOURCE_DIR}/private_include"
+    "${LIBRARY_BASE_PATH}/private_include"
 )
 
 set_target_properties(
@@ -68,5 +64,5 @@ set_target_properties(
 
 install(
     TARGETS ${BINARY_NAME}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/plugins"
 )

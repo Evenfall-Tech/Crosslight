@@ -5,7 +5,7 @@
 #include "lang/language.hpp"
 
 struct cl_resource;
-struct cl_resource_types;
+struct cl_node;
 
 namespace cl::lang::typescript
 {
@@ -13,7 +13,7 @@ namespace cl::lang::typescript
 class language : public cl::lang::language {
 public:
     language();
-    std::unique_ptr<antlr4::tree::ParseTree> parse_source(const std::unique_ptr<cl_resource>& resource);
+    std::unique_ptr<cl_node> parse_source(const std::unique_ptr<cl_resource>& resource);
     virtual const std::set<const char*>& resource_types_input() override;
     virtual const std::set<const char*>& resource_types_output() override;
 private:

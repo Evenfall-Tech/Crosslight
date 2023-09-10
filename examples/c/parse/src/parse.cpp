@@ -9,8 +9,8 @@ int main(int argc, char **argv) {
 
     config->string_set("b", "value");
 
-    std::cout << config->string_get("a").value_or("") << std::endl;
-    std::cout << config->string_get("b").value_or("") << std::endl;
+    //std::cout << config->string_get("a").value_or("") << std::endl;
+    //std::cout << config->string_get("b").value_or("") << std::endl;
 
     cl::lang::plugin lib("./", "cl_lang_typescript");
 

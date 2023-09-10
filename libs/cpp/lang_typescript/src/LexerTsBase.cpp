@@ -8,23 +8,27 @@ LexerTsBase::LexerTsBase(CharStream *input) : Lexer(input)
 {
 }
 
-bool LexerTsBase::getStrictDefault()
+bool
+LexerTsBase::getStrictDefault()
 {
     return useStrictDefault;
 }
 
-void LexerTsBase::setUseStrictDefault(bool value)
+void
+LexerTsBase::setUseStrictDefault(bool value)
 {
     useStrictDefault = value;
     useStrictCurrent = value;
 }
 
-bool LexerTsBase::IsStrictMode()
+bool
+LexerTsBase::IsStrictMode()
 {
     return useStrictCurrent;
 }
 
-std::unique_ptr<antlr4::Token> LexerTsBase::nextToken()
+std::unique_ptr<antlr4::Token>
+LexerTsBase::nextToken()
 {
     auto next = Lexer::nextToken();
 
@@ -38,14 +42,16 @@ std::unique_ptr<antlr4::Token> LexerTsBase::nextToken()
     return next;
 }
 
-void LexerTsBase::ProcessOpenBrace()
+void
+LexerTsBase::ProcessOpenBrace()
 {
     bracesDepth++;
     useStrictCurrent = scopeStrictModes.size() > 0 && scopeStrictModes.top() ? true : useStrictDefault;
     scopeStrictModes.push(useStrictCurrent);
 }
 
-void LexerTsBase::ProcessCloseBrace()
+void
+LexerTsBase::ProcessCloseBrace()
 {
     bracesDepth--;
 
@@ -60,7 +66,8 @@ void LexerTsBase::ProcessCloseBrace()
     }
 }
 
-void LexerTsBase::ProcessStringLiteral()
+void
+LexerTsBase::ProcessStringLiteral()
 {
     if (lastToken || lastTokenType == LexerTs::OpenBrace)
     {
@@ -75,7 +82,8 @@ void LexerTsBase::ProcessStringLiteral()
     }
 }
 
-bool LexerTsBase::IsRegexPossible()
+bool
+LexerTsBase::IsRegexPossible()
 {
     if (lastToken)
     {
@@ -106,10 +114,14 @@ bool LexerTsBase::IsRegexPossible()
     }
 }
 
-void LexerTsBase::StartTemplateString() { bracesDepth = 0; }
+void
+LexerTsBase::StartTemplateString() { bracesDepth = 0; }
 
-bool LexerTsBase::IsInTemplateString() { return templateDepth > 0 && bracesDepth == 0; }
+bool
+LexerTsBase::IsInTemplateString() { return templateDepth > 0 && bracesDepth == 0; }
 
-void LexerTsBase::IncreaseTemplateDepth() { ++templateDepth; }
+void
+LexerTsBase::IncreaseTemplateDepth() { ++templateDepth; }
 
-void LexerTsBase::DecreaseTemplateDepth() { --templateDepth; }
+void
+LexerTsBase::DecreaseTemplateDepth() { --templateDepth; }

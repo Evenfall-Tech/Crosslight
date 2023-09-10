@@ -1,40 +1,35 @@
 #include <iostream>
 #include <memory>
+#include <string.h>
+#include "lang_typescript/language.hpp"
 
 #include "core/language.h"
 
-#include "antlr4-runtime.h"
-#include "LexerTs.h"
-#include "ParserTs.h"
-
 using namespace cl::lang::typescript;
-using namespace antlr4;
 
 CL_RESULT
 language_init() {
-  ANTLRInputStream input(
-    u8"export interface IVector {"
-    u8"data: byte[];"
-    u8"length: size;"
-    u8"}"
-    );
-  LexerTs lexer(&input);
-  CommonTokenStream tokens(&lexer);
+    const char code[] =
+        u8"export interface IVector {"
+        u8"data: byte[];"
+        u8"length: size;"
+        u8"}";
+    const char type[] = "text/plain";
 
-  tokens.fill();
-  for (auto token : tokens.getTokens()) {
-    auto common_token = dynamic_cast<const CommonToken*>(token);
-    if (common_token != nullptr) {
-      std::cout << common_token->toString(&lexer) << std::endl;
-    }
-    else {
-      std::cout << token->toString() << std::endl;
-    }
-  }
+    language lang{};
 
-  ParserTs parser(&tokens);
-  tree::ParseTree* tree = parser.program();
+    auto resource = std::make_unique<cl_resource>();
+    resource->content = new u_int8_t[sizeof(code)];
+    resource->content_size = sizeof(code);
+    memcpy(resource->content, code, sizeof(code));
+    resource->content_type = new char[sizeof(type)];
+    memcpy(resource->content_type, type, sizeof(type));
 
-  std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
-  return 0;
+    lang.parse_source(resource);
+
+    resource->content_size = 0;
+    delete[] resource->content;
+    delete[] resource->content_type;
+
+    return 0;
 }

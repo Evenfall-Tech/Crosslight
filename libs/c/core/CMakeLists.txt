@@ -65,10 +65,6 @@ set_target_properties(
     target_lang         "${LIBRARY_BASE_PATH}/include/core/language.h"
 )
 
-file(GENERATE OUTPUT "log.txt" CONTENT "$<TARGET_FILE:${BINARY_NAME}>")
-# TODO: add definitions.
-#target_compile_options(${BINARY_NAME} PRIVATE "-g")
-
 install(
     TARGETS ${BINARY_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
