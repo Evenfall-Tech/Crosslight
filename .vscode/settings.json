@@ -69,6 +69,8 @@
     "stop_token": "cpp",
     "thread": "cpp",
     "forward_list": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "stdio.h": "c",
+    "definitions.h": "c"
   }
 }

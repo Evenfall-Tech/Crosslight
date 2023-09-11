@@ -15,10 +15,10 @@ language::language()
     _types_output({}) {
 }
 
-std::unique_ptr<cl_node>
-language::parse_source(const std::unique_ptr<cl_resource>& resource) {
-    if (!resource) {
-        return {};
+const cl_node*
+language::transform_input(const struct cl_resource* resource) const {
+    if (resource == 0) {
+        return 0;
     }
 
     for (auto type : _types_input) {
@@ -47,14 +47,21 @@ language::parse_source(const std::unique_ptr<cl_resource>& resource) {
 
             //std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
 
-            auto* types = cl_resource_types_input();
-            cl_resource_types_term(types);
-
-            return {};
+            return 0;
         }
     }
 
-    return {};
+    return 0;
+}
+
+const struct cl_resource*
+language::transform_output(const struct cl_node* node) const {
+    return 0;
+}
+
+const struct cl_node*
+language::transform_modify(const struct cl_node* node) const {
+    return 0;
 }
 
 const std::set<const char*>&

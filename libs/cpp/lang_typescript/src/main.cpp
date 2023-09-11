@@ -10,7 +10,40 @@
 
 using namespace cl::lang::typescript;
 
-void*
+const struct cl_node*
+language_transform_input(const void* context, const struct cl_resource* resource) {
+    if (context == 0 || resource == 0) {
+        return 0;
+    }
+    
+    auto* lang = reinterpret_cast<const language*>(context);
+
+    return lang->transform_input(resource);
+}
+
+const struct cl_resource*
+language_transform_output(const void* context, const struct cl_node* node) {
+    if (context == 0 || node == 0) {
+        return 0;
+    }
+    
+    auto* lang = reinterpret_cast<const language*>(context);
+
+    return lang->transform_output(node);
+}
+
+const struct cl_node*
+language_transform_modify(const void* context, const struct cl_node* node) {
+    if (context == 0 || node == 0) {
+        return 0;
+    }
+    
+    auto* lang = reinterpret_cast<const language*>(context);
+
+    return lang->transform_modify(node);
+}
+
+const void*
 language_init(const struct cl_config* config) {
     if (config == 0) {
         return 0;
@@ -21,28 +54,6 @@ language_init(const struct cl_config* config) {
     if (lang == 0) {
         return 0;
     }
-
-    const char code[] =
-        u8"export interface IVector {"
-        u8"data: byte[];"
-        u8"length: size;"
-        u8"}";
-    const char type[] = "text/plain";
-
-    auto resource = std::make_unique<cl_resource>();
-    auto* content = new u_int8_t[sizeof(code)];
-    resource->content_size = sizeof(code);
-    memcpy(content, code, sizeof(code));
-    resource->content = content;
-    auto* content_type = new char[sizeof(type)];
-    memcpy(content_type, type, sizeof(type));
-    resource->content_type = content_type;
-
-    lang->parse_source(resource);
-
-    resource->content_size = 0;
-    delete[] resource->content;
-    delete[] resource->content_type;
 
     return lang;
 }
