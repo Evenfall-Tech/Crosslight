@@ -10,7 +10,7 @@ set(LIBRARY_VERSION_STRING ${CL_VERSION_STRING})
 
 include(GNUInstallDirs)
 
-set(LIBRARY_BASE_PATH "${PROJECT_SOURCE_DIR}")
+set(LIBRARY_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 
 
@@ -48,6 +48,7 @@ add_library(
     ${PUBLIC_HEADERS_FILES}
     ${PRIVATE_HEADERS_FILES}
 )
+add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 
 target_include_directories(
     ${BINARY_NAME}

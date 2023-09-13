@@ -43,6 +43,7 @@ add_library(
     private_include/lang_typescript/language.hpp
     src/language.cpp
 )
+add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 
 target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang)
 

@@ -34,6 +34,7 @@ add_library(
     "${LIBRARY_BASE_PATH}/src/language.cpp"
     "${LIBRARY_BASE_PATH}/src/config.cpp"
 )
+add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 
 target_link_libraries(
     ${BINARY_NAME}

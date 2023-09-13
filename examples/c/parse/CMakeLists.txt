@@ -5,7 +5,7 @@ set(BINARY_NAME "parse")
 
 project("${PROJECT_NAME}" LANGUAGES C)
 
-set(APP_BASE_PATH "${PROJECT_SOURCE_DIR}")
+set(APP_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 file(
     GLOB SOURCES
@@ -27,9 +27,11 @@ set_target_properties(
     RUNTIME_OUTPUT_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
 )
 
+set(dependencies $<TARGET_FILE:cl_core> ${ANTLR_RUNTIME_LIBRARIES} $<TARGET_FILE:cl_lang> $<TARGET_FILE:cl_lang_typescript>)
+
 add_custom_command(
     TARGET ${BINARY_NAME}
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cl_core> ${ANTLR_RUNTIME_LIBRARIES} $<TARGET_FILE:cl_lang> $<TARGET_FILE:cl_lang_typescript> .
+    COMMAND ${CMAKE_COMMAND} -E copy ${dependencies} .
     WORKING_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
 )
