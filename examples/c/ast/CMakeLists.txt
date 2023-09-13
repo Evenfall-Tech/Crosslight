@@ -48,6 +48,7 @@ target_compile_definitions(
 
 set_target_properties(
     ${BINARY_NAME} PROPERTIES
+    FOLDER                   ${CL_FOLDER_EXAMPLES}
     RUNTIME_OUTPUT_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
 )
 

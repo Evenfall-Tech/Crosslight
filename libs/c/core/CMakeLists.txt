@@ -60,11 +60,13 @@ set_target_properties(
     ${BINARY_NAME} PROPERTIES
     VERSION	            ${LIBRARY_VERSION_STRING}
     SOVERSION           ${LIBRARY_VERSION_MAJOR}
-    C_STANDARD          17
-    C_STANDARD_REQUIRED ON
+    FOLDER              ${CL_FOLDER_RUNTIME}
     PUBLIC_HEADER       "${PUBLIC_HEADERS_FILES}"
     target_lang         "${LIBRARY_BASE_PATH}/include/core/language.h"
 )
+
+target_compile_features(${BINARY_NAME} PUBLIC c_std_17)
+set_target_properties(${BINARY_NAME} PROPERTIES C_EXTENSIONS OFF)
 
 install(
     TARGETS ${BINARY_NAME}

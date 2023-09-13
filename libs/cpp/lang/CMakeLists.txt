@@ -47,14 +47,16 @@ target_include_directories(${BINARY_NAME}
 )
 set_target_properties(
     ${BINARY_NAME} PROPERTIES
-    VERSION	            ${LIBRARY_VERSION_STRING}
-    SOVERSION           ${LIBRARY_VERSION_MAJOR}
-    CXX_STANDARD            17
-    CXX_STANDARD_REQUIRED   ON
+    VERSION	                ${LIBRARY_VERSION_STRING}
+    SOVERSION               ${LIBRARY_VERSION_MAJOR}
+    FOLDER                  ${CL_FOLDER_RUNTIME}
     PUBLIC_HEADER           "${PUBLIC_HEADERS_FILES}"
     target_antlr_executable ${ANTLR_EXECUTABLE}
     target_antlr_libraries  "${ANTLR4_RUNTIME_LIBRARIES}"
 )
+
+target_compile_features(${BINARY_NAME} PUBLIC cxx_std_17)
+set_target_properties(${BINARY_NAME} PROPERTIES CXX_EXTENSIONS OFF)
 
 add_custom_command(TARGET ${BINARY_NAME}
     POST_BUILD

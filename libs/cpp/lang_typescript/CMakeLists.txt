@@ -57,11 +57,13 @@ set_target_properties(
     ${BINARY_NAME} PROPERTIES
 #    VERSION                  ${LIBRARY_VERSION_STRING} # produces clang error on macos
 #    SOVERSION                ${LIBRARY_VERSION_MAJOR} # clang-14: error: invalid argument '-current_version 0.1.0' only allowed with '-dynamiclib'
-    CXX_STANDARD             17
-    CXX_STANDARD_REQUIRED    ON
+    FOLDER                   ${CL_FOLDER_PLUGINS}
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins"
 )
+
+target_compile_features(${BINARY_NAME} PUBLIC cxx_std_17)
+set_target_properties(${BINARY_NAME} PROPERTIES CXX_EXTENSIONS OFF)
 
 install(
     TARGETS ${BINARY_NAME}
