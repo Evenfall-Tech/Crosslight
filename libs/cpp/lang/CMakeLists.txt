@@ -1,12 +1,9 @@
-# minimum required CMAKE version
-cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14)
 
 set(BINARY_NAME "cl_lang")
 set(LIBRARY_VERSION_MAJOR ${CL_VERSION_MAJOR})
 set(LIBRARY_VERSION_STRING ${CL_VERSION_STRING})
 set(LIBRARY_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
-
-include(GNUInstallDirs)
 
 list(APPEND CMAKE_MODULE_PATH ${LIBRARY_BASE_PATH}/cmake)
 

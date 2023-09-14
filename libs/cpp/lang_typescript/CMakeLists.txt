@@ -1,6 +1,6 @@
 # Based on commit https://github.com/antlr/grammars-v4/commit/6590fdd07b9fa1b4a66025c8315ee2c93bbcbe7d
 
-cmake_minimum_required(VERSION 3.19.0)
+cmake_minimum_required(VERSION 3.14)
 
 set(BINARY_NAME "cl_lang_typescript")
 
