@@ -5,7 +5,7 @@ set(CL_VERSION_MAJOR 0)
 set(CL_VERSION_STRING 0.2)
 
 project(
-    "crosslight"
+    "Crosslight"
     VERSION ${CL_VERSION_STRING}
     DESCRIPTION "A language translation/interpretation engine for cross-language compilation/execution."
     HOMEPAGE_URL "https://github.com/Evenfall-Tech/Crosslight"

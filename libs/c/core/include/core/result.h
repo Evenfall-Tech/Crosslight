@@ -1,3 +1,13 @@
+/**
+ * @file core/result.h
+ * @brief The function execution result API.
+ * 
+ * @author Mykola Morozov
+ * @copyright (c) 2023 Evenfall-Tech
+ *
+ * This library is released under MPL-2.0 <https://github.com/Evenfall-Tech/Crosslight/blob/master/LICENSE> license.
+ */
+
 #pragma once
 
 #include <stdlib.h>

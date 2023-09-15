@@ -2,12 +2,12 @@
  * @file plugin.hpp
  * @version 2.1.0
  * @brief C++ cross-platform wrapper around dynamic loading of shared libraries
- * @link https://github.com/martin-olivier/dylib
+ * https://github.com/martin-olivier/dylib
  * 
  * @author Martin Olivier <martin.olivier@live.fr>
  * @copyright (c) 2022 Martin Olivier
  *
- * This library is released under MIT license
+ * This library is released under MIT license.
  */
 
 #pragma once

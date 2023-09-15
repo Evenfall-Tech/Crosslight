@@ -1,13 +1,13 @@
 /**
- * @file def_utils.h
+ * @file core/def_utils.h
  * @version 15
  * @brief Hedley - C/C++ a header file designed to smooth over some platform-specific annoyances.
- * @link https://nemequ.github.io/hedley
+ * https://nemequ.github.io/hedley/
  * 
  * @author Evan Nemerson <evan@nemerson.com>
  * @copyright (c) 2021 Evan Nemerson
  *
- * This library is released under CC0-1.0 <http://creativecommons.org/publicdomain/zero/1.0/> license
+ * This library is released under CC0-1.0 <http://creativecommons.org/publicdomain/zero/1.0/> license.
  */
 
 #pragma once
