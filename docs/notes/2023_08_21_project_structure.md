@@ -7,9 +7,16 @@
 
 The following is the directory structure inside a typical `build` or `out` build destination library.
 
-- `bin` is the directory of important executables and dynamic library files.
-- `lib` is the directory of static library files.
-- `examples` is the directory of example executables.
+- `/bin` is the directory of important executables and dynamic library files.
+- `/bin/plugins` is the directory with language implementations and possibly other plugins.
+- `/lib` is the directory of static and shared library files.
+- `/examples` is the directory of example executables.
+
+### IDE directory structure
+
+Modern IDEs that support wrapping projects or targets in folders are supported by Crosslight.
+When building Crosslight itself, the targets are distributed between `Runtime`, `Plugins`, `Examples`, and `Tests`.
+When building as a submodule, the folder names are wrapped with `Crosslight <Folder>`.
 
 ### Separate target notes
 
@@ -46,3 +53,14 @@ C# language reference implementation, dependent on the .NET 7 SDK.
 - Defines variable `CL_DOTNET_DIR` as a hint for finding the dotnet executable path.
 - Defines variable `CL_DOTNET_COMMAND` for the dotnet executable path.
 - Defines variable `CL_DOTNET_RID` with the target RuntimeIdentifier for the .NET AOT build.
+
+#### tests
+
+The tests cover the functionality of the framework using unit testing with [doctest](https://github.com/doctest/doctest).
+
+> **Note:**
+- Although doctest does not differentiate between arguments, the assertions are written in the `(expected, actual)` format.
+- The naming of test suites corresponds to the tested file or object using full path, e.g., `core/config`.
+- The naming of test cases and subcases corresponds to individual use cases for the object.
+- For testing C++ libraries, `nullptr` can be used where applicable. For C libraries, `(mytype*)0` is used.
+- For testing C++ libraries, appropriate checks have to use the `<LEVEL>_NOTHROW(expression)` format from [here](https://github.com/doctest/doctest/blob/master/doc/markdown/assertions.md#exceptions).

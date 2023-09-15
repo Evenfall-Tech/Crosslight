@@ -49,7 +49,7 @@ cl_config_term(struct cl_config* config) {
 
 const char*
 cl_config_string_get(const struct cl_config* context, const char* key) {
-    if (key == 0) {
+    if (context == 0 || key == 0) {
         return 0;
     }
 
@@ -87,7 +87,7 @@ cl_config_string_set(struct cl_config* context, const char* key, const char* val
     for (insert_pos = 0; insert_pos < context->item_count; ++insert_pos) {
         // Search for the existing key.
         if (context->items[insert_pos].key == 0) {
-            continue;
+            continue; // No key should be `0`, but test for the sake of not segfaulting when it happens.
         }
 
         int compare = strcmp(key, context->items[insert_pos].key);
@@ -96,7 +96,7 @@ cl_config_string_set(struct cl_config* context, const char* key, const char* val
 
             value_dup = cl_utils_string_duplicate(value);
 
-            if (value_dup == 0) {
+            if (value_dup == 0 && value != 0) {
                 return 0;
             }
             
@@ -126,7 +126,7 @@ cl_config_string_set(struct cl_config* context, const char* key, const char* val
 
     value_dup = cl_utils_string_duplicate(value);
 
-    if (value_dup == 0) {
+    if (value_dup == 0 && value != 0) {
         free(key_dup);
 
         return 0;
@@ -136,7 +136,10 @@ cl_config_string_set(struct cl_config* context, const char* key, const char* val
 
     if (list == 0) {
         free(key_dup);
-        free(value_dup);
+
+        if (value_dup != 0) {
+            free(value_dup);
+        }
 
         return 0;
     }
