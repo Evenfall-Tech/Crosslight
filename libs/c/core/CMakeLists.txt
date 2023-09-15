@@ -37,6 +37,8 @@ set(PUBLIC_HEADERS_FILES
     "${LIBRARY_BASE_PATH}/include/core/result.h"
     "${LIBRARY_BASE_PATH}/include/core/config.h"
     "${LIBRARY_BASE_PATH}/include/core/node.h"
+    "${LIBRARY_BASE_PATH}/include/core/node/types.h"
+    "${LIBRARY_BASE_PATH}/include/core/node/source_root.h"
 )
 
 set(PRIVATE_HEADERS_FILES
@@ -65,7 +67,6 @@ set_target_properties(
     VERSION	            ${LIBRARY_VERSION_STRING}
     SOVERSION           ${LIBRARY_VERSION_MAJOR}
     FOLDER              ${CL_FOLDER_RUNTIME}
-    PUBLIC_HEADER       "${PUBLIC_HEADERS_FILES}"
     target_lang         "${LIBRARY_BASE_PATH}/include/core/language.h"
 )
 
@@ -74,6 +75,14 @@ set_target_properties(${BINARY_NAME} PROPERTIES C_EXTENSIONS OFF)
 
 install(
     TARGETS ${BINARY_NAME}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT bin
+)
+install(
+    DIRECTORY "${LIBRARY_BASE_PATH}/include/core"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+    COMPONENT dev
+    FILES_MATCHING
+    PATTERN "*.h"
 )

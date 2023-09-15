@@ -32,6 +32,9 @@ set(CL_FOLDER_PLUGINS  "${CL_FOLDER_PREFIX}Plugins")
 set(CL_FOLDER_EXAMPLES "${CL_FOLDER_PREFIX}Examples")
 set(CL_FOLDER_TESTS    "${CL_FOLDER_PREFIX}Tests")
 
+include(GNUInstallDirs)
+include(FetchContent)
+
 if(CL_BUILD_TESTS OR CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(CTest)
 endif()
@@ -44,9 +47,6 @@ if(CL_BUILD_DOCS OR CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
         message(STATUS "Doxygen not found, not building docs.")
     endif()
 endif()
-
-include(GNUInstallDirs)
-include(FetchContent)
 
 add_subdirectory("libs/c")
 add_subdirectory("libs/cpp")
