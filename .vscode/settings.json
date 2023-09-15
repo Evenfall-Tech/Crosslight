@@ -1,5 +1,5 @@
 {
-  "cmake.sourceDirectory": "${workspaceFolder}/tools",
+  "cmake.sourceDirectory": "${workspaceFolder}",
   "files.associations": {
     "array": "cpp",
     "atomic": "cpp",

@@ -1,10 +1,15 @@
 cmake_minimum_required(VERSION 3.14)
 
-project("crosslight")
-
 set(CL_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 set(CL_VERSION_MAJOR 0)
 set(CL_VERSION_STRING 0.2)
+
+project(
+    "crosslight"
+    VERSION ${CL_VERSION_STRING}
+    DESCRIPTION "A language translation/interpretation engine for cross-language compilation/execution."
+    HOMEPAGE_URL "https://github.com/Evenfall-Tech/Crosslight"
+)
 
 set(CL_BUILD_TESTS ON CACHE BOOL "Should Crosslight tests be built?")
 set(CL_BUILD_EXAMPLES ON CACHE BOOL "Should Crosslight examples be built?")
@@ -34,7 +39,7 @@ endif()
 if(CL_BUILD_DOCS OR CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     find_package(Doxygen)
     if(Doxygen_FOUND)
-        add_subdirectory(docs)
+        add_subdirectory("docs")
     else()
         message(STATUS "Doxygen not found, not building docs.")
     endif()
@@ -43,14 +48,14 @@ endif()
 include(GNUInstallDirs)
 include(FetchContent)
 
-add_subdirectory("../libs/c" "libs/c")
-add_subdirectory("../libs/cpp" "libs/cpp")
-add_subdirectory("../libs/refs" "libs/refs")
+add_subdirectory("libs/c")
+add_subdirectory("libs/cpp")
+add_subdirectory("libs/refs")
 
 if(CL_BUILD_EXAMPLES)
-    add_subdirectory("../examples/c" "examples/c")
+    add_subdirectory("examples/c")
 endif()
 
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR CL_BUILD_TESTS) AND BUILD_TESTING)
-    add_subdirectory("../tests" "tests")
+    add_subdirectory("tests")
 endif()

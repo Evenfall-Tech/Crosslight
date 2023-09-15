@@ -3,10 +3,14 @@ cmake_minimum_required(VERSION 3.14)
 set(PROJECT_NAME "crosslight_core")
 set(BINARY_NAME "cl_core")
 
-project("${PROJECT_NAME}" C)
-
 set(LIBRARY_VERSION_MAJOR ${CL_VERSION_MAJOR})
 set(LIBRARY_VERSION_STRING ${CL_VERSION_STRING})
+
+project(
+    "${PROJECT_NAME}"
+    VERSION ${LIBRARY_VERSION_STRING}
+    LANGUAGES C
+)
 
 include(GNUInstallDirs)
 

@@ -3,11 +3,14 @@ cmake_minimum_required(VERSION 3.14)
 set(PROJECT_NAME "crosslight_lang_csharp_ref")
 set(BINARY_NAME "cl_lang_csharp_ref")
 
-project("${PROJECT_NAME}")
-
 set(LIBRARY_VERSION_MAJOR ${CL_VERSION_MAJOR})
 set(LIBRARY_VERSION_STRING ${CL_VERSION_STRING})
 set(LIBRARY_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
+
+project(
+    "${PROJECT_NAME}"
+    VERSION ${LIBRARY_VERSION_STRING}
+)
 
 add_custom_target(${BINARY_NAME}
     COMMAND ${CL_DOTNET_COMMAND} publish 
