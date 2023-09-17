@@ -48,6 +48,9 @@ if(CL_BUILD_DOCS OR CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     endif()
 endif()
 
+set(CL_INSTALLABLE_LIBS "" CACHE INTERNAL "")
+set(CL_INSTALL_CONFIGDIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+
 add_subdirectory("libs/c")
 add_subdirectory("libs/cpp")
 add_subdirectory("libs/refs")
@@ -59,3 +62,52 @@ endif()
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR CL_BUILD_TESTS) AND BUILD_TESTING)
     add_subdirectory("tests")
 endif()
+
+install(
+    TARGETS ${CL_INSTALLABLE_LIBS}
+    EXPORT CrosslightTargets
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT bin
+)
+
+install(
+    FILES "LICENSE"
+    DESTINATION "${CMAKE_INSTALL_DOCDIR}"
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake/CrosslightVersion.cmake
+    VERSION ${CL_VERSION_STRING}
+    COMPATIBILITY SameMajorVersion
+)
+
+file(
+    WRITE "${CMAKE_CURRENT_BINARY_DIR}/CrosslightConfig.cmake.in"
+    "include(\"\${CMAKE_CURRENT_LIST_DIR}/CrosslightTargets.cmake\")"
+)
+export(
+    EXPORT CrosslightTargets
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/CrosslightTargets.cmake"
+)
+configure_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/CrosslightConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/CrosslightConfig.cmake"
+    COPYONLY
+)
+
+configure_package_config_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/CrosslightConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake/CrosslightConfig.cmake"
+    INSTALL_DESTINATION "${CL_INSTALL_CONFIGDIR}"
+)
+install(EXPORT CrosslightTargets
+    FILE CrosslightTargets.cmake
+    DESTINATION "${CL_INSTALL_CONFIGDIR}"
+)
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake/CrosslightConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake/CrosslightVersion.cmake"
+    DESTINATION "${CL_INSTALL_CONFIGDIR}"
+)

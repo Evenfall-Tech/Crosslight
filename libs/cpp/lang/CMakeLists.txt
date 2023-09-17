@@ -52,8 +52,8 @@ target_link_libraries(
     PUBLIC cl_core
 )
 target_include_directories(${BINARY_NAME}
-    INTERFACE "${antlr_SOURCE_DIR}/runtime/Cpp/runtime/src"
-    PUBLIC "${LIBRARY_BASE_PATH}/include"
+    INTERFACE $<BUILD_INTERFACE:${antlr_SOURCE_DIR}/runtime/Cpp/runtime/src> $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/antlr4-runtime>
+    PUBLIC $<BUILD_INTERFACE:${LIBRARY_BASE_PATH}/include> $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 set(ANTLR_RUNTIME_LIBRARIES $<TARGET_FILE:antlr4_shared> $<TARGET_LINKER_FILE:antlr4_shared>)
@@ -61,6 +61,7 @@ set_target_properties(
     ${BINARY_NAME} PROPERTIES
     VERSION	                ${LIBRARY_VERSION_STRING}
     SOVERSION               ${LIBRARY_VERSION_MAJOR}
+    DEBUG_POSTFIX           d
     FOLDER                  ${CL_FOLDER_RUNTIME}
     target_antlr_executable ${ANTLR_EXECUTABLE}
     target_antlr_libraries  "${ANTLR_RUNTIME_LIBRARIES}"
@@ -75,12 +76,8 @@ add_custom_command(TARGET ${BINARY_NAME}
     COMMAND ${CMAKE_COMMAND} -E copy ${ANTLR_RUNTIME_LIBRARIES} ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
 )
 
-install(
-    TARGETS ${BINARY_NAME}
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
-    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT bin
-)
+list(APPEND CL_INSTALLABLE_LIBS ${BINARY_NAME} antlr4_shared)
+set(CL_INSTALLABLE_LIBS ${CL_INSTALLABLE_LIBS} CACHE INTERNAL "")
 install(
     DIRECTORY "${LIBRARY_BASE_PATH}/include/lang"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
@@ -88,3 +85,12 @@ install(
     FILES_MATCHING
     PATTERN "*.hpp"
 )
+
+if(MSVC)
+    install(
+        FILES "$<TARGET_FILE_DIR:${BINARY_NAME}>/${CMAKE_SHARED_LIBRARY_PREFIX}${BINARY_NAME}d.pdb"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        CONFIGURATIONS Debug
+        COMPONENT bin
+    )
+endif()

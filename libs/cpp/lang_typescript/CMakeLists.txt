@@ -57,6 +57,7 @@ set_target_properties(
     ${BINARY_NAME} PROPERTIES
 #    VERSION                  ${LIBRARY_VERSION_STRING} # produces clang error on macos
 #    SOVERSION                ${LIBRARY_VERSION_MAJOR} # clang-14: error: invalid argument '-current_version 0.1.0' only allowed with '-dynamiclib'
+    DEBUG_POSTFIX            d
     FOLDER                   ${CL_FOLDER_PLUGINS}
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins"
@@ -71,3 +72,12 @@ install(
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}/plugins" COMPONENT lib
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/plugins" COMPONENT bin
 )
+
+if(MSVC)
+    install(
+        FILES "$<TARGET_FILE_DIR:${BINARY_NAME}>/${CMAKE_SHARED_LIBRARY_PREFIX}${BINARY_NAME}d.pdb"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        CONFIGURATIONS Debug
+        COMPONENT bin
+    )
+endif()

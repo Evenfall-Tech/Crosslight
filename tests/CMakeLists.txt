@@ -11,6 +11,7 @@ set(PUBLIC_SOURCES_FILES
     "${LIBRARY_BASE_PATH}/src/core/config.cpp"
 )
 
+set(DOCTEST_NO_INSTALL ON)
 FetchContent_Declare(
     doctest
     GIT_REPOSITORY https://github.com/doctest/doctest.git

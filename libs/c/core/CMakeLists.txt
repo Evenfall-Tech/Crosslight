@@ -58,7 +58,7 @@ add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 
 target_include_directories(
     ${BINARY_NAME}
-    PUBLIC "${LIBRARY_BASE_PATH}/include"
+    PUBLIC $<BUILD_INTERFACE:${LIBRARY_BASE_PATH}/include> $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     PRIVATE "${LIBRARY_BASE_PATH}/private_include"
 )
 
@@ -66,6 +66,7 @@ set_target_properties(
     ${BINARY_NAME} PROPERTIES
     VERSION	            ${LIBRARY_VERSION_STRING}
     SOVERSION           ${LIBRARY_VERSION_MAJOR}
+    DEBUG_POSTFIX       d
     FOLDER              ${CL_FOLDER_RUNTIME}
     target_lang         "${LIBRARY_BASE_PATH}/include/core/language.h"
 )
@@ -73,12 +74,8 @@ set_target_properties(
 target_compile_features(${BINARY_NAME} PUBLIC c_std_17)
 set_target_properties(${BINARY_NAME} PROPERTIES C_EXTENSIONS OFF)
 
-install(
-    TARGETS ${BINARY_NAME}
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
-    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT bin
-)
+list(APPEND CL_INSTALLABLE_LIBS ${BINARY_NAME})
+set(CL_INSTALLABLE_LIBS ${CL_INSTALLABLE_LIBS} CACHE INTERNAL "")
 install(
     DIRECTORY "${LIBRARY_BASE_PATH}/include/core"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
@@ -86,3 +83,12 @@ install(
     FILES_MATCHING
     PATTERN "*.h"
 )
+
+if(MSVC)
+    install(
+        FILES "$<TARGET_FILE_DIR:${BINARY_NAME}>/${CMAKE_SHARED_LIBRARY_PREFIX}${BINARY_NAME}d.pdb"
+        DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        CONFIGURATIONS Debug
+        COMPONENT bin
+    )
+endif()
