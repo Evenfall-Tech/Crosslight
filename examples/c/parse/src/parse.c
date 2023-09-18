@@ -49,7 +49,8 @@ main(int argc, char **argv) {
 #if CL_WINDOWS == 1
         "./cl_lang_typescript.dll";
 #elif CL_LINUX == 1
-        "./libcl_lang_typescript.so";
+        //"./libcl_lang_typescript.so";
+        "./libcl_lang_csharp_ref.so";
 #elif CL_MACOS == 1
         "./cl_lang_typescript.dylib";
 #endif
@@ -84,10 +85,6 @@ main(int argc, char **argv) {
         printf("Failed to load function language_transform_input.\n");
         return 1;
     }
-
-    struct cl_config* config = cl_config_init();
-
-    const void* lang = lang_init(config);
     
     const char code[] =
         u8"export interface IVector {"
@@ -102,6 +99,10 @@ main(int argc, char **argv) {
     resource.content = code;
     resource.content_type = type;
     resource.content_size = sizeof(code);
+
+    struct cl_config* config = cl_config_init();
+
+    const void* lang = lang_init(config);
 
     const struct cl_node* tree = lang_input(lang, &resource);
     printf("Tree: %d.\n", (int)(size_t)tree);

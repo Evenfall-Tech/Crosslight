@@ -1,12 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <LangCsharpRefAssemblyName Condition="'$(LangCsharpRefAssemblyName)'==''">libcl_lang_csharp_ref</LangCsharpRefAssemblyName>
+    </PropertyGroup>
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PublishAOT>True</PublishAOT>
-        <AssemblyName>libcl_lang_csharp_ref</AssemblyName>
+        <AssemblyName>$(LangCsharpRefAssemblyName)</AssemblyName>
         <RootNamespace>Crosslight.Lang.CsharpRef</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../csharp/common/Crosslight.csproj" />
+    </ItemGroup>
 
 </Project>
