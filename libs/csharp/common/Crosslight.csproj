@@ -5,8 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PublishAOT>True</PublishAOT>
-        <AssemblyName>libcl_lang_csharp_ref</AssemblyName>
-        <RootNamespace>Crosslight.Lang.CsharpRef</RootNamespace>
+        <AssemblyName>libcl_csharp</AssemblyName>
+        <RootNamespace>Crosslight</RootNamespace>
     </PropertyGroup>
 
 </Project>

@@ -12,7 +12,6 @@
 
 #include <stdlib.h>
 #include "core/definitions.h"
-#include "core/result.h"
 
 /**
  * @brief Key-value pair configuration wrapper.
@@ -54,7 +53,7 @@ CL_C_DECL const char* cl_config_string_get(const struct cl_config* context, cons
  * 
  * @param[in] context The config to set the value in.
  * @param[in] key The key to set the value for.
- * @param[in] value The value to set. Can be `0`.
+ * @param[in] value The value to set. Will be copied. Can be `0`.
  * @return `0` if setting value for key failed, `1` otherwise.
  * 
  * @warning If a memory allocation error occurs, the function should terminate gracefully

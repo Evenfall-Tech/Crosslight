@@ -14,6 +14,7 @@ project(
 set(CL_BUILD_TESTS ON CACHE BOOL "Should Crosslight tests be built?")
 set(CL_BUILD_EXAMPLES ON CACHE BOOL "Should Crosslight examples be built?")
 set(CL_BUILD_DOCS ON CACHE BOOL "Should Crosslight docs be built?")
+set(CL_BUILD_CSHARP ON CACHE BOOL "Should Crosslight C# port and reference be built?")
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -53,10 +54,53 @@ set(CL_INSTALL_CONFIGDIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
 add_subdirectory("libs/c")
 add_subdirectory("libs/cpp")
+
+if(CL_BUILD_CSHARP)
+    set(
+        CL_DOTNET_DIR ""
+        CACHE PATH "Folder containing the dotnet executable."
+    )
+
+    if(NOT CL_DOTNET_COMMAND)
+        if(CL_DOTNET_DIR)
+            find_program(
+                CL_DOTNET_COMMAND dotnet
+                HINTS ${CL_DOTNET_DIR}
+                DOC "Path to the dotnet program."
+            )
+        else()
+            find_program(
+                CL_DOTNET_COMMAND dotnet
+                DOC "Path to the dotnet program."
+            )
+        endif()
+    endif()
+
+    if(NOT CL_DOTNET_RID)
+        if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+            if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "x86_64")
+                set(CL_DOTNET_RID "linux-x64" CACHE STRING "Dotnet target RuntimeIdentifier.")
+            elseif("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "x86")
+                set(CL_DOTNET_RID "linux-x86" CACHE STRING "Dotnet target RuntimeIdentifier.")
+            else()
+                message(FATAL_ERROR "Unsupported architecture ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCESSOR}.")
+            endif()
+        else()
+            message(FATAL_ERROR "Unsupported architecture ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCESSOR}.")
+        endif()
+    endif()
+
+    add_subdirectory("libs/csharp")
+endif()
+
 add_subdirectory("libs/refs")
 
 if(CL_BUILD_EXAMPLES)
     add_subdirectory("examples/c")
+
+    if(CL_BUILD_CSHARP)
+        add_subdirectory("examples/csharp")
+    endif()
 endif()
 
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR CL_BUILD_TESTS) AND BUILD_TESTING)

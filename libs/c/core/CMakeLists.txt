@@ -66,7 +66,6 @@ set_target_properties(
     ${BINARY_NAME} PROPERTIES
     VERSION	            ${LIBRARY_VERSION_STRING}
     SOVERSION           ${LIBRARY_VERSION_MAJOR}
-    DEBUG_POSTFIX       d
     FOLDER              ${CL_FOLDER_RUNTIME}
     target_lang         "${LIBRARY_BASE_PATH}/include/core/language.h"
 )
@@ -86,9 +85,9 @@ install(
 
 if(MSVC)
     install(
-        FILES "$<TARGET_FILE_DIR:${BINARY_NAME}>/${CMAKE_SHARED_LIBRARY_PREFIX}${BINARY_NAME}d.pdb"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        FILES "$<TARGET_FILE_DIR:${BINARY_NAME}>/${CMAKE_SHARED_LIBRARY_PREFIX}${BINARY_NAME}.pdb"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         CONFIGURATIONS Debug
-        COMPONENT bin
+        COMPONENT lib
     )
 endif()
