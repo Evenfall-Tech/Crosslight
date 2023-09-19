@@ -26,6 +26,6 @@ struct cl_resource {
  * @brief List of supported MIME-types for a certain language.
  */
 struct cl_resource_types {
-    const char* const* content_types; /**< MIME-type array. */
+    const char* const* content_types; /**< MIME-type array. Null-pointer if @p content_types_size is `0`. */
     size_t content_types_size;  /**< Number of elements in the array. */
 };

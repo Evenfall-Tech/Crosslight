@@ -87,6 +87,68 @@ public class Language : ILanguage
         return 0;
     }
 
+    [UnmanagedCallersOnly(EntryPoint = "language_resource_types_input")]
+    public static nint LanguageResourceTypesInput(nint context)
+    {
+        if (context == 0)
+        {
+            return 0;
+        }
+
+        var language = (Language?)GCHandle.FromIntPtr(context).Target;
+
+        if (language == null)
+        {
+            return 0;
+        }
+
+        var result = language.ResourceTypesInput;
+
+        return result == null
+            ? 0
+            : result.ToPointer();
+    }
+
+    [UnmanagedCallersOnly(EntryPoint = "language_resource_types_output")]
+    public static nint LanguageResourceTypesOutput(nint context)
+    {
+        if (context == 0)
+        {
+            return 0;
+        }
+
+        var language = (Language?)GCHandle.FromIntPtr(context).Target;
+
+        if (language == null)
+        {
+            return 0;
+        }
+
+        var result = language.ResourceTypesOutput;
+
+        return result == null
+            ? 0
+            : result.ToPointer();
+    }
+
+    [UnmanagedCallersOnly(EntryPoint = "language_resource_types_term")]
+    public static nuint LanguageResourceTypesTerm(nint context, nint resourceTypes)
+    {
+        if (context == 0)
+        {
+            return 0;
+        }
+
+        var language = (Language?)GCHandle.FromIntPtr(context).Target;
+
+        if (language == null)
+        {
+            return 0;
+        }
+
+        return (nuint)(ResourceTypes.TermPointer(resourceTypes) ? 1 : 0);
+    }
+
     private GCHandle _handle;
 
     public Language(Config config)
@@ -113,4 +175,10 @@ public class Language : ILanguage
     {
         throw new NotImplementedException();
     }
+
+    /// <inheritdoc/>
+    public ResourceTypes? ResourceTypesInput => new ResourceTypes(new string[] { "text/plain", "text/x-csharp" });
+
+    /// <inheritdoc/>
+    public ResourceTypes? ResourceTypesOutput => new ResourceTypes(Array.Empty<string>());
 }

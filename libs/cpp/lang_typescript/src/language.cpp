@@ -11,7 +11,7 @@ using namespace cl::lang::typescript;
 using namespace antlr4;
 
 language::language()
-    : _types_input({"text/plain"}),
+    : _types_input({"text/plain", "text/x-typescript"}),
     _types_output({}) {
 }
 

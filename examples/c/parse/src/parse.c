@@ -81,8 +81,32 @@ main(int argc, char **argv) {
     const struct cl_node* (*lang_input)(const void*, const struct cl_resource*) =
         function_init(lang_library, "language_transform_input");
 
-    if (lang_term == 0) {
+    if (lang_input == 0) {
         printf("Failed to load function language_transform_input.\n");
+        return 1;
+    }
+
+    const struct cl_resource_types* (*lang_rts_input)(const void*) =
+        function_init(lang_library, "language_resource_types_input");
+
+    if (lang_rts_input == 0) {
+        printf("Failed to load function language_resource_types_input.\n");
+        return 1;
+    }
+
+    const struct cl_resource_types* (*lang_rts_output)(const void*) =
+        function_init(lang_library, "language_resource_types_output");
+
+    if (lang_rts_output == 0) {
+        printf("Failed to load function language_resource_types_output.\n");
+        return 1;
+    }
+
+    size_t (*lang_rts_term)(const void*, const struct cl_resource_types*) =
+        function_init(lang_library, "language_resource_types_term");
+
+    if (lang_rts_term == 0) {
+        printf("Failed to load function language_resource_types_term.\n");
         return 1;
     }
     
@@ -106,6 +130,28 @@ main(int argc, char **argv) {
 
     const struct cl_node* tree = lang_input(lang, &resource);
     printf("Tree: %d.\n", (int)(size_t)tree);
+
+    {
+        const struct cl_resource_types* rts = lang_rts_input(lang);
+
+        for (size_t i = 0; i < rts->content_types_size; ++i)
+        {
+            printf("Input type: %s.\n", rts->content_types[i]);
+        }
+
+        printf("Input type term: %d.\n", (int)lang_rts_term(lang, rts));
+    }
+
+    {
+        const struct cl_resource_types* rts = lang_rts_output(lang);
+
+        for (size_t i = 0; i < rts->content_types_size; ++i)
+        {
+            printf("Output type: %s.\n", rts->content_types[i]);
+        }
+
+        printf("Output type term: %d.\n", (int)lang_rts_term(lang, rts));
+    }
     
     lang_term(lang);
 

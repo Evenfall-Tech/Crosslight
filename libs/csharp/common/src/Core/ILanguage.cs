@@ -7,4 +7,8 @@ public interface ILanguage
     Resource? TransformOutput(Node node);
 
     Node? TransformModify(Node node);
+
+    ResourceTypes? ResourceTypesInput { get; }
+
+    ResourceTypes? ResourceTypesOutput { get; }
 }
