@@ -5,7 +5,7 @@ namespace Crosslight.Core.Extensions;
 
 public static class IImportedExtensions
 {
-    public static bool InvokeMethod(
+    internal static bool InvokeMethod(
         this IImported context,
         string methodName,
         object[] parameters,

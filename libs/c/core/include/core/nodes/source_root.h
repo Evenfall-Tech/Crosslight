@@ -1,5 +1,5 @@
 /**
- * @file core/node/source_root.h
+ * @file core/nodes/source_root.h
  * @brief The source root node API.
  * 
  * @author Mykola Morozov
@@ -14,5 +14,5 @@
  * @brief Textual source file root.
  */
 struct cl_node_source_root {
-    char* file_name; /**< Name of the file that contains this root. */
+    const char* file_name; /**< Name of the file that contains this root in UTF-8 format. Can be empty or `0`. */
 };

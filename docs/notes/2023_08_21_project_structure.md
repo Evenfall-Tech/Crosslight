@@ -45,6 +45,13 @@ The language parsing interface, importing antlr and forwarding it to individual 
 - Defines target property `target_antlr_executable` pointing to the ANTLR4 jar file.
 - Defines target property `target_antlr_libraries` pointing to ANTLR4 runtime libraries.
 
+#### csharp/common
+
+The C# wrapper for the core library, for use with other language implementations in C#.
+
+> **Note:**
+- The native pointer-based constructors for most of the `Core` types assume the pointers to be valid.
+
 #### refs/lang_csharp_ref
 
 C# language reference implementation, dependent on the .NET 7 SDK.

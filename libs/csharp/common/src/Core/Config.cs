@@ -47,7 +47,6 @@ public class Config : IDisposable
 
         using var keyStr = new Utf8String(key);
         var result = ConfigImported.ConfigStringGet(_context, keyStr.Context);
-        Console.WriteLine($"{_context} Get {key}: {result}");
 
         if (result == 0)
         {
@@ -82,7 +81,6 @@ public class Config : IDisposable
             result = ConfigImported.ConfigStringSet(_context, keyStr.Context, valueStr.Context);
         }
 
-        Console.WriteLine($"{_context} Set {key}: {result}");
         return result == 1;
     }
 

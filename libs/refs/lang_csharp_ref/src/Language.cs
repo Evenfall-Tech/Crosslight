@@ -1,158 +1,64 @@
 using Crosslight.Core;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Crosslight.Core.ILanguage;
 
 namespace Crosslight.Lang.CsharpRef;
 
 public class Language : ILanguage
 {
-    [UnmanagedCallersOnly(EntryPoint = "language_init")]
-    public static nint LanguageInit(nint config)
-    {
-        if (config == 0)
-        {
-            return 0;
-        }
+    private delegate nint NativeAcquireDelegate(nuint size);
+    private NativeAcquireDelegate? _nativeAcquire;
 
-        var language = new Language(new Config(config));
-        language._handle = GCHandle.Alloc(language, GCHandleType.Pinned);
-        return (nint)language._handle;
-    }
+    public GCHandle Handle { get; private set; }
 
-    [UnmanagedCallersOnly(EntryPoint = "language_term")]
-    public static nuint LanguageTerm(nint context)
-    {
-        if (context == 0)
-        {
-            return 1;
-        }
+    public AcquireDelegate Acquire { get; private set; }
 
-        var language = (Language?)GCHandle.FromIntPtr(context).Target;
-
-        if (language == null)
-        {
-            return 0;
-        }
-
-        if (language._handle.IsAllocated)
-        {
-            language._handle.Free();
-        }
-
-        return 1;
-    }
-
-    [UnmanagedCallersOnly(EntryPoint = "language_transform_input")]
-    public static nint LanguageTransformInput(nint context, nint resource)
-    {
-        if (context == 0 || resource == 0)
-        {
-            return 0;
-        }
-
-        var input = new Resource(resource);
-        var language = (Language?)GCHandle.FromIntPtr(context).Target;
-
-        if (language == null)
-        {
-            return 0;
-        }
-
-        var result = language.TransformInput(input);
-
-        return result == null
-            ? 0
-            : result.ToPointer();
-    }
-
-    [UnmanagedCallersOnly(EntryPoint = "language_transform_output")]
-    public static nint LanguageTransformOutput(nint context, nint node)
-    {
-        if (context == 0 || node == 0)
-        {
-            return 0;
-        }
-
-        return 0;
-    }
-
-    [UnmanagedCallersOnly(EntryPoint = "language_transform_modify")]
-    public static nint LanguageTransformModify(nint context, nint node)
-    {
-        if (context == 0 || node == 0)
-        {
-            return 0;
-        }
-
-        return 0;
-    }
-
-    [UnmanagedCallersOnly(EntryPoint = "language_resource_types_input")]
-    public static nint LanguageResourceTypesInput(nint context)
-    {
-        if (context == 0)
-        {
-            return 0;
-        }
-
-        var language = (Language?)GCHandle.FromIntPtr(context).Target;
-
-        if (language == null)
-        {
-            return 0;
-        }
-
-        var result = language.ResourceTypesInput;
-
-        return result == null
-            ? 0
-            : result.ToPointer();
-    }
-
-    [UnmanagedCallersOnly(EntryPoint = "language_resource_types_output")]
-    public static nint LanguageResourceTypesOutput(nint context)
-    {
-        if (context == 0)
-        {
-            return 0;
-        }
-
-        var language = (Language?)GCHandle.FromIntPtr(context).Target;
-
-        if (language == null)
-        {
-            return 0;
-        }
-
-        var result = language.ResourceTypesOutput;
-
-        return result == null
-            ? 0
-            : result.ToPointer();
-    }
-
-    [UnmanagedCallersOnly(EntryPoint = "language_resource_types_term")]
-    public static nuint LanguageResourceTypesTerm(nint context, nint resourceTypes)
-    {
-        if (context == 0)
-        {
-            return 0;
-        }
-
-        var language = (Language?)GCHandle.FromIntPtr(context).Target;
-
-        if (language == null)
-        {
-            return 0;
-        }
-
-        return (nuint)(ResourceTypes.TermPointer(resourceTypes) ? 1 : 0);
-    }
-
-    private GCHandle _handle;
+    public ReleaseDelegate Release { get; private set; }
 
     public Language(Config config)
     {
+        Handle = GCHandle.Alloc(this, GCHandleType.Pinned);
+        ConfigureMemoryDelegates(config);
+
+        Acquire ??= Marshal.AllocCoTaskMem;
+        Release ??= Marshal.FreeCoTaskMem;
+    }
+
+    private void ConfigureMemoryDelegates(Config config)
+    {
+        var memoryAcquire = config.GetString("Memory/Acquire");
+        var memoryRelease = config.GetString("Memory/Release");
+
+        if (memoryAcquire != null)
+        {
+            memoryAcquire = memoryAcquire.Replace("0x", "");
+
+            if (nint.TryParse(
+                memoryAcquire,
+                NumberStyles.HexNumber,
+                CultureInfo.InvariantCulture,
+                out nint result))
+            {
+                _nativeAcquire = Marshal.GetDelegateForFunctionPointer<NativeAcquireDelegate>(result);
+                Acquire = (int size) => _nativeAcquire((nuint)size);
+            }
+        }
+
+        if (memoryRelease != null)
+        {
+            memoryRelease = memoryRelease.Replace("0x", "");
+
+            if (nint.TryParse(
+                memoryRelease,
+                NumberStyles.HexNumber,
+                CultureInfo.InvariantCulture,
+                out nint result))
+            {
+                Release = Marshal.GetDelegateForFunctionPointer<ReleaseDelegate>(result);
+            }
+        }
     }
 
     /// <inheritdoc/>
@@ -177,8 +83,8 @@ public class Language : ILanguage
     }
 
     /// <inheritdoc/>
-    public ResourceTypes? ResourceTypesInput => new ResourceTypes(new string[] { "text/plain", "text/x-csharp" });
+    public ResourceTypes? ResourceTypesInput => new(new string[] { "text/plain", "text/x-csharp" });
 
     /// <inheritdoc/>
-    public ResourceTypes? ResourceTypesOutput => new ResourceTypes(Array.Empty<string>());
+    public ResourceTypes? ResourceTypesOutput => new(Array.Empty<string>());
 }

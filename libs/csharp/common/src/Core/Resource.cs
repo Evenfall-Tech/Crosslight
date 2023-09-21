@@ -1,6 +1,7 @@
 ﻿using Crosslight.Core.Utilities;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Crosslight.Core.ILanguage;
 
 namespace Crosslight.Core;
 
@@ -10,7 +11,7 @@ namespace Crosslight.Core;
 public class Resource
 {
     [StructLayout(LayoutKind.Sequential)]
-    private struct ResourceImported : IImported
+    private struct ResourceImported
     {
         public nint Content;
         public nuint ContentSize;
@@ -41,6 +42,10 @@ public class Resource
         _contentType = contentType;
     }
 
+    /// <summary>
+    /// Create a new managed copy of the resource from a native pointer.
+    /// </summary>
+    /// <param name="resourcePtr">Native pointer to the previously created resource.</param>
     public Resource(nint resourcePtr)
     {
         ResourceImported resource = Marshal.PtrToStructure<ResourceImported>(resourcePtr);
@@ -60,15 +65,21 @@ public class Resource
         }
     }
 
-    public nint ToPointer()
+    /// <summary>
+    /// Convert this resource to a native pointer.
+    /// </summary>
+    /// <param name="acquire">Delegate to allocate memory for the resource.</param>
+    /// <returns>The native pointer, leading to the allocated native representation of the resource.</returns>
+    public nint ToPointer(AcquireDelegate? acquire = null)
     {
-        nint pointer = Marshal.AllocHGlobal(Marshal.SizeOf<ResourceImported>());
+        acquire ??= Marshal.AllocCoTaskMem;
+        nint pointer = acquire(Marshal.SizeOf<ResourceImported>());
 
         nint contentPtr = 0;
 
         if (_content != null)
         {
-            contentPtr = Marshal.AllocHGlobal(_content.Length);
+            contentPtr = acquire(_content.Length);
             Marshal.Copy(_content, 0, contentPtr, _content.Length);
         }
 
@@ -76,13 +87,10 @@ public class Resource
 
         if (_contentType != null)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(_contentType);
-            contentTypePtr = Marshal.AllocHGlobal(bytes.Length + 1);
-            Marshal.Copy(bytes, 0, contentTypePtr, bytes.Length);
-            Marshal.WriteByte(contentTypePtr, bytes.Length, 0);
+            contentTypePtr = Utf8String.ToPointer(_contentType, acquire);
         }
 
-        ResourceImported resource = new ResourceImported()
+        ResourceImported resource = new()
         {
             ContentSize = (nuint)(_content?.Length ?? 0),
             Content = contentPtr,

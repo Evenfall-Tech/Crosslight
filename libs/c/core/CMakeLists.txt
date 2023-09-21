@@ -37,8 +37,8 @@ set(PUBLIC_HEADERS_FILES
     "${LIBRARY_BASE_PATH}/include/core/result.h"
     "${LIBRARY_BASE_PATH}/include/core/config.h"
     "${LIBRARY_BASE_PATH}/include/core/node.h"
-    "${LIBRARY_BASE_PATH}/include/core/node/types.h"
-    "${LIBRARY_BASE_PATH}/include/core/node/source_root.h"
+    "${LIBRARY_BASE_PATH}/include/core/nodes/types.h"
+    "${LIBRARY_BASE_PATH}/include/core/nodes/source_root.h"
 )
 
 set(PRIVATE_HEADERS_FILES

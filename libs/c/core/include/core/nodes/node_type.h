@@ -1,5 +1,5 @@
 /**
- * @file core/node/types.h
+ * @file core/nodes/node_type.h
  * @brief The list of supported in-built nodes for the API.
  * 
  * @author Mykola Morozov
@@ -13,6 +13,7 @@
 /**
  * @brief Type of the given node.
  */
-enum cl_node_types {
-    source_root = 0, /**< Textual source file root. */
+enum cl_node_type {
+    none = 0, /**< No payload given. */
+    source_root = 1, /**< Textual source file root. */
 };
