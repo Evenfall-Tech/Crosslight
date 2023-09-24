@@ -2,6 +2,9 @@
 
 namespace Crosslight.Core.Nodes
 {
+    /// <summary>
+    /// Node payload container.
+    /// </summary>
     public interface INodePayload
     {
         /// <summary>

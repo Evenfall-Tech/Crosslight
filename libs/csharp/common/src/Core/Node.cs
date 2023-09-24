@@ -1,5 +1,4 @@
 ﻿using Crosslight.Core.Nodes;
-using Crosslight.Core.Utilities;
 using System.Runtime.InteropServices;
 using static Crosslight.Core.ILanguage;
 
@@ -61,21 +60,87 @@ public class Node
     /// Create a new node instance from a native representation.
     /// </summary>
     /// <param name="pointer">The native pointer to a node.</param>
-    public Node(nint pointer)
+    /// <param name="parent">Parent node, instantiated beforehand.</param>
+    /// <param name="nodeMapping">Mapping of node types to <c>typeof(INodePayload)</c> derivatives.</param>
+    public Node(nint pointer, IDictionary<uint, Func<nint, INodePayload>> nodeMapping, Node? parent = null)
     {
-        throw new NotImplementedException();
+        NodeImported imported = Marshal.PtrToStructure<NodeImported>(pointer);
+
+        Parent = parent; // Ignore parent pointer.
+        int childCount = (int)imported.ChildCount;
+        var offset = Marshal.SizeOf<NodeImported>();
+
+        if (imported.Payload != 0 && imported.PayloadType != 0)
+        {
+            if (nodeMapping.TryGetValue((uint)imported.PayloadType, out var payloadFactory))
+            {
+                Payload = payloadFactory(imported.Payload);
+            }
+            else
+            {
+                throw new NotImplementedException($"Payload type {(uint)imported.PayloadType} is not yet supported.");
+            }
+        }
+
+        if (imported.Children != 0 && childCount > 0)
+        {
+            List<Node> children = new();
+
+            for (int i = 0; i < childCount; ++i)
+            {
+                children.Add(new Node(imported.Children + i * offset, nodeMapping, this));
+            }
+
+            Children = children;
+        }
     }
 
     /// <summary>
     /// Convert this node and all its children to a native pointer.
     /// </summary>
     /// <param name="acquire">Delegate to allocate memory for the node, its contents and children.</param>
+    /// <param name="parentPtr">Pointer to the parent node, if exists.</param>
+    /// <param name="currentPtr">Pointer to the current node, if allocated elsewhere.</param>
     /// <returns>The native pointer, leading to the allocated native representation of the node.</returns>
-    public nint ToPointer(AcquireDelegate? acquire = null)
+    public nint ToPointer(AcquireDelegate? acquire = null, nint parentPtr = 0, nint? currentPtr = null)
     {
         acquire ??= Marshal.AllocCoTaskMem;
-        throw new NotImplementedException();
-        return 0;
+        var offset = Marshal.SizeOf<NodeImported>();
+        currentPtr ??= acquire(offset);
+
+        nint payloadPtr = 0;
+
+        if (Payload != null)
+        {
+            payloadPtr = Payload.ToPointer(acquire);
+        }
+
+        nint childrenPtr = 0;
+
+        if (Children != null && Children.Count > 0)
+        {
+            childrenPtr = acquire(Children.Count * offset);
+            int i = 0;
+
+            foreach (var child in Children)
+            {
+                child.ToPointer(acquire, currentPtr.Value, childrenPtr + i * offset);
+                ++i;
+            }
+        }
+
+        NodeImported resource = new()
+        {
+            Payload = payloadPtr,
+            PayloadType = (nuint)Type,
+            ChildCount = (nuint)(Children?.Count ?? 0),
+            Children = childrenPtr,
+            Parent = parentPtr,
+        };
+
+        Marshal.StructureToPtr(resource, currentPtr.Value, false);
+
+        return currentPtr.Value;
     }
 
     /// <summary>

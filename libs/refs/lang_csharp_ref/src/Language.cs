@@ -64,8 +64,10 @@ public class Language : ILanguage
     /// <inheritdoc/>
     public Node? TransformInput(Resource resource)
     {
-        Console.WriteLine(resource.ContentType);
-        Console.WriteLine(Encoding.UTF8.GetString(resource.Content!));
+        if (ResourceTypesInput?.ContentTypes?.Any(x => x == resource.ContentType) == true)
+        {
+            return null;
+        }
 
         return null;
     }
