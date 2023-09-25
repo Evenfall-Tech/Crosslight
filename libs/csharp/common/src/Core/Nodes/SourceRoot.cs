@@ -1,5 +1,4 @@
-﻿using Crosslight.Core;
-using Crosslight.Core.Nodes;
+﻿using Crosslight.Core.Nodes;
 using Crosslight.Core.Utilities;
 using System.Runtime.InteropServices;
 using static Crosslight.Core.ILanguage;
@@ -38,7 +37,7 @@ namespace Crosslight.src.Core.Nodes
         public readonly NodeType Type => NodeType.SourceRoot;
 
         /// <inheritdoc/>
-        public nint ToPointer(AcquireDelegate? acquire)
+        public readonly nint ToPointer(AcquireDelegate? acquire)
         {
             acquire ??= Marshal.AllocCoTaskMem;
             nint pointer = acquire(Marshal.SizeOf<SourceRootImported>());
@@ -60,6 +59,11 @@ namespace Crosslight.src.Core.Nodes
             Marshal.StructureToPtr(imported, pointer, false);
 
             return pointer;
+        }
+
+        public readonly void AcceptVisitor(INodePayloadVisitor visitor)
+        {
+            visitor.VisitSourceRoot(this);
         }
     }
 }

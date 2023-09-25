@@ -49,7 +49,7 @@ language_init(const struct cl_config* config) {
         return 0;
     }
 
-    auto* lang = new(std::nothrow) language{};
+    auto* lang = new(std::nothrow) language{config};
 
     if (lang == 0) {
         return 0;

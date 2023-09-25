@@ -11,11 +11,12 @@
 #pragma once
 
 #include <stdlib.h>
+#include "core/definitions.h"
 
 /**
  * @brief Base type for language node trees.
  */
-struct cl_node {
+CL_C_DECL struct cl_node {
     const void* payload; /**< Payload node containing specialized fields. */
     size_t payload_type; /**< Type of the payload contained in this node. Should use values from @ref cl_node_type. */
     const struct cl_node* parent; /**< Parent of the current node. Used for faster traversing. */

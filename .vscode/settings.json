@@ -71,6 +71,7 @@
     "forward_list": "cpp",
     "variant": "cpp",
     "stdio.h": "c",
-    "definitions.h": "c"
+    "definitions.h": "c",
+    "csignal": "cpp"
   }
 }

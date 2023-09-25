@@ -8,11 +8,6 @@ set(LIBRARY_VERSION_MAJOR ${CL_VERSION_MAJOR})
 set(LIBRARY_VERSION_STRING ${CL_VERSION_STRING})
 set(LIBRARY_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
-file(
-	  GLOB SOURCES
-	  "${LIBRARY_BASE_PATH}/src/*.cpp"
-)
-
 # set ANTLR4 JAR file path for ANTLR_TARGET command
 get_target_property(ANTLR_EXECUTABLE cl_lang target_antlr_executable)
 get_target_property(LANG_API cl_core target_lang)
@@ -40,8 +35,11 @@ add_library(
     
     ${LANG_API}
     src/main.cpp
+    private_include/lang_typescript/language_options.hpp
     private_include/lang_typescript/language.hpp
+    private_include/lang_typescript/visitor.hpp
     src/language.cpp
+    src/visitor.cpp
 )
 add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 

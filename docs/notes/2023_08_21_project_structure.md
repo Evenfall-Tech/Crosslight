@@ -54,7 +54,8 @@ The C# wrapper for the core library, for use with other language implementations
 
 #### refs/lang_csharp_ref
 
-C# language reference implementation, dependent on the .NET 7 SDK.
+C# language reference implementation, dependent on the .NET 7 SDK. For methods using `AcquireDelegate` and `ReleaseDelegate`,
+it is strongly encouraged to pass their instances, as the defaults may not handle exceptions.
 
 > **Note:**
 - Defines variable `CL_DOTNET_DIR` as a hint for finding the dotnet executable path.

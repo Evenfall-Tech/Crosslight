@@ -10,10 +10,12 @@
 
 #pragma once
 
+#include "core/definitions.h"
+
 /**
  * @brief Type of the given node.
  */
-enum cl_node_type {
+CL_C_DECL enum cl_node_type {
     none = 0, /**< No payload given. */
     source_root = 1, /**< Textual source file root. */
 };

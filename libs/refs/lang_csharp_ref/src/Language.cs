@@ -1,89 +1,25 @@
 using Crosslight.Core;
-using System.Globalization;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using System.Text;
-using static Crosslight.Core.ILanguage;
 
 namespace Crosslight.Lang.CsharpRef;
 
-public class Language : ILanguage
+internal class Language : ILanguage
 {
-    private delegate nint NativeAcquireDelegate(nuint size);
-    private NativeAcquireDelegate? _nativeAcquire;
-
-    public LanguageOptions Options { get; }
+    public static IDictionary<Language, LanguageOptions> Options { get; }
 
     public GCHandle Handle { get; private set; }
 
-    public Language(Config config)
+    static Language()
     {
-        Handle = GCHandle.Alloc(this, GCHandleType.Pinned);
-        bool parseUnsupported;
-        AcquireDelegate acquire;
-        ReleaseDelegate release;
-
-        ConfigureMemoryDelegates(config, out acquire, out release);
-        parseUnsupported = config.GetString("Parsing/ProcessUnsupported") == "true";
-
-        Options = new LanguageOptions()
-        {
-            Acquire = acquire,
-            Release = release,
-            ParseUnsupported = parseUnsupported,
-        };
+        Options = new ConcurrentDictionary<Language, LanguageOptions>();
     }
 
-    private void ConfigureMemoryDelegates(Config config, out AcquireDelegate acquire, out ReleaseDelegate release)
+    public Language(LanguageOptions options)
     {
-        var memoryAcquire = config.GetString("Memory/Acquire");
-        var memoryRelease = config.GetString("Memory/Release");
-        AcquireDelegate? acquireLocal = null;
-        ReleaseDelegate? releaseLocal = null;
-
-        if (memoryAcquire != null)
-        {
-            memoryAcquire = memoryAcquire.Replace("0x", "");
-
-            if (nint.TryParse(
-                memoryAcquire,
-                NumberStyles.HexNumber,
-                CultureInfo.InvariantCulture,
-                out nint result))
-            {
-                _nativeAcquire = Marshal.GetDelegateForFunctionPointer<NativeAcquireDelegate>(result);
-                acquireLocal = (int size) => _nativeAcquire((nuint)size);
-            }
-        }
-
-        if (memoryRelease != null)
-        {
-            memoryRelease = memoryRelease.Replace("0x", "");
-
-            if (nint.TryParse(
-                memoryRelease,
-                NumberStyles.HexNumber,
-                CultureInfo.InvariantCulture,
-                out nint result))
-            {
-                releaseLocal = Marshal.GetDelegateForFunctionPointer<ReleaseDelegate>(result);
-            }
-        }
-
-        acquireLocal ??= (int size) =>
-        {
-            try
-            {
-                return Marshal.AllocCoTaskMem(size);
-            }
-            catch (OutOfMemoryException)
-            {
-                return 0;
-            }
-        };
-        releaseLocal ??= Marshal.FreeCoTaskMem;
-
-        acquire = acquireLocal;
-        release = releaseLocal;
+        Handle = GCHandle.Alloc(this, GCHandleType.Pinned);
+        Options[this] = options;
     }
 
     /// <inheritdoc/>
@@ -100,18 +36,32 @@ public class Language : ILanguage
     /// <inheritdoc/>
     public Node? TransformModify(Node node)
     {
-        throw new NotImplementedException();
+        return null;
     }
 
     /// <inheritdoc/>
     public Resource? TransformOutput(Node node)
     {
-        throw new NotImplementedException();
+        var visitor = new NodePayloadVisitor(Options[this]);
+        node.Payload?.AcceptVisitor(visitor);
+        var text = visitor.Text;
+
+        if (text == null)
+        {
+            return null;
+        }
+
+        List<byte> bytes = new(Encoding.UTF8.GetBytes(text))
+        {
+            0
+        };
+
+        return new Resource(bytes.ToArray(), "text/plain");
     }
 
     /// <inheritdoc/>
-    public ResourceTypes? ResourceTypesInput => new(new string[] { "text/plain", "text/x-csharp" });
+    public ResourceTypes? ResourceTypesInput => new(Array.Empty<string>());
 
     /// <inheritdoc/>
-    public ResourceTypes? ResourceTypesOutput => new(Array.Empty<string>());
+    public ResourceTypes? ResourceTypesOutput => new(new string[] { "text/plain", "text/x-csharp" });
 }

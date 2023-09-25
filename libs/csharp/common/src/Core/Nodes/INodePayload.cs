@@ -23,5 +23,7 @@ namespace Crosslight.Core.Nodes
         /// allocation failed, the function returns <c>0</c>.
         /// </remarks>
         nint ToPointer(AcquireDelegate? acquire);
+
+        void AcceptVisitor(INodePayloadVisitor visitor);
     }
 }
