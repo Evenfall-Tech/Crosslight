@@ -16,21 +16,29 @@ internal class Utf8String : IDisposable
 
     public Utf8String(string value, AcquireDelegate? acquire = null, ReleaseDelegate? release = null)
     {
+        _acquire = acquire ?? Marshal.AllocCoTaskMem;
+        _release = release ?? Marshal.FreeCoTaskMem;
+
         if (value == null)
         {
             _context = 0;
         }
         else
         {
-            _acquire = acquire ?? Marshal.AllocCoTaskMem;
-            _release = release ?? Marshal.FreeCoTaskMem;
-
             byte[] bytes = Encoding.UTF8.GetBytes(value);
             _context = _acquire(bytes.Length + 1);
-            Marshal.Copy(bytes, 0, _context, bytes.Length);
-            Marshal.WriteByte(_context, bytes.Length, 0);
 
-            _bufferSize = bytes.Length + 1;
+            if (_context != 0)
+            {
+                Marshal.Copy(bytes, 0, _context, bytes.Length);
+                Marshal.WriteByte(_context, bytes.Length, 0);
+
+                _bufferSize = bytes.Length + 1;
+            }
+            else
+            {
+                _bufferSize = 0;
+            }
         }
     }
 
@@ -55,8 +63,12 @@ internal class Utf8String : IDisposable
 
         byte[] bytes = Encoding.UTF8.GetBytes(text);
         var ptr = acquire(bytes.Length + 1);
-        Marshal.Copy(bytes, 0, ptr, bytes.Length);
-        Marshal.WriteByte(ptr, bytes.Length, 0);
+
+        if (ptr != 0)
+        {
+            Marshal.Copy(bytes, 0, ptr, bytes.Length);
+            Marshal.WriteByte(ptr, bytes.Length, 0);
+        }
 
         return ptr;
     }

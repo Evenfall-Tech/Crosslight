@@ -70,24 +70,38 @@ public class ResourceTypes
     /// </summary>
     /// <param name="acquire">Delegate to allocate memory for the resource types.</param>
     /// <returns>The native pointer, leading to the allocated native representation of the resource types.</returns>
+    /// <remarks>
+    /// If a memory allocation error occurs anywhere apart from the initial resource types memory allocation,
+    /// the function returns a pointer to a partially converted structure. Otherwise, if the initial
+    /// allocation failed, the function returns <c>0</c>.
+    /// </remarks>
     public nint ToPointer(AcquireDelegate? acquire = null)
     {
         acquire ??= Marshal.AllocCoTaskMem;
         nint pointer = acquire(Marshal.SizeOf<ResourceTypesImported>());
+
+        if (pointer == 0)
+        {
+            return 0;
+        }
+
         nint contentTypes = 0;
         int contentTypesSize = ContentTypes.Count();
 
         if (contentTypesSize > 0)
         {
             var offset = Marshal.SizeOf<nint>();
+            int i = 0;
             contentTypes = acquire(offset * contentTypesSize);
 
-            int i = 0;
-            foreach (var type in ContentTypes)
+            if (contentTypes != 0)
             {
-                var contentTypePtr = Utf8String.ToPointer(type, acquire);
-                Marshal.WriteIntPtr(contentTypes + i * offset, contentTypePtr);
-                ++i;
+                foreach (var type in ContentTypes)
+                {
+                    var contentTypePtr = Utf8String.ToPointer(type, acquire);
+                    Marshal.WriteIntPtr(contentTypes + i * offset, contentTypePtr);
+                    ++i;
+                }
             }
         }
 

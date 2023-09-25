@@ -70,22 +70,36 @@ public class Resource
     /// </summary>
     /// <param name="acquire">Delegate to allocate memory for the resource.</param>
     /// <returns>The native pointer, leading to the allocated native representation of the resource.</returns>
+    /// <remarks>
+    /// If a memory allocation error occurs anywhere apart from the initial resource memory allocation,
+    /// the function returns a pointer to a partially converted structure. Otherwise, if the initial
+    /// allocation failed, the function returns <c>0</c>.
+    /// </remarks>
     public nint ToPointer(AcquireDelegate? acquire = null)
     {
         acquire ??= Marshal.AllocCoTaskMem;
         nint pointer = acquire(Marshal.SizeOf<ResourceImported>());
+
+        if (pointer == 0)
+        {
+            return 0;
+        }
 
         nint contentPtr = 0;
 
         if (_content != null)
         {
             contentPtr = acquire(_content.Length);
-            Marshal.Copy(_content, 0, contentPtr, _content.Length);
+
+            if (contentPtr != 0)
+            {
+                Marshal.Copy(_content, 0, contentPtr, _content.Length);
+            }
         }
 
         nint contentTypePtr = 0;
 
-        if (_contentType != null)
+        if (_contentType != null && contentPtr != 0)
         {
             contentTypePtr = Utf8String.ToPointer(_contentType, acquire);
         }

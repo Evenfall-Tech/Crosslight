@@ -42,9 +42,15 @@ namespace Crosslight.src.Core.Nodes
         {
             acquire ??= Marshal.AllocCoTaskMem;
             nint pointer = acquire(Marshal.SizeOf<SourceRootImported>());
+
+            if (pointer == 0)
+            {
+                return 0;
+            }
+
             nint fileName = FileName == null
                 ? 0
-                : Utf8String.ToPointer(FileName);
+                : Utf8String.ToPointer(FileName, acquire);
 
             SourceRootImported imported = new()
             {

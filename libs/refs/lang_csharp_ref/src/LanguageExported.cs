@@ -49,7 +49,6 @@ public static class LanguageExported
             return 0;
         }
 
-        var input = new Resource(resource);
         var language = (Language?)GCHandle.FromIntPtr(context).Target;
 
         if (language == null)
@@ -57,11 +56,12 @@ public static class LanguageExported
             return 0;
         }
 
+        var input = new Resource(resource);
         var result = language.TransformInput(input);
 
         return result == null
             ? 0
-            : result.ToPointer(language.Acquire);
+            : result.ToPointer(language.Options.Acquire);
     }
 
     [UnmanagedCallersOnly(EntryPoint = "language_transform_output")]
@@ -72,7 +72,34 @@ public static class LanguageExported
             return 0;
         }
 
-        return 0;
+        var language = (Language?)GCHandle.FromIntPtr(context).Target;
+
+        if (language == null)
+        {
+            return 0;
+        }
+
+        Node nodeInstance;
+
+        try
+        {
+            nodeInstance = new Node(
+                node,
+                Node.GetDefaultPayloadMapping(),
+                parent: null,
+                parseChildren: true,
+                parseUnsupported: language.Options.ParseUnsupported);
+        }
+        catch
+        {
+            return 0;
+        }
+
+        var result = language.TransformOutput(nodeInstance);
+
+        return result == null
+            ? 0
+            : result.ToPointer(language.Options.Acquire);
     }
 
     [UnmanagedCallersOnly(EntryPoint = "language_transform_modify")]
@@ -105,7 +132,7 @@ public static class LanguageExported
 
         return result == null
             ? 0
-            : result.ToPointer(language.Acquire);
+            : result.ToPointer(language.Options.Acquire);
     }
 
     [UnmanagedCallersOnly(EntryPoint = "language_resource_types_output")]
@@ -127,7 +154,7 @@ public static class LanguageExported
 
         return result == null
             ? 0
-            : result.ToPointer(language.Acquire);
+            : result.ToPointer(language.Options.Acquire);
     }
 
     [UnmanagedCallersOnly(EntryPoint = "language_resource_types_term")]
@@ -145,6 +172,6 @@ public static class LanguageExported
             return 0;
         }
 
-        return (nuint)(ResourceTypes.TermPointer(resourceTypes, language.Release) ? 1 : 0);
+        return (nuint)(ResourceTypes.TermPointer(resourceTypes, language.Options.Release) ? 1 : 0);
     }
 }

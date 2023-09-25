@@ -1,4 +1,5 @@
 ﻿using Crosslight.Core.Nodes;
+using Crosslight.src.Core.Nodes;
 using System.Runtime.InteropServices;
 using static Crosslight.Core.ILanguage;
 
@@ -60,9 +61,16 @@ public class Node
     /// Create a new node instance from a native representation.
     /// </summary>
     /// <param name="pointer">The native pointer to a node.</param>
-    /// <param name="parent">Parent node, instantiated beforehand.</param>
     /// <param name="nodeMapping">Mapping of node types to <c>typeof(INodePayload)</c> derivatives.</param>
-    public Node(nint pointer, IDictionary<uint, Func<nint, INodePayload>> nodeMapping, Node? parent = null)
+    /// <param name="parent">Parent node, instantiated beforehand.</param>
+    /// <param name="parseChildren">Whether children of the current node should be parsed.</param>
+    /// <param name="parseUnsupported">Whether unsupported nodes should be parsed.</param>
+    public Node(
+        nint pointer,
+        IReadOnlyDictionary<uint, Func<nint, INodePayload?>> nodeMapping,
+        Node? parent = null,
+        bool parseChildren = false,
+        bool parseUnsupported = true)
     {
         NodeImported imported = Marshal.PtrToStructure<NodeImported>(pointer);
 
@@ -76,19 +84,19 @@ public class Node
             {
                 Payload = payloadFactory(imported.Payload);
             }
-            else
+            else if (!parseUnsupported)
             {
                 throw new NotImplementedException($"Payload type {(uint)imported.PayloadType} is not yet supported.");
             }
         }
 
-        if (imported.Children != 0 && childCount > 0)
+        if (parseChildren && imported.Children != 0 && childCount > 0)
         {
             List<Node> children = new();
 
             for (int i = 0; i < childCount; ++i)
             {
-                children.Add(new Node(imported.Children + i * offset, nodeMapping, this));
+                children.Add(new Node(imported.Children + i * offset, nodeMapping, this, parseChildren, parseUnsupported));
             }
 
             Children = children;
@@ -102,11 +110,21 @@ public class Node
     /// <param name="parentPtr">Pointer to the parent node, if exists.</param>
     /// <param name="currentPtr">Pointer to the current node, if allocated elsewhere.</param>
     /// <returns>The native pointer, leading to the allocated native representation of the node.</returns>
+    /// <remarks>
+    /// If a memory allocation error occurs anywhere apart from the initial node memory allocation,
+    /// the function returns a pointer to a partially converted structure. Otherwise, if the initial
+    /// allocation failed, the function returns <c>0</c>.
+    /// </remarks>
     public nint ToPointer(AcquireDelegate? acquire = null, nint parentPtr = 0, nint? currentPtr = null)
     {
         acquire ??= Marshal.AllocCoTaskMem;
         var offset = Marshal.SizeOf<NodeImported>();
         currentPtr ??= acquire(offset);
+
+        if (currentPtr.Value == 0)
+        {
+            return 0;
+        }
 
         nint payloadPtr = 0;
 
@@ -122,10 +140,13 @@ public class Node
             childrenPtr = acquire(Children.Count * offset);
             int i = 0;
 
-            foreach (var child in Children)
+            if (childrenPtr != 0)
             {
-                child.ToPointer(acquire, currentPtr.Value, childrenPtr + i * offset);
-                ++i;
+                foreach (var child in Children)
+                {
+                    child.ToPointer(acquire, currentPtr.Value, childrenPtr + i * offset);
+                    ++i;
+                }
             }
         }
 
@@ -161,5 +182,36 @@ public class Node
         }
 
         return null;
+    }
+
+    public static IReadOnlyCollection<nint>? GetChildren(nint pointer)
+    {
+        NodeImported imported = Marshal.PtrToStructure<NodeImported>(pointer);
+
+        int childCount = (int)imported.ChildCount;
+        var offset = Marshal.SizeOf<NodeImported>();
+
+        if (imported.Children != 0 && childCount > 0)
+        {
+            List<nint> children = new();
+
+            for (int i = 0; i < childCount; ++i)
+            {
+                children.Add(imported.Children + i * offset);
+            }
+
+            return children;
+        }
+
+        return null;
+    }
+
+    public static IReadOnlyDictionary<uint, Func<nint, INodePayload?>> GetDefaultPayloadMapping()
+    {
+        return new Dictionary<uint, Func<nint, INodePayload?>>()
+        {
+            { (uint)NodeType.None, (nint _) => null },
+            { (uint)NodeType.SourceRoot, (nint p) => p == 0 ? null : new SourceRoot(p) },
+        };
     }
 }

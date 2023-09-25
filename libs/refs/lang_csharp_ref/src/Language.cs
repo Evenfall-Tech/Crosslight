@@ -11,25 +11,34 @@ public class Language : ILanguage
     private delegate nint NativeAcquireDelegate(nuint size);
     private NativeAcquireDelegate? _nativeAcquire;
 
+    public LanguageOptions Options { get; }
+
     public GCHandle Handle { get; private set; }
-
-    public AcquireDelegate Acquire { get; private set; }
-
-    public ReleaseDelegate Release { get; private set; }
 
     public Language(Config config)
     {
         Handle = GCHandle.Alloc(this, GCHandleType.Pinned);
-        ConfigureMemoryDelegates(config);
+        bool parseUnsupported;
+        AcquireDelegate acquire;
+        ReleaseDelegate release;
 
-        Acquire ??= Marshal.AllocCoTaskMem;
-        Release ??= Marshal.FreeCoTaskMem;
+        ConfigureMemoryDelegates(config, out acquire, out release);
+        parseUnsupported = config.GetString("Parsing/ProcessUnsupported") == "true";
+
+        Options = new LanguageOptions()
+        {
+            Acquire = acquire,
+            Release = release,
+            ParseUnsupported = parseUnsupported,
+        };
     }
 
-    private void ConfigureMemoryDelegates(Config config)
+    private void ConfigureMemoryDelegates(Config config, out AcquireDelegate acquire, out ReleaseDelegate release)
     {
         var memoryAcquire = config.GetString("Memory/Acquire");
         var memoryRelease = config.GetString("Memory/Release");
+        AcquireDelegate? acquireLocal = null;
+        ReleaseDelegate? releaseLocal = null;
 
         if (memoryAcquire != null)
         {
@@ -42,7 +51,7 @@ public class Language : ILanguage
                 out nint result))
             {
                 _nativeAcquire = Marshal.GetDelegateForFunctionPointer<NativeAcquireDelegate>(result);
-                Acquire = (int size) => _nativeAcquire((nuint)size);
+                acquireLocal = (int size) => _nativeAcquire((nuint)size);
             }
         }
 
@@ -56,9 +65,25 @@ public class Language : ILanguage
                 CultureInfo.InvariantCulture,
                 out nint result))
             {
-                Release = Marshal.GetDelegateForFunctionPointer<ReleaseDelegate>(result);
+                releaseLocal = Marshal.GetDelegateForFunctionPointer<ReleaseDelegate>(result);
             }
         }
+
+        acquireLocal ??= (int size) =>
+        {
+            try
+            {
+                return Marshal.AllocCoTaskMem(size);
+            }
+            catch (OutOfMemoryException)
+            {
+                return 0;
+            }
+        };
+        releaseLocal ??= Marshal.FreeCoTaskMem;
+
+        acquire = acquireLocal;
+        release = releaseLocal;
     }
 
     /// <inheritdoc/>
