@@ -61,7 +61,7 @@ if(CL_BUILD_CSHARP)
         CACHE PATH "Folder containing the dotnet executable."
     )
 
-    if(NOT CL_DOTNET_COMMAND)
+    if(NOT CL_DOTNET_COMMAND OR (CL_DOTNET_COMMAND MATCHES "CL_DOTNET_COMMAND-NOTFOUND"))
         if(CL_DOTNET_DIR)
             find_program(
                 CL_DOTNET_COMMAND dotnet
@@ -85,11 +85,18 @@ if(CL_BUILD_CSHARP)
             else()
                 message(FATAL_ERROR "Unsupported architecture ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCESSOR}.")
             endif()
+        elseif("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
+            if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "arm64")
+                set(CL_DOTNET_RID "osx-arm64" CACHE STRING "Dotnet target RuntimeIdentifier.")
+                message(FATAL_ERROR "Arm64 MacOS will be supported from .NET 8.0 onwards.")
+            else()
+                message(FATAL_ERROR "Unsupported architecture ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCESSOR}.")
+            endif()
         else()
             message(FATAL_ERROR "Unsupported architecture ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCESSOR}.")
         endif()
     endif()
-
+    
     add_subdirectory("libs/csharp")
 endif()
 
