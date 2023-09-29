@@ -1,5 +1,6 @@
 #pragma once
 
+#undef ANTLR4CPP_EXPORTS
 #include "ParserTsBaseVisitor.h"
 #include "lang_typescript/language_options.hpp"
 

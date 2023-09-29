@@ -43,7 +43,7 @@ add_library(
 )
 add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 
-target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang)
+target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang antlr4_shared)
 
 target_include_directories(${BINARY_NAME} PRIVATE
     ${ANTLR_TypescriptGrammarLexer_OUTPUT_DIR}

@@ -16,6 +16,7 @@ add_custom_target(${BINARY_NAME}
     COMMAND ${CL_DOTNET_COMMAND} publish Crosslight.csproj
         -c "$<CONFIG>"
         -r ${CL_DOTNET_RID}
+        --self-contained
         -o "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}"
         -p:CommonAssemblyName=${CMAKE_SHARED_LIBRARY_PREFIX}${BINARY_NAME}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}

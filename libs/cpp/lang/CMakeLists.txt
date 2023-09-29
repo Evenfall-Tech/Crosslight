@@ -66,6 +66,7 @@ set_target_properties(
     target_antlr_libraries  "${ANTLR_RUNTIME_LIBRARIES}"
 )
 
+target_compile_definitions(${BINARY_NAME} PRIVATE CL_LANG_COMPILATION)
 target_compile_features(${BINARY_NAME} PUBLIC cxx_std_17)
 set_target_properties(${BINARY_NAME} PROPERTIES CXX_EXTENSIONS OFF)
 

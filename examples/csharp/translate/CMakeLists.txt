@@ -16,6 +16,7 @@ add_custom_target(${BINARY_NAME}
     COMMAND ${CL_DOTNET_COMMAND} publish Crosslight.Examples.Translate.csproj
         -c "$<CONFIG>"
         -r ${CL_DOTNET_RID}
+        --self-contained
         -o "${CL_BINARY_DIR}/$<CONFIG>/examples"
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )

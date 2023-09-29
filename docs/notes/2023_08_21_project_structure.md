@@ -44,6 +44,7 @@ The language parsing interface, importing antlr and forwarding it to individual 
 > **Note:**
 - Defines target property `target_antlr_executable` pointing to the ANTLR4 jar file.
 - Defines target property `target_antlr_libraries` pointing to ANTLR4 runtime libraries.
+- Language implementations should specify `#undef ANTLR4CPP_EXPORTS` before every inclusion of `"antlr4-runtime.h"` or generated files.
 
 #### csharp/common
 

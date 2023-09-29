@@ -17,6 +17,7 @@
 #include <utility>
 
 #include "core/definitions.h"
+#include "lang/def_visibility.hpp"
 
 #if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L)
 #  define DYLIB_CPP17
@@ -48,7 +49,7 @@ namespace cl::lang {
  * @brief The plugin class can hold a dynamic library instance and interact with it 
  *  by getting its symbols like functions or global variables.
  */
-class plugin {
+class CL_API plugin {
 public:
     struct filename_components {
         static constexpr const char *prefix = DYLIB_WIN_OTHER("", "lib");

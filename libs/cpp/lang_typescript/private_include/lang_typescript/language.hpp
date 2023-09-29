@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#undef ANTLR4CPP_EXPORTS
 #include "antlr4-runtime.h"
 #include "lang/language.hpp"
 #include "lang_typescript/language_options.hpp"

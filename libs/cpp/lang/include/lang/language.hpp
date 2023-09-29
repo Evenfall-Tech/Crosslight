@@ -1,6 +1,7 @@
 #pragma once
 
 #include <set>
+#include "lang/def_visibility.hpp"
 
 struct cl_resource_types;
 struct cl_resource;
@@ -12,7 +13,7 @@ namespace cl::lang
 /**
  * @brief A simple language interface to unify language implementations.
  */
-class language {
+class CL_API language {
 public:
     /**
      * @brief Get all supported input MIME-types.

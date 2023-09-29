@@ -33,4 +33,16 @@ set_target_properties(
     RUNTIME_OUTPUT_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/tests"
 )
 
+set(
+    dependencies
+    $<TARGET_FILE:cl_core>
+)
+
+add_custom_command(
+    TARGET ${BINARY_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${dependencies} .
+    WORKING_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/tests"
+)
+
 add_test(NAME "${BINARY_NAME}_test" COMMAND ${BINARY_NAME})

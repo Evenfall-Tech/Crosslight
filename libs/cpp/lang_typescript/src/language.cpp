@@ -2,6 +2,7 @@
 #include <string>
 #include <cstring>
 #include <sstream>
+#undef ANTLR4CPP_EXPORTS
 #include "antlr4-runtime.h"
 #include "LexerTs.h"
 #include "ParserTs.h"

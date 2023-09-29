@@ -26,7 +26,7 @@ struct cl_config;
  * 
  * @warning The caller is responsible for deleting the instance with @ref cl_config_term(struct cl_config*).
  */
-CL_C_DECL struct cl_config* cl_config_init();
+CL_C_DECL CL_API struct cl_config* cl_config_init();
 
 /**
  * @brief Delete an instance of the config.
@@ -34,7 +34,7 @@ CL_C_DECL struct cl_config* cl_config_init();
  * @param[in] config Config instance to delete.
  * @return `0` if deletion failed, `1` otherwise.
  */
-CL_C_DECL size_t cl_config_term(struct cl_config* config);
+CL_C_DECL CL_API size_t cl_config_term(struct cl_config* config);
 
 /**
  * @brief Get a string value from the config based on a key.
@@ -45,7 +45,7 @@ CL_C_DECL size_t cl_config_term(struct cl_config* config);
  * 
  * @warning The caller should create a copy of the value if modification is desired.
  */
-CL_C_DECL const char* cl_config_string_get(const struct cl_config* context, const char* key);
+CL_C_DECL CL_API const char* cl_config_string_get(const struct cl_config* context, const char* key);
 
 /**
  * @brief Set a string value in the config based on a key.
@@ -59,4 +59,4 @@ CL_C_DECL const char* cl_config_string_get(const struct cl_config* context, cons
  * @warning If a memory allocation error occurs, the function should terminate gracefully
  * and not change the @p context state.
  */
-CL_C_DECL size_t cl_config_string_set(struct cl_config* context, const char* key, const char* value);
+CL_C_DECL CL_API size_t cl_config_string_set(struct cl_config* context, const char* key, const char* value);

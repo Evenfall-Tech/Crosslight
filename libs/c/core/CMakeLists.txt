@@ -70,6 +70,7 @@ set_target_properties(
     target_lang         "${LIBRARY_BASE_PATH}/include/core/language.h"
 )
 
+target_compile_definitions(${BINARY_NAME} PRIVATE CL_CORE_COMPILATION)
 target_compile_features(${BINARY_NAME} PUBLIC c_std_17)
 set_target_properties(${BINARY_NAME} PROPERTIES C_EXTENSIONS OFF)
 

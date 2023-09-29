@@ -12,6 +12,7 @@
 #pragma once
 
 #include <stack>
+#undef ANTLR4CPP_EXPORTS
 #include "antlr4-runtime.h"
 
 namespace cl::lang::typescript {

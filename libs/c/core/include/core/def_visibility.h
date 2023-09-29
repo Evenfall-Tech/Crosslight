@@ -40,7 +40,8 @@
 #  define CL_C_DECL
 #endif
 
-#if defined(CL_COMPILATION)
+#undef CL_API
+#if defined(CL_CORE_COMPILATION)
 #  define CL_API HEDLEY_PUBLIC
 #else
 /**

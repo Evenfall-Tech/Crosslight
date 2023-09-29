@@ -2,6 +2,7 @@
 
 #include <string>
 #include <optional>
+#include "lang/def_visibility.hpp"
 
 struct cl_config;
 
@@ -11,7 +12,7 @@ namespace cl::lang {
  * @brief Object-oriented key-value pair configuration wrapper.
  * Hierarchial keys supported through `key1/key2`.
  */
-class config {
+class CL_API config {
 public:
     /**
      * @brief Create a new instance of the config.
