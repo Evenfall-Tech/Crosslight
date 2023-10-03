@@ -44,7 +44,7 @@ function_init(void* library, const char* name) {
 const struct cl_node* parse_input(struct cl_config* config, const struct cl_resource* resource) {
     const char library_name[] =
 #if CL_WINDOWS == 1
-        "./cl_lang_typescript.dll";
+        "../bin/plugins/cl_lang_typescript.dll";
 #elif CL_LINUX == 1
         "../bin/plugins/libcl_lang_typescript.so";
 #elif CL_MACOS == 1
@@ -143,7 +143,7 @@ const struct cl_node* parse_input(struct cl_config* config, const struct cl_reso
 const struct cl_resource* parse_output(struct cl_config* config, const struct cl_node* node) {
     const char library_name[] =
 #if CL_WINDOWS == 1
-        "./cl_lang_csharp_ref.dll";
+        "../bin/plugins/cl_lang_csharp_ref.dll";
 #elif CL_LINUX == 1
         "../bin/plugins/libcl_lang_csharp_ref.so";
 #elif CL_MACOS == 1
