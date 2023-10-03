@@ -27,3 +27,11 @@ set_target_properties(
 #    SOVERSION                ${LIBRARY_VERSION_MAJOR} # clang-14: error: invalid argument '-current_version 0.1.0' only allowed with '-dynamiclib'
     FOLDER                   ${CL_FOLDER_EXAMPLES}
 )
+
+add_dependencies(${BINARY_NAME} cl_core)
+add_custom_command(
+    TARGET ${BINARY_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cl_core> ./${CMAKE_SHARED_LIBRARY_PREFIX}cl_core${CMAKE_SHARED_LIBRARY_SUFFIX}
+    WORKING_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
+)

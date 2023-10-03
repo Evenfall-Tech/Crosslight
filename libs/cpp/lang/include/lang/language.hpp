@@ -13,7 +13,7 @@ namespace cl::lang
 /**
  * @brief A simple language interface to unify language implementations.
  */
-class CL_API language {
+class CL_API_OBJ language {
 public:
     /**
      * @brief Get all supported input MIME-types.

@@ -12,7 +12,7 @@ namespace cl::lang {
  * @brief Object-oriented key-value pair configuration wrapper.
  * Hierarchial keys supported through `key1/key2`.
  */
-class CL_API config {
+class CL_API_OBJ config {
 public:
     /**
      * @brief Create a new instance of the config.

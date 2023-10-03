@@ -11,6 +11,9 @@
 #pragma once
 
 #include <stdint.h>
+#include "core/definitions.h"
+
+CL_BEGIN_C_DECLS
 
 /**
  * @brief External data resource. Usually in form of a text source file,
@@ -29,3 +32,5 @@ struct cl_resource_types {
     const char* const* content_types; /**< MIME-type array. Null-pointer if @p content_types_size is `0`. */
     size_t content_types_size;  /**< Number of elements in the array. */
 };
+
+CL_END_C_DECLS

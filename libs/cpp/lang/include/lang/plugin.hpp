@@ -49,7 +49,7 @@ namespace cl::lang {
  * @brief The plugin class can hold a dynamic library instance and interact with it 
  *  by getting its symbols like functions or global variables.
  */
-class CL_API plugin {
+class CL_API_OBJ plugin {
 public:
     struct filename_components {
         static constexpr const char *prefix = DYLIB_WIN_OTHER("", "lib");

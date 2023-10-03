@@ -48,7 +48,7 @@ const struct cl_node* parse_input(struct cl_config* config, const struct cl_reso
 #elif CL_LINUX == 1
         "../bin/plugins/libcl_lang_typescript.so";
 #elif CL_MACOS == 1
-        "./cl_lang_typescript.dylib";
+        "../bin/plugins/libcl_lang_typescript.so";
 #endif
 
     void* lang_library = library_init(library_name);
@@ -147,7 +147,7 @@ const struct cl_resource* parse_output(struct cl_config* config, const struct cl
 #elif CL_LINUX == 1
         "../bin/plugins/libcl_lang_csharp_ref.so";
 #elif CL_MACOS == 1
-        "./cl_lang_csharp_ref.dylib";
+        "../bin/plugins/libcl_lang_csharp_ref.dylib";
 #endif
 
     void* lang_library = library_init(library_name);
@@ -251,7 +251,7 @@ main(int argc, char **argv) {
     // Setup resource.
 
     struct cl_resource resourceIn;
-    resourceIn.content = code;
+    resourceIn.content = (const uint8_t*)code;
     resourceIn.content_type = type;
     resourceIn.content_size = sizeof(code);
     
