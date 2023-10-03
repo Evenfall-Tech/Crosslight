@@ -1,12 +1,10 @@
 # Crosslight
 
-A language translation / interpretation engine for cross-language compilation / execution. Run Crosslight from GUI or CLI, select languages for input and output, specify input and output files and see the magic!
+A language translation / interpretation engine for cross-language compilation / execution. Run Crosslight, select languages for input and output, specify input and output files and see the magic!
 
 ## About
 
-Crosslight is developed as a plugin-based translation / interpretation environment. The initial goal of this repository was to translate C# code into C++ to use in time-dependent applications (with hopes of speeding up the runtime).
-
-Since the rewrite, Crosslight 0.2.0 supports...
+Crosslight is developed as a plugin-based translation / interpretation environment. The initial goal of this repository was to translate C# code into C++ to use in time-dependent applications (with hopes of speeding up the runtime). After the rewrite, the repository is configured for typescript->C# conversion, but this will be expanded in the future.
 
 > **Note:**
 > To be done.
