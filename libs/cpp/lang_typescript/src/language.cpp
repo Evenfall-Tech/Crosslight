@@ -2,6 +2,7 @@
 #include <string>
 #include <cstring>
 #include <sstream>
+#include <iostream>
 #undef ANTLR4CPP_EXPORTS
 #include "antlr4-runtime.h"
 #include "LexerTs.h"
@@ -91,7 +92,7 @@ language::transform_input(const struct cl_resource* resource) const {
             visitor v{*_options};
             tree->accept(&v);
 
-            //std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
+            std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
 
             return v.get_root();
         }

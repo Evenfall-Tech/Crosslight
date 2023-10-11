@@ -13,4 +13,8 @@ public enum NodeType : uint
     /// Textual source file root.
     /// </summary>
     SourceRoot = 1,
+    /// <summary>
+    /// Declaration scope.
+    /// </summary>
+    Scope = 2,
 }

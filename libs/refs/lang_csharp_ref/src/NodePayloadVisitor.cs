@@ -10,6 +10,7 @@ namespace Crosslight.Lang.CsharpRef
     {
         private readonly LanguageOptions _options;
         private CSharpSyntaxNode? _rootNode;
+        private CSharpSyntaxNode? _parentNode;
 
         public string? Text => _rootNode?
             .NormalizeWhitespace()
@@ -23,6 +24,11 @@ namespace Crosslight.Lang.CsharpRef
         public void VisitSourceRoot(SourceRoot payload)
         {
             _rootNode = SyntaxFactory.CompilationUnit();
+        }
+
+        public void VisitScope(Scope payload)
+        {
+
         }
     }
 }

@@ -31,8 +31,8 @@ set_target_properties(
 set(
     dependencies
     $<TARGET_FILE:cl_core> ${ANTLR_RUNTIME_LIBRARIES} $<TARGET_FILE:cl_lang>
-    $<TARGET_FILE:cl_lang_typescript>
-    "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins/${CMAKE_SHARED_LIBRARY_PREFIX}cl_lang_csharp_ref${CMAKE_SHARED_LIBRARY_SUFFIX}"
+    #$<TARGET_FILE:cl_lang_typescript>
+    #"${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins/${CMAKE_SHARED_LIBRARY_PREFIX}cl_lang_csharp_ref${CMAKE_SHARED_LIBRARY_SUFFIX}"
 )
 
 add_custom_command(
@@ -40,4 +40,10 @@ add_custom_command(
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy ${dependencies} .
     WORKING_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
+)
+add_custom_command(
+    TARGET ${BINARY_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cl_core> ./${CMAKE_SHARED_LIBRARY_PREFIX}cl_core${CMAKE_SHARED_LIBRARY_SUFFIX}
+    WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins"
 )
