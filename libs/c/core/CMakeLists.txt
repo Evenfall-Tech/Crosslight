@@ -39,6 +39,7 @@ set(PUBLIC_HEADERS_FILES
     "${LIBRARY_BASE_PATH}/include/core/node.h"
     "${LIBRARY_BASE_PATH}/include/core/nodes/node_type.h"
     "${LIBRARY_BASE_PATH}/include/core/nodes/source_root.h"
+    "${LIBRARY_BASE_PATH}/include/core/nodes/scope.h"
 )
 
 set(PRIVATE_HEADERS_FILES
