@@ -5,6 +5,7 @@
 #include "core/config.h"
 #include "core/resource.h"
 #include "core/node.h"
+#include "parse/visualize.h"
 
 #if CL_WINDOWS == 1
 #  define WIN32_LEAN_AND_MEAN
@@ -280,6 +281,7 @@ main(int argc, char **argv) {
     cl_config_string_set(config, "Parsing/ProcessUnsupported", parseProcessUnsupportedString);
 
     const struct cl_node* node = parse_input(config, &resourceIn);
+    print_tree(node);
     const struct cl_resource* resource = parse_output(config, node);
     
     printf("Output is below:\n%s\n", (const char*)resource->content);

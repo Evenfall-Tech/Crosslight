@@ -15,5 +15,6 @@ cl_utils_string_duplicate(const char* value) {
         return 0;
     }
 
+    result[length] = 0;
     return strcpy(result, value);
 }

@@ -9,6 +9,7 @@ set(APP_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 file(
     GLOB SOURCES
+    "${APP_BASE_PATH}/include/*.h"
     "${APP_BASE_PATH}/src/*.c"
 )
 
@@ -16,6 +17,7 @@ add_executable(
     ${BINARY_NAME} ${SOURCES}
 )
 
+target_include_directories(${BINARY_NAME} PRIVATE "${APP_BASE_PATH}/include")
 target_link_libraries(${BINARY_NAME} PRIVATE cl_core)
 
 add_dependencies(${BINARY_NAME} cl_lang cl_lang_typescript cl_lang_csharp_ref)

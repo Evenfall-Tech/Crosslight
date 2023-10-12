@@ -91,6 +91,7 @@ public static class LanguageExported
                 parent: null,
                 parseChildren: true,
                 parseUnsupported: Language.Options[language].ParseUnsupported);
+            Console.WriteLine(nodeInstance);
         }
         catch
         {

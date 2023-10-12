@@ -1,6 +1,7 @@
 ﻿using Crosslight.Core.Nodes;
 using Crosslight.Core.Utilities;
 using System.Runtime.InteropServices;
+using Crosslight.Core;
 using static Crosslight.Core.ILanguage;
 
 namespace Crosslight.src.Core.Nodes
@@ -64,9 +65,14 @@ namespace Crosslight.src.Core.Nodes
             return pointer;
         }
 
-        public readonly void AcceptVisitor(INodePayloadVisitor visitor)
+        public readonly object? AcceptVisitor(Node node, INodePayloadVisitor visitor)
         {
-            visitor.VisitScope(this);
+            return visitor.VisitScope(node, this);
+        }
+
+        public override string ToString()
+        {
+            return $"{{ {nameof(Scope)}-{Identifier} }}";
         }
     }
 }

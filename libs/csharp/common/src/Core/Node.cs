@@ -28,6 +28,11 @@ public class Node
     public NodeType Type => Payload?.Type ?? NodeType.None;
 
     /// <summary>
+    /// Check if this node has traversable children.
+    /// </summary>
+    public bool HasChildren => Children is { Count: > 0 };
+
+    /// <summary>
     /// Parent of the current node. Used for faster traversing.
     /// </summary>
     public Node? Parent { get; private set; }
@@ -46,12 +51,13 @@ public class Node
     {
         if (children != null)
         {
-            foreach (var child in children)
+            var nodes = children.ToList();
+            foreach (var child in nodes)
             {
                 child.Parent = this;
             }
 
-            Children = children.ToList();
+            Children = nodes;
         }
 
         Payload = payload;
@@ -72,10 +78,10 @@ public class Node
         bool parseChildren = false,
         bool parseUnsupported = true)
     {
-        NodeImported imported = Marshal.PtrToStructure<NodeImported>(pointer);
+        var imported = Marshal.PtrToStructure<NodeImported>(pointer);
 
         Parent = parent; // Ignore parent pointer.
-        int childCount = (int)imported.ChildCount;
+        var childCount = (int)imported.ChildCount;
         var offset = Marshal.SizeOf<NodeImported>();
 
         if (imported.Payload != 0 && imported.PayloadType != 0)
@@ -135,7 +141,7 @@ public class Node
 
         nint childrenPtr = 0;
 
-        if (Children != null && Children.Count > 0)
+        if (Children is { Count: > 0 })
         {
             childrenPtr = acquire(Children.Count * offset);
             int i = 0;
@@ -171,17 +177,21 @@ public class Node
     /// <returns>The payload instance, if it exists and the type is correct. Otherwise <see langword="null"/>.</returns>
     public TPayload? GetPayload<TPayload>() where TPayload : struct, INodePayload
     {
-        if (Payload == null)
-        {
-            return null;
-        }
-
         if (Payload is TPayload payload)
         {
             return payload;
         }
 
         return null;
+    }
+
+    public override string ToString()
+    {
+        return $"{{ Payload-{Type}-{Payload} Children-[" +
+            (Children is { Count: > 0 }
+                ? $"\n{string.Join(",\n", Children ?? Array.Empty<Node>())}\n"
+                : "") +
+            "] }";
     }
 
     public static IReadOnlyCollection<nint>? GetChildren(nint pointer)
@@ -212,6 +222,7 @@ public class Node
         {
             { (uint)NodeType.None, (nint _) => null },
             { (uint)NodeType.SourceRoot, (nint p) => p == 0 ? null : new SourceRoot(p) },
+            { (uint)NodeType.Scope, (nint p) => p == 0 ? null : new Scope(p) },
         };
     }
 }

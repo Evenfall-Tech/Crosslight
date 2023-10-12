@@ -25,5 +25,7 @@ private:
     struct cl_node* _root;
     struct cl_node* _parent;
     const language_options& _options;
+
+    std::any visitNode(antlr4::tree::ParseTree* ctx, void* payload, std::size_t payload_type, bool visit_children);
 };
 }
