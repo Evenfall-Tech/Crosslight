@@ -52,10 +52,13 @@ namespace Crosslight.Lang.CsharpRef
 
         public override object? VisitScope(Node node, Scope payload)
         {
-            var syntax = SyntaxFactory.NamespaceDeclaration(
-                SyntaxFactory.IdentifierName(payload.Identifier
-                    ?? throw new NotSupportedException("Namespaces without identifiers are not supported."))
-                ).AddMembers(SyntaxFactory.ClassDeclaration("Hello"));
+            var identifier = SyntaxFactory.IdentifierName(
+                payload.Identifier
+                ?? throw new NotSupportedException(
+                    "Namespaces without identifiers are not supported."));
+            BaseNamespaceDeclarationSyntax syntax = node.HasChildren
+                ? SyntaxFactory.NamespaceDeclaration(identifier)
+                : SyntaxFactory.FileScopedNamespaceDeclaration(identifier);
 
             if (node.HasChildren)
             {
