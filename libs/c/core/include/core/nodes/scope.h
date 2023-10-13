@@ -13,7 +13,7 @@
 /**
  * @brief Declaration scope, mapping to e.g. namespaces.
  * 
- * Empty scope is assumed to be global. If a truly empty scope is desired, an empty node can be placed inside.
+ * Empty scope is assumed to be global (e.g. a file-scoped namespace). If a truly empty scope is desired, an empty node can be placed inside.
  */
 struct cl_node_scope {
     const char* identifier; /**< Full identifier of the scope, can be separated with '.'. Can be empty or `0`. */

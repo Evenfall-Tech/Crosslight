@@ -249,7 +249,7 @@ const struct cl_resource* parse_output(struct cl_config* config, const struct cl
 int
 main(int argc, char **argv) {
     const char code[] =
-        u8"namespace Shapes {"
+        u8"export namespace D3.Shapes {"
         u8"export interface IVector {"
         u8"data: byte[];"
         u8"length: size;"
