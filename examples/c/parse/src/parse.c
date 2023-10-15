@@ -5,6 +5,7 @@
 #include "core/config.h"
 #include "core/resource.h"
 #include "core/node.h"
+#include "parse/visualize.h"
 
 #if CL_WINDOWS == 1
 #  define WIN32_LEAN_AND_MEAN
@@ -19,7 +20,13 @@ library_init(const char* path) {
 #if CL_WINDOWS == 1
     return LoadLibraryA(path);
 #else
-    return dlopen(path, RTLD_NOW | RTLD_LOCAL);
+    void* result = dlopen(path, RTLD_NOW | RTLD_LOCAL);
+    
+    if (result == 0) {
+        printf("dlopen failed: %s\n", dlerror());
+    }
+
+    return result;
 #endif
 }
 
@@ -44,11 +51,11 @@ function_init(void* library, const char* name) {
 const struct cl_node* parse_input(struct cl_config* config, const struct cl_resource* resource) {
     const char library_name[] =
 #if CL_WINDOWS == 1
-        "../bin/plugins/cl_lang_typescript.dll";
+        "./../bin/plugins/cl_lang_typescript.dll";
 #elif CL_LINUX == 1
-        "../bin/plugins/libcl_lang_typescript.so";
+        "./../bin/plugins/libcl_lang_typescript.so";
 #elif CL_MACOS == 1
-        "../bin/plugins/libcl_lang_typescript.so";
+        "./../bin/plugins/libcl_lang_typescript.so";
 #endif
 
     void* lang_library = library_init(library_name);
@@ -143,11 +150,11 @@ const struct cl_node* parse_input(struct cl_config* config, const struct cl_reso
 const struct cl_resource* parse_output(struct cl_config* config, const struct cl_node* node) {
     const char library_name[] =
 #if CL_WINDOWS == 1
-        "../bin/plugins/cl_lang_csharp_ref.dll";
+        "./../bin/plugins/cl_lang_csharp_ref.dll";
 #elif CL_LINUX == 1
-        "../bin/plugins/libcl_lang_csharp_ref.so";
+        "./../bin/plugins/libcl_lang_csharp_ref.so";
 #elif CL_MACOS == 1
-        "../bin/plugins/libcl_lang_csharp_ref.dylib";
+        "./../bin/plugins/libcl_lang_csharp_ref.dylib";
 #endif
 
     void* lang_library = library_init(library_name);
@@ -242,9 +249,11 @@ const struct cl_resource* parse_output(struct cl_config* config, const struct cl
 int
 main(int argc, char **argv) {
     const char code[] =
+        u8"export namespace D3.Shapes {"
         u8"export interface IVector {"
         u8"data: byte[];"
         u8"length: size;"
+        u8"}"
         u8"}";
     const char type[] = "text/plain";
 
@@ -272,6 +281,7 @@ main(int argc, char **argv) {
     cl_config_string_set(config, "Parsing/ProcessUnsupported", parseProcessUnsupportedString);
 
     const struct cl_node* node = parse_input(config, &resourceIn);
+    print_tree(node);
     const struct cl_resource* resource = parse_output(config, node);
     
     printf("Output is below:\n%s\n", (const char*)resource->content);

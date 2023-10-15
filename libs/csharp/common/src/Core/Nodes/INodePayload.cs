@@ -24,6 +24,6 @@ namespace Crosslight.Core.Nodes
         /// </remarks>
         nint ToPointer(AcquireDelegate? acquire);
 
-        void AcceptVisitor(INodePayloadVisitor visitor);
+        object? AcceptVisitor(Node node, INodePayloadVisitor visitor);
     }
 }

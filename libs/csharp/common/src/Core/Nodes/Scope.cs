@@ -7,35 +7,38 @@ using static Crosslight.Core.ILanguage;
 namespace Crosslight.src.Core.Nodes
 {
     /// <summary>
-    /// Textual source file root.
+    /// Declaration scope, mapping to e.g. namespaces.
     /// </summary>
-    public struct SourceRoot : INodePayload
+    /// <remarks>
+    /// Empty scope is assumed to be global. If a truly empty scope is desired, an empty node can be placed inside.
+    /// </remarks>
+    public struct Scope : INodePayload
     {
         private struct Imported
         {
-            public nint FileName;
+            public nint Identifier;
         }
 
         /// <summary>
-        /// Name of the file that contains this root in UTF-8 format. Can be empty or <see langword="null"/>.
+        /// Full identifier of the scope, can be separated with '.'. Can be empty or <see langword="null"/>.
         /// </summary>
-        public string? FileName;
+        public string? Identifier;
 
         /// <summary>
-        /// Create a new managed instance of the source root payload from the native representation.
+        /// Create a new managed instance of the scope payload from the native representation.
         /// </summary>
-        /// <param name="pointer">The native pointer to a source root payload.</param>
-        public SourceRoot(nint pointer)
+        /// <param name="pointer">The native pointer to a scope payload.</param>
+        public Scope(nint pointer)
         {
             Imported imported = Marshal.PtrToStructure<Imported>(pointer);
 
-            FileName = imported.FileName == 0
+            Identifier = imported.Identifier == 0
                 ? null
-                : Marshal.PtrToStringUTF8(imported.FileName);
+                : Marshal.PtrToStringUTF8(imported.Identifier);
         }
 
         /// <inheritdoc/>
-        public readonly NodeType Type => NodeType.SourceRoot;
+        public readonly NodeType Type => NodeType.Scope;
 
         /// <inheritdoc/>
         public readonly nint ToPointer(AcquireDelegate? acquire)
@@ -48,13 +51,13 @@ namespace Crosslight.src.Core.Nodes
                 return 0;
             }
 
-            nint fileName = FileName == null
+            nint identifier = Identifier == null
                 ? 0
-                : Utf8String.ToPointer(FileName, acquire);
+                : Utf8String.ToPointer(Identifier, acquire);
 
             Imported imported = new()
             {
-                FileName = fileName,
+                Identifier = identifier,
             };
 
             Marshal.StructureToPtr(imported, pointer, false);
@@ -64,12 +67,12 @@ namespace Crosslight.src.Core.Nodes
 
         public readonly object? AcceptVisitor(Node node, INodePayloadVisitor visitor)
         {
-            return visitor.VisitSourceRoot(node, this);
+            return visitor.VisitScope(node, this);
         }
 
         public override string ToString()
         {
-            return $"{{ {nameof(SourceRoot)}-{FileName} }}";
+            return $"{{ {nameof(Scope)}-{Identifier} }}";
         }
     }
 }

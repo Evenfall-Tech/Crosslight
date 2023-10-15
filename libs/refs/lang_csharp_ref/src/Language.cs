@@ -43,7 +43,7 @@ internal class Language : ILanguage
     public Resource? TransformOutput(Node node)
     {
         var visitor = new NodePayloadVisitor(Options[this]);
-        node.Payload?.AcceptVisitor(visitor);
+        node.Payload?.AcceptVisitor(node, visitor);
         var text = visitor.Text;
 
         if (text == null)

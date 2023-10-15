@@ -35,6 +35,7 @@ set(PUBLIC_HEADERS_FILES
     "${LIBRARY_BASE_PATH}/include/lang/plugin.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/config.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/language.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/utils.hpp"
 )
 
 # add generated grammar to demo binary target
@@ -43,6 +44,7 @@ add_library(
     ${PUBLIC_HEADERS_FILES}
     "${LIBRARY_BASE_PATH}/src/language.cpp"
     "${LIBRARY_BASE_PATH}/src/config.cpp"
+    "${LIBRARY_BASE_PATH}/src/utils.cpp"
 )
 add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 
