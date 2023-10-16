@@ -10,12 +10,13 @@
 
 #pragma once
 
+#include <stddef.h>
 #include "core/definitions.h"
 
 /**
  * @brief Type of the given node.
  */
-CL_C_DECL enum cl_node_type {
+CL_C_DECL enum cl_node_type : size_t {
     none = 0, /**< No payload given. */
     source_root = 1, /**< Textual source file root. */
     scope = 2, /**< Declaration scope. */
