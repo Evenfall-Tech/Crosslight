@@ -37,6 +37,38 @@
 #  define HEDLEY_IAR_VERSION_CHECK(major,minor,patch) (0)
 #endif
 
+#if defined(HEDLEY_COMPCERT_VERSION)
+#  undef HEDLEY_COMPCERT_VERSION
+#endif
+#if defined(__COMPCERT_VERSION__)
+#  define HEDLEY_COMPCERT_VERSION HEDLEY_VERSION_ENCODE(__COMPCERT_VERSION__ / 10000, (__COMPCERT_VERSION__ / 100) % 100, __COMPCERT_VERSION__ % 100)
+#endif
+
+#if defined(HEDLEY_COMPCERT_VERSION_CHECK)
+#  undef HEDLEY_COMPCERT_VERSION_CHECK
+#endif
+#if defined(HEDLEY_COMPCERT_VERSION)
+#  define HEDLEY_COMPCERT_VERSION_CHECK(major,minor,patch) (HEDLEY_COMPCERT_VERSION >= HEDLEY_VERSION_ENCODE(major, minor, patch))
+#else
+#  define HEDLEY_COMPCERT_VERSION_CHECK(major,minor,patch) (0)
+#endif
+
+#if defined(HEDLEY_PELLES_VERSION)
+#  undef HEDLEY_PELLES_VERSION
+#endif
+#if defined(__POCC__)
+#  define HEDLEY_PELLES_VERSION HEDLEY_VERSION_ENCODE(__POCC__ / 100, __POCC__ % 100, 0)
+#endif
+
+#if defined(HEDLEY_PELLES_VERSION_CHECK)
+#  undef HEDLEY_PELLES_VERSION_CHECK
+#endif
+#if defined(HEDLEY_PELLES_VERSION)
+#  define HEDLEY_PELLES_VERSION_CHECK(major,minor,patch) (HEDLEY_PELLES_VERSION >= HEDLEY_VERSION_ENCODE(major, minor, patch))
+#else
+#  define HEDLEY_PELLES_VERSION_CHECK(major,minor,patch) (0)
+#endif
+
 #if defined(HEDLEY_GNUC_VERSION)
 #  undef HEDLEY_GNUC_VERSION
 #endif
@@ -55,6 +87,30 @@
 #  define HEDLEY_GNUC_VERSION_CHECK(major,minor,patch) (0)
 #endif
 
+#if defined(HEDLEY_MSVC_VERSION)
+#  undef HEDLEY_MSVC_VERSION
+#endif
+#if defined(_MSC_FULL_VER) && (_MSC_FULL_VER >= 140000000) && !defined(__ICL)
+#  define HEDLEY_MSVC_VERSION HEDLEY_VERSION_ENCODE(_MSC_FULL_VER / 10000000, (_MSC_FULL_VER % 10000000) / 100000, (_MSC_FULL_VER % 100000) / 100)
+#elif defined(_MSC_FULL_VER) && !defined(__ICL)
+#  define HEDLEY_MSVC_VERSION HEDLEY_VERSION_ENCODE(_MSC_FULL_VER / 1000000, (_MSC_FULL_VER % 1000000) / 10000, (_MSC_FULL_VER % 10000) / 10)
+#elif defined(_MSC_VER) && !defined(__ICL)
+#  define HEDLEY_MSVC_VERSION HEDLEY_VERSION_ENCODE(_MSC_VER / 100, _MSC_VER % 100, 0)
+#endif
+
+#if defined(HEDLEY_MSVC_VERSION_CHECK)
+#  undef HEDLEY_MSVC_VERSION_CHECK
+#endif
+#if !defined(HEDLEY_MSVC_VERSION)
+#  define HEDLEY_MSVC_VERSION_CHECK(major,minor,patch) (0)
+#elif defined(_MSC_VER) && (_MSC_VER >= 1400)
+#  define HEDLEY_MSVC_VERSION_CHECK(major,minor,patch) (_MSC_FULL_VER >= ((major * 10000000) + (minor * 100000) + (patch)))
+#elif defined(_MSC_VER) && (_MSC_VER >= 1200)
+#  define HEDLEY_MSVC_VERSION_CHECK(major,minor,patch) (_MSC_FULL_VER >= ((major * 1000000) + (minor * 10000) + (patch)))
+#else
+#  define HEDLEY_MSVC_VERSION_CHECK(major,minor,patch) (_MSC_VER >= ((major * 100) + (minor)))
+#endif
+
 #if defined(HEDLEY_INTEL_VERSION)
 #  undef HEDLEY_INTEL_VERSION
 #endif
@@ -71,6 +127,22 @@
 #  define HEDLEY_INTEL_VERSION_CHECK(major,minor,patch) (HEDLEY_INTEL_VERSION >= HEDLEY_VERSION_ENCODE(major, minor, patch))
 #else
 #  define HEDLEY_INTEL_VERSION_CHECK(major,minor,patch) (0)
+#endif
+
+#if defined(HEDLEY_INTEL_CL_VERSION)
+#  undef HEDLEY_INTEL_CL_VERSION
+#endif
+#if defined(__INTEL_COMPILER) && defined(__INTEL_COMPILER_UPDATE) && defined(__ICL)
+#  define HEDLEY_INTEL_CL_VERSION HEDLEY_VERSION_ENCODE(__INTEL_COMPILER, __INTEL_COMPILER_UPDATE, 0)
+#endif
+
+#if defined(HEDLEY_INTEL_CL_VERSION_CHECK)
+#  undef HEDLEY_INTEL_CL_VERSION_CHECK
+#endif
+#if defined(HEDLEY_INTEL_CL_VERSION)
+#  define HEDLEY_INTEL_CL_VERSION_CHECK(major,minor,patch) (HEDLEY_INTEL_CL_VERSION >= HEDLEY_VERSION_ENCODE(major, minor, patch))
+#else
+#  define HEDLEY_INTEL_CL_VERSION_CHECK(major,minor,patch) (0)
 #endif
 
 #if defined(HEDLEY_PGI_VERSION)
@@ -421,4 +493,117 @@
 #    define HEDLEY_PUBLIC
 #  endif
 #  define HEDLEY_IMPORT    extern
+#endif
+
+#if defined(HEDLEY_INLINE)
+#  undef HEDLEY_INLINE
+#endif
+#if \
+  (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) || \
+  (defined(__cplusplus) && (__cplusplus >= 199711L))
+#  define HEDLEY_INLINE inline
+#elif \
+  defined(HEDLEY_GCC_VERSION) || \
+  HEDLEY_ARM_VERSION_CHECK(6,2,0)
+#  define HEDLEY_INLINE __inline__
+#elif \
+  HEDLEY_MSVC_VERSION_CHECK(12,0,0) || \
+  HEDLEY_INTEL_CL_VERSION_CHECK(2021,1,0) || \
+  HEDLEY_ARM_VERSION_CHECK(4,1,0) || \
+  HEDLEY_TI_ARMCL_VERSION_CHECK(5,1,0) || \
+  HEDLEY_TI_CL430_VERSION_CHECK(3,1,0) || \
+  HEDLEY_TI_CL2000_VERSION_CHECK(6,2,0) || \
+  HEDLEY_TI_CL6X_VERSION_CHECK(8,0,0) || \
+  HEDLEY_TI_CL7X_VERSION_CHECK(1,2,0) || \
+  HEDLEY_TI_CLPRU_VERSION_CHECK(2,1,0) || \
+  HEDLEY_MCST_LCC_VERSION_CHECK(1,25,10)
+#  define HEDLEY_INLINE __inline
+#else
+#  define HEDLEY_INLINE
+#endif
+
+#if defined(HEDLEY_ALWAYS_INLINE)
+#  undef HEDLEY_ALWAYS_INLINE
+#endif
+#if \
+  HEDLEY_HAS_ATTRIBUTE(always_inline) || \
+  HEDLEY_GCC_VERSION_CHECK(4,0,0) || \
+  HEDLEY_INTEL_VERSION_CHECK(13,0,0) || \
+  HEDLEY_SUNPRO_VERSION_CHECK(5,11,0) || \
+  HEDLEY_ARM_VERSION_CHECK(4,1,0) || \
+  HEDLEY_IBM_VERSION_CHECK(10,1,0) || \
+  HEDLEY_TI_VERSION_CHECK(15,12,0) || \
+  (HEDLEY_TI_ARMCL_VERSION_CHECK(4,8,0) && defined(__TI_GNU_ATTRIBUTE_SUPPORT__)) || \
+  HEDLEY_TI_ARMCL_VERSION_CHECK(5,2,0) || \
+  (HEDLEY_TI_CL2000_VERSION_CHECK(6,0,0) && defined(__TI_GNU_ATTRIBUTE_SUPPORT__)) || \
+  HEDLEY_TI_CL2000_VERSION_CHECK(6,4,0) || \
+  (HEDLEY_TI_CL430_VERSION_CHECK(4,0,0) && defined(__TI_GNU_ATTRIBUTE_SUPPORT__)) || \
+  HEDLEY_TI_CL430_VERSION_CHECK(4,3,0) || \
+  (HEDLEY_TI_CL6X_VERSION_CHECK(7,2,0) && defined(__TI_GNU_ATTRIBUTE_SUPPORT__)) || \
+  HEDLEY_TI_CL6X_VERSION_CHECK(7,5,0) || \
+  HEDLEY_TI_CL7X_VERSION_CHECK(1,2,0) || \
+  HEDLEY_TI_CLPRU_VERSION_CHECK(2,1,0) || \
+  HEDLEY_MCST_LCC_VERSION_CHECK(1,25,10) || \
+  HEDLEY_IAR_VERSION_CHECK(8,10,0)
+#  define HEDLEY_ALWAYS_INLINE __attribute__((__always_inline__)) HEDLEY_INLINE
+#elif \
+  HEDLEY_MSVC_VERSION_CHECK(12,0,0) || \
+  HEDLEY_INTEL_CL_VERSION_CHECK(2021,1,0)
+#  define HEDLEY_ALWAYS_INLINE __forceinline
+#elif defined(__cplusplus) && \
+    ( \
+      HEDLEY_TI_ARMCL_VERSION_CHECK(5,2,0) || \
+      HEDLEY_TI_CL430_VERSION_CHECK(4,3,0) || \
+      HEDLEY_TI_CL2000_VERSION_CHECK(6,4,0) || \
+      HEDLEY_TI_CL6X_VERSION_CHECK(6,1,0) || \
+      HEDLEY_TI_CL7X_VERSION_CHECK(1,2,0) || \
+      HEDLEY_TI_CLPRU_VERSION_CHECK(2,1,0) \
+    )
+#  define HEDLEY_ALWAYS_INLINE _Pragma("FUNC_ALWAYS_INLINE;")
+#elif HEDLEY_IAR_VERSION_CHECK(8,0,0)
+#  define HEDLEY_ALWAYS_INLINE _Pragma("inline=forced")
+#else
+#  define HEDLEY_ALWAYS_INLINE HEDLEY_INLINE
+#endif
+
+#if defined(HEDLEY_NEVER_INLINE)
+#  undef HEDLEY_NEVER_INLINE
+#endif
+#if \
+  HEDLEY_HAS_ATTRIBUTE(noinline) || \
+  HEDLEY_GCC_VERSION_CHECK(4,0,0) || \
+  HEDLEY_INTEL_VERSION_CHECK(13,0,0) || \
+  HEDLEY_SUNPRO_VERSION_CHECK(5,11,0) || \
+  HEDLEY_ARM_VERSION_CHECK(4,1,0) || \
+  HEDLEY_IBM_VERSION_CHECK(10,1,0) || \
+  HEDLEY_TI_VERSION_CHECK(15,12,0) || \
+  (HEDLEY_TI_ARMCL_VERSION_CHECK(4,8,0) && defined(__TI_GNU_ATTRIBUTE_SUPPORT__)) || \
+  HEDLEY_TI_ARMCL_VERSION_CHECK(5,2,0) || \
+  (HEDLEY_TI_CL2000_VERSION_CHECK(6,0,0) && defined(__TI_GNU_ATTRIBUTE_SUPPORT__)) || \
+  HEDLEY_TI_CL2000_VERSION_CHECK(6,4,0) || \
+  (HEDLEY_TI_CL430_VERSION_CHECK(4,0,0) && defined(__TI_GNU_ATTRIBUTE_SUPPORT__)) || \
+  HEDLEY_TI_CL430_VERSION_CHECK(4,3,0) || \
+  (HEDLEY_TI_CL6X_VERSION_CHECK(7,2,0) && defined(__TI_GNU_ATTRIBUTE_SUPPORT__)) || \
+  HEDLEY_TI_CL6X_VERSION_CHECK(7,5,0) || \
+  HEDLEY_TI_CL7X_VERSION_CHECK(1,2,0) || \
+  HEDLEY_TI_CLPRU_VERSION_CHECK(2,1,0) || \
+  HEDLEY_MCST_LCC_VERSION_CHECK(1,25,10) || \
+  HEDLEY_IAR_VERSION_CHECK(8,10,0)
+#  define HEDLEY_NEVER_INLINE __attribute__((__noinline__))
+#elif \
+  HEDLEY_MSVC_VERSION_CHECK(13,10,0) || \
+  HEDLEY_INTEL_CL_VERSION_CHECK(2021,1,0)
+#  define HEDLEY_NEVER_INLINE __declspec(noinline)
+#elif HEDLEY_PGI_VERSION_CHECK(10,2,0)
+#  define HEDLEY_NEVER_INLINE _Pragma("noinline")
+#elif HEDLEY_TI_CL6X_VERSION_CHECK(6,0,0) && defined(__cplusplus)
+#  define HEDLEY_NEVER_INLINE _Pragma("FUNC_CANNOT_INLINE;")
+#elif HEDLEY_IAR_VERSION_CHECK(8,0,0)
+#  define HEDLEY_NEVER_INLINE _Pragma("inline=never")
+#elif HEDLEY_COMPCERT_VERSION_CHECK(3,2,0)
+#  define HEDLEY_NEVER_INLINE __attribute((noinline))
+#elif HEDLEY_PELLES_VERSION_CHECK(9,0,0)
+#  define HEDLEY_NEVER_INLINE __declspec(noinline)
+#else
+#  define HEDLEY_NEVER_INLINE
 #endif

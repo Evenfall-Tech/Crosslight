@@ -17,4 +17,8 @@ public enum NodeType : uint
     /// Declaration scope.
     /// </summary>
     Scope = 2,
+    /// <summary>
+    /// Complex type stored on the heap.
+    /// </summary>
+    HeapType = 3,
 }

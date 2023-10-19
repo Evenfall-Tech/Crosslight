@@ -15,7 +15,7 @@ public:
 
     virtual std::any visitProgram(ParserTs::ProgramContext *ctx) override;
     virtual std::any visitNamespaceDeclaration(ParserTs::NamespaceDeclarationContext *ctx) override;
-    virtual std::any visitNamespaceName(ParserTs::NamespaceNameContext *ctx) override;
+    virtual std::any visitClassDeclaration(ParserTs::ClassDeclarationContext *ctx) override;
 
 protected:
     virtual std::any defaultResult() override;

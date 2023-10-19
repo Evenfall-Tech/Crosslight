@@ -20,4 +20,5 @@ CL_C_DECL enum cl_node_type : size_t {
     none = 0, /**< No payload given. */
     source_root = 1, /**< Textual source file root. */
     scope = 2, /**< Declaration scope. */
+    heap_type = 3, /**< Complex type stored on the heap. */
 };
