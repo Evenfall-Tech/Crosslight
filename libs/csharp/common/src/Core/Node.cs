@@ -1,5 +1,4 @@
 ﻿using Crosslight.Core.Nodes;
-using Crosslight.src.Core.Nodes;
 using System.Runtime.InteropServices;
 using static Crosslight.Core.ILanguage;
 
@@ -218,11 +217,12 @@ public class Node
 
     public static IReadOnlyDictionary<uint, Func<nint, INodePayload?>> GetDefaultPayloadMapping()
     {
-        return new Dictionary<uint, Func<nint, INodePayload?>>()
+        return new Dictionary<uint, Func<nint, INodePayload?>>
         {
-            { (uint)NodeType.None, (nint _) => null },
-            { (uint)NodeType.SourceRoot, (nint p) => p == 0 ? null : new SourceRoot(p) },
-            { (uint)NodeType.Scope, (nint p) => p == 0 ? null : new Scope(p) },
+            { (uint)NodeType.None, _ => null },
+            { (uint)NodeType.SourceRoot, p => p == 0 ? null : new SourceRoot(p) },
+            { (uint)NodeType.Scope, p => p == 0 ? null : new Scope(p) },
+            { (uint)NodeType.HeapType, p => p == 0 ? null : new HeapType(p) },
         };
     }
 }

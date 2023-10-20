@@ -1,10 +1,8 @@
-﻿using Crosslight.src.Core.Nodes;
+﻿namespace Crosslight.Core.Nodes;
 
-namespace Crosslight.Core.Nodes
+public interface INodePayloadVisitor
 {
-    public interface INodePayloadVisitor
-    {
-        object? VisitSourceRoot(Node node, SourceRoot payload);
-        object? VisitScope(Node node, Scope payload);
-    }
+    object? VisitSourceRoot(Node node, SourceRoot payload);
+    object? VisitScope(Node node, Scope payload);
+    object? VisitHeapType(Node node, HeapType payload);
 }

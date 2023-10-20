@@ -250,7 +250,7 @@ int
 main(int argc, char **argv) {
     const char code[] =
         u8"export namespace D3.Shapes {"
-        u8"export interface IVector {"
+        u8"export class Vector {"
         u8"data: byte[];"
         u8"length: size;"
         u8"}"

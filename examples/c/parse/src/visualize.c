@@ -13,6 +13,8 @@ const char* print_tree_node_type(size_t type) {
             return "source_root";
         case scope:
             return "scope";
+        case heap_type:
+            return "heap_type";
         default:
             return "unknown";
     }

@@ -49,3 +49,16 @@
  */
 #  define CL_API HEDLEY_IMPORT
 #endif
+
+/**
+ * Try to inline the following function.
+ */
+#define CL_INLINE HEDLEY_INLINE
+/**
+ * Force to inline the following function.
+ */
+#define CL_ALWAYS_INLINE HEDLEY_ALWAYS_INLINE
+/**
+ * Forbid to inline the following function.
+ */
+#define CL_NEVER_INLINE HEDLEY_NEVER_INLINE

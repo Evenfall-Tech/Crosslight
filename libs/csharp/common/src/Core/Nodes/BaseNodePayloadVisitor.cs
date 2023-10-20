@@ -1,5 +1,3 @@
-using Crosslight.src.Core.Nodes;
-
 namespace Crosslight.Core.Nodes;
 
 public abstract class BaseNodePayloadVisitor : INodePayloadVisitor
@@ -7,6 +5,8 @@ public abstract class BaseNodePayloadVisitor : INodePayloadVisitor
     public abstract object? VisitSourceRoot(Node node, SourceRoot payload);
     
     public abstract object? VisitScope(Node node, Scope payload);
+    
+    public abstract object? VisitHeapType(Node node, HeapType payload);
 
     protected virtual object? GetDefaultResult() => null;
 

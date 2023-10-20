@@ -7,9 +7,15 @@
 #include "core/nodes/node_type.h"
 #include "core/nodes/source_root.h"
 #include "core/nodes/scope.h"
+#include "core/nodes/heap_type.h"
 
 using namespace cl::lang::typescript;
 using list = std::list<struct cl_node*>;
+
+template <typename T>
+CL_ALWAYS_INLINE static T* acquire_entity(AcquireT acquire) {
+    return static_cast<T*>(acquire(sizeof(T)));
+}
 
 visitor::visitor(const language_options& options)
     : _options{options},
@@ -24,7 +30,7 @@ visitor::get_root() {
 
 std::any
 visitor::visitProgram(ParserTs::ProgramContext *ctx) {
-    auto* payload = (struct cl_node_source_root*)_options.acquire(sizeof(struct cl_node_source_root));
+    auto* payload = acquire_entity<struct cl_node_source_root>(_options.acquire);
 
     if (payload != nullptr) {
         payload->file_name = nullptr;
@@ -38,15 +44,13 @@ visitor::visitProgram(ParserTs::ProgramContext *ctx) {
 
 std::any
 visitor::visitNamespaceDeclaration(ParserTs::NamespaceDeclarationContext *ctx) {
-    auto* payload = (struct cl_node_scope*)_options.acquire(sizeof(struct cl_node_scope));
+    auto* payload = acquire_entity<struct cl_node_scope>(_options.acquire);
 
     if (payload != nullptr) {
-        auto name_context = std::find_if(ctx->children.begin(), ctx->children.end(), [](auto* node) {
-            return typeid(*node) == typeid(ParserTs::NamespaceNameContext);
-        });
+        auto name_context = ctx->namespaceName();
 
-        if (name_context != ctx->children.end()) {
-            auto name = (*name_context)->getText();
+        if (name_context != nullptr) {
+            auto name = name_context->getText();
             payload->identifier = utils::string_duplicate(name.c_str(), _options.acquire);
         }
         else {
@@ -54,15 +58,50 @@ visitor::visitNamespaceDeclaration(ParserTs::NamespaceDeclarationContext *ctx) {
         }
         std::cout << "Parsing scope " << payload->identifier << std::endl;
 
-        return visitNode(ctx, payload, cl_node_type::scope, true);
+        auto result = visitNode(ctx, payload, cl_node_type::scope, true);
+        auto& merged = std::any_cast<list&>(result);
+
+        // Create an empty child to specify truly empty scope.
+        if (!merged.empty() && merged.front()->child_count == 0) {
+            auto* current = merged.front();
+            auto* empty_child = acquire_entity<struct cl_node>(_options.acquire);
+
+            empty_child->child_count = 0;
+            empty_child->children = nullptr;
+            empty_child->payload_type = cl_node_type::none;
+            empty_child->payload = nullptr;
+            empty_child->parent = current;
+
+            current->child_count = 1;
+            current->children = empty_child;
+        }
+
+        return result;
     }
 
     return defaultResult();
 }
 
 std::any
-visitor::visitNamespaceName(ParserTs::NamespaceNameContext *ctx) {
-    return defaultResult(); // Taken care of inside visitNamespaceDeclaration.
+visitor::visitClassDeclaration(ParserTs::ClassDeclarationContext *ctx) {
+    auto* payload = acquire_entity<struct cl_node_heap_type>(_options.acquire);
+
+    if (payload != nullptr) {
+        auto name_context = ctx->Identifier();
+
+        if (name_context != nullptr) {
+            auto name = name_context->getText();
+            payload->identifier = utils::string_duplicate(name.c_str(), _options.acquire);
+        }
+        else {
+            payload->identifier = nullptr;
+        }
+        std::cout << "Parsing heap_type " << payload->identifier << std::endl;
+
+        return visitNode(ctx, payload, cl_node_type::heap_type, true);
+    }
+
+    return defaultResult();
 }
 
 std::any
@@ -80,7 +119,7 @@ visitor::aggregateResult(std::any aggregate, std::any nextResult) {
 
 std::any
 visitor::visitNode(antlr4::tree::ParseTree* ctx, void *payload, std::size_t payload_type, bool visit_children) {
-    auto* node = (struct cl_node*)_options.acquire(sizeof(struct cl_node));
+    auto* node = acquire_entity<struct cl_node>(_options.acquire);
 
     if (node == nullptr) {
         return defaultResult();

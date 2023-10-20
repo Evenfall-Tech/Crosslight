@@ -1,39 +1,39 @@
-﻿using Crosslight.Core.Utilities;
+using Crosslight.Core.Utilities;
 using System.Runtime.InteropServices;
 using static Crosslight.Core.ILanguage;
 
 namespace Crosslight.Core.Nodes;
 
 /// <summary>
-/// Textual source file root.
+/// Complex type stored on the heap, mapping to e.g. allocated classes.
 /// </summary>
-public struct SourceRoot : INodePayload
+public struct HeapType : INodePayload
 {
     private struct Imported
     {
-        public nint FileName;
+        public nint Identifier;
     }
 
     /// <summary>
-    /// Name of the file that contains this root in UTF-8 format. Can be empty or <see langword="null"/>.
+    /// Identifier of the type. Can be empty or <see langword="null"/>.
     /// </summary>
-    public string? FileName;
+    public string? Identifier;
 
     /// <summary>
-    /// Create a new managed instance of the source root payload from the native representation.
+    /// Create a new managed instance of the heap type payload from the native representation.
     /// </summary>
-    /// <param name="pointer">The native pointer to a source root payload.</param>
-    public SourceRoot(nint pointer)
+    /// <param name="pointer">The native pointer to a heap type payload.</param>
+    public HeapType(nint pointer)
     {
         Imported imported = Marshal.PtrToStructure<Imported>(pointer);
 
-        FileName = imported.FileName == 0
+        Identifier = imported.Identifier == 0
             ? null
-            : Marshal.PtrToStringUTF8(imported.FileName);
+            : Marshal.PtrToStringUTF8(imported.Identifier);
     }
 
     /// <inheritdoc/>
-    public readonly NodeType Type => NodeType.SourceRoot;
+    public readonly NodeType Type => NodeType.HeapType;
 
     /// <inheritdoc/>
     public readonly nint ToPointer(AcquireDelegate? acquire)
@@ -46,13 +46,13 @@ public struct SourceRoot : INodePayload
             return 0;
         }
 
-        nint fileName = FileName == null
+        nint identifier = Identifier == null
             ? 0
-            : Utf8String.ToPointer(FileName, acquire);
+            : Utf8String.ToPointer(Identifier, acquire);
 
         Imported imported = new()
         {
-            FileName = fileName,
+            Identifier = identifier,
         };
 
         Marshal.StructureToPtr(imported, pointer, false);
@@ -62,11 +62,11 @@ public struct SourceRoot : INodePayload
 
     public readonly object? AcceptVisitor(Node node, INodePayloadVisitor visitor)
     {
-        return visitor.VisitSourceRoot(node, this);
+        return visitor.VisitHeapType(node, this);
     }
 
     public override string ToString()
     {
-        return $"{{ {nameof(SourceRoot)}-{FileName} }}";
+        return $"{{ {nameof(HeapType)}-{Identifier} }}";
     }
 }
