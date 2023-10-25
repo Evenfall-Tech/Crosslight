@@ -36,7 +36,7 @@ visitor::visitProgram(ParserTs::ProgramContext *ctx) {
         payload->file_name = nullptr;
         std::cout << "Parsing source_root " << (payload->file_name == nullptr ? "" : payload->file_name) << std::endl;
 
-        return visitNode(ctx, payload, cl_node_type::source_root, true);
+        return visitNode(ctx, payload, ::source_root, true);
     }
 
     return defaultResult();

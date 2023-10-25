@@ -8,10 +8,14 @@ set(LIBRARY_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 set(CMAKE_CXX_STANDARD 17)
 
 set(PUBLIC_HEADERS_FILES
-    "${LIBRARY_BASE_PATH}/include/lang/plugin.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/config.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/language.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/utils.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/builders/allocator.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/builders/builder.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/builders/source_root.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/builders/scope.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/builders/heap_type.hpp"
 )
 
 # add generated grammar to demo binary target
@@ -21,6 +25,10 @@ add_library(
     "${LIBRARY_BASE_PATH}/src/language.cpp"
     "${LIBRARY_BASE_PATH}/src/config.cpp"
     "${LIBRARY_BASE_PATH}/src/utils.cpp"
+    "${LIBRARY_BASE_PATH}/src/builders/builder.cpp"
+    "${LIBRARY_BASE_PATH}/src/builders/source_root.cpp"
+    "${LIBRARY_BASE_PATH}/src/builders/scope.cpp"
+    "${LIBRARY_BASE_PATH}/src/builders/heap_type.cpp"
 )
 add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 

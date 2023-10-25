@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include "lang/def_visibility.hpp"
+#include "lang/language.hpp"
 
 namespace cl::lang {
 
@@ -12,8 +13,11 @@ class CL_API_OBJ utils {
 public:
     /**
      * @brief Acquire a copy of a valid string.
+     *
+     * @param[in] value The value to duplicate.
+     * @param[in] acquire Memory allocator function.
      */
-    static char *string_duplicate(const char *value, void*(* acquire)(std::size_t));
+    static char *string_duplicate(const char *value, AcquireT acquire);
 };
 
 } // namespace cl::lang
