@@ -18,7 +18,7 @@ CL_BEGIN_C_DECLS
 /**
  * @brief Type of the given node.
  */
-enum cl_node_type : size_t {
+enum cl_node_type {
     none = 0, /**< No payload given. */
     source_root = 1, /**< Textual source file root. */
     scope = 2, /**< Declaration scope. */

@@ -108,10 +108,14 @@ b::operator <<(BuilderT&& current, BuilderU&& child) {
     return { current.impl_get(), root, node };
 }
 
-template e<b::builder&&, b::builder&&>
+template b::builder
 b::operator << (b::builder&& current, b::builder&& child);
-template e<b::builder&, b::builder&&>
+template b::builder
 b::operator << (b::builder& current, b::builder&& child);
+template b::builder
+b::operator << (b::builder&& current, b::builder& child);
+template b::builder
+b::operator << (b::builder& current, b::builder& child);
 
 b::builder
 b::builder::from_payload(const allocator &m, void *payload, size_t payload_type) {

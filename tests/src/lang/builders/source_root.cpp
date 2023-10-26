@@ -91,6 +91,53 @@ TEST_CASE("Hierarchy variable rewrite") {
     REQUIRE_EQ(root, child->parent);
 }
 
+TEST_CASE("Hierarchy variable rewrite reverse") {
+    auto m = b::allocator{ malloc, free };
+    auto factory = m.source_root("world.ts");
+    factory = m.source_root("hello.ts") << factory;
+
+    auto root = factory.root_get();
+    REQUIRE_UNARY(root);
+    REQUIRE_NE(root, factory.parent_get());
+    REQUIRE_EQ(1, root->child_count);
+    REQUIRE_UNARY(root->payload);
+    REQUIRE_EQ(::source_root, root->payload_type);
+    REQUIRE_UNARY_FALSE(root->parent);
+
+    auto child = root->children;
+    REQUIRE_UNARY(child);
+    REQUIRE_EQ(child, factory.parent_get());
+    REQUIRE_EQ(0, child->child_count);
+    REQUIRE_UNARY_FALSE(child->children);
+    REQUIRE_UNARY(child->payload);
+    REQUIRE_EQ(::source_root, child->payload_type);
+    REQUIRE_EQ(root, child->parent);
+}
+
+TEST_CASE("Hierarchy both variables rewrite") {
+    auto m = b::allocator{ malloc, free };
+    auto factory = m.source_root("world.ts");
+    auto a = m.source_root("hello.ts");
+    factory = a << factory;
+
+    auto root = factory.root_get();
+    REQUIRE_UNARY(root);
+    REQUIRE_NE(root, factory.parent_get());
+    REQUIRE_EQ(1, root->child_count);
+    REQUIRE_UNARY(root->payload);
+    REQUIRE_EQ(::source_root, root->payload_type);
+    REQUIRE_UNARY_FALSE(root->parent);
+
+    auto child = root->children;
+    REQUIRE_UNARY(child);
+    REQUIRE_EQ(child, factory.parent_get());
+    REQUIRE_EQ(0, child->child_count);
+    REQUIRE_UNARY_FALSE(child->children);
+    REQUIRE_UNARY(child->payload);
+    REQUIRE_EQ(::source_root, child->payload_type);
+    REQUIRE_EQ(root, child->parent);
+}
+
 TEST_CASE("Hierarchy temporary nested temporary") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("hello.ts") << m.source_root("world.ts") << m.source_root("!.ts");
