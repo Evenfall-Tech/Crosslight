@@ -6,4 +6,5 @@ project(
 )
 
 add_subdirectory("lang")
+add_subdirectory("lang_base_antlr")
 add_subdirectory("lang_typescript")

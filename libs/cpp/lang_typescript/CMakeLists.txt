@@ -9,7 +9,7 @@ set(LIBRARY_VERSION_STRING ${CL_VERSION_STRING})
 set(LIBRARY_BASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # set ANTLR4 JAR file path for ANTLR_TARGET command
-get_target_property(ANTLR_EXECUTABLE cl_lang target_antlr_executable)
+get_target_property(ANTLR_EXECUTABLE cl_lang_base_antlr target_antlr_executable)
 get_target_property(LANG_API cl_core target_lang)
 
 ANTLR_TARGET(
@@ -43,7 +43,7 @@ add_library(
 )
 add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 
-target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang antlr4_shared)
+target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang cl_lang_base_antlr antlr4_shared)
 
 target_include_directories(${BINARY_NAME} PRIVATE
     ${ANTLR_TypescriptGrammarLexer_OUTPUT_DIR}

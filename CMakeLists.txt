@@ -52,6 +52,11 @@ endif()
 set(CL_INSTALLABLE_LIBS "" CACHE INTERNAL "")
 set(CL_INSTALL_CONFIGDIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_compile_options($<$<CONFIG:Debug>:-fsanitize=address>)
+    add_link_options($<$<CONFIG:Debug>:-fsanitize=address>)
+endif()
+
 add_subdirectory("libs/c")
 add_subdirectory("libs/cpp")
 

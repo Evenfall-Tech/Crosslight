@@ -10,6 +10,9 @@ struct cl_node;
 namespace cl::lang
 {
 
+using AcquireT = void*(*)(std::size_t);
+using ReleaseT = void(*)(void*);
+
 /**
  * @brief A simple language interface to unify language implementations.
  */

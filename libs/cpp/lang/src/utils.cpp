@@ -4,7 +4,7 @@
 using namespace cl::lang;
 
 char*
-utils::string_duplicate(const char *value, void*(* acquire)(size_t)) {
+utils::string_duplicate(const char *value, AcquireT acquire) {
     if (value == nullptr) {
         return nullptr;
     }

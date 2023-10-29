@@ -1,11 +1,11 @@
 #pragma once
 
-#include <cstddef>
+#include "lang/language.hpp"
 
 namespace cl::lang::typescript {
 
-using AcquireT = void*(*)(size_t);
-using ReleaseT = void(*)(void*);
+using AcquireT = cl::lang::AcquireT;
+using ReleaseT = cl::lang::ReleaseT;
 
 class language_options {
 public:

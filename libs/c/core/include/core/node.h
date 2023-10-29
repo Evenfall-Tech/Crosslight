@@ -26,4 +26,15 @@ struct cl_node {
     size_t child_count; /**< Number of children the current node has. */
 };
 
+/**
+ * @brief Delete a node tree starting from root.
+ * @todo Rewrite without recursion.
+ *
+ * @param[in] root The root of the node tree.
+ * @param[in] term_children `0` if children should not be terminated, `1` otherwise.
+ * @param[in] term The memory termination function.
+ * @return `0` if deletion failed, `1` otherwise.
+ */
+CL_API size_t cl_node_term(struct cl_node* root, size_t term_children, void(*term)(void*));
+
 CL_END_C_DECLS
