@@ -20,20 +20,20 @@ namespace {
     template <bool... t_bs>
     inline constexpr bool is_all_v = (0 + ... + t_bs) == sizeof...(t_bs);
 
-    template <typename... BuildersT>
+    template <typename... BuilderTs>
     using children_type = std::enable_if_t<
-        is_all_v<is_builder_v<BuildersT>...>,
+        is_all_v<is_builder_v<BuilderTs>...>,
         std::tuple<
             std::conditional_t<
-                std::is_lvalue_reference_v<BuildersT>,
+                std::is_lvalue_reference_v<BuilderTs>,
                 builder &,
                 builder
             >...>>;
 }
 
-template <typename... BuildersT>
-children_type<BuildersT...> children(BuildersT&&... children) {
-    return {std::forward<BuildersT>(children)...};
+template <typename... BuilderTs>
+children_type<BuilderTs...> children(BuilderTs&&... children) {
+    return {std::forward<BuilderTs>(children)...};
 }
 
 namespace {
@@ -47,7 +47,7 @@ namespace {
         };
 
         bool ignore[] = {check_child(std::get<Index>(tup))...};
-        for (size_t i = 0; i < sizeof(ignore); ++i) {
+        for (std::size_t i = 0; i < sizeof(ignore); ++i) {
             if (!ignore[i]) {
                 return false;
             }
@@ -56,21 +56,42 @@ namespace {
         return true;
     }
 
-    template<typename BuilderT, typename... BuildersU>
-    bool check_children(BuilderT&& current, children_type<BuildersU...> const& tup)
+    template<typename BuilderT, typename... BuilderUs>
+    bool check_children(BuilderT&& current, children_type<BuilderUs...> const& tup)
     {
-        return check_children_at(current, tup, std::make_index_sequence<sizeof...(BuildersU)>());
+        return check_children_at(current, tup, std::make_index_sequence<sizeof...(BuilderUs)>());
     }
+
+    template <typename T>
+    struct is_children : std::false_type {};
+
+    template <typename ... BuilderTs>
+    struct is_children<std::tuple<BuilderTs...>> :
+        std::bool_constant<is_all_v<is_builder_v<BuilderTs>...>>
+    {};
+
+    template <typename T>
+    struct children_count {};
+
+    template <typename ... Ts, template <typename ...> class HolderT>
+    struct children_count<HolderT<Ts...>> :
+        std::integral_constant<std::size_t, sizeof...(Ts)>
+    {};
+
+    template <typename T>
+    inline constexpr bool is_children_v = is_children<T>::value;
+
+    template <typename T>
+    inline constexpr std::size_t children_count_v = children_count<T>::value;
 }
 
-template <typename BuilderT, typename... BuildersU>
-builder operator <<(BuilderT&& current, children_type<BuildersU...>&& children) {
-    const size_t child_count = sizeof...(BuildersU);
+template <typename BuilderT, typename ChildrenT, typename = std::enable_if_t<is_children_v<ChildrenT>>>
+builder operator <<(BuilderT&& current, ChildrenT&& children) {
+    const std::size_t child_count = children_count_v<ChildrenT>;
 
-
-    if (check_children(current, children)) {
-        return { current.allocator_get(), nullptr, nullptr };
-    }
+    //if (check_children(current, children)) {
+    //    return { current.allocator_get(), nullptr, nullptr };
+    //}
     return { current.allocator_get(), nullptr, nullptr };
 
     /*auto* nodes = static_cast<struct cl_node*>(current.impl_get()->acquire(child_count * sizeof(struct node)));
@@ -83,7 +104,7 @@ builder operator <<(BuilderT&& current, children_type<BuildersU...>&& children) 
     auto* root = current.root_get();
     current.root_clear();
 
-    for (size_t i = 0; i < child_count; ++i) {
+    for (std::size_t i = 0; i < child_count; ++i) {
         auto* child_node = children[i].root_get();
         nodes[i] = *child_node;
     }
