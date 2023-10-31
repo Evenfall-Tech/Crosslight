@@ -7,7 +7,7 @@
 
 namespace b = cl::lang::builders;
 
-TEST_SUITE_BEGIN("lang/builders/builder_child");
+TEST_SUITE_BEGIN("lang/builders/builder_children");
 
 TEST_CASE("Hierarchy temporary") {
     auto m = b::allocator{ malloc, free };
@@ -24,7 +24,7 @@ TEST_CASE("Hierarchy temporary") {
 
     auto child = root->children;
     REQUIRE_UNARY(child);
-    REQUIRE_EQ(child, factory.parent_get());
+    REQUIRE_EQ((child + 1), factory.parent_get());
     REQUIRE_EQ(0, child->child_count);
     REQUIRE_UNARY_FALSE(child->children);
     REQUIRE_UNARY(child->payload);

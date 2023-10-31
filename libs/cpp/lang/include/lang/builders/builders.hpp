@@ -6,10 +6,9 @@
 #include <typeinfo>
 #include <type_traits>
 #include <utility>
+#include "core/node.h"
 #include "lang/language.hpp"
 #include "lang/builders/builder.hpp"
-
-struct cl_node;
 
 namespace cl::lang::builders {
 
@@ -73,39 +72,50 @@ namespace {
     template <typename T>
     inline constexpr std::size_t children_count_v = children_count<T>::value;
 
-    template<typename BuilderT, typename ChildrenT>
-    bool check_children(BuilderT&& current, const ChildrenT& tup)
+    template <typename ChildrenT, std::size_t Index>
+    struct cl_node* attach_child_at(const struct cl_node* parent, struct cl_node* nodes, ChildrenT const& children) {
+        auto& child = std::get<Index>(children);
+        auto* child_node = child.root_get();
+        child_node->parent = parent;
+        nodes[Index] = *child_node;
+        child.root_clear();
+        child.allocator_get().release(child_node);
+        return child_node;
+    }
+
+    template<typename ChildrenT, std::size_t... Index>
+    struct cl_node* attach_children_at(struct cl_node* parent, struct cl_node* nodes, ChildrenT const& children, std::index_sequence<Index...> const&)
     {
-        return check_children_at(current, tup, std::make_index_sequence<children_count_v<ChildrenT>>());
+        struct cl_node* roots[] = {attach_child_at<ChildrenT, Index>(parent, nodes, children)...};
+        return roots[children_count_v<ChildrenT> - 1];
     }
 }
 
 template <typename BuilderT, typename ChildrenT, typename = std::enable_if_t<is_children_v<ChildrenT>>>
 builder operator <<(BuilderT&& current, ChildrenT&& children) {
     const std::size_t child_count = children_count_v<ChildrenT>;
+    auto indices = std::make_index_sequence<children_count_v<ChildrenT>>();
 
-    if (check_children(current, children)) {
+    if (check_children_at(current, children, indices)) {
         return { current.allocator_get(), nullptr, nullptr };
     }
-    return { current.allocator_get(), nullptr, nullptr };
 
-    /*auto* nodes = static_cast<struct cl_node*>(current.impl_get()->acquire(child_count * sizeof(struct node)));
+    auto* nodes = static_cast<struct cl_node*>(current.allocator_get().acquire(child_count * sizeof(struct cl_node)));
 
     if (nodes == nullptr) {
-        return { current.impl_get(), nullptr, nullptr };
+        return { current.allocator_get(), nullptr, nullptr };
     }
 
     auto* parent = current.parent_get();
     auto* root = current.root_get();
     current.root_clear();
 
-    for (std::size_t i = 0; i < child_count; ++i) {
-        auto* child_node = children[i].root_get();
-        nodes[i] = *child_node;
-    }
+    attach_children_at(parent, nodes, children, indices);
 
     parent->child_count = child_count;
-    parent->children = nodes;*/
+    parent->children = nodes;
+
+    return { current.allocator_get(), root, nodes + child_count - 1 };
 }
 
 }
