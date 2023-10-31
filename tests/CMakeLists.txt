@@ -29,6 +29,7 @@ add_executable(
 target_compile_features(${BINARY_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang doctest)
 target_compile_definitions(${BINARY_NAME} PRIVATE DOCTEST_CONFIG_SUPER_FAST_ASSERTS)
+target_compile_options(${BINARY_NAME} PRIVATE -stdlib=libstdc++)
 set_target_properties(
     ${BINARY_NAME} PROPERTIES
     FOLDER                   ${CL_FOLDER_TESTS}

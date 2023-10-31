@@ -23,12 +23,7 @@ namespace {
     template <typename... BuilderTs>
     using children_type = std::enable_if_t<
         is_all_v<is_builder_v<BuilderTs>...>,
-        std::tuple<
-            std::conditional_t<
-                std::is_lvalue_reference_v<BuilderTs>,
-                builder &,
-                builder
-            >...>>;
+        std::tuple<BuilderTs&&...>>;
 }
 
 template <typename... BuilderTs>
@@ -40,7 +35,7 @@ namespace {
     template<typename BuilderT, typename T, std::size_t... Index>
     bool check_children_at(BuilderT&& current, T const& tup, std::index_sequence<Index...> const&)
     {
-        auto check_child = [current](auto child) {
+        auto check_child = [&current](auto& child) {
             return child.root_get() == nullptr ||
                    !allocator::equal(current.allocator_get(), child.allocator_get()) ||
                    current.root_get() == nullptr || child.root_get() == nullptr;
@@ -54,12 +49,6 @@ namespace {
         }
 
         return true;
-    }
-
-    template<typename BuilderT, typename... BuilderUs>
-    bool check_children(BuilderT&& current, children_type<BuilderUs...> const& tup)
-    {
-        return check_children_at(current, tup, std::make_index_sequence<sizeof...(BuilderUs)>());
     }
 
     template <typename T>
@@ -83,15 +72,21 @@ namespace {
 
     template <typename T>
     inline constexpr std::size_t children_count_v = children_count<T>::value;
+
+    template<typename BuilderT, typename ChildrenT>
+    bool check_children(BuilderT&& current, const ChildrenT& tup)
+    {
+        return check_children_at(current, tup, std::make_index_sequence<children_count_v<ChildrenT>>());
+    }
 }
 
 template <typename BuilderT, typename ChildrenT, typename = std::enable_if_t<is_children_v<ChildrenT>>>
 builder operator <<(BuilderT&& current, ChildrenT&& children) {
     const std::size_t child_count = children_count_v<ChildrenT>;
 
-    //if (check_children(current, children)) {
-    //    return { current.allocator_get(), nullptr, nullptr };
-    //}
+    if (check_children(current, children)) {
+        return { current.allocator_get(), nullptr, nullptr };
+    }
     return { current.allocator_get(), nullptr, nullptr };
 
     /*auto* nodes = static_cast<struct cl_node*>(current.impl_get()->acquire(child_count * sizeof(struct node)));

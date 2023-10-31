@@ -70,7 +70,7 @@ b::operator <<(BuilderT&& current, BuilderU&& child) {
     parent->child_count = 1;
     parent->children = node;
 
-    return { {  }, root, node };
+    return { current.allocator_get(), root, node };
 }
 
 template b::builder
