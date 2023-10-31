@@ -1,4 +1,3 @@
-#include "lang/builders/source_root.hpp"
 #include "lang/builders/allocator.hpp"
 #include "lang/builders/builder.hpp"
 #include "core/node.h"
@@ -7,7 +6,7 @@
 
 namespace b = cl::lang::builders;
 
-TEST_SUITE_BEGIN("lang/builders/source_root");
+TEST_SUITE_BEGIN("lang/builders/builder_child");
 
 TEST_CASE("Single") {
     auto m = b::allocator{ malloc, free };
