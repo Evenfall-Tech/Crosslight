@@ -1,3 +1,5 @@
+![Tests](https://github.com/Evenfall-Tech/Crosslight/actions/workflows/cmake.yml/badge.svg)
+
 # Crosslight
 
 A language translation / interpretation engine for cross-language compilation / execution. Run Crosslight, select languages for input and output, specify input and output files and see the magic!
