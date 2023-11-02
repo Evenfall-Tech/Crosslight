@@ -32,22 +32,31 @@ children_type<BuilderTs...> children(BuilderTs&&... children) {
 }
 
 namespace {
-    template<typename BuilderT, typename T, std::size_t... Index>
-    bool check_children_at(BuilderT&& current, T const& tup, std::index_sequence<Index...> const&)
+    template <std::size_t Index, typename ChildrenT>
+    constexpr auto && child_get(ChildrenT && children) noexcept
     {
-        auto check_child = [&current](auto&& child) {
+        using tuple_type = std::remove_reference_t<std::remove_cv_t<decltype(children)>>;
+        using result_type =
+                std::conditional_t<
+                        std::is_rvalue_reference_v<
+                                std::tuple_element_t<Index, tuple_type>
+                        >,
+                        tuple_type &&,
+                        tuple_type &
+                >;
+
+        return std::get<Index>(std::forward<result_type>(children));
+    }
+
+    template<typename BuilderT, typename ChildrenT, std::size_t... Index>
+    bool check_children_at(BuilderT&& current, ChildrenT&& children, std::index_sequence<Index...> const&)
+    {
+        auto child_valid = [&current](auto&& child) {
             return child.root_get() == nullptr || current.root_get() == nullptr ||
                    !allocator::equal(current.allocator_get(), child.allocator_get());
         };
 
-        bool ignore[] = {check_child(std::get<Index>(tup))...};
-        for (std::size_t i = 0; i < sizeof(ignore); ++i) {
-            if (!ignore[i]) {
-                return false;
-            }
-        }
-
-        return true;
+        return !(0 + ... + child_valid(child_get<Index>(children)));
     }
 
     template <typename T>
@@ -83,8 +92,8 @@ namespace {
     inline constexpr std::size_t children_count_v = children_count<T>::value;
 
     template <typename ChildrenT, std::size_t Index>
-    void attach_child_at(const struct cl_node* parent, struct cl_node* nodes, ChildrenT const& children) {
-        auto& child = std::get<Index>(children);
+    void attach_child_at(const struct cl_node* parent, struct cl_node* nodes, ChildrenT&& children) {
+        auto&& child = child_get<Index>(children);
         auto* child_node = child.root_get();
         child_node->parent = parent;
         nodes[Index] = *child_node;
@@ -93,7 +102,7 @@ namespace {
     }
 
     template<typename ChildrenT, std::size_t... Index>
-    void attach_children_at(struct cl_node* parent, struct cl_node* nodes, ChildrenT const& children, std::index_sequence<Index...> const&)
+    void attach_children_at(struct cl_node* parent, struct cl_node* nodes, ChildrenT&& children, std::index_sequence<Index...> const&)
     {
         (..., attach_child_at<ChildrenT, Index>(parent, nodes, children));
     }

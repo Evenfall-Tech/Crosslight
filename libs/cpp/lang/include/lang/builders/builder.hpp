@@ -42,9 +42,9 @@ public:
     builder& operator =(const builder& other) = delete; // Copy assignment
     builder(builder& other) = delete; // Copy constructor
 
-    struct cl_node* root_get();
-    struct cl_node* parent_get();
-    const allocator& allocator_get();
+    [[nodiscard]] struct cl_node* root_get() const;
+    [[nodiscard]] struct cl_node* parent_get() const;
+    [[nodiscard]] const allocator& allocator_get() const;
     void prevent_term();
 
 private:

@@ -100,12 +100,12 @@ b::builder::from_payload(const allocator &m, void *payload, size_t payload_type)
 }
 
 struct cl_node*
-b::builder::root_get() {
+b::builder::root_get() const {
     return _root;
 }
 
 struct cl_node*
-b::builder::parent_get() {
+b::builder::parent_get() const {
     return _parent;
 }
 
@@ -115,6 +115,6 @@ b::builder::prevent_term() {
 }
 
 const b::allocator&
-b::builder::allocator_get() {
+b::builder::allocator_get() const {
     return _allocator;
 }
