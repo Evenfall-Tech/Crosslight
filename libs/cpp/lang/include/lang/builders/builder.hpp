@@ -45,11 +45,12 @@ public:
     struct cl_node* root_get();
     struct cl_node* parent_get();
     const allocator& allocator_get();
-    void root_clear();
+    void prevent_term();
 
 private:
     struct cl_node* _root;
     struct cl_node* _parent;
+    bool _should_destroy;
     allocator _allocator;
 };
 

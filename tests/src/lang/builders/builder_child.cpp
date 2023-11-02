@@ -1,7 +1,9 @@
+#include <cstring>
 #include "lang/builders/allocator.hpp"
 #include "lang/builders/builder.hpp"
 #include "core/node.h"
 #include "core/nodes/node_type.h"
+#include "core/nodes/source_root.h"
 #include "doctest/doctest.h"
 
 namespace b = cl::lang::builders;
@@ -20,6 +22,7 @@ TEST_CASE("Single") {
     REQUIRE_UNARY(root->payload);
     REQUIRE_UNARY(root->payload_type);
     REQUIRE_UNARY_FALSE(root->parent);
+    REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 }
 
 TEST_CASE("Hierarchy temporary") {
@@ -33,6 +36,7 @@ TEST_CASE("Hierarchy temporary") {
     REQUIRE_UNARY(root->payload);
     REQUIRE_EQ(::source_root, root->payload_type);
     REQUIRE_UNARY_FALSE(root->parent);
+    REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 
     auto child = root->children;
     REQUIRE_UNARY(child);
@@ -42,6 +46,7 @@ TEST_CASE("Hierarchy temporary") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
 TEST_CASE("Hierarchy variable") {
@@ -56,6 +61,7 @@ TEST_CASE("Hierarchy variable") {
     REQUIRE_UNARY(root->payload);
     REQUIRE_EQ(::source_root, root->payload_type);
     REQUIRE_UNARY_FALSE(root->parent);
+    REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 
     auto child = root->children;
     REQUIRE_UNARY(child);
@@ -65,6 +71,7 @@ TEST_CASE("Hierarchy variable") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
 TEST_CASE("Hierarchy variable rewrite") {
@@ -79,6 +86,7 @@ TEST_CASE("Hierarchy variable rewrite") {
     REQUIRE_UNARY(root->payload);
     REQUIRE_EQ(::source_root, root->payload_type);
     REQUIRE_UNARY_FALSE(root->parent);
+    REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 
     auto child = root->children;
     REQUIRE_UNARY(child);
@@ -88,6 +96,7 @@ TEST_CASE("Hierarchy variable rewrite") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
 TEST_CASE("Hierarchy variable rewrite reverse") {
@@ -102,6 +111,7 @@ TEST_CASE("Hierarchy variable rewrite reverse") {
     REQUIRE_UNARY(root->payload);
     REQUIRE_EQ(::source_root, root->payload_type);
     REQUIRE_UNARY_FALSE(root->parent);
+    REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 
     auto child = root->children;
     REQUIRE_UNARY(child);
@@ -111,6 +121,7 @@ TEST_CASE("Hierarchy variable rewrite reverse") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
 TEST_CASE("Hierarchy both variables rewrite") {
@@ -126,6 +137,7 @@ TEST_CASE("Hierarchy both variables rewrite") {
     REQUIRE_UNARY(root->payload);
     REQUIRE_EQ(::source_root, root->payload_type);
     REQUIRE_UNARY_FALSE(root->parent);
+    REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 
     auto child = root->children;
     REQUIRE_UNARY(child);
@@ -135,6 +147,7 @@ TEST_CASE("Hierarchy both variables rewrite") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
 TEST_CASE("Hierarchy temporary nested temporary") {
@@ -148,6 +161,7 @@ TEST_CASE("Hierarchy temporary nested temporary") {
     REQUIRE_UNARY(root->payload);
     REQUIRE_EQ(::source_root, root->payload_type);
     REQUIRE_UNARY_FALSE(root->parent);
+    REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 
     auto child = root->children;
     REQUIRE_UNARY(child);
@@ -156,6 +170,7 @@ TEST_CASE("Hierarchy temporary nested temporary") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 
     child = child->children;
     REQUIRE_UNARY(child);
@@ -165,6 +180,7 @@ TEST_CASE("Hierarchy temporary nested temporary") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root->children, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("!.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
 TEST_CASE("Hierarchy variable nested temporary") {
@@ -179,6 +195,7 @@ TEST_CASE("Hierarchy variable nested temporary") {
     REQUIRE_UNARY(root->payload);
     REQUIRE_EQ(::source_root, root->payload_type);
     REQUIRE_UNARY_FALSE(root->parent);
+    REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 
     auto child = root->children;
     REQUIRE_UNARY(child);
@@ -187,6 +204,7 @@ TEST_CASE("Hierarchy variable nested temporary") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 
     child = child->children;
     REQUIRE_UNARY(child);
@@ -196,6 +214,7 @@ TEST_CASE("Hierarchy variable nested temporary") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root->children, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("!.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
 TEST_CASE("Hierarchy variable nested variable") {
@@ -211,6 +230,7 @@ TEST_CASE("Hierarchy variable nested variable") {
     REQUIRE_UNARY(root->payload);
     REQUIRE_EQ(::source_root, root->payload_type);
     REQUIRE_UNARY_FALSE(root->parent);
+    REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 
     auto child = root->children;
     REQUIRE_UNARY(child);
@@ -219,6 +239,7 @@ TEST_CASE("Hierarchy variable nested variable") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 
     child = child->children;
     REQUIRE_UNARY(child);
@@ -228,6 +249,7 @@ TEST_CASE("Hierarchy variable nested variable") {
     REQUIRE_UNARY(child->payload);
     REQUIRE_EQ(::source_root, child->payload_type);
     REQUIRE_EQ(root->children, child->parent);
+    REQUIRE_UNARY_FALSE(strcmp("!.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
 TEST_SUITE_END();

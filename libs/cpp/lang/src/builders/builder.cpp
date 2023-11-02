@@ -10,7 +10,8 @@ b::builder::builder(
     const allocator& m,
     struct cl_node* root,
     struct cl_node* parent)
-    : _root{root}, _parent{parent}, _allocator{m.acquire, m.release} {}
+    : _root{root}, _parent{parent},
+    _should_destroy{true}, _allocator{m.acquire, m.release} {}
 
 b::builder&
 b::builder::operator =(b::builder &&other) noexcept {
@@ -18,7 +19,7 @@ b::builder::operator =(b::builder &&other) noexcept {
         return *this;
     }
     // Clear current _root.
-    if (_root != nullptr) {
+    if (_should_destroy) {
         auto r = _allocator.release;
         if (cl_node_term(_root, 1, r) == 0) {
             return *this;
@@ -28,33 +29,32 @@ b::builder::operator =(b::builder &&other) noexcept {
     // _root was cleared.
     _root = other._root;
     _parent = other._parent;
-    other._root = nullptr;
+    other._should_destroy = false;
     other._parent = nullptr;
 
     return *this;
 }
 
 b::builder::builder(b::builder &&other) noexcept
-    : _root{other._root}, _parent{other._parent}, _allocator{other._allocator.acquire, other._allocator.release} {
-    other._root = nullptr;
+    : _root{other._root}, _parent{other._parent},
+    _should_destroy{true}, _allocator{other._allocator.acquire, other._allocator.release} {
+    other._should_destroy = false;
 }
 
 b::builder::~builder() {
-    if (_root == nullptr) {
+    if (!_should_destroy) {
         return;
     }
 
     auto r = _allocator.release;
     cl_node_term(_root, 1, r);
-    _root = nullptr;
 }
 
 template <typename BuilderT, typename BuilderU>
 b::e<BuilderT, BuilderU>
 b::operator <<(BuilderT&& current, BuilderU&& child) {
-    if (child.root_get() == nullptr ||
-        !allocator::equal(current.allocator_get(), child.allocator_get()) ||
-        current.root_get() == nullptr || child.root_get() == nullptr) {
+    if (child.root_get() == nullptr || current.root_get() == nullptr ||
+        !allocator::equal(current.allocator_get(), child.allocator_get())) {
         return { current.allocator_get(), nullptr, nullptr };
     }
 
@@ -62,8 +62,8 @@ b::operator <<(BuilderT&& current, BuilderU&& child) {
     auto* parent = current.parent_get();
     auto* root = current.root_get();
     // Prevent destructor tree termination.
-    child.root_clear();
-    current.root_clear();
+    child.prevent_term();
+    current.prevent_term();
 
     node->parent = parent;
 
@@ -110,8 +110,8 @@ b::builder::parent_get() {
 }
 
 void
-b::builder::root_clear() {
-    _root = nullptr;
+b::builder::prevent_term() {
+    _should_destroy = false;
 }
 
 const b::allocator&

@@ -27,17 +27,17 @@ namespace {
 
 template <typename... BuilderTs>
 children_type<BuilderTs...> children(BuilderTs&&... children) {
-    return {std::forward<BuilderTs>(children)...};
+    (..., children.prevent_term());
+    return {std::move(children)...};
 }
 
 namespace {
     template<typename BuilderT, typename T, std::size_t... Index>
     bool check_children_at(BuilderT&& current, T const& tup, std::index_sequence<Index...> const&)
     {
-        auto check_child = [&current](auto& child) {
-            return child.root_get() == nullptr ||
-                   !allocator::equal(current.allocator_get(), child.allocator_get()) ||
-                   current.root_get() == nullptr || child.root_get() == nullptr;
+        auto check_child = [&current](auto&& child) {
+            return child.root_get() == nullptr || current.root_get() == nullptr ||
+                   !allocator::equal(current.allocator_get(), child.allocator_get());
         };
 
         bool ignore[] = {check_child(std::get<Index>(tup))...};
@@ -58,11 +58,21 @@ namespace {
         std::bool_constant<is_all_v<is_builder_v<BuilderTs>...>>
     {};
 
+    template <typename ... BuilderTs>
+    struct is_children<std::tuple<BuilderTs...>&> :
+            std::bool_constant<is_all_v<is_builder_v<BuilderTs>...>>
+    {};
+
     template <typename T>
     struct children_count {};
 
-    template <typename ... Ts, template <typename ...> class HolderT>
+    template <typename ... Ts, template <typename ...> typename HolderT>
     struct children_count<HolderT<Ts...>> :
+            std::integral_constant<std::size_t, sizeof...(Ts)>
+    {};
+
+    template <typename ... Ts, template <typename ...> typename HolderT>
+    struct children_count<HolderT<Ts...>&> :
         std::integral_constant<std::size_t, sizeof...(Ts)>
     {};
 
@@ -73,21 +83,19 @@ namespace {
     inline constexpr std::size_t children_count_v = children_count<T>::value;
 
     template <typename ChildrenT, std::size_t Index>
-    struct cl_node* attach_child_at(const struct cl_node* parent, struct cl_node* nodes, ChildrenT const& children) {
+    void attach_child_at(const struct cl_node* parent, struct cl_node* nodes, ChildrenT const& children) {
         auto& child = std::get<Index>(children);
         auto* child_node = child.root_get();
         child_node->parent = parent;
         nodes[Index] = *child_node;
-        child.root_clear();
+        child.prevent_term();
         child.allocator_get().release(child_node);
-        return child_node;
     }
 
     template<typename ChildrenT, std::size_t... Index>
-    struct cl_node* attach_children_at(struct cl_node* parent, struct cl_node* nodes, ChildrenT const& children, std::index_sequence<Index...> const&)
+    void attach_children_at(struct cl_node* parent, struct cl_node* nodes, ChildrenT const& children, std::index_sequence<Index...> const&)
     {
-        struct cl_node* roots[] = {attach_child_at<ChildrenT, Index>(parent, nodes, children)...};
-        return roots[children_count_v<ChildrenT> - 1];
+        (..., attach_child_at<ChildrenT, Index>(parent, nodes, children));
     }
 }
 
@@ -108,7 +116,7 @@ builder operator <<(BuilderT&& current, ChildrenT&& children) {
 
     auto* parent = current.parent_get();
     auto* root = current.root_get();
-    current.root_clear();
+    current.prevent_term();
 
     attach_children_at(parent, nodes, children, indices);
 
