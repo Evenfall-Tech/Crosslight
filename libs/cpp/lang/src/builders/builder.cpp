@@ -48,6 +48,7 @@ b::builder::~builder() {
 
     auto r = _allocator.release;
     cl_node_term(_root, 1, r);
+    _root = nullptr;
 }
 
 template <typename BuilderT, typename BuilderU>

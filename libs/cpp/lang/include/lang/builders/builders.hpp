@@ -56,7 +56,7 @@ namespace {
                    !allocator::equal(current.allocator_get(), child.allocator_get());
         };
 
-        return !(0 + ... + child_valid(child_get<Index>(children)));
+        return (0 + ... + child_valid(child_get<Index>(children)));
     }
 
     template <typename T>
