@@ -9,9 +9,11 @@ namespace b = cl::lang::builders;
 b::builder::builder(
     const allocator& m,
     struct cl_node* root,
-    struct cl_node* parent)
-    : _root{root}, _parent{parent},
-    _should_destroy{true}, _allocator{m.acquire, m.release} {}
+    struct cl_node* parent) :
+    _root{root},
+    _parent{parent},
+    _should_destroy{true},
+    _allocator{m.acquire, m.release} {}
 
 b::builder&
 b::builder::operator =(b::builder &&other) noexcept {
@@ -30,14 +32,17 @@ b::builder::operator =(b::builder &&other) noexcept {
     _root = other._root;
     _parent = other._parent;
     other._should_destroy = false;
+    other._root = nullptr;
     other._parent = nullptr;
 
     return *this;
 }
 
-b::builder::builder(b::builder &&other) noexcept
-    : _root{other._root}, _parent{other._parent},
-    _should_destroy{true}, _allocator{other._allocator.acquire, other._allocator.release} {
+b::builder::builder(b::builder &&other) noexcept :
+    _root{other._root},
+    _parent{other._parent},
+    _should_destroy{true},
+    _allocator{other._allocator.acquire, other._allocator.release} {
     other._should_destroy = false;
 }
 

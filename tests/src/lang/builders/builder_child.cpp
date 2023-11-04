@@ -10,7 +10,7 @@ namespace b = cl::lang::builders;
 
 TEST_SUITE_BEGIN("lang/builders/builder_child");
 
-TEST_CASE("Single") {
+TEST_CASE("Child single") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("hello.ts");
 
@@ -25,7 +25,7 @@ TEST_CASE("Single") {
     REQUIRE_UNARY_FALSE(strcmp("hello.ts", ((const cl_node_source_root*)root->payload)->file_name));
 }
 
-TEST_CASE("Hierarchy temporary") {
+TEST_CASE("Child hierarchy temporary") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("hello.ts") << m.source_root("world.ts");
 
@@ -49,7 +49,7 @@ TEST_CASE("Hierarchy temporary") {
     REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
-TEST_CASE("Hierarchy variable") {
+TEST_CASE("Child hierarchy variable") {
     auto m = b::allocator{ malloc, free };
     auto a = m.source_root("hello.ts");
     auto factory = a << m.source_root("world.ts");
@@ -74,7 +74,7 @@ TEST_CASE("Hierarchy variable") {
     REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
-TEST_CASE("Hierarchy variable rewrite") {
+TEST_CASE("Child hierarchy variable rewrite") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("hello.ts");
     factory = factory << m.source_root("world.ts");
@@ -99,7 +99,7 @@ TEST_CASE("Hierarchy variable rewrite") {
     REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
-TEST_CASE("Hierarchy variable rewrite reverse") {
+TEST_CASE("Child hierarchy variable rewrite reverse") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("world.ts");
     factory = m.source_root("hello.ts") << factory;
@@ -124,7 +124,7 @@ TEST_CASE("Hierarchy variable rewrite reverse") {
     REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
-TEST_CASE("Hierarchy both variables rewrite") {
+TEST_CASE("Child hierarchy both variables rewrite") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("world.ts");
     auto a = m.source_root("hello.ts");
@@ -150,7 +150,7 @@ TEST_CASE("Hierarchy both variables rewrite") {
     REQUIRE_UNARY_FALSE(strcmp("world.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
-TEST_CASE("Hierarchy temporary nested temporary") {
+TEST_CASE("Child hierarchy temporary nested temporary") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("hello.ts") << m.source_root("world.ts") << m.source_root("!.ts");
 
@@ -183,7 +183,7 @@ TEST_CASE("Hierarchy temporary nested temporary") {
     REQUIRE_UNARY_FALSE(strcmp("!.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
-TEST_CASE("Hierarchy variable nested temporary") {
+TEST_CASE("Child hierarchy variable nested temporary") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("hello.ts");
     factory = factory << m.source_root("world.ts") << m.source_root("!.ts");
@@ -217,7 +217,7 @@ TEST_CASE("Hierarchy variable nested temporary") {
     REQUIRE_UNARY_FALSE(strcmp("!.ts", ((const cl_node_source_root*)child->payload)->file_name));
 }
 
-TEST_CASE("Hierarchy variable nested variable") {
+TEST_CASE("Child hierarchy variable nested variable") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("hello.ts");
     factory = factory << m.source_root("world.ts");

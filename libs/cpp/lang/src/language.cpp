@@ -6,25 +6,24 @@
 
 using namespace cl::lang;
 
-language::~language() {
-}
+language::~language() = default;
 
 static const struct cl_resource_types*
 to_cl_resource_types(const std::set<const char *>& types) {
     auto types_size = types.size();
-    struct cl_resource_types* result = new(std::nothrow) struct cl_resource_types;
+    auto* result = new(std::nothrow) struct cl_resource_types;
 
-    if (result == 0) {
-        return 0;
+    if (result == nullptr) {
+        return nullptr;
     }
 
     result->content_types_size = types_size;
     auto* content_types = new(std::nothrow) const char*[types_size];
 
-    if (content_types == 0) {
+    if (content_types == nullptr) {
         delete result;
         
-        return 0;
+        return nullptr;
     }
 
     std::size_t i = 0;
@@ -32,7 +31,7 @@ to_cl_resource_types(const std::set<const char *>& types) {
         auto child_size = strlen(type) + 1;
         char* str = new(std::nothrow) char[child_size];
 
-        if (str == 0) {
+        if (str == nullptr) {
             for (std::size_t k = 0; k < i; ++k) {
                 delete[] content_types[i];
             }
@@ -40,9 +39,10 @@ to_cl_resource_types(const std::set<const char *>& types) {
             delete[] content_types;
             delete result;
 
-            return 0;
+            return nullptr;
         }
 
+        str[child_size - 1] = 0;
         strcpy(str, type);
         content_types[i] = str;
         ++i;
@@ -63,14 +63,14 @@ language::cl_resource_types_output() const {
     return to_cl_resource_types(resource_types_output());
 }
 
-const size_t
-language::cl_resource_types_term(const struct cl_resource_types* types) const {
-    if (types == 0 || types->content_types == 0) {
+size_t
+language::cl_resource_types_term(const struct cl_resource_types* types) {
+    if (types == nullptr || types->content_types == nullptr) {
         return 1;
     }
 
     for (size_t i = 0; i < types->content_types_size; ++i) {
-        if (types->content_types[i] != 0) {
+        if (types->content_types[i] != nullptr) {
             delete[] types->content_types[i];
         }
     }
