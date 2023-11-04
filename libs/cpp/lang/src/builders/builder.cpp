@@ -31,6 +31,7 @@ b::builder::operator =(b::builder &&other) noexcept {
     // _root was cleared.
     _root = other._root;
     _parent = other._parent;
+    _should_destroy = true;
     other._should_destroy = false;
     other._root = nullptr;
     other._parent = nullptr;
