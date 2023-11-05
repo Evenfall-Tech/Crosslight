@@ -4,8 +4,8 @@
 #include "core/nodes/scope.h"
 #include "core/nodes/heap_type.h"
 
-size_t
-cl_node_term(struct cl_node* root, size_t term_children, void(*term)(void*)) {
+static size_t
+cl_node_term_internal(struct cl_node* root, size_t term_children, void(*term)(void*), size_t term_root) {
     if (term == 0) {
         return 0;
     }
@@ -37,16 +37,23 @@ cl_node_term(struct cl_node* root, size_t term_children, void(*term)(void*)) {
     size_t child_count = root->child_count;
 
     if (term_children != 0 && child_count > 0 && root->children != 0) {
-        for (size_t i = 0; i < child_count; ++i) {
-            if (cl_node_term((struct cl_node*)(root->children + i), term_children, term) == 0) {
+        for (size_t i = child_count - 1; i != (size_t)-1; --i) {
+            if (cl_node_term_internal((struct cl_node*)(root->children + i), term_children, term, i == 0) == 0) {
                 return 0;
             }
         }
     }
 
-    term(root);
+    if (term_root) {
+        term(root);
+    }
 
     return 1;
+}
+
+size_t
+cl_node_term(struct cl_node* root, size_t term_children, void(*term)(void*)) {
+    return cl_node_term_internal(root, term_children, term, 1);
 }
 
 size_t

@@ -3,9 +3,8 @@
 
 using namespace cl::lang;
 
-config::config(struct cl_config* handle)
-    : _handle(handle) {
-}
+config::config(struct cl_config* handle) :
+    _handle(handle) {}
 
 config::config() {
     _handle = cl_config_init();
@@ -24,7 +23,7 @@ std::optional<std::string>
 config::string_get(const std::string& key) {
     auto result = cl_config_string_get(_handle, key.c_str());
 
-    if (result == 0) {
+    if (result == nullptr) {
         return {};
     }
 

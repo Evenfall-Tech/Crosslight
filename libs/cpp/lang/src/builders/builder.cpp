@@ -4,108 +4,78 @@
 
 namespace b = cl::lang::builders;
 
-class b::builder::impl {
-public:
-    AcquireT acquire;
-    ReleaseT release;
-};
-
 b::builder::builder(
     const allocator& m,
     struct cl_node* root,
-    struct cl_node* parent)
-    : _root{root}, _parent{parent}, _impl{new (static_cast<impl*>(m.acquire(sizeof(impl)))) impl{ m.acquire, m.release }} {}
-
-b::builder::builder(
-    const impl* m,
-    struct cl_node* root,
-    struct cl_node* parent)
-    : _root{root}, _parent{parent}, _impl{new (static_cast<impl*>(m->acquire(sizeof(impl)))) impl{ m->acquire, m->release }} {}
+    struct cl_node* parent) :
+    _root{root},
+    _parent{parent},
+    _should_destroy{true},
+    _allocator{m.acquire, m.release} {}
 
 b::builder&
 b::builder::operator =(b::builder &&other) noexcept {
-    // Clear current _root and _impl.
-    if (_impl != nullptr) {
-        if (!impl_equal(_impl, other._impl)) {
+    if (!allocator::equal(_allocator, other._allocator)) {
+        return *this;
+    }
+    // Clear current _root.
+    if (_should_destroy) {
+        auto r = _allocator.release;
+        if (cl_node_term(_root, 1, r) == 0) {
             return *this;
         }
-
-        auto r = _impl->release;
-
-        if (_root != nullptr) {
-            if (cl_node_term(_root, 1, r) == 0) {
-                return *this;
-            }
-        }
-
-        r(_impl);
     }
 
-    // _impl was cleared. _root was cleared.
-    _impl = new (static_cast<impl*>(other._impl->acquire(sizeof(impl))))
-        impl{ other._impl->acquire, other._impl->release };
+    // _root was cleared.
     _root = other._root;
     _parent = other._parent;
+    _should_destroy = true;
+    other._should_destroy = false;
     other._root = nullptr;
     other._parent = nullptr;
 
     return *this;
 }
 
-b::builder::builder(b::builder &&other) noexcept
-    : _root{other._root}, _parent{other._parent}, _impl{
-        new (static_cast<impl*>(other._impl->acquire(sizeof(impl))))
-        impl{ other._impl->acquire, other._impl->release }
-    } {
-    other._root = nullptr;
+b::builder::builder(b::builder &&other) noexcept :
+    _root{other._root},
+    _parent{other._parent},
+    _should_destroy{true},
+    _allocator{other._allocator.acquire, other._allocator.release} {
+    other._should_destroy = false;
 }
 
 b::builder::~builder() {
-    if (_impl == nullptr) {
+    if (!_should_destroy) {
         return;
     }
 
-    auto r = _impl->release;
-
-    r(_impl);
-    _impl = nullptr;
-
-    if (_root == nullptr) {
-        return;
-    }
-
+    auto r = _allocator.release;
     cl_node_term(_root, 1, r);
     _root = nullptr;
 }
 
 template <typename BuilderT, typename BuilderU>
-using e = std::enable_if_t<
-        std::is_same_v<std::remove_cv_t<std::remove_reference_t<BuilderT>>, b::builder> &&
-        std::is_same_v<std::remove_cv_t<std::remove_reference_t<BuilderU>>, b::builder>,
-        b::builder>;
-
-template <typename BuilderT, typename BuilderU>
-e<BuilderT, BuilderU>
+b::e<BuilderT, BuilderU>
 b::operator <<(BuilderT&& current, BuilderU&& child) {
-    if (child.root_get() == nullptr ||
-        !b::builder::impl_equal(current.impl_get(), child.impl_get()) ||
-        current.root_get() == nullptr || child.root_get() == nullptr) {
-        return { current.impl_get(), nullptr, nullptr };
+    if (child.root_get() == nullptr || current.root_get() == nullptr ||
+        !allocator::equal(current.allocator_get(), child.allocator_get())) {
+        return { current.allocator_get(), nullptr, nullptr };
     }
 
     auto* node = child.root_get();
     auto* parent = current.parent_get();
     auto* root = current.root_get();
     // Prevent destructor tree termination.
-    child.root_clear();
-    current.root_clear();
+    child.prevent_term();
+    current.prevent_term();
 
     node->parent = parent;
 
     parent->child_count = 1;
     parent->children = node;
 
-    return { current.impl_get(), root, node };
+    return { current.allocator_get(), root, node };
 }
 
 template b::builder
@@ -134,31 +104,22 @@ b::builder::from_payload(const allocator &m, void *payload, size_t payload_type)
     return { m, node, node };
 }
 
-const b::builder::impl*
-b::builder::impl_get() {
-    return _impl;
-}
-
-bool
-b::builder::impl_equal(const impl* left, const impl* right) {
-    return (left == nullptr && right == nullptr) || (
-        left != nullptr &&
-        right != nullptr &&
-        left->acquire == right->acquire &&
-        left->release == right->release);
-}
-
 struct cl_node*
-b::builder::root_get() {
+b::builder::root_get() const {
     return _root;
 }
 
 struct cl_node*
-b::builder::parent_get() {
+b::builder::parent_get() const {
     return _parent;
 }
 
 void
-b::builder::root_clear() {
-    _root = nullptr;
+b::builder::prevent_term() {
+    _should_destroy = false;
+}
+
+const b::allocator&
+b::builder::allocator_get() const {
+    return _allocator;
 }
