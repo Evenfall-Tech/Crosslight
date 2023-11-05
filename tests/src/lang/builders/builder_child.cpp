@@ -10,6 +10,20 @@ namespace b = cl::lang::builders;
 
 TEST_SUITE_BEGIN("lang/builders/builder_child");
 
+TEST_CASE("builder_child single empty") {
+    auto m = b::allocator{ malloc, free };
+    auto factory = m.none();
+
+    auto root = factory.root_get();
+    REQUIRE_UNARY(root);
+    REQUIRE_EQ(root, factory.parent_get());
+    REQUIRE_EQ(0, root->child_count);
+    REQUIRE_UNARY_FALSE(root->children);
+    REQUIRE_UNARY_FALSE(root->payload);
+    REQUIRE_UNARY_FALSE(root->payload_type);
+    REQUIRE_UNARY_FALSE(root->parent);
+}
+
 TEST_CASE("builder_child single") {
     auto m = b::allocator{ malloc, free };
     auto factory = m.source_root("hello.ts");
