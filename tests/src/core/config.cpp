@@ -3,7 +3,7 @@
 
 TEST_SUITE_BEGIN("core/config");
 
-TEST_CASE("Lifetime") {
+TEST_CASE("config lifetime") {
     struct cl_config* config = cl_config_init();
     REQUIRE_NE((struct cl_config*)nullptr, config);
 
@@ -14,7 +14,7 @@ TEST_CASE("Lifetime") {
     REQUIRE_EQ(1, term);
 }
 
-TEST_CASE("String") {
+TEST_CASE("config string") {
     struct cl_config* config = cl_config_init();
     REQUIRE_NE((struct cl_config*)nullptr, config);
 

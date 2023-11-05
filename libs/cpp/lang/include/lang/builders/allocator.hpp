@@ -11,6 +11,7 @@ public:
     AcquireT acquire;
     ReleaseT release;
 
+    [[nodiscard]] builder none() const;
     builder source_root(const char* filename) const;
     builder scope(const char* identifier) const;
     builder heap_type(const char* identifier) const;

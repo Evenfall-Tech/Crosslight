@@ -11,6 +11,9 @@ set(PUBLIC_SOURCES_FILES
     "${LIBRARY_BASE_PATH}/src/core/config.cpp"
     "${LIBRARY_BASE_PATH}/src/lang/builders/builder_child.cpp"
     "${LIBRARY_BASE_PATH}/src/lang/builders/builder_children.cpp"
+    "${LIBRARY_BASE_PATH}/src/lang/builders/source_root.cpp"
+    "${LIBRARY_BASE_PATH}/src/lang/builders/scope.cpp"
+    "${LIBRARY_BASE_PATH}/src/lang/builders/heap_type.cpp"
 )
 
 set(DOCTEST_NO_INSTALL ON)
