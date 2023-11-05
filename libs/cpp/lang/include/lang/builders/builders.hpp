@@ -145,6 +145,17 @@ namespace {
         auto&& child = child_get<Index>(children);
         auto* child_node = child.root_get();
         child_node->parent = parent;
+        auto child_count = child_node->child_count;
+
+        // Reattach children of children to the newly acquired array memory.
+        auto* child_children = (struct cl_node*)child_node->children;
+
+        if (child_children != nullptr && child_count > 0) {
+            for (size_t i = 0; i < child_count; ++i) {
+                (child_children + i)->parent = nodes + Index;
+            }
+        }
+
         nodes[Index] = *child_node;
         child.prevent_term();
         child.allocator_get().release(child_node);
