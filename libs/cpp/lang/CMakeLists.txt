@@ -17,6 +17,7 @@ set(PUBLIC_HEADERS_FILES
     "${LIBRARY_BASE_PATH}/include/lang/builders/source_root.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/builders/scope.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/builders/heap_type.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/builders/access_modifier.hpp"
 )
 
 # add generated grammar to demo binary target
@@ -32,6 +33,7 @@ add_library(
     "${LIBRARY_BASE_PATH}/src/builders/source_root.cpp"
     "${LIBRARY_BASE_PATH}/src/builders/scope.cpp"
     "${LIBRARY_BASE_PATH}/src/builders/heap_type.cpp"
+    "${LIBRARY_BASE_PATH}/src/builders/access_modifier.cpp"
 )
 add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 

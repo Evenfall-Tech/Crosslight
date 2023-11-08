@@ -60,9 +60,9 @@ public struct SourceRoot : INodePayload
         return pointer;
     }
 
-    public readonly object? AcceptVisitor(Node node, INodePayloadVisitor visitor)
+    public readonly object? AcceptVisitor(object context, Node node, INodePayloadVisitor visitor)
     {
-        return visitor.VisitSourceRoot(node, this);
+        return visitor.VisitSourceRoot(context, node, this);
     }
 
     public override string ToString()

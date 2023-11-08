@@ -15,6 +15,18 @@
 #  include <dlfcn.h>
 #endif
 
+const char source_code[] =
+    u8"namespace D3.Shapes {\n"
+    u8"\tclass Vector {\n"
+    u8"\t\tdata: byte[];\n"
+    u8"\t\tlength: size;\n"
+    u8"\t\tpublic static VectorImpl = class {\n"
+    u8"\t\t\ttext: string;\n"
+    u8"\t\t}\n"
+    u8"\t}\n"
+    u8"}\n";
+const char source_type[] = "text/plain";
+
 static void*
 library_init(const char* path) {
 #if CL_WINDOWS == 1
@@ -248,21 +260,12 @@ const struct cl_resource* parse_output(struct cl_config* config, const struct cl
 
 int
 main(int argc, char **argv) {
-    const char code[] =
-        u8"export namespace D3.Shapes {"
-        u8"export class Vector {"
-        u8"data: byte[];"
-        u8"length: size;"
-        u8"}"
-        u8"}";
-    const char type[] = "text/plain";
-
     // Setup resource.
 
     struct cl_resource resourceIn;
-    resourceIn.content = (const uint8_t*)code;
-    resourceIn.content_type = type;
-    resourceIn.content_size = sizeof(code);
+    resourceIn.content = (const uint8_t*)source_code;
+    resourceIn.content_type = source_type;
+    resourceIn.content_size = sizeof(source_code);
     
     printf("Input is below:\n%s\n", (const char*)resourceIn.content);
 

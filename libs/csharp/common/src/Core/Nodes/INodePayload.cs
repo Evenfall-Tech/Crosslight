@@ -24,5 +24,5 @@ public interface INodePayload
     /// </remarks>
     nint ToPointer(AcquireDelegate? acquire);
 
-    object? AcceptVisitor(Node node, INodePayloadVisitor visitor);
+    object? AcceptVisitor(object context, Node node, INodePayloadVisitor visitor);
 }

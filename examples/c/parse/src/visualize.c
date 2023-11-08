@@ -15,6 +15,8 @@ const char* print_tree_node_type(size_t type) {
             return "scope";
         case heap_type:
             return "heap_type";
+        case access_modifier:
+            return "access_modifier";
         default:
             return "unknown";
     }

@@ -63,9 +63,9 @@ public struct Scope : INodePayload
         return pointer;
     }
 
-    public readonly object? AcceptVisitor(Node node, INodePayloadVisitor visitor)
+    public readonly object? AcceptVisitor(object context, Node node, INodePayloadVisitor visitor)
     {
-        return visitor.VisitScope(node, this);
+        return visitor.VisitScope(context, node, this);
     }
 
     public override string ToString()

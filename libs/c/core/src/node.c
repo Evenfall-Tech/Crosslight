@@ -3,6 +3,7 @@
 #include "core/nodes/source_root.h"
 #include "core/nodes/scope.h"
 #include "core/nodes/heap_type.h"
+#include "core/nodes/access_modifier.h"
 
 static size_t
 cl_node_term_internal(struct cl_node* root, size_t term_children, void(*term)(void*), size_t term_root) {
@@ -28,6 +29,11 @@ cl_node_term_internal(struct cl_node* root, size_t term_children, void(*term)(vo
                 break;
             case heap_type:
                 if (cl_node_heap_type_term((struct cl_node_heap_type*)root->payload, term) == 0) {
+                    return 0;
+                }
+                break;
+            case access_modifier:
+                if (cl_node_access_modifier_term((struct cl_node_access_modifier*)root->payload, term) == 0) {
                     return 0;
                 }
                 break;
@@ -106,6 +112,21 @@ cl_node_heap_type_term(struct cl_node_heap_type* payload, void(*term)(void*)) {
 
     if (payload->identifier != 0) {
         term((void*)payload->identifier);
+    }
+
+    term(payload);
+
+    return 1;
+}
+
+size_t
+cl_node_access_modifier_term(struct cl_node_access_modifier* payload, void(*term)(void*)) {
+    if (term == 0) {
+        return 0;
+    }
+
+    if (payload == 0) {
+        return 1;
     }
 
     term(payload);

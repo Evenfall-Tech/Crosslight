@@ -41,6 +41,7 @@ set(PUBLIC_HEADERS_FILES
     "${LIBRARY_BASE_PATH}/include/core/nodes/source_root.h"
     "${LIBRARY_BASE_PATH}/include/core/nodes/scope.h"
     "${LIBRARY_BASE_PATH}/include/core/nodes/heap_type.h"
+    "${LIBRARY_BASE_PATH}/include/core/nodes/access_modifier.h"
 )
 
 set(PRIVATE_HEADERS_FILES

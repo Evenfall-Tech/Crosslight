@@ -223,6 +223,7 @@ public class Node
             { (uint)NodeType.SourceRoot, p => p == 0 ? null : new SourceRoot(p) },
             { (uint)NodeType.Scope, p => p == 0 ? null : new Scope(p) },
             { (uint)NodeType.HeapType, p => p == 0 ? null : new HeapType(p) },
+            { (uint)NodeType.AccessModifier, p => p == 0 ? null : new AccessModifier(p) },
         };
     }
 }

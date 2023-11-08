@@ -20,7 +20,7 @@ namespace Crosslight.Lang.CsharpRef
             _options = options;
         }
 
-        public override object VisitSourceRoot(Node node, SourceRoot payload)
+        public override object VisitSourceRoot(object context, Node node, SourceRoot payload)
         {
             var syntax = SyntaxFactory.CompilationUnit();
             bool setRoot = _rootNode == null;
@@ -34,8 +34,12 @@ namespace Crosslight.Lang.CsharpRef
 
             if (node.HasChildren)
             {
-                if (VisitChildren(node) is IEnumerable<CSharpSyntaxNode> children)
+                var stack = ((LanguageContext)context).ParseOrder;
+                stack.Push(syntax);
+                
+                if (VisitChildren(context, node) is IEnumerable<CSharpSyntaxNode> children)
                 {
+                    syntax = (CompilationUnitSyntax)stack.Peek();
                     var nodes = children.ToArray();
                     syntax = syntax
                         .AddUsings(nodes.OfType<UsingDirectiveSyntax>().ToArray())
@@ -43,6 +47,8 @@ namespace Crosslight.Lang.CsharpRef
                         //.AddExterns(nodes.OfType<ExternAliasDirectiveSyntax>().ToArray())
                         .AddMembers(nodes.OfType<MemberDeclarationSyntax>().ToArray());
                 }
+
+                stack.Pop();
             }
 
             if (setRoot)
@@ -53,7 +59,7 @@ namespace Crosslight.Lang.CsharpRef
             return new CSharpSyntaxNode[] { syntax };
         }
 
-        public override object VisitScope(Node node, Scope payload)
+        public override object VisitScope(object context, Node node, Scope payload)
         {
             var identifier = SyntaxFactory.IdentifierName(
                 payload.Identifier
@@ -66,12 +72,18 @@ namespace Crosslight.Lang.CsharpRef
 
             if (node.HasChildren)
             {
-                if (VisitChildren(node) is IEnumerable<CSharpSyntaxNode> children)
+                var stack = ((LanguageContext)context).ParseOrder;
+                stack.Push(syntax);
+                
+                if (VisitChildren(context, node) is IEnumerable<CSharpSyntaxNode> children)
                 {
+                    syntax = (BaseNamespaceDeclarationSyntax)stack.Peek();
                     var nodes = children.ToArray();
                     syntax = syntax
                         .AddMembers(nodes.OfType<MemberDeclarationSyntax>().ToArray());
                 }
+
+                stack.Pop();
             }
 
             if (setRoot)
@@ -82,7 +94,7 @@ namespace Crosslight.Lang.CsharpRef
             return new CSharpSyntaxNode[] { syntax };
         }
 
-        public override object VisitHeapType(Node node, HeapType payload)
+        public override object VisitHeapType(object context, Node node, HeapType payload)
         {
             var syntax = SyntaxFactory.ClassDeclaration(
                 payload.Identifier
@@ -92,12 +104,18 @@ namespace Crosslight.Lang.CsharpRef
 
             if (node.HasChildren)
             {
-                if (VisitChildren(node) is IEnumerable<CSharpSyntaxNode> children)
+                var stack = ((LanguageContext)context).ParseOrder;
+                stack.Push(syntax);
+
+                if (VisitChildren(context, node) is IEnumerable<CSharpSyntaxNode> children)
                 {
+                    syntax = (ClassDeclarationSyntax)stack.Peek();
                     var nodes = children.ToArray();
                     syntax = syntax
                         .AddMembers(nodes.OfType<MemberDeclarationSyntax>().ToArray());
                 }
+
+                stack.Pop();
             }
 
             if (setRoot)
@@ -108,6 +126,51 @@ namespace Crosslight.Lang.CsharpRef
             return new CSharpSyntaxNode[] { syntax };
         }
 
+        public override object VisitAccessModifier(object context, Node node, AccessModifier payload)
+        {
+            var stack = ((LanguageContext)context).ParseOrder;
+            if (!stack.TryPop(out var parent))
+            {
+                throw new NotSupportedException(
+                    "Dangling access modifiers are not supported. Add a parent node.");
+            }
+            
+            var modifier = SyntaxFactory.Token(payload.Kind switch
+            {
+                AccessModifierType.None => SyntaxKind.None,
+                AccessModifierType.Public => SyntaxKind.PublicKeyword,
+                AccessModifierType.Protected => SyntaxKind.ProtectedKeyword,
+                AccessModifierType.Private => SyntaxKind.PrivateKeyword,
+                _ => SyntaxKind.None,
+            });
+
+            if (parent is ClassDeclarationSyntax classSyntax)
+            {
+                classSyntax = classSyntax.AddModifiers(modifier);
+                stack.Push(classSyntax);
+            }
+            else
+            {
+                throw new NotSupportedException(
+                    $"Access modifiers for {parent.GetType()} are not supported.");
+            }
+
+            if (node.HasChildren)
+            {
+                if (VisitChildren(context, node) is IEnumerable<CSharpSyntaxNode> children)
+                {
+                    var nodes = children.ToArray();
+                    // Note: no children for access modifiers are currently supported.
+                }
+            }
+
+            // Explicitly return empty array instead of default result
+            // to avoid regression errors if default result changes.
+            // This shows that the function did some processing, although
+            // no new syntax nodes were produced.
+            return Array.Empty<CSharpSyntaxNode>();
+        }
+
         #region Overrides
 
         protected override object GetDefaultResult()
@@ -115,7 +178,7 @@ namespace Crosslight.Lang.CsharpRef
             return Array.Empty<CSharpSyntaxNode>();
         }
 
-        protected override object AggregateResults(object? aggregate, object? next)
+        protected override object AggregateResults(object context, object? aggregate, object? next)
         {
             var container = (IEnumerable<CSharpSyntaxNode>)aggregate!;
 
