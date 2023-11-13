@@ -42,18 +42,19 @@ visitor::visitProgram(ParserTs::ProgramContext *ctx) {
 
         auto children_container = elements->sourceElement();
         child_list children{};
-        for (auto* child : children_container) {
-            if (auto* statement = dynamic_cast<ParserTs::StatementContext*>(child)) {
-                if (auto* syntax = statement->namespaceDeclaration()) {
-                    children.push_back(syntax);
-                }
-                else {
-                    std::cout << "Ignoring TS " << statement->getText() << std::endl;
-                }
+        for (auto* child_wrapper : children_container) {
+            // TODO: parse sourceElement export keyword.
+            auto* child = child_wrapper->statement();
+
+            if (auto* syntax = child->namespaceDeclaration()) {
+                children.push_back(syntax);
+            }
+            else {
+                std::cout << "Ignoring TS " << child->getText() << std::endl;
             }
         }
 
-        return visitNode(ctx, payload, ::source_root, children, true);
+        return visitNode(ctx, payload, ::source_root, &children, true);
     }
 
     return defaultResult();
@@ -95,7 +96,7 @@ visitor::visitNamespaceDeclaration(ParserTs::NamespaceDeclarationContext *ctx) {
             }
         }
 
-        result = visitNode(ctx, payload, cl_node_type::scope, children, true);
+        result = visitNode(ctx, payload, cl_node_type::scope, &children, true);
         merged = std::any_cast<list>(result);
     }
 
@@ -136,7 +137,7 @@ visitor::visitClassDeclaration(ParserTs::ClassDeclarationContext *ctx) {
 
         child_list children{};
 
-        return visitNode(ctx, payload, cl_node_type::heap_type, children, true);
+        return visitNode(ctx, payload, cl_node_type::heap_type, &children, true);
     }
 
     return defaultResult();
@@ -158,16 +159,34 @@ visitor::aggregateResult(std::any aggregate, std::any nextResult) {
 std::any
 visitor::visitChildren(
     antlr4::tree::ParseTree *node,
-    const std::list<antlr4::tree::ParseTree*>& children) {
+    const child_list* children) {
     std::any result = defaultResult();
-    size_t n = node->children.size();
-    for (size_t i = 0; i < n; i++) {
-    if (!shouldVisitNextChild(node, result)) {
-    break;
-    }
 
-    std::any childResult = node->children[i]->accept(this);
-    result = aggregateResult(std::move(result), std::move(childResult));
+    if (children) {
+        size_t n = children->size();
+        auto child = children->begin();
+
+        for (size_t i = 0; i < n; i++) {
+            if (!shouldVisitNextChild(node, result)) {
+                break;
+            }
+
+            std::any childResult = (*child)->accept(this);
+            result = aggregateResult(std::move(result), std::move(childResult));
+            ++child;
+        }
+    }
+    else {
+        size_t n = node->children.size();
+
+        for (size_t i = 0; i < n; i++) {
+            if (!shouldVisitNextChild(node, result)) {
+                break;
+            }
+
+            std::any childResult = node->children[i]->accept(this);
+            result = aggregateResult(std::move(result), std::move(childResult));
+        }
     }
 
     return result;
@@ -178,7 +197,7 @@ visitor::visitNode(
     antlr4::tree::ParseTree* ctx,
     void *payload,
     std::size_t payload_type,
-    const std::list<antlr4::tree::ParseTree*>& children,
+    const child_list* children,
     bool visit_children) {
     auto* node = acquire_entity<struct cl_node>(_options.acquire);
 

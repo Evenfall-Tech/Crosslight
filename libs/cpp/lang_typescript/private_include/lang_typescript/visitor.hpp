@@ -23,7 +23,7 @@ public:
 protected:
     virtual std::any visitChildren(
         antlr4::tree::ParseTree *node,
-        const child_list& children);
+        const child_list* children);
     std::any defaultResult() override;
     std::any aggregateResult(std::any aggregate, std::any nextResult) override;
 
@@ -32,11 +32,20 @@ private:
     struct cl_node* _parent;
     const language_options& _options;
 
+    /**
+     * @brief Visit node and a custom child list.
+     *
+     * @param ctx ParseTree node, corresponding to the generated Crosslight node.
+     * @param payload Pointer to acquired payload memory.
+     * @param payload_type Type of the payload. Corresponds to @ref cl_node_type values.
+     * @param children List of children to visit. If `0`, visit all children.
+     * @param visit_children Should children be visited at all.
+     */
     std::any visitNode(
         antlr4::tree::ParseTree* ctx,
         void* payload,
         std::size_t payload_type,
-        const child_list& children,
+        const child_list* children,
         bool visit_children);
 };
 }
