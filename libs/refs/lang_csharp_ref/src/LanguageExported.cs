@@ -1,5 +1,6 @@
 ﻿using Crosslight.Core;
 using System.Runtime.InteropServices;
+using Crosslight.Core.Exceptions;
 
 namespace Crosslight.Lang.CsharpRef;
 
@@ -58,12 +59,19 @@ public static class LanguageExported
             return 0;
         }
 
-        var input = new Resource(resource);
-        var result = language.TransformInput(input);
+        try
+        {
+            var input = new Resource(resource);
+            var result = language.TransformInput(input);
 
-        return result == null
-            ? 0
-            : result.ToPointer(Language.Options[language].Acquire);
+            return result?.ToPointer(Language.Options[language].Acquire) ?? 0;
+        }
+        catch (ParsingException e)
+        {
+            // TODO: add logging.
+            Console.WriteLine(e);
+            return 0;
+        }
     }
 
     [UnmanagedCallersOnly(EntryPoint = "language_transform_output")]
@@ -88,21 +96,21 @@ public static class LanguageExported
             nodeInstance = new Node(
                 node,
                 Node.GetDefaultPayloadMapping(),
+                Language.Options[language].UnsupportedBehavior,
                 parent: null,
-                parseChildren: true,
-                parseUnsupported: Language.Options[language].ParseUnsupported);
+                parseChildren: true);
             Console.WriteLine(nodeInstance);
+
+            var result = language.TransformOutput(nodeInstance);
+
+            return result?.ToPointer(Language.Options[language].Acquire) ?? 0;
         }
-        catch
+        catch (ParsingException e)
         {
+            // TODO: add logging.
+            Console.WriteLine(e);
             return 0;
         }
-
-        var result = language.TransformOutput(nodeInstance);
-
-        return result == null
-            ? 0
-            : result.ToPointer(Language.Options[language].Acquire);
     }
 
     [UnmanagedCallersOnly(EntryPoint = "language_transform_modify")]
@@ -113,7 +121,35 @@ public static class LanguageExported
             return 0;
         }
 
-        return 0;
+        var language = (Language?)GCHandle.FromIntPtr(context).Target;
+
+        if (language == null)
+        {
+            return 0;
+        }
+
+        Node nodeInstance;
+
+        try
+        {
+            nodeInstance = new Node(
+                node,
+                Node.GetDefaultPayloadMapping(),
+                Language.Options[language].UnsupportedBehavior,
+                parent: null,
+                parseChildren: true);
+            Console.WriteLine(nodeInstance);
+
+            var result = language.TransformModify(nodeInstance);
+
+            return result?.ToPointer(Language.Options[language].Acquire) ?? 0;
+        }
+        catch (ParsingException e)
+        {
+            // TODO: add logging.
+            Console.WriteLine(e);
+            return 0;
+        }
     }
 
     [UnmanagedCallersOnly(EntryPoint = "language_resource_types_input")]
@@ -133,9 +169,7 @@ public static class LanguageExported
 
         var result = language.ResourceTypesInput;
 
-        return result == null
-            ? 0
-            : result.ToPointer(Language.Options[language].Acquire);
+        return result?.ToPointer(Language.Options[language].Acquire) ?? 0;
     }
 
     [UnmanagedCallersOnly(EntryPoint = "language_resource_types_output")]
@@ -155,9 +189,7 @@ public static class LanguageExported
 
         var result = language.ResourceTypesOutput;
 
-        return result == null
-            ? 0
-            : result.ToPointer(Language.Options[language].Acquire);
+        return result?.ToPointer(Language.Options[language].Acquire) ?? 0;
     }
 
     [UnmanagedCallersOnly(EntryPoint = "language_resource_types_term")]

@@ -1,4 +1,5 @@
 ﻿using Crosslight.Core;
+using Crosslight.Core.Exceptions;
 using Crosslight.Core.Nodes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -61,10 +62,22 @@ namespace Crosslight.Lang.CsharpRef
 
         public override object VisitScope(object context, Node node, Scope payload)
         {
-            var identifier = SyntaxFactory.IdentifierName(
-                payload.Identifier
-                ?? throw new NotSupportedException(
-                    "Namespaces without identifiers are not supported."));
+            if (payload.Identifier == null)
+            {
+                switch (_options.UnsupportedBehavior)
+                {
+                    case UnsupportedBehaviorType.Skip:
+                        return GetDefaultResult();
+                    case UnsupportedBehaviorType.Pass:
+                        return VisitChildren(context, node) ?? GetDefaultResult();
+                    case UnsupportedBehaviorType.Throw:
+                    default:
+                        throw new NotSupportedParsingException(
+                            "Namespaces without identifiers are not supported.", node);
+                }
+            }
+            
+            var identifier = SyntaxFactory.IdentifierName(payload.Identifier);
             BaseNamespaceDeclarationSyntax syntax = node.HasChildren
                 ? SyntaxFactory.NamespaceDeclaration(identifier)
                 : SyntaxFactory.FileScopedNamespaceDeclaration(identifier);
@@ -96,10 +109,22 @@ namespace Crosslight.Lang.CsharpRef
 
         public override object VisitHeapType(object context, Node node, HeapType payload)
         {
-            var syntax = SyntaxFactory.ClassDeclaration(
-                payload.Identifier
-                ?? throw new NotSupportedException(
-                    "Heap types without identifiers are not supported."));
+            if (payload.Identifier == null)
+            {
+                switch (_options.UnsupportedBehavior)
+                {
+                    case UnsupportedBehaviorType.Skip:
+                        return GetDefaultResult();
+                    case UnsupportedBehaviorType.Pass:
+                        return VisitChildren(context, node) ?? GetDefaultResult();
+                    case UnsupportedBehaviorType.Throw:
+                    default:
+                        throw new NotSupportedParsingException(
+                            "Heap types without identifiers are not supported.", node);
+                }
+            }
+            
+            var syntax = SyntaxFactory.ClassDeclaration(payload.Identifier);
             bool setRoot = _rootNode == null;
 
             if (node.HasChildren)
@@ -131,8 +156,17 @@ namespace Crosslight.Lang.CsharpRef
             var stack = ((LanguageContext)context).ParseOrder;
             if (!stack.TryPop(out var parent))
             {
-                throw new NotSupportedException(
-                    "Dangling access modifiers are not supported. Add a parent node.");
+                switch (_options.UnsupportedBehavior)
+                {
+                    case UnsupportedBehaviorType.Skip:
+                        return GetDefaultResult();
+                    case UnsupportedBehaviorType.Pass:
+                        return VisitChildren(context, node) ?? GetDefaultResult();
+                    case UnsupportedBehaviorType.Throw:
+                    default:
+                        throw new NotSupportedParsingException(
+                            "Dangling access modifiers are not supported. Add a parent node.", node);
+                }
             }
             
             var modifier = SyntaxFactory.Token(payload.Kind switch
@@ -151,8 +185,17 @@ namespace Crosslight.Lang.CsharpRef
             }
             else
             {
-                throw new NotSupportedException(
-                    $"Access modifiers for {parent.GetType()} are not supported.");
+                switch (_options.UnsupportedBehavior)
+                {
+                    case UnsupportedBehaviorType.Skip:
+                        return GetDefaultResult();
+                    case UnsupportedBehaviorType.Pass:
+                        return VisitChildren(context, node) ?? GetDefaultResult();
+                    case UnsupportedBehaviorType.Throw:
+                    default:
+                        throw new NotImplementedParsingException(
+                            $"Access modifiers for {parent.GetType()} are not supported.", node);
+                }
             }
 
             if (node.HasChildren)

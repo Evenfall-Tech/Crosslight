@@ -18,9 +18,9 @@ add_executable(
 )
 
 target_include_directories(${BINARY_NAME} PRIVATE "${APP_BASE_PATH}/include")
-target_link_libraries(${BINARY_NAME} PRIVATE cl_core)
+target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang)
 
-add_dependencies(${BINARY_NAME} cl_lang cl_lang_base_antlr cl_lang_typescript cl_lang_csharp_ref)
+add_dependencies(${BINARY_NAME} cl_lang_base_antlr cl_lang_typescript cl_lang_csharp_ref)
 
 get_target_property(ANTLR_RUNTIME_LIBRARIES cl_lang_base_antlr target_antlr_libraries)
 
@@ -43,9 +43,16 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy ${dependencies} .
     WORKING_DIRECTORY "${CL_BINARY_DIR}/$<CONFIG>/examples"
 )
+
 add_custom_command(
     TARGET ${BINARY_NAME}
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cl_core> ./${CMAKE_SHARED_LIBRARY_PREFIX}cl_core${CMAKE_SHARED_LIBRARY_SUFFIX}
+    WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins"
+)
+add_custom_command(
+    TARGET ${BINARY_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cl_lang> ./${CMAKE_SHARED_LIBRARY_PREFIX}cl_lang${CMAKE_SHARED_LIBRARY_SUFFIX}
     WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins"
 )

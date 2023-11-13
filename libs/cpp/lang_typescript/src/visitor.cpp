@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <iostream>
 #include "lang/utils.hpp"
+#include "lang/exceptions/not_implemented_parsing_exception.hpp"
+#include "lang/exceptions/not_supported_parsing_exception.hpp"
 #include "core/node.h"
 #include "core/nodes/node_type.h"
 #include "core/nodes/source_root.h"
@@ -9,10 +11,11 @@
 #include "core/nodes/heap_type.h"
 
 using namespace cl::lang::typescript;
+using namespace cl::lang::exceptions;
 using list = std::list<struct cl_node*>;
 
 template <typename T>
-CL_ALWAYS_INLINE static T* acquire_entity(AcquireT acquire) {
+CL_ALWAYS_INLINE static T* acquire_entity(cl::lang::AcquireT acquire) {
     return static_cast<T*>(acquire(sizeof(T)));
 }
 
@@ -50,7 +53,15 @@ visitor::visitProgram(ParserTs::ProgramContext *ctx) {
                 children.push_back(syntax);
             }
             else {
-                std::cout << "Ignoring TS " << child->getText() << std::endl;
+                switch (_options.unsupported_behavior) {
+                    case unsupported_behavior_type::type_pass:
+                        continue;
+                    case unsupported_behavior_type::type_skip:
+                        return visitNode(ctx, payload, ::source_root, nullptr, false);
+                    case unsupported_behavior_type::type_throw:
+                    default:
+                        throw not_implemented_parsing_exception{child->toString() + " is not yet supported."};
+                }
             }
         }
 
@@ -86,12 +97,18 @@ visitor::visitNamespaceDeclaration(ParserTs::NamespaceDeclarationContext *ctx) {
         child_list children{};
 
         for (auto* child : children_container) {
-            if (auto* statement = dynamic_cast<ParserTs::StatementContext*>(child)) {
-                if (auto* syntax = statement->classDeclaration()) {
-                    children.push_back(syntax);
-                }
-                else {
-                    std::cout << "Ignoring TS " << statement->getText() << std::endl;
+            if (auto* syntax = child->classDeclaration()) {
+                children.push_back(syntax);
+            }
+            else {
+                switch (_options.unsupported_behavior) {
+                    case unsupported_behavior_type::type_pass:
+                        continue;
+                    case unsupported_behavior_type::type_skip:
+                        return visitNode(ctx, payload, ::scope, nullptr, false);
+                    case unsupported_behavior_type::type_throw:
+                    default:
+                        throw not_implemented_parsing_exception{child->toString() + " is not yet supported."};
                 }
             }
         }

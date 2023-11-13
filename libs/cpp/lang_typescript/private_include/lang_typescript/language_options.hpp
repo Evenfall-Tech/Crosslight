@@ -1,16 +1,9 @@
 #pragma once
 
-#include "lang/language.hpp"
+#include "lang/language_options_base.hpp"
 
 namespace cl::lang::typescript {
 
-using AcquireT = cl::lang::AcquireT;
-using ReleaseT = cl::lang::ReleaseT;
+class language_options : public cl::lang::language_options_base {};
 
-class language_options {
-public:
-    AcquireT acquire;
-    ReleaseT release;
-    bool process_unsupported;
-};
 }

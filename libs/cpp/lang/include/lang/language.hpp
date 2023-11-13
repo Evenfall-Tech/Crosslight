@@ -10,7 +10,13 @@ struct cl_node;
 namespace cl::lang
 {
 
+/**
+ * @brief Delegate to allocate a piece of memory.
+ */
 using AcquireT = void*(*)(std::size_t);
+/**
+ * @brief Delegate to free a piece of memory.
+ */
 using ReleaseT = void(*)(void*);
 
 /**

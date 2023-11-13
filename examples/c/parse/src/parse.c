@@ -280,8 +280,8 @@ main(int argc, char **argv) {
     cl_config_string_set(config, "Memory/Release", memoryFreeString);
 
     char parseProcessUnsupportedString[6];
-    sprintf(parseProcessUnsupportedString, "true");
-    cl_config_string_set(config, "Parsing/ProcessUnsupported", parseProcessUnsupportedString);
+    sprintf(parseProcessUnsupportedString, "throw");
+    cl_config_string_set(config, "Parsing/UnsupportedBehavior", parseProcessUnsupportedString);
 
     const struct cl_node* node = parse_input(config, &resourceIn);
     print_tree(node);

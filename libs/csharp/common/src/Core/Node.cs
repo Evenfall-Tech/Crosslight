@@ -1,5 +1,6 @@
 ﻿using Crosslight.Core.Nodes;
 using System.Runtime.InteropServices;
+using Crosslight.Core.Exceptions;
 using static Crosslight.Core.ILanguage;
 
 namespace Crosslight.Core;
@@ -73,9 +74,9 @@ public class Node
     public Node(
         nint pointer,
         IReadOnlyDictionary<uint, Func<nint, INodePayload?>> nodeMapping,
+        UnsupportedBehaviorType parseUnsupported,
         Node? parent = null,
-        bool parseChildren = false,
-        bool parseUnsupported = true)
+        bool parseChildren = false)
     {
         var imported = Marshal.PtrToStructure<NodeImported>(pointer);
 
@@ -89,9 +90,14 @@ public class Node
             {
                 Payload = payloadFactory(imported.Payload);
             }
-            else if (!parseUnsupported)
+            else if (parseUnsupported == UnsupportedBehaviorType.Throw)
             {
-                throw new NotImplementedException($"Payload type {(uint)imported.PayloadType} is not yet supported.");
+                throw new NotImplementedParsingException($"Payload type {(uint)imported.PayloadType} is not yet supported.", this);
+            }
+            else if (parseUnsupported == UnsupportedBehaviorType.Skip)
+            {
+                // Relies on children being initialized last.
+                return;
             }
         }
 
@@ -101,7 +107,7 @@ public class Node
 
             for (int i = 0; i < childCount; ++i)
             {
-                children.Add(new Node(imported.Children + i * offset, nodeMapping, this, parseChildren, parseUnsupported));
+                children.Add(new Node(imported.Children + i * offset, nodeMapping, parseUnsupported, this, parseChildren));
             }
 
             Children = children;
@@ -184,13 +190,32 @@ public class Node
         return null;
     }
 
-    public override string ToString()
+    public override string ToString() => ToString(true);
+
+    public string ToString(bool printChildren)
     {
-        return $"{{ Payload-{Type}-{Payload} Children-[" +
-            (Children is { Count: > 0 }
-                ? $"\n{string.Join(",\n", Children ?? Array.Empty<Node>())}\n"
-                : "") +
-            "] }";
+        return $"{{ Payload-{Type}-{Payload}" +
+               (printChildren
+                   ? " Children-[" +
+                     (Children is { Count: > 0 }
+                         ? $"\n{string.Join(",\n", Children ?? Array.Empty<Node>())}\n"
+                         : string.Empty)
+                   : string.Empty) +
+               "] }";
+    }
+
+    public static IEnumerable<Node> CollectParsingStack(Node node)
+    {
+        LinkedList<Node> stack = new();
+        Node? current = node;
+
+        while (current != null)
+        {
+            stack.AddFirst(current);
+            current = current.Parent;
+        }
+
+        return stack;
     }
 
     public static IReadOnlyCollection<nint>? GetChildren(nint pointer)
