@@ -1,34 +1,33 @@
-#include "lang_typescript/LexerTsBase.hpp"
-#include "LexerTs.h"
+#include "lang_ecmascript/LexerEsBase.hpp"
+#include "LexerEs.h"
 
 using namespace antlr4;
-using namespace cl::lang::typescript;
+using namespace cl::lang::ecmascript;
 
-LexerTsBase::LexerTsBase(CharStream *input) : Lexer(input)
-{
-}
+LexerEsBase::LexerEsBase(CharStream *input)
+    : Lexer(input) {}
 
 bool
-LexerTsBase::getStrictDefault()
+LexerEsBase::getStrictDefault()
 {
     return useStrictDefault;
 }
 
 void
-LexerTsBase::setUseStrictDefault(bool value)
+LexerEsBase::setUseStrictDefault(bool value)
 {
     useStrictDefault = value;
     useStrictCurrent = value;
 }
 
 bool
-LexerTsBase::IsStrictMode()
+LexerEsBase::IsStrictMode()
 {
     return useStrictCurrent;
 }
 
 std::unique_ptr<antlr4::Token>
-LexerTsBase::nextToken()
+LexerEsBase::nextToken()
 {
     auto next = Lexer::nextToken();
 
@@ -43,7 +42,7 @@ LexerTsBase::nextToken()
 }
 
 void
-LexerTsBase::ProcessOpenBrace()
+LexerEsBase::ProcessOpenBrace()
 {
     bracesDepth++;
     useStrictCurrent = scopeStrictModes.size() > 0 && scopeStrictModes.top() ? true : useStrictDefault;
@@ -51,7 +50,7 @@ LexerTsBase::ProcessOpenBrace()
 }
 
 void
-LexerTsBase::ProcessCloseBrace()
+LexerEsBase::ProcessCloseBrace()
 {
     bracesDepth--;
 
@@ -67,9 +66,9 @@ LexerTsBase::ProcessCloseBrace()
 }
 
 void
-LexerTsBase::ProcessStringLiteral()
+LexerEsBase::ProcessStringLiteral()
 {
-    if (lastToken || lastTokenType == LexerTs::OpenBrace)
+    if (lastToken || lastTokenType == LexerEs::OpenBrace)
     {
         std::string text = getText();
         if (text == "\"use strict\"" || text == "'use strict'")
@@ -83,7 +82,7 @@ LexerTsBase::ProcessStringLiteral()
 }
 
 bool
-LexerTsBase::IsRegexPossible()
+LexerEsBase::IsRegexPossible()
 {
     if (lastToken)
     {
@@ -94,34 +93,34 @@ LexerTsBase::IsRegexPossible()
 
     switch (lastTokenType)
     {
-    case LexerTs::Identifier:
-    case LexerTs::NullLiteral:
-    case LexerTs::BooleanLiteral:
-    case LexerTs::This:
-    case LexerTs::CloseBracket:
-    case LexerTs::CloseParen:
-    case LexerTs::OctalIntegerLiteral:
-    case LexerTs::DecimalLiteral:
-    case LexerTs::HexIntegerLiteral:
-    case LexerTs::StringLiteral:
-    case LexerTs::PlusPlus:
-    case LexerTs::MinusMinus:
-        // After any of the tokens above, no regex literal can follow.
-        return false;
-    default:
-        // In all other cases, a regex literal _is_ possible.
-        return true;
+        case LexerEs::Identifier:
+        case LexerEs::NullLiteral:
+        case LexerEs::BooleanLiteral:
+        case LexerEs::This:
+        case LexerEs::CloseBracket:
+        case LexerEs::CloseParen:
+        case LexerEs::OctalIntegerLiteral:
+        case LexerEs::DecimalLiteral:
+        case LexerEs::HexIntegerLiteral:
+        case LexerEs::StringLiteral:
+        case LexerEs::PlusPlus:
+        case LexerEs::MinusMinus:
+            // After any of the tokens above, no regex literal can follow.
+            return false;
+        default:
+            // In all other cases, a regex literal _is_ possible.
+            return true;
     }
 }
 
 void
-LexerTsBase::StartTemplateString() { bracesDepth = 0; }
+LexerEsBase::StartTemplateString() { bracesDepth = 0; }
 
 bool
-LexerTsBase::IsInTemplateString() { return templateDepth > 0 && bracesDepth == 0; }
+LexerEsBase::IsInTemplateString() { return templateDepth > 0 && bracesDepth == 0; }
 
 void
-LexerTsBase::IncreaseTemplateDepth() { ++templateDepth; }
+LexerEsBase::IncreaseTemplateDepth() { ++templateDepth; }
 
 void
-LexerTsBase::DecreaseTemplateDepth() { --templateDepth; }
+LexerEsBase::DecreaseTemplateDepth() { --templateDepth; }

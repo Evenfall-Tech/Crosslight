@@ -20,7 +20,7 @@ add_executable(
 target_include_directories(${BINARY_NAME} PRIVATE "${APP_BASE_PATH}/include")
 target_link_libraries(${BINARY_NAME} PRIVATE cl_core cl_lang)
 
-add_dependencies(${BINARY_NAME} cl_lang_base_antlr cl_lang_typescript cl_lang_csharp_ref)
+add_dependencies(${BINARY_NAME} cl_lang_base_antlr cl_lang_ecmascript cl_lang_csharp_ref)
 
 get_target_property(ANTLR_RUNTIME_LIBRARIES cl_lang_base_antlr target_antlr_libraries)
 
@@ -33,7 +33,7 @@ set_target_properties(
 set(
     dependencies
     $<TARGET_FILE:cl_core> ${ANTLR_RUNTIME_LIBRARIES} $<TARGET_FILE:cl_lang>  $<TARGET_FILE:cl_lang_base_antlr>
-    #$<TARGET_FILE:cl_lang_typescript>
+    #$<TARGET_FILE:cl_lang_ecmascript>
     #"${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/plugins/${CMAKE_SHARED_LIBRARY_PREFIX}cl_lang_csharp_ref${CMAKE_SHARED_LIBRARY_SUFFIX}"
 )
 

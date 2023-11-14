@@ -1,18 +1,18 @@
 #include <new>
-#include "lang_typescript/language.hpp"
+#include "lang_ecmascript/language.hpp"
 #include "core/language.h"
 #include "core/resource.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-using namespace cl::lang::typescript;
+using namespace cl::lang::ecmascript;
 
 const struct cl_node*
 language_transform_input(const void* context, const struct cl_resource* resource) {
     if (context == nullptr || resource == nullptr) {
         return nullptr;
     }
-    
+
     auto* lang = reinterpret_cast<const language*>(context);
 
     return lang->transform_input(resource);
@@ -23,7 +23,7 @@ language_transform_output(const void* context, const struct cl_node* node) {
     if (context == nullptr || node == nullptr) {
         return nullptr;
     }
-    
+
     auto* lang = reinterpret_cast<const language*>(context);
 
     return lang->transform_output(node);
@@ -34,7 +34,7 @@ language_transform_modify(const void* context, const struct cl_node* node) {
     if (context == nullptr || node == nullptr) {
         return nullptr;
     }
-    
+
     auto* lang = reinterpret_cast<const language*>(context);
 
     return lang->transform_modify(node);
@@ -60,7 +60,7 @@ language_term(const void* context) {
     if (context == nullptr) {
         return 1;
     }
-    
+
     auto* lang = reinterpret_cast<const language*>(context);
 
     delete lang;
@@ -73,7 +73,7 @@ language_resource_types_input(const void* context) {
     if (context == nullptr) {
         return nullptr;
     }
-    
+
     auto* lang = reinterpret_cast<const language*>(context);
 
     return lang->cl_resource_types_input();
@@ -84,7 +84,7 @@ language_resource_types_output(const void* context) {
     if (context == nullptr) {
         return nullptr;
     }
-    
+
     auto* lang = reinterpret_cast<const language*>(context);
 
     return lang->cl_resource_types_output();
@@ -95,7 +95,7 @@ language_resource_types_term(const void* context, const struct cl_resource_types
     if (context == nullptr) {
         return 0;
     }
-    
+
     auto* lang = reinterpret_cast<const language*>(context);
 
     return language::cl_resource_types_term(types);

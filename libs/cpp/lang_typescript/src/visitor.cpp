@@ -1,6 +1,7 @@
 #include "lang_typescript/visitor.hpp"
 #include <algorithm>
 #include <iostream>
+#include <optional>
 #include "lang/utils.hpp"
 #include "lang/exceptions/not_implemented_parsing_exception.hpp"
 #include "lang/exceptions/not_supported_parsing_exception.hpp"
@@ -37,14 +38,15 @@ visitor::visitProgram(ParserTs::ProgramContext *ctx) {
     if (payload) {
         payload->file_name = nullptr;
         std::cout << "Parsing source_root " << (payload->file_name == nullptr ? "" : payload->file_name) << std::endl;
-
         auto* elements = ctx->sourceElements();
+
         if (!elements) {
             return visitNode(ctx, payload, ::source_root, {}, false);
         }
 
         auto children_container = elements->sourceElement();
         child_list children{};
+
         for (auto* child_wrapper : children_container) {
             // TODO: parse sourceElement export keyword.
             auto* child = child_wrapper->statement();
@@ -90,8 +92,8 @@ visitor::visitNamespaceDeclaration(ParserTs::NamespaceDeclarationContext *ctx) {
 
     list merged{};
     std::any result = defaultResult();
-
     auto* statements = ctx->statementList();
+
     if (statements) {
         auto children_container = statements->statement();
         child_list children{};
@@ -153,6 +155,29 @@ visitor::visitClassDeclaration(ParserTs::ClassDeclarationContext *ctx) {
         std::cout << "Parsing heap_type " << payload->identifier << std::endl;
 
         child_list children{};
+        auto* children_wrapper = ctx->classTail();
+
+        if (children_wrapper)
+        {
+            auto children_container = children_wrapper->classElement();
+
+            for (auto* child : children_container) {
+                if (auto* syntax = child->statement()) {
+                    children.push_back(syntax);
+                }
+                else {
+                    switch (_options.unsupported_behavior) {
+                        case unsupported_behavior_type::type_pass:
+                            continue;
+                        case unsupported_behavior_type::type_skip:
+                            return visitNode(ctx, payload, ::heap_type, nullptr, false);
+                        case unsupported_behavior_type::type_throw:
+                        default:
+                            throw not_implemented_parsing_exception{child->toString() + " is not yet supported."};
+                    }
+                }
+            }
+        }
 
         return visitNode(ctx, payload, cl_node_type::heap_type, &children, true);
     }

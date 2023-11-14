@@ -65,7 +65,7 @@ const struct cl_node* parse_input(struct cl_config* config, const struct cl_reso
 #if CL_WINDOWS == 1
         "./../bin/plugins/cl_lang_typescript.dll";
 #elif CL_LINUX == 1
-        "./../bin/plugins/libcl_lang_typescript.so";
+        "./../bin/plugins/libcl_lang_ecmascript.so";
 #elif CL_MACOS == 1
         "./../bin/plugins/libcl_lang_typescript.so";
 #endif
@@ -280,7 +280,7 @@ main(int argc, char **argv) {
     cl_config_string_set(config, "Memory/Release", memoryFreeString);
 
     char parseProcessUnsupportedString[6];
-    sprintf(parseProcessUnsupportedString, "throw");
+    sprintf(parseProcessUnsupportedString, "pass");
     cl_config_string_set(config, "Parsing/UnsupportedBehavior", parseProcessUnsupportedString);
 
     const struct cl_node* node = parse_input(config, &resourceIn);
