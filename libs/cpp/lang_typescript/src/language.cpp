@@ -12,64 +12,73 @@
 #include "core/config.h"
 #include "lang_typescript/visitor.hpp"
 
-using namespace cl::lang::typescript;
 using namespace antlr4;
+using namespace cl::lang::typescript;
+using namespace std::literals::string_literals;
 
 language::language(const struct cl_config* config)
     : _types_input({"text/plain", "text/x-typescript"}),
     _types_output({}) {
-    AcquireT memoryAcquire = nullptr;
-    ReleaseT memoryRelease = nullptr;
-    bool processUnsupported = false;
+    AcquireT memory_acquire;
+    ReleaseT memory_release;
+    unsupported_behavior_type unsupported_behavior = unsupported_behavior_type::type_throw;
 
-    auto memoryAcquireStr = cl_config_string_get(config, "Memory/Acquire");
-    auto memoryReleaseStr = cl_config_string_get(config, "Memory/Release");
-    auto processUnsupportedStr = cl_config_string_get(config, "Parsing/ProcessUnsupported");
+    auto memory_acquire_str = cl_config_string_get(config, "Memory/Acquire");
+    auto memory_release_str = cl_config_string_get(config, "Memory/Release");
+    auto unsupported_behavior_str = cl_config_string_get(config, "Parsing/UnsupportedBehavior");
 
-    if (memoryAcquireStr == 0) {
-        memoryAcquire = malloc;
+    if (memory_acquire_str == nullptr) {
+        memory_acquire = malloc;
     }
     else {
         try {
-            auto ss = std::stringstream{memoryAcquireStr};
+            auto ss = std::stringstream{memory_acquire_str};
             void* result;
             ss >> result;
-            memoryAcquire = (AcquireT)result;
+            memory_acquire = (AcquireT)result;
         }
         catch (...) {
-            memoryAcquire = malloc;
+            memory_acquire = malloc;
         }
     }
 
-    if (memoryReleaseStr == 0) {
-        memoryRelease = free;
+    if (memory_release_str == nullptr) {
+        memory_release = free;
     }
     else {
         try {
-            auto ss = std::stringstream{memoryReleaseStr};
+            auto ss = std::stringstream{memory_release_str};
             void* result;
             ss >> result;
-            memoryRelease = (ReleaseT)result;
+            memory_release = (ReleaseT)result;
         }
         catch (...) {
-            memoryRelease = free;
+            memory_release = free;
         }
     }
 
-    if (processUnsupportedStr != 0) {
-        processUnsupported = std::string{"true"} == processUnsupportedStr;
+    if (unsupported_behavior_str != nullptr) {
+        if ("0"s == unsupported_behavior_str || "throw"s == unsupported_behavior_str) {
+            unsupported_behavior = unsupported_behavior_type::type_throw;
+        }
+        else if ("1"s == unsupported_behavior_str || "pass"s == unsupported_behavior_str) {
+            unsupported_behavior = unsupported_behavior_type::type_pass;
+        }
+        else if ("2"s == unsupported_behavior_str || "skip"s == unsupported_behavior_str) {
+            unsupported_behavior = unsupported_behavior_type::type_skip;
+        }
     }
 
     _options = std::make_unique<language_options>();
-    _options->acquire = memoryAcquire;
-    _options->release = memoryRelease;
-    _options->process_unsupported = processUnsupported;
+    _options->acquire = memory_acquire;
+    _options->release = memory_release;
+    _options->unsupported_behavior = unsupported_behavior;
 }
 
 const cl_node*
 language::transform_input(const struct cl_resource* resource) const {
-    if (resource == 0) {
-        return 0;
+    if (resource == nullptr) {
+        return nullptr;
     }
 
     for (auto type : _types_input) {
@@ -86,7 +95,7 @@ language::transform_input(const struct cl_resource* resource) const {
             tree::ParseTree* tree = parser.program();
 
             if (tree == nullptr) {
-                return 0;
+                return nullptr;
             }
 
             visitor v{*_options};
@@ -98,17 +107,17 @@ language::transform_input(const struct cl_resource* resource) const {
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 const struct cl_resource*
 language::transform_output(const struct cl_node* node) const {
-    return 0;
+    return nullptr;
 }
 
 const struct cl_node*
 language::transform_modify(const struct cl_node* node) const {
-    return 0;
+    return nullptr;
 }
 
 const std::set<const char*>&

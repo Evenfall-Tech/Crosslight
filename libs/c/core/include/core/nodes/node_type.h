@@ -23,6 +23,7 @@ enum cl_node_type {
     source_root = 1, /**< Textual source file root. */
     scope = 2, /**< Declaration scope. */
     heap_type = 3, /**< Complex type stored on the heap. */
+    access_modifier = 4, /**< Accessibility level modifier. */
 };
 
 CL_END_C_DECLS

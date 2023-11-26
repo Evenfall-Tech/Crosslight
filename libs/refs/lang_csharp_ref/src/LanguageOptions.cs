@@ -5,25 +5,9 @@ using static Crosslight.Core.ILanguage;
 
 namespace Crosslight.Lang.CsharpRef
 {
-    internal class LanguageOptions
+    internal class LanguageOptions : ILanguageOptions
     {
         private delegate nint NativeAcquireDelegate(nuint size);
-
-        /// <summary>
-        /// Whether unsupported nodes and (optionally) their children should be parsed without a payload.
-        /// On error terminates, potentially causing a memory leak.
-        /// </summary>
-        public bool ParseUnsupported { get; init; }
-
-        /// <summary>
-        /// A delegate to allocate a certain amount of memory.
-        /// </summary>
-        public AcquireDelegate? Acquire { get; init; }
-
-        /// <summary>
-        /// A delegate to free an allocated chunk of memory.
-        /// </summary>
-        public ReleaseDelegate? Release { get; init; }
 
         public LanguageOptions(Config config)
         {
@@ -32,7 +16,19 @@ namespace Crosslight.Lang.CsharpRef
 
             ConfigureMemoryDelegates(config, out acquire, out release);
 
-            ParseUnsupported = config.GetString("Parsing/ProcessUnsupported") == "true";
+            string? unsupportedBehavior = config.GetString("Parsing/UnsupportedBehavior");
+            unsupportedBehavior = unsupportedBehavior?.ToLower();
+
+            UnsupportedBehavior = unsupportedBehavior switch
+            {
+                "0" => UnsupportedBehaviorType.Throw,
+                "throw" => UnsupportedBehaviorType.Throw,
+                "1" => UnsupportedBehaviorType.Pass,
+                "pass" => UnsupportedBehaviorType.Pass,
+                "2" => UnsupportedBehaviorType.Skip,
+                "skip" => UnsupportedBehaviorType.Skip,
+                _ => UnsupportedBehaviorType.Throw,
+            };
             Acquire = acquire;
             Release = release;
         }
@@ -89,5 +85,9 @@ namespace Crosslight.Lang.CsharpRef
             acquire = acquireLocal;
             release = releaseLocal;
         }
+
+        public UnsupportedBehaviorType UnsupportedBehavior { get; init; }
+        public AcquireDelegate? Acquire { get; init; }
+        public ReleaseDelegate? Release { get; init; }
     }
 }

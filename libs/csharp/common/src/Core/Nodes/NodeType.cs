@@ -21,4 +21,8 @@ public enum NodeType : uint
     /// Complex type stored on the heap.
     /// </summary>
     HeapType = 3,
+    /// <summary>
+    /// Accessibility level modifier.
+    /// </summary>
+    AccessModifier = 4,
 }

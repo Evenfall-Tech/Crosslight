@@ -10,13 +10,18 @@ set(CMAKE_CXX_STANDARD 17)
 set(PUBLIC_HEADERS_FILES
     "${LIBRARY_BASE_PATH}/include/lang/config.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/language.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/language_options_base.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/utils.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/exceptions/parsing_exception.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/exceptions/not_implemented_parsing_exception.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/exceptions/not_supported_parsing_exception.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/builders/allocator.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/builders/builder.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/builders/builders.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/builders/source_root.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/builders/scope.hpp"
     "${LIBRARY_BASE_PATH}/include/lang/builders/heap_type.hpp"
+    "${LIBRARY_BASE_PATH}/include/lang/builders/access_modifier.hpp"
 )
 
 # add generated grammar to demo binary target
@@ -26,12 +31,16 @@ add_library(
     "${LIBRARY_BASE_PATH}/src/language.cpp"
     "${LIBRARY_BASE_PATH}/src/config.cpp"
     "${LIBRARY_BASE_PATH}/src/utils.cpp"
+    "${LIBRARY_BASE_PATH}/src/exceptions/parsing_exception.cpp"
+    "${LIBRARY_BASE_PATH}/src/exceptions/not_implemented_parsing_exception.cpp"
+    "${LIBRARY_BASE_PATH}/src/exceptions/not_supported_parsing_exception.cpp"
     "${LIBRARY_BASE_PATH}/src/builders/allocator.cpp"
     "${LIBRARY_BASE_PATH}/src/builders/builder.cpp"
     "${LIBRARY_BASE_PATH}/src/builders/builders.cpp"
     "${LIBRARY_BASE_PATH}/src/builders/source_root.cpp"
     "${LIBRARY_BASE_PATH}/src/builders/scope.cpp"
     "${LIBRARY_BASE_PATH}/src/builders/heap_type.cpp"
+    "${LIBRARY_BASE_PATH}/src/builders/access_modifier.cpp"
 )
 add_library(CL::${BINARY_NAME} ALIAS ${BINARY_NAME})
 

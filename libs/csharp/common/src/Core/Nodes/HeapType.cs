@@ -60,9 +60,9 @@ public struct HeapType : INodePayload
         return pointer;
     }
 
-    public readonly object? AcceptVisitor(Node node, INodePayloadVisitor visitor)
+    public readonly object? AcceptVisitor(object context, Node node, INodePayloadVisitor visitor)
     {
-        return visitor.VisitHeapType(node, this);
+        return visitor.VisitHeapType(context, node, this);
     }
 
     public override string ToString()
