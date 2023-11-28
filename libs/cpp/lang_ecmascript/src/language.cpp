@@ -97,15 +97,20 @@ language::transform_input(const struct cl_resource* resource) const {
 
             tokens.fill();
             for (auto token : tokens.getTokens()) {
-                std::cout << token->toString() << std::endl;
+                if (auto* common = dynamic_cast<antlr4::CommonToken*>(token)) {
+                    std::cout << common->toString(&lexer) << std::endl;
+                }
+                else {
+                    std::cout << token->toString() << std::endl;
+                }
             }
 
             ParserEs parser(&tokens);
             tree::ParseTree* tree = parser.program();
 
-            if (tree == nullptr) {
+            //if (tree == nullptr) {
                 return nullptr;
-            }
+            //}
 
             visitor v{*_options};
             tree->accept(&v);

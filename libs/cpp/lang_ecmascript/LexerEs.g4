@@ -10,220 +10,295 @@ options {
     #include "lang_ecmascript/LexerEsBase.hpp"
 }
 
+/*InputElementDiv
+    : WhiteSpace
+    | LineTerminator
+    | Comment
+    | CommonToken
+    | DivPunctuator
+    | RightBracePunctuator
+    ;
 
-MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
-SingleLineComment:              '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
-RegularExpressionLiteral:       '/' RegularExpressionFirstChar RegularExpressionChar* {IsRegexPossible()}? '/' IdentifierPart*;
+InputElementRegExp
+    : WhiteSpace
+    | LineTerminator
+    | Comment
+    | CommonToken
+    | RightBracePunctuator
+    | RegularExpressionLiteral
+    ;
 
-OpenBracket:                    '[';
-CloseBracket:                   ']';
-OpenParen:                      '(';
-CloseParen:                     ')';
-OpenBrace:                      '{' {ProcessOpenBrace();};
-TemplateCloseBrace:             {IsInTemplateString()}? '}' -> popMode;
-CloseBrace:                     '}' {ProcessCloseBrace();};
-SemiColon:                      ';';
-Comma:                          ',';
-Assign:                         '=';
-QuestionMark:                   '?';
-Colon:                          ':';
-Ellipsis:                       '...';
-Dot:                            '.';
-PlusPlus:                       '++';
-MinusMinus:                     '--';
-Plus:                           '+';
-Minus:                          '-';
-BitNot:                         '~';
-Not:                            '!';
-Multiply:                       '*';
-Divide:                         '/';
-Modulus:                        '%';
-RightShiftArithmetic:           '>>';
-LeftShiftArithmetic:            '<<';
-RightShiftLogical:              '>>>';
-LessThan:                       '<';
-MoreThan:                       '>';
-LessThanEquals:                 '<=';
-GreaterThanEquals:              '>=';
-Equals_:                        '==';
-NotEquals:                      '!=';
-IdentityEquals:                 '===';
-IdentityNotEquals:              '!==';
-BitAnd:                         '&';
-BitXOr:                         '^';
-BitOr:                          '|';
-And:                            '&&';
-Or:                             '||';
-MultiplyAssign:                 '*=';
-DivideAssign:                   '/=';
-ModulusAssign:                  '%=';
-PlusAssign:                     '+=';
-MinusAssign:                    '-=';
-LeftShiftArithmeticAssign:      '<<=';
-RightShiftArithmeticAssign:     '>>=';
-RightShiftLogicalAssign:        '>>>=';
-BitAndAssign:                   '&=';
-BitXorAssign:                   '^=';
-BitOrAssign:                    '|=';
-ARROW:                          '=>';
+InputElementRegExpOrTemplateTail
+    : WhiteSpace
+    | LineTerminator
+    | Comment
+    | CommonToken
+    | RegularExpressionLiteral
+    | TemplateSubstitutionTail
+    ;
 
-/// Null Literals
+InputElementTemplateTail
+    : WhiteSpace
+    | LineTerminator
+    | Comment
+    | CommonToken
+    | DivPunctuator
+    | TemplateSubstitutionTail
+    ;
 
-NullLiteral:                    'null';
+InputElementHashbangOrRegExp
+    : WhiteSpace
+    | LineTerminator
+    | Comment
+    | CommonToken
+    | HashbangComment
+    | RegularExpressionLiteral
+    ;*/
 
-/// Boolean Literals
+// 12.9 Literals
 
-BooleanLiteral:                 'true'
-              |                 'false';
+// 12.9.1 Null Literals
 
-/// Numeric Literals
+NullLiteral
+    : 'null'
+    ;
 
-DecimalLiteral:                 DecimalIntegerLiteral '.' [0-9]* ExponentPart?
-              |                 '.' [0-9]+ ExponentPart?
-              |                 DecimalIntegerLiteral ExponentPart?
-              ;
+// 12.9.2 Boolean Literals
 
-/// Numeric Literals
+BooleanLiteral
+    : 'true'
+    | 'false'
+    ;
 
-HexIntegerLiteral:              '0' [xX] HexDigit+;
-OctalIntegerLiteral:            '0' [0-7]+ {!IsStrictMode()}?;
-OctalIntegerLiteral2:           '0' [oO] [0-7]+;
-BinaryIntegerLiteral:           '0' [bB] [01]+;
+fragment NumericLiteralSeparator
+    : '_'
+    ;
 
-/// Keywords
+// 12.9.3 Numeric Literals
 
-Break:                          'break';
-Do:                             'do';
-Instanceof:                     'instanceof';
-Typeof:                         'typeof';
-Case:                           'case';
-Else:                           'else';
-New:                            'new';
-Var:                            'var';
-Catch:                          'catch';
-Finally:                        'finally';
-Return:                         'return';
-Void:                           'void';
-Continue:                       'continue';
-For:                            'for';
-Switch:                         'switch';
-While:                          'while';
-Debugger:                       'debugger';
-Function_:                       'function';
-This:                           'this';
-With:                           'with';
-Default:                        'default';
-If:                             'if';
-Throw:                          'throw';
-Delete:                         'delete';
-In:                             'in';
-Try:                            'try';
-As:                             'as';
-From:                           'from';
-ReadOnly:                       'readonly';
-Async:                          'async';
+NumericLiteral
+    : DecimalLiteral
+    | DecimalBigIntegerLiteral
+    | NonDecimalIntegerLiteral_Sep
+    | NonDecimalIntegerLiteral_Sep BigIntLiteralSuffix
+    | LegacyOctalIntegerLiteral
+    ;
 
-/// Future Reserved Words
+fragment DecimalBigIntegerLiteral
+    : '0' BigIntLiteralSuffix
+    | NonZeroDigit DecimalDigits_Sep? BigIntLiteralSuffix
+    | NonZeroDigit NumericLiteralSeparator DecimalDigits_Sep BigIntLiteralSuffix
+    ;
 
-Class:                          'class';
-Enum:                           'enum';
-Extends:                        'extends';
-Super:                          'super';
-Const:                          'const';
-Export:                         'export';
-Import:                         'import';
+fragment NonDecimalIntegerLiteral
+    : BinaryIntegerLiteral
+    | OctalIntegerLiteral
+    | HexIntegerLiteral
+    ;
 
-/// The following tokens are also considered to be FutureReservedWords
-/// when parsing strict mode
+fragment NonDecimalIntegerLiteral_Sep
+    : BinaryIntegerLiteral_Sep
+    | OctalIntegerLiteral_Sep
+    | HexIntegerLiteral_Sep
+    ;
 
-Implements:                     'implements' ;
-Let:                            'let' ;
-Private:                        'private' ;
-Public:                         'public' ;
-Interface:                      'interface' ;
-Package:                        'package' ;
-Protected:                      'protected' ;
-Static:                         'static' ;
-Yield:                          'yield' ;
+fragment BigIntLiteralSuffix
+    : 'n'
+    ;
 
-//keywords:
+fragment DecimalLiteral
+    : DecimalIntegerLiteral '.' DecimalDigits_Sep?  ExponentPart_Sep?
+    | '.' DecimalDigits_Sep  ExponentPart_Sep?
+    | DecimalIntegerLiteral ExponentPart_Sep?
+    ;
 
-Any : 'any';
-Number: 'number';
-Boolean: 'boolean';
-String: 'string';
-Symbol: 'symbol';
+fragment DecimalIntegerLiteral
+    : '0'
+    | NonZeroDigit
+    | NonZeroDigit NumericLiteralSeparator? DecimalDigits_Sep
+    | NonOctalDecimalIntegerLiteral
+    ;
 
+fragment DecimalDigits
+    : DecimalDigit
+    | DecimalDigits DecimalDigit
+    ;
 
-TypeAlias : 'type';
+fragment DecimalDigits_Sep
+    : DecimalDigit
+    | DecimalDigits_Sep DecimalDigit
+    | DecimalDigits_Sep NumericLiteralSeparator DecimalDigit
+    ;
 
-Get: 'get';
-Set: 'set';
+fragment DecimalDigit
+    : [0-9]
+    ;
 
-Constructor: 'constructor';
-Namespace: 'namespace';
-Require: 'require';
-Module: 'module';
-Declare: 'declare';
+fragment NonZeroDigit
+    : [1-9]
+    ;
 
-Abstract: 'abstract';
+fragment ExponentPart
+    : ExponentIndicator SignedInteger
+    ;
 
-Is: 'is';
+fragment ExponentPart_Sep
+    : ExponentIndicator SignedInteger_Sep
+    ;
 
-//
-// Ext.2 Additions to 1.8: Decorators
-//
-At: '@';
+fragment ExponentIndicator
+    : [eE]
+    ;
 
-/// Identifier Names and Identifiers
+fragment SignedInteger
+    : DecimalDigits
+    | '+' DecimalDigits
+    | '-' DecimalDigits
+    ;
 
-Identifier:                     IdentifierStart IdentifierPart*;
+fragment SignedInteger_Sep
+    : DecimalDigits_Sep
+    | '+' DecimalDigits_Sep
+    | '-' DecimalDigits_Sep
+    ;
 
-/// String Literals
-StringLiteral:                 ('"' DoubleStringCharacter* '"'
-             |                  '\'' SingleStringCharacter* '\'') {ProcessStringLiteral();}
-             ;
+fragment BinaryIntegerLiteral
+    : '0b' BinaryDigits
+    | '0B' BinaryDigits
+    ;
 
-BackTick:                       '`' {IncreaseTemplateDepth();} -> pushMode(TEMPLATE);
+fragment BinaryIntegerLiteral_Sep
+    : '0b' BinaryDigits_Sep
+    | '0B' BinaryDigits_Sep
+    ;
 
-WhiteSpaces:                    [\t\u000B\u000C\u0020\u00A0]+ -> channel(HIDDEN);
+fragment BinaryDigits
+    : BinaryDigit
+    | BinaryDigits BinaryDigit
+    ;
 
-LineTerminator:                 [\r\n\u2028\u2029] -> channel(HIDDEN);
+fragment BinaryDigits_Sep
+    : BinaryDigit
+    | BinaryDigits_Sep BinaryDigit
+    | BinaryDigits_Sep NumericLiteralSeparator BinaryDigit
+    ;
 
-/// Comments
+fragment BinaryDigit
+    : [01]
+    ;
 
+fragment OctalIntegerLiteral
+    : '0o' OctalDigits
+    | '0O' OctalDigits
+    ;
 
-HtmlComment:                    '<!--' .*? '-->' -> channel(HIDDEN);
-CDataComment:                   '<![CDATA[' .*? ']]>' -> channel(HIDDEN);
-UnexpectedCharacter:            . -> channel(ERROR);
+fragment OctalIntegerLiteral_Sep
+    : '0o' OctalDigits_Sep
+    | '0O' OctalDigits_Sep
+    ;
 
-mode TEMPLATE;
+fragment OctalDigits
+    : OctalDigit
+    | OctalDigits OctalDigit
+    ;
 
-TemplateStringEscapeAtom:       '\\' .;
-BackTickInside:                 '`' {DecreaseTemplateDepth();} -> type(BackTick), popMode;
-TemplateStringStartExpression:  '${' {StartTemplateString();} -> pushMode(DEFAULT_MODE);
-TemplateStringAtom:             ~[`\\];
+fragment OctalDigits_Sep
+    : OctalDigit
+    | OctalDigits_Sep OctalDigit
+    | OctalDigits_Sep NumericLiteralSeparator OctalDigit
+    ;
 
-// Fragment rules
+fragment LegacyOctalIntegerLiteral
+    : '0' OctalDigit
+    | LegacyOctalIntegerLiteral OctalDigit
+    ;
+
+fragment NonOctalDecimalIntegerLiteral
+    : '0' NonOctalDigit
+    | LegacyOctalLikeDecimalIntegerLiteral NonOctalDigit
+    | NonOctalDecimalIntegerLiteral DecimalDigit
+    ;
+
+fragment LegacyOctalLikeDecimalIntegerLiteral
+    : '0' OctalDigit
+    | LegacyOctalLikeDecimalIntegerLiteral OctalDigit
+    ;
+
+fragment OctalDigit
+    : [0-7]
+    ;
+
+fragment NonOctalDigit
+    : [8-9]
+    ;
+
+fragment HexIntegerLiteral
+    : '0x' HexDigits
+    | '0X' HexDigits
+    ;
+
+fragment HexIntegerLiteral_Sep
+    : '0x' HexDigits_Sep
+    | '0X' HexDigits_Sep
+    ;
+
+fragment HexDigits
+    : HexDigit
+    | HexDigits HexDigit
+    ;
+
+fragment HexDigits_Sep
+    : HexDigit
+    | HexDigits_Sep HexDigit
+    | HexDigits_Sep NumericLiteralSeparator HexDigit
+    ;
+
+fragment HexDigit
+    : [0-9a-fA-F]
+    ;
+
+// 12.9.4 String Literals
+
+StringLiteral
+    : '"' DoubleStringCharacters? '"'
+    | '\'' SingleStringCharacters? '\''
+    ;
+
+fragment DoubleStringCharacters
+    : DoubleStringCharacter DoubleStringCharacters?
+    ;
+
+fragment SingleStringCharacters
+    : SingleStringCharacter SingleStringCharacters?
+    ;
 
 fragment DoubleStringCharacter
-    : ~["\\\r\n]
+    : SourceCharacter {!isLastLineTerminator() && !isLastCharacterOneOf("\"\\")}?
+    | '\u2028' // Line Separator (LS)
+    | '\u2029' // Paragraph Separator (PS)
     | '\\' EscapeSequence
     | LineContinuation
     ;
 
 fragment SingleStringCharacter
-    : ~['\\\r\n]
+    : SourceCharacter {!isLastLineTerminator() && !isLastCharacterOneOf("'\\")}?
+    | '\u2028' // Line Separator (LS)
+    | '\u2029' // Paragraph Separator (PS)
     | '\\' EscapeSequence
     | LineContinuation
     ;
 
+fragment LineContinuation
+    : '\\' LineTerminatorSequence
+    ;
+
 fragment EscapeSequence
     : CharacterEscapeSequence
-    | '0' // no digit ahead! TODO
+    | '0' {!isNextCharacter('0', '9')}?
+    | LegacyOctalEscapeSequence
+    | NonOctalDecimalEscapeSequence
     | HexEscapeSequence
     | UnicodeEscapeSequence
-    | ExtendedUnicodeEscapeSequence
     ;
 
 fragment CharacterEscapeSequence
@@ -231,81 +306,398 @@ fragment CharacterEscapeSequence
     | NonEscapeCharacter
     ;
 
+fragment SingleEscapeCharacter
+    : '\''
+    | '"'
+    | '\\'
+    | [bfnrtv]
+    ;
+
+fragment NonEscapeCharacter
+    : SourceCharacter {!isLastLineTerminator() && !isLastEscapeCharacter()}?
+    ;
+
+fragment EscapeCharacter
+    : SingleEscapeCharacter
+    | DecimalDigit
+    | 'x'
+    | 'u'
+    ;
+
+fragment LegacyOctalEscapeSequence
+    : '0' {isNextCharacter('8', '9')}?
+    | NonZeroOctalDigit {!isNextCharacter('0', '7')}?
+    | ZeroToThree OctalDigit {!isNextCharacter('0', '7')}?
+    | FourToSeven OctalDigit
+    | ZeroToThree OctalDigit OctalDigit
+    ;
+
+fragment NonZeroOctalDigit
+    : [1-7]
+    ;
+
+fragment ZeroToThree
+    : [0-3]
+    ;
+
+fragment FourToSeven
+    : [4-7]
+    ;
+
+fragment NonOctalDecimalEscapeSequence
+    : [8-9]
+    ;
+
 fragment HexEscapeSequence
     : 'x' HexDigit HexDigit
     ;
 
 fragment UnicodeEscapeSequence
-    : 'u' HexDigit HexDigit HexDigit HexDigit
+    : 'u' Hex4Digits
+    | 'u' '{' CodePoint '}'
     ;
 
-fragment ExtendedUnicodeEscapeSequence
-    : 'u' '{' HexDigit+ '}'
+fragment Hex4Digits
+    : HexDigit HexDigit HexDigit HexDigit
     ;
 
-fragment SingleEscapeCharacter
-    : ['"\\bfnrtv]
+// 12.9.5 Regular Expression Literals
+
+RegularExpressionLiteral
+    : '/' RegularExpressionBody '/' RegularExpressionFlags
     ;
 
-fragment NonEscapeCharacter
-    : ~['"\\bfnrtv0-9xu\r\n]
+fragment RegularExpressionBody
+    : RegularExpressionFirstChar RegularExpressionChars
     ;
 
-fragment EscapeCharacter
-    : SingleEscapeCharacter
-    | [0-9]
-    | [xu]
-    ;
-
-fragment LineContinuation
-    : '\\' [\r\n\u2028\u2029]
-    ;
-
-fragment HexDigit
-    : [0-9a-fA-F]
-    ;
-
-fragment DecimalIntegerLiteral
-    : '0'
-    | [1-9] [0-9]*
-    ;
-
-fragment ExponentPart
-    : [eE] [+-]? [0-9]+
-    ;
-
-fragment IdentifierPart
-    : IdentifierStart
-    | [\p{Mn}]
-    | [\p{Nd}]
-    | [\p{Pc}]
-    | '\u200C'
-    | '\u200D'
-    ;
-
-fragment IdentifierStart
-    : [\p{L}]
-    | [$_]
-    | '\\' UnicodeEscapeSequence
+fragment RegularExpressionChars
+    :
+    | RegularExpressionChars RegularExpressionChar
     ;
 
 fragment RegularExpressionFirstChar
-    : ~[*\r\n\u2028\u2029\\/[]
+    : RegularExpressionNonTerminator {!isLastCharacterOneOf("*\\/[")}?
     | RegularExpressionBackslashSequence
-    | '[' RegularExpressionClassChar* ']'
+    | RegularExpressionClass
     ;
 
 fragment RegularExpressionChar
-    : ~[\r\n\u2028\u2029\\/[]
+    : RegularExpressionNonTerminator {!isLastCharacterOneOf("\\/[")}?
     | RegularExpressionBackslashSequence
-    | '[' RegularExpressionClassChar* ']'
-    ;
-
-fragment RegularExpressionClassChar
-    : ~[\r\n\u2028\u2029\]\\]
-    | RegularExpressionBackslashSequence
+    | RegularExpressionClass
     ;
 
 fragment RegularExpressionBackslashSequence
-    : '\\' ~[\r\n\u2028\u2029]
+    : '\\' RegularExpressionNonTerminator
+    ;
+
+fragment RegularExpressionNonTerminator
+    : SourceCharacter {!isLastLineTerminator()}?
+    ;
+
+fragment RegularExpressionClass
+    : '[' RegularExpressionClassChars ']'
+    ;
+
+fragment RegularExpressionClassChars
+    :
+    | RegularExpressionClassChars RegularExpressionClassChar
+    ;
+
+fragment RegularExpressionClassChar
+    : RegularExpressionNonTerminator {!isLastCharacterOneOf("]\\")}?
+    | RegularExpressionBackslashSequence
+    ;
+
+fragment RegularExpressionFlags
+    :
+    | RegularExpressionFlags IdentifierPartChar
+    ;
+
+// 12.9.6 Template Literal Lexical Components
+
+Template
+    : NoSubstitutionTemplate
+    | TemplateHead
+    ;
+
+fragment NoSubstitutionTemplate
+    : '`' TemplateCharacters? '`'
+    ;
+
+fragment TemplateHead
+    : '`' TemplateCharacters? '${'
+    ;
+
+fragment TemplateSubstitutionTail
+    : TemplateMiddle
+    | TemplateTail
+    ;
+
+fragment TemplateMiddle
+    : '}' TemplateCharacters? '${'
+    ;
+
+fragment TemplateTail
+    : '}' TemplateCharacters? '`'
+    ;
+
+fragment TemplateCharacters
+    : TemplateCharacter TemplateCharacters?
+    ;
+
+fragment TemplateCharacter
+    : '$' {!isNextCharacter('{')}?
+    | '\\' TemplateEscapeSequence
+    | '\\' NotEscapeSequence
+    | LineContinuation
+    | LineTerminatorSequence
+    | SourceCharacter {!isLastCharacterOneOf("`\\$") && !isLastLineTerminator()}?
+    ;
+
+fragment TemplateEscapeSequence
+    : CharacterEscapeSequence
+    | '0' {!isNextCharacter('0', '9')}?
+    | HexEscapeSequence
+    | UnicodeEscapeSequence
+    ;
+
+fragment NotEscapeSequence
+    : '0' DecimalDigit
+    | [1-9]
+    | 'x' {!isNextHexDigit()}?
+    | 'x' HexDigit {!isNextHexDigit()}?
+    | 'u' {!isNextHexDigit() && !isNextCharacter("{")}?
+    | 'u' HexDigit {!isNextHexDigit()}?
+    | 'u' HexDigit HexDigit {!isNextHexDigit()}?
+    | 'u' HexDigit HexDigit HexDigit {!isNextHexDigit()}?
+    | 'u{' {!isNextHexDigit()}?
+    | 'u{' NotCodePoint {!isNextHexDigit()}?
+    | 'u{' CodePoint {!isNextHexDigit() && !isNextCharacter("}")}?
+    ;
+
+NotCodePoint
+    : HexDigits {lastHexDigitsMV() > 0x10FFFF}?
+    ;
+
+CodePoint
+    : HexDigits {lastHexDigitsMV() <= 0x10FFFF}?
+    ;
+
+// 12.8 Punctuators
+
+Punctuator
+    : OptionalChainingPunctuator
+    | OtherPunctuator
+    ;
+
+fragment OptionalChainingPunctuator
+    : '?.' {!isNextCharacter('0', '9')}?
+    ;
+
+fragment OtherPunctuator
+    : '{' | '(' | ')' | '[' | ']'
+    | '...'
+    | '.'
+    | '<='
+    | '>='
+    | '=='
+    | '!='
+    | '==='
+    | '!=='
+    | '**'
+    | '++'
+    | '--'
+    | '<<'
+    | '>>'
+    | '>>>'
+    | '&&'
+    | '||'
+    | '??'
+    | '+='
+    | '-='
+    | '*='
+    | '%='
+    | '**='
+    | '<<='
+    | '>>='
+    | '>>>='
+    | '&='
+    | '|='
+    | '^='
+    | '&&='
+    | '||='
+    | '??='
+    | '=>'
+    | [?:=]
+    | [&|^!~]
+    | [,<>]
+    | [+*%-]
+    ;
+
+fragment DivPunctuator
+    : '/'
+    | '/='
+    ;
+
+fragment RightBracePunctuator
+    : '}'
+    ;
+
+// 12.7 Names and Keywords
+
+PrivateIdentifier
+    : '#' IdentifierName
+    ;
+
+IdentifierName
+    : IdentifierStart
+    | IdentifierName IdentifierPart
+    ;
+
+fragment IdentifierStart
+    : IdentifierStartChar
+    |  '\\' UnicodeEscapeSequence
+    ;
+
+fragment IdentifierPart
+    : IdentifierPartChar
+    | '\\' UnicodeEscapeSequence
+    ;
+
+fragment IdentifierStartChar
+    : UnicodeIDStart
+    | '$'
+    | '_'
+    ;
+
+fragment IdentifierPartChar
+    : UnicodeIDContinue
+    | '$'
+    | '\u200C' // Zero Width Non-Joiner (ZWNJ)
+    | '\u200D' // Zero Width Joiner (ZWJ)
+    ;
+
+fragment AsciiLetter
+    : [a-zA-Z]
+    ;
+
+fragment UnicodeIDStart
+    : [\p{ID_Start}]
+    ;
+
+fragment UnicodeIDContinue
+    : [\p{ID_Continue}]
+    ;
+
+// 12.6 Tokens
+
+CommonToken
+    : IdentifierName
+    | PrivateIdentifier
+    | Punctuator
+    | NumericLiteral
+    | StringLiteral
+    | Template
+    ;
+
+// 12.5 Hashbang Comments
+
+HashbangComment
+    : '#!' SingleLineCommentChars?
+    ;
+
+// 12.4 Comments
+
+Comment
+    : MultiLineComment
+    | SingleLineComment
+    ;
+
+fragment MultiLineComment
+    : '/*' MultiLineCommentChars? '*/'
+    ;
+
+fragment MultiLineCommentChars
+    : MultiLineNotAsteriskChar MultiLineCommentChars?
+    | '*' PostAsteriskCommentChars?
+    ;
+
+fragment PostAsteriskCommentChars
+    : MultiLineNotForwardSlashOrAsteriskChar MultiLineCommentChars?
+    | '*' PostAsteriskCommentChars?
+    ;
+
+fragment MultiLineNotAsteriskChar
+    : SourceCharacter {!isLastCharacter("*")}?
+    ;
+
+fragment MultiLineNotForwardSlashOrAsteriskChar
+    : SourceCharacter {!isLastCharacter("*") && !isLastCharacter("/")}?
+    ;
+
+fragment SingleLineComment
+    : '//' SingleLineCommentChars?
+    ;
+
+fragment SingleLineCommentChars
+    : SingleLineCommentChar SingleLineCommentChars?
+    ;
+
+fragment SingleLineCommentChar
+    : SourceCharacter {!isLastLineTerminator()}?
+    ;
+
+// 12.3 Line Terminators
+
+LineTerminator
+    : '\u000A' // Line Feed (LF)
+    | '\u000D' // Carriage Return (CR)
+    | '\u2028' // Line Separator (LS)
+    | '\u2029' // Paragraph Separator (PS)
+    ;
+
+fragment LineTerminatorSequence
+    : '\u000A' // Line Feed (LF)
+    | '\u000D\u000A' // (CRLF)
+    | '\u000D' // Carriage Return (CR)
+    | '\u2028' // Line Separator (LS)
+    | '\u2029' // Paragraph Separator (PS)
+    ;
+
+// 12.2 White Space
+
+fragment WhiteSpace
+    : '\u0009' // Character Tabulation (TAB)
+    | '\u000B' // Line Tabulation (VT)
+    | '\u000C' // Form Feed (FF)
+    | '\uFEFF' // Zero Width No-Break Space (ZWNBSP)
+    | USP
+    ;
+
+fragment USP
+    : '\u0020' // Space (SP)
+    | '\u00A0' // No-Break Space (NBSP)
+    | '\u1680' // Ogham Space Mark
+    | '\u2000' // En Quad
+    | '\u2001' // Em Quad
+    | '\u2002' // En Space
+    | '\u2003' // Em Space
+    | '\u2004' // Three-Per-Em Space
+    | '\u2005' // Four-Per-Em Space
+    | '\u2006' // Six-Per-Em Space
+    | '\u2007' // Figure Space
+    | '\u2008' // Punctuation Space
+    | '\u2009' // Thin Space
+    | '\u200A' // Hair Space
+    | '\u202F' // Narrow No-Break Space (NNBSP)
+    | '\u205F' // Medium Mathematical Space (MMSP)
+    | '\u3000' // Ideographic Space
+    ;
+
+// 11.1 Source Text
+
+fragment SourceCharacter
+    : '\u{00000}'..'\u{E007F}' // Taken from the current Unicode range
     ;

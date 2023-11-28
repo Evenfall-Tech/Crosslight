@@ -32,6 +32,17 @@ public:
     void IncreaseTemplateDepth();
     void DecreaseTemplateDepth();
 
+    bool isLastCharacter(const char* str);
+    bool isLastCharacterOneOf(const char* str);
+    bool isLastCharacter(char fromInclusive, char toInclusive);
+    bool isLastLineTerminator();
+    bool isLastEscapeCharacter();
+    uint64_t lastHexDigitsMV();
+    bool isTokenType(size_t type);
+    bool isNextCharacter(const char* str);
+    bool isNextCharacter(char fromInclusive, char toInclusive);
+    bool isNextHexDigit();
+
 private:
     int templateDepth = 0;
     int bracesDepth = 0;

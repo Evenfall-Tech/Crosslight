@@ -16,10 +16,17 @@
 #endif
 
 const char source_code[] =
+    u8"/* hi world */\n"
+    u8"/* h\n"
+    u8" * ey\n"
+    u8" * world\n"
+    u8" */\n"
+    u8"// hello world\n"
+    u8"#! some comment thingy\n"
     u8"namespace D3.Shapes {\n"
-    u8"\tclass Vector {\n"
+    u8"\tclass Vector {\r\n"
     u8"\t\tdata: byte[];\n"
-    u8"\t\tlength: size;\n"
+    u8"\t\tlength: size;\r"
     u8"\t\tpublic static VectorImpl = class {\n"
     u8"\t\t\ttext: string;\n"
     u8"\t\t}\n"
@@ -286,8 +293,13 @@ main(int argc, char **argv) {
     const struct cl_node* node = parse_input(config, &resourceIn);
     print_tree(node);
     const struct cl_resource* resource = parse_output(config, node);
-    
-    printf("Output is below:\n%s\n", (const char*)resource->content);
+
+    if (resource) {
+        printf("Output is below:\n%s\n", (const char*)resource->content);
+    }
+    else {
+        printf("Output is (nil).\n");
+    }
 
     cl_config_term(config);
 
