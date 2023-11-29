@@ -120,14 +120,11 @@ fragment DecimalIntegerLiteral
     ;
 
 fragment DecimalDigits
-    : DecimalDigit
-    | DecimalDigits DecimalDigit
+    : DecimalDigit+
     ;
 
 fragment DecimalDigits_Sep
-    : DecimalDigit
-    | DecimalDigits_Sep DecimalDigit
-    | DecimalDigits_Sep NumericLiteralSeparator DecimalDigit
+    : DecimalDigit (NumericLiteralSeparator? DecimalDigit)*
     ;
 
 fragment DecimalDigit
@@ -173,18 +170,15 @@ fragment BinaryIntegerLiteral_Sep
     ;
 
 fragment BinaryDigits
-    : BinaryDigit
-    | BinaryDigits BinaryDigit
+    : BinaryDigit+
     ;
 
 fragment BinaryDigits_Sep
-    : BinaryDigit
-    | BinaryDigits_Sep BinaryDigit
-    | BinaryDigits_Sep NumericLiteralSeparator BinaryDigit
+    : BinaryDigit (NumericLiteralSeparator? BinaryDigit)*
     ;
 
 fragment BinaryDigit
-    : [01]
+    : [0-1]
     ;
 
 fragment OctalIntegerLiteral
@@ -198,30 +192,23 @@ fragment OctalIntegerLiteral_Sep
     ;
 
 fragment OctalDigits
-    : OctalDigit
-    | OctalDigits OctalDigit
+    : OctalDigit+
     ;
 
 fragment OctalDigits_Sep
-    : OctalDigit
-    | OctalDigits_Sep OctalDigit
-    | OctalDigits_Sep NumericLiteralSeparator OctalDigit
+    : OctalDigit (NumericLiteralSeparator? OctalDigit)*
     ;
 
 fragment LegacyOctalIntegerLiteral
-    : '0' OctalDigit
-    | LegacyOctalIntegerLiteral OctalDigit
+    : '0' OctalDigit (OctalDigit)*
     ;
 
 fragment NonOctalDecimalIntegerLiteral
-    : '0' NonOctalDigit
-    | LegacyOctalLikeDecimalIntegerLiteral NonOctalDigit
-    | NonOctalDecimalIntegerLiteral DecimalDigit
+    : ('0' NonOctalDigit | LegacyOctalLikeDecimalIntegerLiteral NonOctalDigit) DecimalDigit*
     ;
 
 fragment LegacyOctalLikeDecimalIntegerLiteral
-    : '0' OctalDigit
-    | LegacyOctalLikeDecimalIntegerLiteral OctalDigit
+    : '0' OctalDigit+
     ;
 
 fragment OctalDigit
@@ -243,14 +230,11 @@ fragment HexIntegerLiteral_Sep
     ;
 
 fragment HexDigits
-    : HexDigit
-    | HexDigits HexDigit
+    : HexDigit+
     ;
 
 fragment HexDigits_Sep
-    : HexDigit
-    | HexDigits_Sep HexDigit
-    | HexDigits_Sep NumericLiteralSeparator HexDigit
+    : HexDigit (NumericLiteralSeparator? HexDigit)*
     ;
 
 fragment HexDigit
@@ -265,11 +249,11 @@ StringLiteral
     ;
 
 fragment DoubleStringCharacters
-    : DoubleStringCharacter DoubleStringCharacters?
+    : DoubleStringCharacter+
     ;
 
 fragment SingleStringCharacters
-    : SingleStringCharacter SingleStringCharacters?
+    : SingleStringCharacter+
     ;
 
 fragment DoubleStringCharacter
@@ -372,8 +356,7 @@ fragment RegularExpressionBody
     ;
 
 fragment RegularExpressionChars
-    :
-    | RegularExpressionChars RegularExpressionChar
+    : RegularExpressionChar*
     ;
 
 fragment RegularExpressionFirstChar
@@ -401,8 +384,7 @@ fragment RegularExpressionClass
     ;
 
 fragment RegularExpressionClassChars
-    :
-    | RegularExpressionClassChars RegularExpressionClassChar
+    : RegularExpressionClassChar*
     ;
 
 fragment RegularExpressionClassChar
@@ -411,8 +393,7 @@ fragment RegularExpressionClassChar
     ;
 
 fragment RegularExpressionFlags
-    :
-    | RegularExpressionFlags IdentifierPartChar
+    : IdentifierPartChar*
     ;
 
 // 12.9.6 Template Literal Lexical Components
@@ -444,11 +425,11 @@ fragment TemplateTail
     ;
 
 fragment TemplateCharacters
-    : TemplateCharacter TemplateCharacters?
+    : TemplateCharacter+
     ;
 
 fragment TemplateCharacter
-    : '$' {!isNextCharacter('{')}?
+    : '$' {!isNextCharacter("{")}?
     | '\\' TemplateEscapeSequence
     | '\\' NotEscapeSequence
     | LineContinuation
@@ -552,8 +533,7 @@ PrivateIdentifier
     ;
 
 IdentifierName
-    : IdentifierStart
-    | IdentifierName IdentifierPart
+    : IdentifierStart IdentifierPart*
     ;
 
 fragment IdentifierStart
