@@ -10,51 +10,6 @@ options {
     #include "lang_ecmascript/LexerEsBase.hpp"
 }
 
-/*InputElementDiv
-    : WhiteSpace
-    | LineTerminator
-    | Comment
-    | CommonToken
-    | DivPunctuator
-    | RightBracePunctuator
-    ;
-
-InputElementRegExp
-    : WhiteSpace
-    | LineTerminator
-    | Comment
-    | CommonToken
-    | RightBracePunctuator
-    | RegularExpressionLiteral
-    ;
-
-InputElementRegExpOrTemplateTail
-    : WhiteSpace
-    | LineTerminator
-    | Comment
-    | CommonToken
-    | RegularExpressionLiteral
-    | TemplateSubstitutionTail
-    ;
-
-InputElementTemplateTail
-    : WhiteSpace
-    | LineTerminator
-    | Comment
-    | CommonToken
-    | DivPunctuator
-    | TemplateSubstitutionTail
-    ;
-
-InputElementHashbangOrRegExp
-    : WhiteSpace
-    | LineTerminator
-    | Comment
-    | CommonToken
-    | HashbangComment
-    | RegularExpressionLiteral
-    ;*/
-
 // 12.9 Literals
 
 // 12.9.1 Null Literals
@@ -338,7 +293,7 @@ fragment HexEscapeSequence
 
 fragment UnicodeEscapeSequence
     : 'u' Hex4Digits
-    | 'u' '{' CodePoint '}'
+    | 'u' LeftBracesLiteral CodePoint RightBracesLiteral
     ;
 
 fragment Hex4Digits
@@ -380,7 +335,7 @@ fragment RegularExpressionNonTerminator
     ;
 
 fragment RegularExpressionClass
-    : '[' RegularExpressionClassChars ']'
+    : LeftBracketsLiteral RegularExpressionClassChars RightBracketsLiteral
     ;
 
 fragment RegularExpressionClassChars
@@ -403,25 +358,25 @@ Template
     | TemplateHead
     ;
 
-fragment NoSubstitutionTemplate
+NoSubstitutionTemplate
     : '`' TemplateCharacters? '`'
     ;
 
-fragment TemplateHead
+TemplateHead
     : '`' TemplateCharacters? '${'
     ;
 
-fragment TemplateSubstitutionTail
+TemplateSubstitutionTail
     : TemplateMiddle
     | TemplateTail
     ;
 
-fragment TemplateMiddle
-    : '}' TemplateCharacters? '${'
+TemplateMiddle
+    : RightBracesLiteral TemplateCharacters? '${'
     ;
 
-fragment TemplateTail
-    : '}' TemplateCharacters? '`'
+TemplateTail
+    : RightBracesLiteral TemplateCharacters? '`'
     ;
 
 fragment TemplateCharacters
@@ -458,11 +413,11 @@ fragment NotEscapeSequence
     | 'u{' CodePoint {!isNextHexDigit() && !isNextCharacter("}")}?
     ;
 
-NotCodePoint
+fragment NotCodePoint
     : HexDigits {lastHexDigitsMV() > 0x10FFFF}?
     ;
 
-CodePoint
+fragment CodePoint
     : HexDigits {lastHexDigitsMV() <= 0x10FFFF}?
     ;
 
@@ -478,55 +433,236 @@ fragment OptionalChainingPunctuator
     ;
 
 fragment OtherPunctuator
-    : '{' | '(' | ')' | '[' | ']'
-    | '...'
-    | '.'
+    : LeftBracesLiteral | LeftParenthesesLiteral | RightParenthesesLiteral | LeftBracketsLiteral | RightBracketsLiteral
+    | ThreeDotsLiteral
     | '<='
     | '>='
     | '=='
     | '!='
-    | '==='
-    | '!=='
-    | '**'
+    | StrictlyEqualPunctuator
+    | StrictlyNotEqualPunctuator
+    | ExponentiatePunctuator
     | '++'
     | '--'
-    | '<<'
-    | '>>'
-    | '>>>'
-    | '&&'
-    | '||'
-    | '??'
+    | LeftShiftPunctuator
+    | SignedRightShiftPunctuator
+    | UnsignedRightShiftPunctuator
+    | LogicalANDPunctuator
+    | LogicalORAssignmentPunctuator
+    | CoalescePunctuator
     | '+='
     | '-='
     | '*='
     | '%='
-    | '**='
-    | '<<='
-    | '>>='
-    | '>>>='
+    | ExponentiateAssignmentPunctuator
+    | LeftShiftAssignmentPunctuator
+    | SignedRightShiftAssignmentPunctuator
+    | UnsignedRightShiftAssignmentPunctuator
     | '&='
     | '|='
     | '^='
-    | '&&='
-    | '||='
-    | '??='
+    | LogicalANDAssignmentPunctuator
+    | LogicalORAssignmentPunctuator
+    | CoalesceAssignmentPunctuator
     | '=>'
+    | '.'
     | [?:=]
     | [&|^!~]
     | [,<>]
     | [+*%-]
     ;
 
-fragment DivPunctuator
+UnsignedRightShiftAssignmentPunctuator
+    : '>>>='
+    ;
+
+StrictlyEqualPunctuator
+    : '==='
+    ;
+
+StrictlyNotEqualPunctuator
+    : '!=='
+    ;
+
+UnsignedRightShiftPunctuator
+    : '>>>'
+    ;
+
+ExponentiateAssignmentPunctuator
+    : '**='
+    ;
+
+LeftShiftAssignmentPunctuator
+    : '<<='
+    ;
+
+SignedRightShiftAssignmentPunctuator
+    : '>>='
+    ;
+
+LogicalANDAssignmentPunctuator
+    : '&&='
+    ;
+
+LogicalORAssignmentPunctuator
+    : '||='
+    ;
+
+CoalesceAssignmentPunctuator
+    : '??='
+    ;
+
+ExponentiatePunctuator
+    : '**'
+    ;
+
+LeftShiftPunctuator
+    : '<<'
+    ;
+
+SignedRightShiftPunctuator
+    : '>>'
+    ;
+
+LogicalANDPunctuator
+    : '&&'
+    ;
+
+LogicalORPunctuator
+    : '||'
+    ;
+
+CoalescePunctuator
+    : '??'
+    ;
+
+LeftParenthesesLiteral
+    : '('
+    ;
+
+RightParenthesesLiteral
+    : ')'
+    ;
+
+LeftBracketsLiteral
+    : '['
+    ;
+
+RightBracketsLiteral
+    : ']'
+    ;
+
+LeftBracesLiteral
+    : '{'
+    ;
+
+RightBracesLiteral
+    : '}'
+    ;
+
+ThreeDotsLiteral
+    : '...'
+    ;
+
+DivPunctuator
     : '/'
     | '/='
     ;
 
-fragment RightBracePunctuator
-    : '}'
+// 12.7 Names and Keywords
+
+ReservedWord
+    : AwaitKeyword
+    | 'break'
+    | 'case'
+    | 'catch'
+    | 'class'
+    | 'const'
+    | 'continue'
+    | 'debugger'
+    | 'default'
+    | DeleteKeyword
+    | 'do'
+    | 'else'
+    | 'enum'
+    | 'export'
+    | 'extends'
+//    | 'false'
+    | 'finally'
+    | 'for'
+    | 'function'
+    | 'if'
+    | ImportKeyword
+    | InKeyword
+    | InstanceofKeyword
+    | NewKeyword
+//    | 'null'
+    | 'return'
+    | SuperKeyword
+    | 'switch'
+    | ThisKeyword
+    | 'throw'
+//    | 'true'
+    | 'try'
+    | TypeofKeyword
+    | 'var'
+    | VoidKeyword
+    | 'while'
+    | 'with'
+    | YieldKeyword
     ;
 
-// 12.7 Names and Keywords
+AwaitKeyword
+    : 'await'
+    ;
+
+DeleteKeyword
+    : 'delete'
+    ;
+
+ImportKeyword
+    : 'import'
+    ;
+
+InKeyword
+    : 'in'
+    ;
+
+InstanceofKeyword
+    : 'instanceof'
+    ;
+
+NewKeyword
+    : 'new'
+    ;
+
+SuperKeyword
+    : 'super'
+    ;
+
+TargetLiteral
+    : 'target'
+    ;
+
+MetaLiteral
+    : 'meta'
+    ;
+
+ThisKeyword
+    : 'this'
+    ;
+
+TypeofKeyword
+    : 'typeof'
+    ;
+
+VoidKeyword
+    : 'void'
+    ;
+
+YieldKeyword
+    : 'yield'
+    ;
 
 PrivateIdentifier
     : '#' IdentifierName
@@ -648,7 +784,7 @@ fragment LineTerminatorSequence
 
 // 12.2 White Space
 
-fragment WhiteSpace
+WhiteSpace
     : '\u0009' // Character Tabulation (TAB)
     | '\u000B' // Line Tabulation (VT)
     | '\u000C' // Form Feed (FF)
