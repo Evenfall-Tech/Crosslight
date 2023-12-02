@@ -1356,7 +1356,7 @@ logicalORExpression_In_Yield_Await
     ;
 
 coalesceExpression
-    : coalesceExpressionHead CoalescePunctuator bitwiseORExpression
+    : bitwiseORExpression (CoalescePunctuator bitwiseORExpression)+
     ;
 
 coalesceExpressionHead
@@ -1365,7 +1365,7 @@ coalesceExpressionHead
     ;
 
 coalesceExpression_In
-    : coalesceExpressionHead_In CoalescePunctuator bitwiseORExpression_In
+    : bitwiseORExpression_In (CoalescePunctuator bitwiseORExpression_In)+
     ;
 
 coalesceExpressionHead_In
@@ -1374,7 +1374,7 @@ coalesceExpressionHead_In
     ;
 
 coalesceExpression_Yield
-    : coalesceExpressionHead_Yield CoalescePunctuator bitwiseORExpression_Yield
+    : bitwiseORExpression_Yield (CoalescePunctuator bitwiseORExpression_Yield)+
     ;
 
 coalesceExpressionHead_Yield
@@ -1383,7 +1383,7 @@ coalesceExpressionHead_Yield
     ;
 
 coalesceExpression_Await
-    : coalesceExpressionHead_Await CoalescePunctuator bitwiseORExpression_Await
+    : bitwiseORExpression_Await (CoalescePunctuator bitwiseORExpression_Await)+
     ;
 
 coalesceExpressionHead_Await
@@ -1392,7 +1392,7 @@ coalesceExpressionHead_Await
     ;
 
 coalesceExpression_In_Yield
-    : coalesceExpressionHead_In_Yield CoalescePunctuator bitwiseORExpression_In_Yield
+    : bitwiseORExpression_In_Yield (CoalescePunctuator bitwiseORExpression_In_Yield)+
     ;
 
 coalesceExpressionHead_In_Yield
@@ -1401,7 +1401,7 @@ coalesceExpressionHead_In_Yield
     ;
 
 coalesceExpression_In_Await
-    : coalesceExpressionHead_In_Await CoalescePunctuator bitwiseORExpression_In_Await
+    : bitwiseORExpression_In_Await (CoalescePunctuator bitwiseORExpression_In_Await)+
     ;
 
 coalesceExpressionHead_In_Await
@@ -1410,7 +1410,7 @@ coalesceExpressionHead_In_Await
     ;
 
 coalesceExpression_Yield_Await
-    : coalesceExpressionHead_Yield_Await CoalescePunctuator bitwiseORExpression_Yield_Await
+    : bitwiseORExpression_Yield_Await (CoalescePunctuator bitwiseORExpression_Yield_Await)+
     ;
 
 coalesceExpressionHead_Yield_Await
@@ -1419,7 +1419,7 @@ coalesceExpressionHead_Yield_Await
     ;
 
 coalesceExpression_In_Yield_Await
-    : coalesceExpressionHead_In_Yield_Await CoalescePunctuator bitwiseORExpression_In_Yield_Await
+    : bitwiseORExpression_In_Yield_Await (CoalescePunctuator bitwiseORExpression_In_Yield_Await)+
     ;
 
 coalesceExpressionHead_In_Yield_Await

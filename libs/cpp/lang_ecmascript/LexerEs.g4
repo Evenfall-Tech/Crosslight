@@ -423,7 +423,7 @@ fragment CodePoint
 
 // 12.8 Punctuators
 
-Punctuator
+fragment Punctuator
     : OptionalChainingPunctuator
     | OtherPunctuator
     ;
