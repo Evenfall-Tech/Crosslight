@@ -62,8 +62,8 @@ fragment BigIntLiteralSuffix
     ;
 
 fragment DecimalLiteral
-    : DecimalIntegerLiteral '.' DecimalDigits_Sep?  ExponentPart_Sep?
-    | '.' DecimalDigits_Sep  ExponentPart_Sep?
+    : DecimalIntegerLiteral DotPunctuator DecimalDigits_Sep?  ExponentPart_Sep?
+    | DotPunctuator DecimalDigits_Sep  ExponentPart_Sep?
     | DecimalIntegerLiteral ExponentPart_Sep?
     ;
 
@@ -428,52 +428,67 @@ Punctuator
     | OtherPunctuator
     ;
 
-fragment OptionalChainingPunctuator
+OptionalChainingPunctuator
     : '?.' {!isNextCharacter('0', '9')}?
     ;
 
 fragment OtherPunctuator
     : LeftBracesLiteral | LeftParenthesesLiteral | RightParenthesesLiteral | LeftBracketsLiteral | RightBracketsLiteral
     | ThreeDotsLiteral
-    | '<='
-    | '>='
-    | '=='
-    | '!='
+    | LessEqualPunctuator
+    | MoreEqualPunctuator
+    | LooselyEqualPunctuator
+    | LooselyNotEqualPunctuator
     | StrictlyEqualPunctuator
     | StrictlyNotEqualPunctuator
     | ExponentiatePunctuator
-    | '++'
-    | '--'
+    | IncrementPunctuator
+    | DecrementPunctuator
     | LeftShiftPunctuator
     | SignedRightShiftPunctuator
     | UnsignedRightShiftPunctuator
     | LogicalANDPunctuator
     | LogicalORAssignmentPunctuator
     | CoalescePunctuator
-    | '+='
-    | '-='
-    | '*='
-    | '%='
+    | AddAssignmentPunctuator
+    | SubtractAssignmentPunctuator
+    | MultiplyAssignmentPunctuator
+    | RemainderAssignmentPunctuator
     | ExponentiateAssignmentPunctuator
     | LeftShiftAssignmentPunctuator
     | SignedRightShiftAssignmentPunctuator
     | UnsignedRightShiftAssignmentPunctuator
-    | '&='
-    | '|='
-    | '^='
+    | BitwiseANDAssignmentPunctuator
+    | BitwiseORAssignmentPunctuator
+    | BitwiseXORAssignmentPunctuator
     | LogicalANDAssignmentPunctuator
     | LogicalORAssignmentPunctuator
     | CoalesceAssignmentPunctuator
-    | '=>'
-    | '.'
-    | [?:=]
-    | [&|^!~]
-    | [,<>]
-    | [+*%-]
+    | ArrowPunctuator
+    | DotPunctuator
+    | ConditionalHeadPunctuator
+    | ConditionalTailPunctuator
+    | AssignmentPunctuator
+    | BitwiseANDPunctuator
+    | BitwiseORPunctuator
+    | BitwiseXORPunctuator
+    | LogicalNOTPunctuator
+    | BitwiseNOTPunctuator
+    | CommaPunctuator
+    | LessPunctuator
+    | MorePunctuator
+    | AddPunctuator
+    | MultiplyPunctuator
+    | RemainderPunctuator
+    | SubtractPunctuator
     ;
 
 UnsignedRightShiftAssignmentPunctuator
     : '>>>='
+    ;
+
+ThreeDotsLiteral
+    : '...'
     ;
 
 StrictlyEqualPunctuator
@@ -512,8 +527,32 @@ CoalesceAssignmentPunctuator
     : '??='
     ;
 
+LessEqualPunctuator
+    : '<='
+    ;
+
+MoreEqualPunctuator
+    : '>='
+    ;
+
+LooselyEqualPunctuator
+    : '=='
+    ;
+
+LooselyNotEqualPunctuator
+    : '!='
+    ;
+
 ExponentiatePunctuator
     : '**'
+    ;
+
+IncrementPunctuator
+    : '++'
+    ;
+
+DecrementPunctuator
+    : '--'
     ;
 
 LeftShiftPunctuator
@@ -534,6 +573,38 @@ LogicalORPunctuator
 
 CoalescePunctuator
     : '??'
+    ;
+
+AddAssignmentPunctuator
+    : '+='
+    ;
+
+SubtractAssignmentPunctuator
+    : '-='
+    ;
+
+MultiplyAssignmentPunctuator
+    : '*='
+    ;
+
+RemainderAssignmentPunctuator
+    : '%='
+    ;
+
+BitwiseANDAssignmentPunctuator
+    : '&='
+    ;
+
+BitwiseORAssignmentPunctuator
+    : '|='
+    ;
+
+BitwiseXORAssignmentPunctuator
+    : '^='
+    ;
+
+ArrowPunctuator
+    : '=>'
     ;
 
 LeftParenthesesLiteral
@@ -560,13 +631,81 @@ RightBracesLiteral
     : '}'
     ;
 
-ThreeDotsLiteral
-    : '...'
+DotPunctuator
+    : '.'
+    ;
+
+ConditionalHeadPunctuator
+    : '?'
+    ;
+
+ConditionalTailPunctuator
+    : ':'
+    ;
+
+AssignmentPunctuator
+    : '='
+    ;
+
+BitwiseANDPunctuator
+    : '&'
+    ;
+
+BitwiseORPunctuator
+    : '|'
+    ;
+
+BitwiseXORPunctuator
+    : '^'
+    ;
+
+LogicalNOTPunctuator
+    : '!'
+    ;
+
+BitwiseNOTPunctuator
+    : '~'
+    ;
+
+CommaPunctuator
+    : ','
+    ;
+
+LessPunctuator
+    : '<'
+    ;
+
+MorePunctuator
+    : '>'
+    ;
+
+AddPunctuator
+    : '+'
+    ;
+
+MultiplyPunctuator
+    : '*'
+    ;
+
+RemainderPunctuator
+    : '%'
+    ;
+
+SubtractPunctuator
+    : '-'
     ;
 
 DivPunctuator
+    : DivideAssignmentPunctuator
+    | DividePunctuator
+    ;
+
+DivideAssignmentPunctuator
+    : '/='
+    ;
+
+DividePunctuator
     : '/'
-    | '/='
     ;
 
 // 12.7 Names and Keywords

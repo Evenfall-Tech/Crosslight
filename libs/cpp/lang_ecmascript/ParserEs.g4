@@ -143,42 +143,42 @@ primaryExpression_Yield_Await
 
 coverParenthesizedExpressionAndArrowParameterList
     : LeftParenthesesLiteral expression_In RightParenthesesLiteral
-    | LeftParenthesesLiteral expression_In ',' RightParenthesesLiteral
+    | LeftParenthesesLiteral expression_In CommaPunctuator RightParenthesesLiteral
     | LeftParenthesesLiteral RightParenthesesLiteral
     | LeftParenthesesLiteral ThreeDotsLiteral bindingIdentifier RightParenthesesLiteral
     // TODO: | LeftParenthesesLiteral ThreeDotsLiteral bindingPattern RightParenthesesLiteral
-    | LeftParenthesesLiteral expression_In ',' ThreeDotsLiteral bindingIdentifier RightParenthesesLiteral
-    // TODO: | LeftParenthesesLiteral expression_In ',' ThreeDotsLiteral bindingPattern RightParenthesesLiteral
+    | LeftParenthesesLiteral expression_In CommaPunctuator ThreeDotsLiteral bindingIdentifier RightParenthesesLiteral
+    // TODO: | LeftParenthesesLiteral expression_In CommaPunctuator ThreeDotsLiteral bindingPattern RightParenthesesLiteral
     ;
 
 coverParenthesizedExpressionAndArrowParameterList_Yield
     : LeftParenthesesLiteral expression_In_Yield RightParenthesesLiteral
-    | LeftParenthesesLiteral expression_In_Yield ',' RightParenthesesLiteral
+    | LeftParenthesesLiteral expression_In_Yield CommaPunctuator RightParenthesesLiteral
     | LeftParenthesesLiteral RightParenthesesLiteral
     | LeftParenthesesLiteral ThreeDotsLiteral bindingIdentifier_Yield RightParenthesesLiteral
     // TODO: | LeftParenthesesLiteral ThreeDotsLiteral bindingPattern_Yield RightParenthesesLiteral
-    | LeftParenthesesLiteral expression_In_Yield ',' ThreeDotsLiteral bindingIdentifier_Yield RightParenthesesLiteral
-    // TODO: | LeftParenthesesLiteral expression_In_Yield ',' ThreeDotsLiteral bindingPattern_Yield RightParenthesesLiteral
+    | LeftParenthesesLiteral expression_In_Yield CommaPunctuator ThreeDotsLiteral bindingIdentifier_Yield RightParenthesesLiteral
+    // TODO: | LeftParenthesesLiteral expression_In_Yield CommaPunctuator ThreeDotsLiteral bindingPattern_Yield RightParenthesesLiteral
     ;
 
 coverParenthesizedExpressionAndArrowParameterList_Await
     : LeftParenthesesLiteral expression_In_Await RightParenthesesLiteral
-    | LeftParenthesesLiteral expression_In_Await ',' RightParenthesesLiteral
+    | LeftParenthesesLiteral expression_In_Await CommaPunctuator RightParenthesesLiteral
     | LeftParenthesesLiteral RightParenthesesLiteral
     | LeftParenthesesLiteral ThreeDotsLiteral bindingIdentifier_Await RightParenthesesLiteral
     // TODO: | LeftParenthesesLiteral ThreeDotsLiteral bindingPattern_Await RightParenthesesLiteral
-    | LeftParenthesesLiteral expression_In_Await ',' ThreeDotsLiteral bindingIdentifier_Await RightParenthesesLiteral
-    // TODO: | LeftParenthesesLiteral expression_In_Await ',' ThreeDotsLiteral bindingPattern_Await RightParenthesesLiteral
+    | LeftParenthesesLiteral expression_In_Await CommaPunctuator ThreeDotsLiteral bindingIdentifier_Await RightParenthesesLiteral
+    // TODO: | LeftParenthesesLiteral expression_In_Await CommaPunctuator ThreeDotsLiteral bindingPattern_Await RightParenthesesLiteral
     ;
 
 coverParenthesizedExpressionAndArrowParameterList_Yield_Await
     : LeftParenthesesLiteral expression_In_Yield_Await RightParenthesesLiteral
-    | LeftParenthesesLiteral expression_In_Yield_Await ',' RightParenthesesLiteral
+    | LeftParenthesesLiteral expression_In_Yield_Await CommaPunctuator RightParenthesesLiteral
     | LeftParenthesesLiteral RightParenthesesLiteral
     | LeftParenthesesLiteral ThreeDotsLiteral bindingIdentifier_Yield_Await RightParenthesesLiteral
     // TODO: | LeftParenthesesLiteral ThreeDotsLiteral bindingPattern_Yield_Await RightParenthesesLiteral
-    | LeftParenthesesLiteral expression_In_Yield_Await ',' ThreeDotsLiteral bindingIdentifier_Yield_Await RightParenthesesLiteral
-    // TODO: | LeftParenthesesLiteral expression_In_Yield_Await ',' ThreeDotsLiteral bindingPattern_Yield_Await RightParenthesesLiteral
+    | LeftParenthesesLiteral expression_In_Yield_Await CommaPunctuator ThreeDotsLiteral bindingIdentifier_Yield_Await RightParenthesesLiteral
+    // TODO: | LeftParenthesesLiteral expression_In_Yield_Await CommaPunctuator ThreeDotsLiteral bindingPattern_Yield_Await RightParenthesesLiteral
     ;
 
 // 13.2.3 Literals
@@ -195,57 +195,57 @@ literal
 arrayLiteral
     : LeftBracketsLiteral elision? RightBracketsLiteral
     | LeftBracketsLiteral elementList RightBracketsLiteral
-    | LeftBracketsLiteral elementList ',' elision? RightBracketsLiteral
+    | LeftBracketsLiteral elementList CommaPunctuator elision? RightBracketsLiteral
     ;
 
 arrayLiteral_Yield
     : LeftBracketsLiteral elision? RightBracketsLiteral
     | LeftBracketsLiteral elementList_Yield RightBracketsLiteral
-    | LeftBracketsLiteral elementList_Yield ',' elision? RightBracketsLiteral
+    | LeftBracketsLiteral elementList_Yield CommaPunctuator elision? RightBracketsLiteral
     ;
 
 arrayLiteral_Await
     : LeftBracketsLiteral elision? RightBracketsLiteral
     | LeftBracketsLiteral elementList_Await RightBracketsLiteral
-    | LeftBracketsLiteral elementList_Await ',' elision? RightBracketsLiteral
+    | LeftBracketsLiteral elementList_Await CommaPunctuator elision? RightBracketsLiteral
     ;
 
 arrayLiteral_Yield_Await
     : LeftBracketsLiteral elision? RightBracketsLiteral
     | LeftBracketsLiteral elementList_Yield_Await RightBracketsLiteral
-    | LeftBracketsLiteral elementList_Yield_Await ',' elision? RightBracketsLiteral
+    | LeftBracketsLiteral elementList_Yield_Await CommaPunctuator elision? RightBracketsLiteral
     ;
 
 elementList
     : elision? assignmentExpression_In
     | elision? spreadElement
-    | elementList ',' elision? assignmentExpression_In
-    | elementList ',' elision? spreadElement
+    | elementList CommaPunctuator elision? assignmentExpression_In
+    | elementList CommaPunctuator elision? spreadElement
     ;
 
 elementList_Yield
     : elision? assignmentExpression_In_Yield
     | elision? spreadElement_Yield
-    | elementList_Yield ',' elision? assignmentExpression_In_Yield
-    | elementList_Yield ',' elision? spreadElement_Yield
+    | elementList_Yield CommaPunctuator elision? assignmentExpression_In_Yield
+    | elementList_Yield CommaPunctuator elision? spreadElement_Yield
     ;
 
 elementList_Await
     : elision? assignmentExpression_In_Await
     | elision? spreadElement_Await
-    | elementList_Await ',' elision? assignmentExpression_In_Await
-    | elementList_Await ',' elision? spreadElement_Await
+    | elementList_Await CommaPunctuator elision? assignmentExpression_In_Await
+    | elementList_Await CommaPunctuator elision? spreadElement_Await
     ;
 
 elementList_Yield_Await
     : elision? assignmentExpression_In_Yield_Await
     | elision? spreadElement_Yield_Await
-    | elementList_Yield_Await ',' elision? assignmentExpression_In_Yield_Await
-    | elementList_Yield_Await ',' elision? spreadElement_Yield_Await
+    | elementList_Yield_Await CommaPunctuator elision? assignmentExpression_In_Yield_Await
+    | elementList_Yield_Await CommaPunctuator elision? spreadElement_Yield_Await
     ;
 
 elision
-    : ','+
+    : CommaPunctuator+
     ;
 
 spreadElement
@@ -267,41 +267,41 @@ spreadElement_Yield_Await
 // 13.2.5 Object Initializer
 
 objectLiteral
-    : LeftBracesLiteral (propertyDefinitionList ','?)? RightBracesLiteral
+    : LeftBracesLiteral (propertyDefinitionList CommaPunctuator?)? RightBracesLiteral
     ;
 
 objectLiteral_Yield
-    : LeftBracesLiteral (propertyDefinitionList_Yield ','?)? RightBracesLiteral
+    : LeftBracesLiteral (propertyDefinitionList_Yield CommaPunctuator?)? RightBracesLiteral
     ;
 
 objectLiteral_Await
-    : LeftBracesLiteral (propertyDefinitionList_Await ','?)? RightBracesLiteral
+    : LeftBracesLiteral (propertyDefinitionList_Await CommaPunctuator?)? RightBracesLiteral
     ;
 
 objectLiteral_Yield_Await
-    : LeftBracesLiteral (propertyDefinitionList_Yield_Await ','?)? RightBracesLiteral
+    : LeftBracesLiteral (propertyDefinitionList_Yield_Await CommaPunctuator?)? RightBracesLiteral
     ;
 
 propertyDefinitionList
-    : propertyDefinition (',' propertyDefinition)*
+    : propertyDefinition (CommaPunctuator propertyDefinition)*
     ;
 
 propertyDefinitionList_Yield
-    : propertyDefinition_Yield (',' propertyDefinition_Yield)*
+    : propertyDefinition_Yield (CommaPunctuator propertyDefinition_Yield)*
     ;
 
 propertyDefinitionList_Await
-    : propertyDefinition_Await (',' propertyDefinition_Await)*
+    : propertyDefinition_Await (CommaPunctuator propertyDefinition_Await)*
     ;
 
 propertyDefinitionList_Yield_Await
-    : propertyDefinition_Yield_Await (',' propertyDefinition_Yield_Await)*
+    : propertyDefinition_Yield_Await (CommaPunctuator propertyDefinition_Yield_Await)*
     ;
 
 propertyDefinition
     : identifierReference
     | coverInitializedName
-    | propertyName ':' assignmentExpression_In
+    | propertyName ConditionalTailPunctuator assignmentExpression_In
     // TODO: | methodDefinition
     | ThreeDotsLiteral assignmentExpression_In
     ;
@@ -309,7 +309,7 @@ propertyDefinition
 propertyDefinition_Yield
     : identifierReference_Yield
     | coverInitializedName_Yield
-    | propertyName_Yield ':' assignmentExpression_In_Yield
+    | propertyName_Yield ConditionalTailPunctuator assignmentExpression_In_Yield
     // TODO: | methodDefinition_Yield
     | ThreeDotsLiteral assignmentExpression_In_Yield
     ;
@@ -317,7 +317,7 @@ propertyDefinition_Yield
 propertyDefinition_Await
     : identifierReference_Await
     | coverInitializedName_Await
-    | propertyName_Await ':' assignmentExpression_In_Await
+    | propertyName_Await ConditionalTailPunctuator assignmentExpression_In_Await
     // TODO: | methodDefinition_Await
     | ThreeDotsLiteral assignmentExpression_In_Await
     ;
@@ -325,7 +325,7 @@ propertyDefinition_Await
 propertyDefinition_Yield_Await
     : identifierReference_Yield_Await
     | coverInitializedName_Yield_Await
-    | propertyName_Yield_Await ':' assignmentExpression_In_Yield_Await
+    | propertyName_Yield_Await ConditionalTailPunctuator assignmentExpression_In_Yield_Await
     // TODO: | methodDefinition_Yield_Await
     | ThreeDotsLiteral assignmentExpression_In_Yield_Await
     ;
@@ -389,35 +389,35 @@ coverInitializedName_Yield_Await
     ;
 
 initializer
-    : '=' assignmentExpression
+    : AssignmentPunctuator assignmentExpression
     ;
 
 initializer_In
-    : '=' assignmentExpression_In
+    : AssignmentPunctuator assignmentExpression_In
     ;
 
 initializer_Yield
-    : '=' assignmentExpression_Yield
+    : AssignmentPunctuator assignmentExpression_Yield
     ;
 
 initializer_Await
-    : '=' assignmentExpression_Await
+    : AssignmentPunctuator assignmentExpression_Await
     ;
 
 initializer_In_Yield
-    : '=' assignmentExpression_In_Yield
+    : AssignmentPunctuator assignmentExpression_In_Yield
     ;
 
 initializer_In_Await
-    : '=' assignmentExpression_In_Await
+    : AssignmentPunctuator assignmentExpression_In_Await
     ;
 
 initializer_Yield_Await
-    : '=' assignmentExpression_Yield_Await
+    : AssignmentPunctuator assignmentExpression_Yield_Await
     ;
 
 initializer_In_Yield_Await
-    : '=' assignmentExpression_In_Yield_Await
+    : AssignmentPunctuator assignmentExpression_In_Yield_Await
     ;
 
 // 13.2.8 Template Literals
@@ -563,65 +563,65 @@ templateMiddleList_Yield_Await_Tagged
 memberExpression
     : primaryExpression
     | memberExpression LeftBracketsLiteral expression_In RightBracketsLiteral
-    | memberExpression '.' IdentifierName
+    | memberExpression DotPunctuator IdentifierName
     | memberExpression templateLiteral_Tagged
     | superProperty
     | metaProperty
     | NewKeyword memberExpression arguments
-    | memberExpression '.' PrivateIdentifier
+    | memberExpression DotPunctuator PrivateIdentifier
     ;
 
 memberExpression_Yield
     : primaryExpression_Yield
     | memberExpression_Yield LeftBracketsLiteral expression_In_Yield RightBracketsLiteral
-    | memberExpression_Yield '.' IdentifierName
+    | memberExpression_Yield DotPunctuator IdentifierName
     | memberExpression_Yield templateLiteral_Yield_Tagged
     | superProperty_Yield
     | metaProperty
     | NewKeyword memberExpression_Yield arguments_Yield
-    | memberExpression_Yield '.' PrivateIdentifier
+    | memberExpression_Yield DotPunctuator PrivateIdentifier
     ;
 
 memberExpression_Await
     : primaryExpression_Await
     | memberExpression_Await LeftBracketsLiteral expression_In_Await RightBracketsLiteral
-    | memberExpression_Await '.' IdentifierName
+    | memberExpression_Await DotPunctuator IdentifierName
     | memberExpression_Await templateLiteral_Await_Tagged
     | superProperty_Await
     | metaProperty
     | NewKeyword memberExpression_Await arguments_Await
-    | memberExpression_Await '.' PrivateIdentifier
+    | memberExpression_Await DotPunctuator PrivateIdentifier
     ;
 
 memberExpression_Yield_Await
     : primaryExpression_Yield_Await
     | memberExpression_Yield_Await LeftBracketsLiteral expression_In_Yield_Await RightBracketsLiteral
-    | memberExpression_Yield_Await '.' IdentifierName
+    | memberExpression_Yield_Await DotPunctuator IdentifierName
     | memberExpression_Yield_Await templateLiteral_Yield_Await_Tagged
     | superProperty_Yield_Await
     | metaProperty
     | NewKeyword memberExpression_Yield_Await arguments_Yield_Await
-    | memberExpression_Yield_Await '.' PrivateIdentifier
+    | memberExpression_Yield_Await DotPunctuator PrivateIdentifier
     ;
 
 superProperty
     : SuperKeyword LeftBracketsLiteral expression_In RightBracketsLiteral
-    | SuperKeyword '.' IdentifierName
+    | SuperKeyword DotPunctuator IdentifierName
     ;
 
 superProperty_Yield
     : SuperKeyword LeftBracketsLiteral expression_In_Yield RightBracketsLiteral
-    | SuperKeyword '.' IdentifierName
+    | SuperKeyword DotPunctuator IdentifierName
     ;
 
 superProperty_Await
     : SuperKeyword LeftBracketsLiteral expression_In_Await RightBracketsLiteral
-    | SuperKeyword '.' IdentifierName
+    | SuperKeyword DotPunctuator IdentifierName
     ;
 
 superProperty_Yield_Await
     : SuperKeyword LeftBracketsLiteral expression_In_Yield_Await RightBracketsLiteral
-    | SuperKeyword '.' IdentifierName
+    | SuperKeyword DotPunctuator IdentifierName
     ;
 
 metaProperty
@@ -630,11 +630,11 @@ metaProperty
     ;
 
 newTarget
-    : NewKeyword '.' TargetLiteral
+    : NewKeyword DotPunctuator TargetLiteral
     ;
 
 importMeta
-    : ImportKeyword '.' MetaLiteral
+    : ImportKeyword DotPunctuator MetaLiteral
     ;
 
 newExpression
@@ -663,9 +663,9 @@ callExpression
     | importCall
     | callExpression arguments
     | callExpression LeftBracketsLiteral expression_In RightBracketsLiteral
-    | callExpression '.' IdentifierName
+    | callExpression DotPunctuator IdentifierName
     | callExpression templateLiteral_Tagged
-    | callExpression '.' PrivateIdentifier
+    | callExpression DotPunctuator PrivateIdentifier
     ;
 
 callExpression_Yield
@@ -674,9 +674,9 @@ callExpression_Yield
     | importCall_Yield
     | callExpression_Yield arguments_Yield
     | callExpression_Yield LeftBracketsLiteral expression_In_Yield RightBracketsLiteral
-    | callExpression_Yield '.' IdentifierName
+    | callExpression_Yield DotPunctuator IdentifierName
     | callExpression_Yield templateLiteral_Yield_Tagged
-    | callExpression_Yield '.' PrivateIdentifier
+    | callExpression_Yield DotPunctuator PrivateIdentifier
     ;
 
 callExpression_Await
@@ -685,9 +685,9 @@ callExpression_Await
     | importCall_Await
     | callExpression_Await arguments_Await
     | callExpression_Await LeftBracketsLiteral expression_In_Await RightBracketsLiteral
-    | callExpression_Await '.' IdentifierName
+    | callExpression_Await DotPunctuator IdentifierName
     | callExpression_Await templateLiteral_Await_Tagged
-    | callExpression_Await '.' PrivateIdentifier
+    | callExpression_Await DotPunctuator PrivateIdentifier
     ;
 
 callExpression_Yield_Await
@@ -696,9 +696,9 @@ callExpression_Yield_Await
     | importCall_Yield_Await
     | callExpression_Yield_Await arguments_Yield_Await
     | callExpression_Yield_Await LeftBracketsLiteral expression_In_Yield_Await RightBracketsLiteral
-    | callExpression_Yield_Await '.' IdentifierName
+    | callExpression_Yield_Await DotPunctuator IdentifierName
     | callExpression_Yield_Await templateLiteral_Yield_Await_Tagged
-    | callExpression_Yield_Await '.' PrivateIdentifier
+    | callExpression_Yield_Await DotPunctuator PrivateIdentifier
     ;
 
 superCall
@@ -736,53 +736,53 @@ importCall_Yield_Await
 arguments
     : LeftParenthesesLiteral RightParenthesesLiteral
     | LeftParenthesesLiteral argumentList RightParenthesesLiteral
-    | LeftParenthesesLiteral argumentList ',' RightParenthesesLiteral
+    | LeftParenthesesLiteral argumentList CommaPunctuator RightParenthesesLiteral
     ;
 
 arguments_Yield
     : LeftParenthesesLiteral RightParenthesesLiteral
     | LeftParenthesesLiteral argumentList_Yield RightParenthesesLiteral
-    | LeftParenthesesLiteral argumentList_Yield ',' RightParenthesesLiteral
+    | LeftParenthesesLiteral argumentList_Yield CommaPunctuator RightParenthesesLiteral
     ;
 
 arguments_Await
     : LeftParenthesesLiteral RightParenthesesLiteral
     | LeftParenthesesLiteral argumentList_Await RightParenthesesLiteral
-    | LeftParenthesesLiteral argumentList_Await ',' RightParenthesesLiteral
+    | LeftParenthesesLiteral argumentList_Await CommaPunctuator RightParenthesesLiteral
     ;
 
 arguments_Yield_Await
     : LeftParenthesesLiteral RightParenthesesLiteral
     | LeftParenthesesLiteral argumentList_Yield_Await RightParenthesesLiteral
-    | LeftParenthesesLiteral argumentList_Yield_Await ',' RightParenthesesLiteral
+    | LeftParenthesesLiteral argumentList_Yield_Await CommaPunctuator RightParenthesesLiteral
     ;
 
 argumentList
     : assignmentExpression_In
     | ThreeDotsLiteral assignmentExpression_In
-    | argumentList ',' assignmentExpression_In
-    | argumentList ',' ThreeDotsLiteral assignmentExpression_In
+    | argumentList CommaPunctuator assignmentExpression_In
+    | argumentList CommaPunctuator ThreeDotsLiteral assignmentExpression_In
     ;
 
 argumentList_Yield
     : assignmentExpression_In_Yield
     | ThreeDotsLiteral assignmentExpression_In_Yield
-    | argumentList_Yield ',' assignmentExpression_In_Yield
-    | argumentList_Yield ',' ThreeDotsLiteral assignmentExpression_In_Yield
+    | argumentList_Yield CommaPunctuator assignmentExpression_In_Yield
+    | argumentList_Yield CommaPunctuator ThreeDotsLiteral assignmentExpression_In_Yield
     ;
 
 argumentList_Await
     : assignmentExpression_In_Await
     | ThreeDotsLiteral assignmentExpression_In_Await
-    | argumentList_Await ',' assignmentExpression_In_Await
-    | argumentList_Await ',' ThreeDotsLiteral assignmentExpression_In_Await
+    | argumentList_Await CommaPunctuator assignmentExpression_In_Await
+    | argumentList_Await CommaPunctuator ThreeDotsLiteral assignmentExpression_In_Await
     ;
 
 argumentList_Yield_Await
     : assignmentExpression_In_Yield_Await
     | ThreeDotsLiteral assignmentExpression_In_Yield_Await
-    | argumentList_Yield_Await ',' assignmentExpression_In_Yield_Await
-    | argumentList_Yield_Await ',' ThreeDotsLiteral assignmentExpression_In_Yield_Await
+    | argumentList_Yield_Await CommaPunctuator assignmentExpression_In_Yield_Await
+    | argumentList_Yield_Await CommaPunctuator ThreeDotsLiteral assignmentExpression_In_Yield_Await
     ;
 
 optionalExpression
@@ -810,55 +810,55 @@ optionalExpression_Yield_Await
     ;
 
 optionalChain
-    : '?.' arguments
-    | '?.' LeftBracketsLiteral expression_In RightBracketsLiteral
-    | '?.' IdentifierName
-    | '?.' templateLiteral_Tagged
-    | '?.' PrivateIdentifier
+    : OptionalChainingPunctuator arguments
+    | OptionalChainingPunctuator LeftBracketsLiteral expression_In RightBracketsLiteral
+    | OptionalChainingPunctuator IdentifierName
+    | OptionalChainingPunctuator templateLiteral_Tagged
+    | OptionalChainingPunctuator PrivateIdentifier
     | optionalChain arguments
     | optionalChain LeftBracketsLiteral expression_In RightBracketsLiteral
-    | optionalChain '.' IdentifierName
+    | optionalChain DotPunctuator IdentifierName
     | optionalChain templateLiteral_Tagged
-    | optionalChain '.' PrivateIdentifier
+    | optionalChain DotPunctuator PrivateIdentifier
     ;
 
 optionalChain_Yield
-    : '?.' arguments_Yield
-    | '?.' LeftBracketsLiteral expression_In_Yield RightBracketsLiteral
-    | '?.' IdentifierName
-    | '?.' templateLiteral_Yield_Tagged
-    | '?.' PrivateIdentifier
+    : OptionalChainingPunctuator arguments_Yield
+    | OptionalChainingPunctuator LeftBracketsLiteral expression_In_Yield RightBracketsLiteral
+    | OptionalChainingPunctuator IdentifierName
+    | OptionalChainingPunctuator templateLiteral_Yield_Tagged
+    | OptionalChainingPunctuator PrivateIdentifier
     | optionalChain_Yield arguments_Yield
     | optionalChain_Yield LeftBracketsLiteral expression_In_Yield RightBracketsLiteral
-    | optionalChain_Yield '.' IdentifierName
+    | optionalChain_Yield DotPunctuator IdentifierName
     | optionalChain_Yield templateLiteral_Yield_Tagged
-    | optionalChain_Yield '.' PrivateIdentifier
+    | optionalChain_Yield DotPunctuator PrivateIdentifier
     ;
 
 optionalChain_Await
-    : '?.' arguments_Await
-    | '?.' LeftBracketsLiteral expression_In_Await RightBracketsLiteral
-    | '?.' IdentifierName
-    | '?.' templateLiteral_Await_Tagged
-    | '?.' PrivateIdentifier
+    : OptionalChainingPunctuator arguments_Await
+    | OptionalChainingPunctuator LeftBracketsLiteral expression_In_Await RightBracketsLiteral
+    | OptionalChainingPunctuator IdentifierName
+    | OptionalChainingPunctuator templateLiteral_Await_Tagged
+    | OptionalChainingPunctuator PrivateIdentifier
     | optionalChain_Await arguments_Await
     | optionalChain_Await LeftBracketsLiteral expression_In_Await RightBracketsLiteral
-    | optionalChain_Await '.' IdentifierName
+    | optionalChain_Await DotPunctuator IdentifierName
     | optionalChain_Await templateLiteral_Await_Tagged
-    | optionalChain_Await '.' PrivateIdentifier
+    | optionalChain_Await DotPunctuator PrivateIdentifier
     ;
 
 optionalChain_Yield_Await
-    : '?.' arguments_Yield_Await
-    | '?.' LeftBracketsLiteral expression_In_Yield_Await RightBracketsLiteral
-    | '?.' IdentifierName
-    | '?.' templateLiteral_Yield_Await_Tagged
-    | '?.' PrivateIdentifier
+    : OptionalChainingPunctuator arguments_Yield_Await
+    | OptionalChainingPunctuator LeftBracketsLiteral expression_In_Yield_Await RightBracketsLiteral
+    | OptionalChainingPunctuator IdentifierName
+    | OptionalChainingPunctuator templateLiteral_Yield_Await_Tagged
+    | OptionalChainingPunctuator PrivateIdentifier
     | optionalChain_Yield_Await arguments_Yield_Await
     | optionalChain_Yield_Await LeftBracketsLiteral expression_In_Yield_Await RightBracketsLiteral
-    | optionalChain_Yield_Await '.' IdentifierName
+    | optionalChain_Yield_Await DotPunctuator IdentifierName
     | optionalChain_Yield_Await templateLiteral_Yield_Await_Tagged
-    | optionalChain_Yield_Await '.' PrivateIdentifier
+    | optionalChain_Yield_Await DotPunctuator PrivateIdentifier
     ;
 
 leftHandSideExpression
@@ -889,52 +889,52 @@ leftHandSideExpression_Yield_Await
 
 updateExpression
     : leftHandSideExpression
-    | leftHandSideExpression /* TODO: [no LineTerminator here] */ '++'
-    | leftHandSideExpression /* TODO: [no LineTerminator here] */ '--'
-    | '++' unaryExpression
-    | '--' unaryExpression
+    | leftHandSideExpression /* TODO: [no LineTerminator here] */ IncrementPunctuator
+    | leftHandSideExpression /* TODO: [no LineTerminator here] */ DecrementPunctuator
+    | IncrementPunctuator unaryExpression
+    | DecrementPunctuator unaryExpression
     ;
 
 updateExpression_Yield
     : leftHandSideExpression_Yield
-    | leftHandSideExpression_Yield /* TODO: [no LineTerminator here] */ '++'
-    | leftHandSideExpression_Yield /* TODO: [no LineTerminator here] */ '--'
-    | '++' unaryExpression_Yield
-    | '--' unaryExpression_Yield
+    | leftHandSideExpression_Yield /* TODO: [no LineTerminator here] */ IncrementPunctuator
+    | leftHandSideExpression_Yield /* TODO: [no LineTerminator here] */ DecrementPunctuator
+    | IncrementPunctuator unaryExpression_Yield
+    | DecrementPunctuator unaryExpression_Yield
     ;
 
 updateExpression_Await
     : leftHandSideExpression_Await
-    | leftHandSideExpression_Await /* TODO: [no LineTerminator here] */ '++'
-    | leftHandSideExpression_Await /* TODO: [no LineTerminator here] */ '--'
-    | '++' unaryExpression_Await
-    | '--' unaryExpression_Await
+    | leftHandSideExpression_Await /* TODO: [no LineTerminator here] */ IncrementPunctuator
+    | leftHandSideExpression_Await /* TODO: [no LineTerminator here] */ DecrementPunctuator
+    | IncrementPunctuator unaryExpression_Await
+    | DecrementPunctuator unaryExpression_Await
     ;
 
 updateExpression_Yield_Await
     : leftHandSideExpression_Yield_Await
-    | leftHandSideExpression_Yield_Await /* TODO: [no LineTerminator here] */ '++'
-    | leftHandSideExpression_Yield_Await /* TODO: [no LineTerminator here] */ '--'
-    | '++' unaryExpression_Yield_Await
-    | '--' unaryExpression_Yield_Await
+    | leftHandSideExpression_Yield_Await /* TODO: [no LineTerminator here] */ IncrementPunctuator
+    | leftHandSideExpression_Yield_Await /* TODO: [no LineTerminator here] */ DecrementPunctuator
+    | IncrementPunctuator unaryExpression_Yield_Await
+    | DecrementPunctuator unaryExpression_Yield_Await
     ;
 
 // 13.5 Unary Operators
 
 unaryExpression
-    : (DeleteKeyword | VoidKeyword | TypeofKeyword | '+' | '-' | '~' | '!')* (updateExpression /*| awaitExpression*/)
+    : (DeleteKeyword | VoidKeyword | TypeofKeyword | AddPunctuator | SubtractPunctuator | BitwiseNOTPunctuator | LogicalNOTPunctuator)* (updateExpression /*| awaitExpression*/)
     ;
 
 unaryExpression_Yield
-    : (DeleteKeyword | VoidKeyword | TypeofKeyword | '+' | '-' | '~' | '!')* (updateExpression_Yield /*| awaitExpression_Yield*/)
+    : (DeleteKeyword | VoidKeyword | TypeofKeyword | AddPunctuator | SubtractPunctuator | BitwiseNOTPunctuator | LogicalNOTPunctuator)* (updateExpression_Yield /*| awaitExpression_Yield*/)
     ;
 
 unaryExpression_Await
-    : (DeleteKeyword | VoidKeyword | TypeofKeyword | '+' | '-' | '~' | '!')* (updateExpression_Await) // TODO: | awaitExpression)
+    : (DeleteKeyword | VoidKeyword | TypeofKeyword | AddPunctuator | SubtractPunctuator | BitwiseNOTPunctuator | LogicalNOTPunctuator)* (updateExpression_Await) // TODO: | awaitExpression)
     ;
 
 unaryExpression_Yield_Await
-    : (DeleteKeyword | VoidKeyword | TypeofKeyword | '+' | '-' | '~' | '!')* (updateExpression_Yield_Await) // TODO: | awaitExpression_Yield)
+    : (DeleteKeyword | VoidKeyword | TypeofKeyword | AddPunctuator | SubtractPunctuator | BitwiseNOTPunctuator | LogicalNOTPunctuator)* (updateExpression_Yield_Await) // TODO: | awaitExpression_Yield)
     ;
 
 // 13.6 Exponentiation Operator
@@ -974,35 +974,35 @@ multiplicativeExpression_Yield_Await
     ;
 
 multiplicativeOperator
-    : '*'
-    | '/'
-    | '%'
+    : MultiplyPunctuator
+    | DividePunctuator
+    | RemainderPunctuator
     ;
 
 // 13.8 Additive Operators
 
 additiveExpression
     : multiplicativeExpression
-    | additiveExpression '+' multiplicativeExpression
-    | additiveExpression '-' multiplicativeExpression
+    | additiveExpression AddPunctuator multiplicativeExpression
+    | additiveExpression SubtractPunctuator multiplicativeExpression
     ;
 
 additiveExpression_Yield
     : multiplicativeExpression_Yield
-    | additiveExpression_Yield '+' multiplicativeExpression_Yield
-    | additiveExpression_Yield '-' multiplicativeExpression_Yield
+    | additiveExpression_Yield AddPunctuator multiplicativeExpression_Yield
+    | additiveExpression_Yield SubtractPunctuator multiplicativeExpression_Yield
     ;
 
 additiveExpression_Await
     : multiplicativeExpression_Await
-    | additiveExpression_Await '+' multiplicativeExpression_Await
-    | additiveExpression_Await '-' multiplicativeExpression_Await
+    | additiveExpression_Await AddPunctuator multiplicativeExpression_Await
+    | additiveExpression_Await SubtractPunctuator multiplicativeExpression_Await
     ;
 
 additiveExpression_Yield_Await
     : multiplicativeExpression_Yield_Await
-    | additiveExpression_Yield_Await '+' multiplicativeExpression_Yield_Await
-    | additiveExpression_Yield_Await '-' multiplicativeExpression_Yield_Await
+    | additiveExpression_Yield_Await AddPunctuator multiplicativeExpression_Yield_Await
+    | additiveExpression_Yield_Await SubtractPunctuator multiplicativeExpression_Yield_Await
     ;
 
 // 13.9 Bitwise Shift Operators
@@ -1039,10 +1039,10 @@ shiftExpression_Yield_Await
 
 relationalExpression
     : shiftExpression
-    | relationalExpression '<' shiftExpression
-    | relationalExpression '>' shiftExpression
-    | relationalExpression '<=' shiftExpression
-    | relationalExpression '>=' shiftExpression
+    | relationalExpression LessPunctuator shiftExpression
+    | relationalExpression MorePunctuator shiftExpression
+    | relationalExpression LessEqualPunctuator shiftExpression
+    | relationalExpression MoreEqualPunctuator shiftExpression
     | relationalExpression InstanceofKeyword shiftExpression
     //| relationalExpression_In InKeyword shiftExpression
     //| PrivateIdentifier InKeyword shiftExpression
@@ -1050,10 +1050,10 @@ relationalExpression
 
 relationalExpression_In
     : shiftExpression
-    | relationalExpression_In '<' shiftExpression
-    | relationalExpression_In '>' shiftExpression
-    | relationalExpression_In '<=' shiftExpression
-    | relationalExpression_In '>=' shiftExpression
+    | relationalExpression_In LessPunctuator shiftExpression
+    | relationalExpression_In MorePunctuator shiftExpression
+    | relationalExpression_In LessEqualPunctuator shiftExpression
+    | relationalExpression_In MoreEqualPunctuator shiftExpression
     | relationalExpression_In InstanceofKeyword shiftExpression
     | relationalExpression_In InKeyword shiftExpression
     | PrivateIdentifier InKeyword shiftExpression
@@ -1061,10 +1061,10 @@ relationalExpression_In
 
 relationalExpression_Yield
     : shiftExpression_Yield
-    | relationalExpression_Yield '<' shiftExpression_Yield
-    | relationalExpression_Yield '>' shiftExpression_Yield
-    | relationalExpression_Yield '<=' shiftExpression_Yield
-    | relationalExpression_Yield '>=' shiftExpression_Yield
+    | relationalExpression_Yield LessPunctuator shiftExpression_Yield
+    | relationalExpression_Yield MorePunctuator shiftExpression_Yield
+    | relationalExpression_Yield LessEqualPunctuator shiftExpression_Yield
+    | relationalExpression_Yield MoreEqualPunctuator shiftExpression_Yield
     | relationalExpression_Yield InstanceofKeyword shiftExpression_Yield
     //| relationalExpression_In_Yield InKeyword shiftExpression_Yield
     //| PrivateIdentifier InKeyword shiftExpression_Yield
@@ -1072,10 +1072,10 @@ relationalExpression_Yield
 
 relationalExpression_Await
     : shiftExpression_Await
-    | relationalExpression_Await '<' shiftExpression_Await
-    | relationalExpression_Await '>' shiftExpression_Await
-    | relationalExpression_Await '<=' shiftExpression_Await
-    | relationalExpression_Await '>=' shiftExpression_Await
+    | relationalExpression_Await LessPunctuator shiftExpression_Await
+    | relationalExpression_Await MorePunctuator shiftExpression_Await
+    | relationalExpression_Await LessEqualPunctuator shiftExpression_Await
+    | relationalExpression_Await MoreEqualPunctuator shiftExpression_Await
     | relationalExpression_Await InstanceofKeyword shiftExpression_Await
     //| relationalExpression_In_Await InKeyword shiftExpression_Await
     //| PrivateIdentifier InKeyword shiftExpression_Await
@@ -1083,10 +1083,10 @@ relationalExpression_Await
 
 relationalExpression_In_Yield
     : shiftExpression_Yield
-    | relationalExpression_In_Yield '<' shiftExpression_Yield
-    | relationalExpression_In_Yield '>' shiftExpression_Yield
-    | relationalExpression_In_Yield '<=' shiftExpression_Yield
-    | relationalExpression_In_Yield '>=' shiftExpression_Yield
+    | relationalExpression_In_Yield LessPunctuator shiftExpression_Yield
+    | relationalExpression_In_Yield MorePunctuator shiftExpression_Yield
+    | relationalExpression_In_Yield LessEqualPunctuator shiftExpression_Yield
+    | relationalExpression_In_Yield MoreEqualPunctuator shiftExpression_Yield
     | relationalExpression_In_Yield InstanceofKeyword shiftExpression_Yield
     | relationalExpression_In_Yield InKeyword shiftExpression_Yield
     | PrivateIdentifier InKeyword shiftExpression_Yield
@@ -1094,10 +1094,10 @@ relationalExpression_In_Yield
 
 relationalExpression_In_Await
     : shiftExpression_Await
-    | relationalExpression_In_Await '<' shiftExpression_Await
-    | relationalExpression_In_Await '>' shiftExpression_Await
-    | relationalExpression_In_Await '<=' shiftExpression_Await
-    | relationalExpression_In_Await '>=' shiftExpression_Await
+    | relationalExpression_In_Await LessPunctuator shiftExpression_Await
+    | relationalExpression_In_Await MorePunctuator shiftExpression_Await
+    | relationalExpression_In_Await LessEqualPunctuator shiftExpression_Await
+    | relationalExpression_In_Await MoreEqualPunctuator shiftExpression_Await
     | relationalExpression_In_Await InstanceofKeyword shiftExpression_Await
     | relationalExpression_In_Await InKeyword shiftExpression_Await
     | PrivateIdentifier InKeyword shiftExpression_Await
@@ -1105,10 +1105,10 @@ relationalExpression_In_Await
 
 relationalExpression_Yield_Await
     : shiftExpression_Yield_Await
-    | relationalExpression_Yield_Await '<' shiftExpression_Yield_Await
-    | relationalExpression_Yield_Await '>' shiftExpression_Yield_Await
-    | relationalExpression_Yield_Await '<=' shiftExpression_Yield_Await
-    | relationalExpression_Yield_Await '>=' shiftExpression_Yield_Await
+    | relationalExpression_Yield_Await LessPunctuator shiftExpression_Yield_Await
+    | relationalExpression_Yield_Await MorePunctuator shiftExpression_Yield_Await
+    | relationalExpression_Yield_Await LessEqualPunctuator shiftExpression_Yield_Await
+    | relationalExpression_Yield_Await MoreEqualPunctuator shiftExpression_Yield_Await
     | relationalExpression_Yield_Await InstanceofKeyword shiftExpression_Yield_Await
     //| relationalExpression_In_Yield_Await InKeyword shiftExpression_Yield_Await
     //| PrivateIdentifier InKeyword shiftExpression_Yield_Await
@@ -1116,10 +1116,10 @@ relationalExpression_Yield_Await
 
 relationalExpression_In_Yield_Await
     : shiftExpression_Yield_Await
-    | relationalExpression_In_Yield_Await '<' shiftExpression_Yield_Await
-    | relationalExpression_In_Yield_Await '>' shiftExpression_Yield_Await
-    | relationalExpression_In_Yield_Await '<=' shiftExpression_Yield_Await
-    | relationalExpression_In_Yield_Await '>=' shiftExpression_Yield_Await
+    | relationalExpression_In_Yield_Await LessPunctuator shiftExpression_Yield_Await
+    | relationalExpression_In_Yield_Await MorePunctuator shiftExpression_Yield_Await
+    | relationalExpression_In_Yield_Await LessEqualPunctuator shiftExpression_Yield_Await
+    | relationalExpression_In_Yield_Await MoreEqualPunctuator shiftExpression_Yield_Await
     | relationalExpression_In_Yield_Await InstanceofKeyword shiftExpression_Yield_Await
     | relationalExpression_In_Yield_Await InKeyword shiftExpression_Yield_Await
     | PrivateIdentifier InKeyword shiftExpression_Yield_Await
@@ -1129,64 +1129,64 @@ relationalExpression_In_Yield_Await
 
 equalityExpression
     : relationalExpression
-    | equalityExpression '==' relationalExpression // TODO: recursion
-    | equalityExpression '!=' relationalExpression // TODO: recursion
+    | equalityExpression LooselyEqualPunctuator relationalExpression // TODO: recursion
+    | equalityExpression LooselyNotEqualPunctuator relationalExpression // TODO: recursion
     | equalityExpression StrictlyEqualPunctuator relationalExpression // TODO: recursion
     | equalityExpression StrictlyNotEqualPunctuator relationalExpression // TODO: recursion
     ;
 
 equalityExpression_In
     : relationalExpression_In
-    | equalityExpression_In '==' relationalExpression_In // TODO: recursion
-    | equalityExpression_In '!=' relationalExpression_In // TODO: recursion
+    | equalityExpression_In LooselyEqualPunctuator relationalExpression_In // TODO: recursion
+    | equalityExpression_In LooselyNotEqualPunctuator relationalExpression_In // TODO: recursion
     | equalityExpression_In StrictlyEqualPunctuator relationalExpression_In // TODO: recursion
     | equalityExpression_In StrictlyNotEqualPunctuator relationalExpression_In // TODO: recursion
     ;
 
 equalityExpression_Yield
     : relationalExpression_Yield
-    | equalityExpression_Yield '==' relationalExpression_Yield // TODO: recursion
-    | equalityExpression_Yield '!=' relationalExpression_Yield // TODO: recursion
+    | equalityExpression_Yield LooselyEqualPunctuator relationalExpression_Yield // TODO: recursion
+    | equalityExpression_Yield LooselyNotEqualPunctuator relationalExpression_Yield // TODO: recursion
     | equalityExpression_Yield StrictlyEqualPunctuator relationalExpression_Yield // TODO: recursion
     | equalityExpression_Yield StrictlyNotEqualPunctuator relationalExpression_Yield // TODO: recursion
     ;
 
 equalityExpression_Await
     : relationalExpression_Await
-    | equalityExpression_Await '==' relationalExpression_Await // TODO: recursion
-    | equalityExpression_Await '!=' relationalExpression_Await // TODO: recursion
+    | equalityExpression_Await LooselyEqualPunctuator relationalExpression_Await // TODO: recursion
+    | equalityExpression_Await LooselyNotEqualPunctuator relationalExpression_Await // TODO: recursion
     | equalityExpression_Await StrictlyEqualPunctuator relationalExpression_Await // TODO: recursion
     | equalityExpression_Await StrictlyNotEqualPunctuator relationalExpression_Await // TODO: recursion
     ;
 
 equalityExpression_In_Yield
     : relationalExpression_In_Yield
-    | equalityExpression_In_Yield '==' relationalExpression_In_Yield // TODO: recursion
-    | equalityExpression_In_Yield '!=' relationalExpression_In_Yield // TODO: recursion
+    | equalityExpression_In_Yield LooselyEqualPunctuator relationalExpression_In_Yield // TODO: recursion
+    | equalityExpression_In_Yield LooselyNotEqualPunctuator relationalExpression_In_Yield // TODO: recursion
     | equalityExpression_In_Yield StrictlyEqualPunctuator relationalExpression_In_Yield // TODO: recursion
     | equalityExpression_In_Yield StrictlyNotEqualPunctuator relationalExpression_In_Yield // TODO: recursion
     ;
 
 equalityExpression_In_Await
     : relationalExpression_In_Await
-    | equalityExpression_In_Await '==' relationalExpression_In_Await // TODO: recursion
-    | equalityExpression_In_Await '!=' relationalExpression_In_Await // TODO: recursion
+    | equalityExpression_In_Await LooselyEqualPunctuator relationalExpression_In_Await // TODO: recursion
+    | equalityExpression_In_Await LooselyNotEqualPunctuator relationalExpression_In_Await // TODO: recursion
     | equalityExpression_In_Await StrictlyEqualPunctuator relationalExpression_In_Await // TODO: recursion
     | equalityExpression_In_Await StrictlyNotEqualPunctuator relationalExpression_In_Await // TODO: recursion
     ;
 
 equalityExpression_Yield_Await
     : relationalExpression_Yield_Await
-    | equalityExpression_Yield_Await '==' relationalExpression_Yield_Await // TODO: recursion
-    | equalityExpression_Yield_Await '!=' relationalExpression_Yield_Await // TODO: recursion
+    | equalityExpression_Yield_Await LooselyEqualPunctuator relationalExpression_Yield_Await // TODO: recursion
+    | equalityExpression_Yield_Await LooselyNotEqualPunctuator relationalExpression_Yield_Await // TODO: recursion
     | equalityExpression_Yield_Await StrictlyEqualPunctuator relationalExpression_Yield_Await // TODO: recursion
     | equalityExpression_Yield_Await StrictlyNotEqualPunctuator relationalExpression_Yield_Await // TODO: recursion
     ;
 
 equalityExpression_In_Yield_Await
     : relationalExpression_In_Yield_Await
-    | equalityExpression_In_Yield_Await '==' relationalExpression_In_Yield_Await // TODO: recursion
-    | equalityExpression_In_Yield_Await '!=' relationalExpression_In_Yield_Await // TODO: recursion
+    | equalityExpression_In_Yield_Await LooselyEqualPunctuator relationalExpression_In_Yield_Await // TODO: recursion
+    | equalityExpression_In_Yield_Await LooselyNotEqualPunctuator relationalExpression_In_Yield_Await // TODO: recursion
     | equalityExpression_In_Yield_Await StrictlyEqualPunctuator relationalExpression_In_Yield_Await // TODO: recursion
     | equalityExpression_In_Yield_Await StrictlyNotEqualPunctuator relationalExpression_In_Yield_Await // TODO: recursion
     ;
@@ -1194,99 +1194,99 @@ equalityExpression_In_Yield_Await
 // 13.12 Binary Bitwise Operators
 
 bitwiseANDExpression
-    : equalityExpression ('&' equalityExpression)*
+    : equalityExpression (BitwiseANDPunctuator equalityExpression)*
     ;
 
 bitwiseANDExpression_In
-    : equalityExpression_In ('&' equalityExpression_In)*
+    : equalityExpression_In (BitwiseANDPunctuator equalityExpression_In)*
     ;
 
 bitwiseANDExpression_Yield
-    : equalityExpression_Yield ('&' equalityExpression_Yield)*
+    : equalityExpression_Yield (BitwiseANDPunctuator equalityExpression_Yield)*
     ;
 
 bitwiseANDExpression_Await
-    : equalityExpression_Await ('&' equalityExpression_Await)*
+    : equalityExpression_Await (BitwiseANDPunctuator equalityExpression_Await)*
     ;
 
 bitwiseANDExpression_In_Yield
-    : equalityExpression_In_Yield ('&' equalityExpression_In_Yield)*
+    : equalityExpression_In_Yield (BitwiseANDPunctuator equalityExpression_In_Yield)*
     ;
 
 bitwiseANDExpression_In_Await
-    : equalityExpression_In_Await ('&' equalityExpression_In_Await)*
+    : equalityExpression_In_Await (BitwiseANDPunctuator equalityExpression_In_Await)*
     ;
 
 bitwiseANDExpression_Yield_Await
-    : equalityExpression_Yield_Await ('&' equalityExpression_Yield_Await)*
+    : equalityExpression_Yield_Await (BitwiseANDPunctuator equalityExpression_Yield_Await)*
     ;
 
 bitwiseANDExpression_In_Yield_Await
-    : equalityExpression_In_Yield_Await ('&' equalityExpression_In_Yield_Await)*
+    : equalityExpression_In_Yield_Await (BitwiseANDPunctuator equalityExpression_In_Yield_Await)*
     ;
 
 bitwiseXORExpression
-    : bitwiseANDExpression ('^' bitwiseANDExpression)*
+    : bitwiseANDExpression (BitwiseXORPunctuator bitwiseANDExpression)*
     ;
 
 bitwiseXORExpression_In
-    : bitwiseANDExpression_In ('^' bitwiseANDExpression_In)*
+    : bitwiseANDExpression_In (BitwiseXORPunctuator bitwiseANDExpression_In)*
     ;
 
 bitwiseXORExpression_Yield
-    : bitwiseANDExpression_Yield ('^' bitwiseANDExpression_Yield)*
+    : bitwiseANDExpression_Yield (BitwiseXORPunctuator bitwiseANDExpression_Yield)*
     ;
 
 bitwiseXORExpression_Await
-    : bitwiseANDExpression_Await ('^' bitwiseANDExpression_Await)*
+    : bitwiseANDExpression_Await (BitwiseXORPunctuator bitwiseANDExpression_Await)*
     ;
 
 bitwiseXORExpression_In_Yield
-    : bitwiseANDExpression_In_Yield ('^' bitwiseANDExpression_In_Yield)*
+    : bitwiseANDExpression_In_Yield (BitwiseXORPunctuator bitwiseANDExpression_In_Yield)*
     ;
 
 bitwiseXORExpression_In_Await
-    : bitwiseANDExpression_In_Await ('^' bitwiseANDExpression_In_Await)*
+    : bitwiseANDExpression_In_Await (BitwiseXORPunctuator bitwiseANDExpression_In_Await)*
     ;
 
 bitwiseXORExpression_Yield_Await
-    : bitwiseANDExpression_Yield_Await ('^' bitwiseANDExpression_Yield_Await)*
+    : bitwiseANDExpression_Yield_Await (BitwiseXORPunctuator bitwiseANDExpression_Yield_Await)*
     ;
 
 bitwiseXORExpression_In_Yield_Await
-    : bitwiseANDExpression_In_Yield_Await ('^' bitwiseANDExpression_In_Yield_Await)*
+    : bitwiseANDExpression_In_Yield_Await (BitwiseXORPunctuator bitwiseANDExpression_In_Yield_Await)*
     ;
 
 bitwiseORExpression
-    : bitwiseXORExpression ('|' bitwiseXORExpression)*
+    : bitwiseXORExpression (BitwiseORPunctuator bitwiseXORExpression)*
     ;
 
 bitwiseORExpression_In
-    : bitwiseXORExpression_In ('|' bitwiseXORExpression_In)*
+    : bitwiseXORExpression_In (BitwiseORPunctuator bitwiseXORExpression_In)*
     ;
 
 bitwiseORExpression_Yield
-    : bitwiseXORExpression_Yield ('|' bitwiseXORExpression_Yield)*
+    : bitwiseXORExpression_Yield (BitwiseORPunctuator bitwiseXORExpression_Yield)*
     ;
 
 bitwiseORExpression_Await
-    : bitwiseXORExpression_Await ('|' bitwiseXORExpression_Await)*
+    : bitwiseXORExpression_Await (BitwiseORPunctuator bitwiseXORExpression_Await)*
     ;
 
 bitwiseORExpression_In_Yield
-    : bitwiseXORExpression_In_Yield ('|' bitwiseXORExpression_In_Yield)*
+    : bitwiseXORExpression_In_Yield (BitwiseORPunctuator bitwiseXORExpression_In_Yield)*
     ;
 
 bitwiseORExpression_In_Await
-    : bitwiseXORExpression_In_Await ('|' bitwiseXORExpression_In_Await)*
+    : bitwiseXORExpression_In_Await (BitwiseORPunctuator bitwiseXORExpression_In_Await)*
     ;
 
 bitwiseORExpression_Yield_Await
-    : bitwiseXORExpression_Yield_Await ('|' bitwiseXORExpression_Yield_Await)*
+    : bitwiseXORExpression_Yield_Await (BitwiseORPunctuator bitwiseXORExpression_Yield_Await)*
     ;
 
 bitwiseORExpression_In_Yield_Await
-    : bitwiseXORExpression_In_Yield_Await ('|' bitwiseXORExpression_In_Yield_Await)*
+    : bitwiseXORExpression_In_Yield_Await (BitwiseORPunctuator bitwiseXORExpression_In_Yield_Await)*
     ;
 
 // 13.13 Binary Logical Operators
@@ -1471,42 +1471,42 @@ shortCircuitExpression_In_Yield_Await
 
 conditionalExpression
     : shortCircuitExpression
-    | shortCircuitExpression '?' assignmentExpression_In ':' assignmentExpression
+    | shortCircuitExpression ConditionalHeadPunctuator assignmentExpression_In ConditionalTailPunctuator assignmentExpression
     ;
 
 conditionalExpression_In
     : shortCircuitExpression_In
-    | shortCircuitExpression_In '?' assignmentExpression_In ':' assignmentExpression_In
+    | shortCircuitExpression_In ConditionalHeadPunctuator assignmentExpression_In ConditionalTailPunctuator assignmentExpression_In
     ;
 
 conditionalExpression_Yield
     : shortCircuitExpression_Yield
-    | shortCircuitExpression_Yield '?' assignmentExpression_In_Yield ':' assignmentExpression_Yield
+    | shortCircuitExpression_Yield ConditionalHeadPunctuator assignmentExpression_In_Yield ConditionalTailPunctuator assignmentExpression_Yield
     ;
 
 conditionalExpression_Await
     : shortCircuitExpression_Await
-    | shortCircuitExpression_Await '?' assignmentExpression_In_Await ':' assignmentExpression_Await
+    | shortCircuitExpression_Await ConditionalHeadPunctuator assignmentExpression_In_Await ConditionalTailPunctuator assignmentExpression_Await
     ;
 
 conditionalExpression_In_Yield
     : shortCircuitExpression_In_Yield
-    | shortCircuitExpression_In_Yield '?' assignmentExpression_In_Yield ':' assignmentExpression_In_Yield
+    | shortCircuitExpression_In_Yield ConditionalHeadPunctuator assignmentExpression_In_Yield ConditionalTailPunctuator assignmentExpression_In_Yield
     ;
 
 conditionalExpression_In_Await
     : shortCircuitExpression_In_Await
-    | shortCircuitExpression_In_Await '?' assignmentExpression_In_Await ':' assignmentExpression_In_Await
+    | shortCircuitExpression_In_Await ConditionalHeadPunctuator assignmentExpression_In_Await ConditionalTailPunctuator assignmentExpression_In_Await
     ;
 
 conditionalExpression_Yield_Await
     : shortCircuitExpression_Yield_Await
-    | shortCircuitExpression_Yield_Await '?' assignmentExpression_In_Yield_Await ':' assignmentExpression_Yield_Await
+    | shortCircuitExpression_Yield_Await ConditionalHeadPunctuator assignmentExpression_In_Yield_Await ConditionalTailPunctuator assignmentExpression_Yield_Await
     ;
 
 conditionalExpression_In_Yield_Await
     : shortCircuitExpression_In_Yield_Await
-    | shortCircuitExpression_In_Yield_Await '?' assignmentExpression_In_Yield_Await ':' assignmentExpression_In_Yield_Await
+    | shortCircuitExpression_In_Yield_Await ConditionalHeadPunctuator assignmentExpression_In_Yield_Await ConditionalTailPunctuator assignmentExpression_In_Yield_Await
     ;
 
 // 13.15 Assignment Operators
@@ -1516,7 +1516,7 @@ assignmentExpression
     //| yieldExpression
     // TODO: | arrowFunction
     // TODO: | asyncArrowFunction
-    | leftHandSideExpression '=' assignmentExpression // TODO: recursion
+    | leftHandSideExpression AssignmentPunctuator assignmentExpression // TODO: recursion
     | leftHandSideExpression assignmentOperator assignmentExpression // TODO: recursion
     | leftHandSideExpression LogicalANDAssignmentPunctuator assignmentExpression // TODO: recursion
     | leftHandSideExpression LogicalORAssignmentPunctuator assignmentExpression // TODO: recursion
@@ -1528,7 +1528,7 @@ assignmentExpression_In
     //| yieldExpression_In
     // TODO: | arrowFunction_In
     // TODO: | asyncArrowFunction_In
-    | leftHandSideExpression '=' assignmentExpression_In // TODO: recursion
+    | leftHandSideExpression AssignmentPunctuator assignmentExpression_In // TODO: recursion
     | leftHandSideExpression assignmentOperator assignmentExpression_In // TODO: recursion
     | leftHandSideExpression LogicalANDAssignmentPunctuator assignmentExpression_In // TODO: recursion
     | leftHandSideExpression LogicalORAssignmentPunctuator assignmentExpression_In // TODO: recursion
@@ -1540,7 +1540,7 @@ assignmentExpression_Yield
     // TODO: | yieldExpression
     // TODO: | arrowFunction_Yield
     // TODO: | asyncArrowFunction_Yield
-    | leftHandSideExpression_Yield '=' assignmentExpression_Yield // TODO: recursion
+    | leftHandSideExpression_Yield AssignmentPunctuator assignmentExpression_Yield // TODO: recursion
     | leftHandSideExpression_Yield assignmentOperator assignmentExpression_Yield // TODO: recursion
     | leftHandSideExpression_Yield LogicalANDAssignmentPunctuator assignmentExpression_Yield // TODO: recursion
     | leftHandSideExpression_Yield LogicalORAssignmentPunctuator assignmentExpression_Yield // TODO: recursion
@@ -1552,7 +1552,7 @@ assignmentExpression_Await
     //| yieldExpression
     // TODO: | arrowFunction_Await
     // TODO: | asyncArrowFunction_Await
-    | leftHandSideExpression_Await '=' assignmentExpression_Await // TODO: recursion
+    | leftHandSideExpression_Await AssignmentPunctuator assignmentExpression_Await // TODO: recursion
     | leftHandSideExpression_Await assignmentOperator assignmentExpression_Await // TODO: recursion
     | leftHandSideExpression_Await LogicalANDAssignmentPunctuator assignmentExpression_Await // TODO: recursion
     | leftHandSideExpression_Await LogicalORAssignmentPunctuator assignmentExpression_Await // TODO: recursion
@@ -1564,7 +1564,7 @@ assignmentExpression_In_Yield
     // TODO: | yieldExpression_In
     // TODO: | arrowFunction_In_Yield
     // TODO: | asyncArrowFunction_In_Yield
-    | leftHandSideExpression_Yield '=' assignmentExpression_In_Yield // TODO: recursion
+    | leftHandSideExpression_Yield AssignmentPunctuator assignmentExpression_In_Yield // TODO: recursion
     | leftHandSideExpression_Yield assignmentOperator assignmentExpression_In_Yield // TODO: recursion
     | leftHandSideExpression_Yield LogicalANDAssignmentPunctuator assignmentExpression_In_Yield // TODO: recursion
     | leftHandSideExpression_Yield LogicalORAssignmentPunctuator assignmentExpression_In_Yield // TODO: recursion
@@ -1576,7 +1576,7 @@ assignmentExpression_In_Await
     //| yieldExpression_In_Await
     // TODO: | arrowFunction_In_Await
     // TODO: | asyncArrowFunction_In_Await
-    | leftHandSideExpression_Await '=' assignmentExpression_In_Await // TODO: recursion
+    | leftHandSideExpression_Await AssignmentPunctuator assignmentExpression_In_Await // TODO: recursion
     | leftHandSideExpression_Await assignmentOperator assignmentExpression_In_Await // TODO: recursion
     | leftHandSideExpression_Await LogicalANDAssignmentPunctuator assignmentExpression_In_Await // TODO: recursion
     | leftHandSideExpression_Await LogicalORAssignmentPunctuator assignmentExpression_In_Await // TODO: recursion
@@ -1588,7 +1588,7 @@ assignmentExpression_Yield_Await
     // TODO: | yieldExpression_Await
     // TODO: | arrowFunction_Yield_Await
     // TODO: | asyncArrowFunction_Yield_Await
-    | leftHandSideExpression_Yield_Await '=' assignmentExpression_Yield_Await // TODO: recursion
+    | leftHandSideExpression_Yield_Await AssignmentPunctuator assignmentExpression_Yield_Await // TODO: recursion
     | leftHandSideExpression_Yield_Await assignmentOperator assignmentExpression_Yield_Await // TODO: recursion
     | leftHandSideExpression_Yield_Await LogicalANDAssignmentPunctuator assignmentExpression_Yield_Await // TODO: recursion
     | leftHandSideExpression_Yield_Await LogicalORAssignmentPunctuator assignmentExpression_Yield_Await // TODO: recursion
@@ -1600,7 +1600,7 @@ assignmentExpression_In_Yield_Await
     // TODO: | yieldExpression_In_Await
     // TODO: | arrowFunction_In_Yield_Await
     // TODO: | asyncArrowFunction_In_Yield_Await
-    | leftHandSideExpression_Yield_Await '=' assignmentExpression_In_Yield_Await // TODO: recursion
+    | leftHandSideExpression_Yield_Await AssignmentPunctuator assignmentExpression_In_Yield_Await // TODO: recursion
     | leftHandSideExpression_Yield_Await assignmentOperator assignmentExpression_In_Yield_Await // TODO: recursion
     | leftHandSideExpression_Yield_Await LogicalANDAssignmentPunctuator assignmentExpression_In_Yield_Await // TODO: recursion
     | leftHandSideExpression_Yield_Await LogicalORAssignmentPunctuator assignmentExpression_In_Yield_Await // TODO: recursion
@@ -1608,52 +1608,52 @@ assignmentExpression_In_Yield_Await
     ;
 
 assignmentOperator
-    : '*='
-    | '/='
-    | '%='
-    | '+='
-    | '-='
+    : MultiplyAssignmentPunctuator
+    | DivideAssignmentPunctuator
+    | RemainderAssignmentPunctuator
+    | AddAssignmentPunctuator
+    | SubtractAssignmentPunctuator
     | LeftShiftAssignmentPunctuator
     | SignedRightShiftAssignmentPunctuator
     | UnsignedRightShiftAssignmentPunctuator
-    | '&='
-    | '^='
-    | '|='
+    | BitwiseANDAssignmentPunctuator
+    | BitwiseXORAssignmentPunctuator
+    | BitwiseORAssignmentPunctuator
     | ExponentiateAssignmentPunctuator
     ;
 
 // 13.16 Comma Operator ( , )
 
 expression
-    : assignmentExpression (',' assignmentExpression)*
+    : assignmentExpression (CommaPunctuator assignmentExpression)*
     ;
 
 expression_In
-    : assignmentExpression_In (',' assignmentExpression_In)*
+    : assignmentExpression_In (CommaPunctuator assignmentExpression_In)*
     ;
 
 expression_Yield
-    : assignmentExpression_Yield (',' assignmentExpression_Yield)*
+    : assignmentExpression_Yield (CommaPunctuator assignmentExpression_Yield)*
     ;
 
 expression_Await
-    : assignmentExpression_Await (',' assignmentExpression_Await)*
+    : assignmentExpression_Await (CommaPunctuator assignmentExpression_Await)*
     ;
 
 expression_In_Yield
-    : assignmentExpression_In_Yield (',' assignmentExpression_In_Yield)*
+    : assignmentExpression_In_Yield (CommaPunctuator assignmentExpression_In_Yield)*
     ;
 
 expression_In_Await
-    : assignmentExpression_In_Await (',' assignmentExpression_In_Await)*
+    : assignmentExpression_In_Await (CommaPunctuator assignmentExpression_In_Await)*
     ;
 
 expression_Yield_Await
-    : assignmentExpression_Yield_Await (',' assignmentExpression_Yield_Await)*
+    : assignmentExpression_Yield_Await (CommaPunctuator assignmentExpression_Yield_Await)*
     ;
 
 expression_In_Yield_Await
-    : assignmentExpression_In_Yield_Await (',' assignmentExpression_In_Yield_Await)*
+    : assignmentExpression_In_Yield_Await (CommaPunctuator assignmentExpression_In_Yield_Await)*
     ;
 
 // 12 ECMAScript Language: Lexical Grammar
@@ -1664,7 +1664,7 @@ inputElementDiv
     | Comment
     | CommonToken
     | DivPunctuator
-    | RightBracePunctuator
+    | RightBracesLiteral
     ;
 
 inputElementRegExp
@@ -1672,7 +1672,7 @@ inputElementRegExp
     | LineTerminator
     | Comment
     | CommonToken
-    | RightBracePunctuator
+    | RightBracesLiteral
     | RegularExpressionLiteral
     ;
 
