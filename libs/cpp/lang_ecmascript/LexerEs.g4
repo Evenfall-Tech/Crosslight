@@ -762,6 +762,10 @@ ElseKeyword
     : 'else'
     ;
 
+ExportKeyword
+    : 'export'
+    ;
+
 ExtendsKeyword
     : 'extends'
     ;
@@ -866,6 +870,14 @@ AsyncKeyword
     : 'async'
     ;
 
+AsKeyword
+    : 'as'
+    ;
+
+FromKeyword
+    : 'from'
+    ;
+
 GetKeyword
     : 'get'
     ;
@@ -892,7 +904,7 @@ ReservedWord // TODO: add strict reserved identifiers like 'let'
     | DoKeyword
     | ElseKeyword
     | 'enum'
-    | 'export'
+    | ExportKeyword
     | ExtendsKeyword
 //    | 'false'
     | FinallyKeyword

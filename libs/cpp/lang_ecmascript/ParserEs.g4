@@ -11,6 +11,125 @@ options {
     #include "lang_ecmascript/ParserEsBase.hpp"
 }
 
+// 16 ECMAScript Language: Scripts and Modules
+
+// 16.1 Scripts
+
+script
+    : scriptBody?
+    ;
+
+scriptBody
+    : statementList
+    ;
+
+// 16.2 Modules
+
+module
+    : moduleBody?
+    ;
+
+moduleBody
+    : moduleItemList
+    ;
+
+moduleItemList
+    : moduleItem+
+    ;
+
+moduleItem
+    : importDeclaration
+    | exportDeclaration
+    | statementListItem_Await
+    ;
+
+moduleExportName
+    : IdentifierName
+    | StringLiteral
+    ;
+
+// 16.2.2 Imports
+
+importDeclaration
+    : ImportKeyword importClause fromClause SemicolonPunctuator
+    | ImportKeyword moduleSpecifier SemicolonPunctuator
+    ;
+
+importClause
+    : importedDefaultBinding
+    | nameSpaceImport
+    | namedImports
+    | importedDefaultBinding CommaPunctuator nameSpaceImport
+    | importedDefaultBinding CommaPunctuator namedImports
+    ;
+
+importedDefaultBinding
+    : importedBinding
+    ;
+
+nameSpaceImport
+    : MultiplyPunctuator AsKeyword importedBinding
+    ;
+
+namedImports
+    : LeftBracesLiteral importsList? RightBracesLiteral
+    | LeftBracesLiteral importsList CommaPunctuator RightBracesLiteral
+    ;
+
+fromClause
+    : FromKeyword moduleSpecifier
+    ;
+
+importsList
+    : importSpecifier (CommaPunctuator importSpecifier)*
+    ;
+
+importSpecifier
+    : importedBinding
+    | moduleExportName AsKeyword importedBinding
+    ;
+
+moduleSpecifier
+    : StringLiteral
+    ;
+
+importedBinding
+    : bindingIdentifier_Await
+    ;
+
+// 16.2.3 Exports
+
+exportDeclaration
+    : ExportKeyword exportFromClause fromClause SemicolonPunctuator
+    | ExportKeyword namedExports SemicolonPunctuator
+    | ExportKeyword variableStatement_Await
+    | ExportKeyword declaration_Await
+    | ExportKeyword DefaultKeyword hoistableDeclaration_Await_Default
+    | ExportKeyword DefaultKeyword classDeclaration_Await_Default
+    | ExportKeyword DefaultKeyword /* TODO: lookahead != function, async [no LineTerminator here] function, class */
+      assignmentExpression_In_Await SemicolonPunctuator
+    ;
+
+exportFromClause
+    : MultiplyPunctuator
+    | MultiplyPunctuator AsKeyword moduleExportName
+    | namedExports
+    ;
+
+namedExports
+    : LeftBracesLiteral exportsList? RightBracesLiteral
+    | LeftBracesLiteral exportsList CommaPunctuator RightBracesLiteral
+    ;
+
+exportsList
+    : exportSpecifier (CommaPunctuator exportSpecifier)*
+    ;
+
+exportSpecifier
+    : moduleExportName
+    | moduleExportName AsKeyword moduleExportName
+    ;
+
 // 15 ECMAScript Language: Functions and Classes
 
 // 15.1 Parameter Lists
