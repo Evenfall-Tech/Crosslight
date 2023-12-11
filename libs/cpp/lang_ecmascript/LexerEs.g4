@@ -434,7 +434,7 @@ OptionalChainingPunctuator
 
 fragment OtherPunctuator
     : LeftBracesLiteral | LeftParenthesesLiteral | RightParenthesesLiteral | LeftBracketsLiteral | RightBracketsLiteral
-    | ThreeDotsLiteral
+    | ThreeDotsPunctuator
     | LessEqualPunctuator
     | MoreEqualPunctuator
     | LooselyEqualPunctuator
@@ -487,7 +487,7 @@ UnsignedRightShiftAssignmentPunctuator
     : '>>>='
     ;
 
-ThreeDotsLiteral
+ThreeDotsPunctuator
     : '...'
     ;
 
@@ -635,6 +635,10 @@ DotPunctuator
     : '.'
     ;
 
+SemicolonPunctuator
+    : ';'
+    ;
+
 ConditionalHeadPunctuator
     : '?'
     ;
@@ -710,53 +714,72 @@ DividePunctuator
 
 // 12.7 Names and Keywords
 
-ReservedWord
-    : AwaitKeyword
-    | 'break'
-    | 'case'
-    | 'catch'
-    | 'class'
-    | 'const'
-    | 'continue'
-    | 'debugger'
-    | 'default'
-    | DeleteKeyword
-    | 'do'
-    | 'else'
-    | 'enum'
-    | 'export'
-    | 'extends'
-//    | 'false'
-    | 'finally'
-    | 'for'
-    | 'function'
-    | 'if'
-    | ImportKeyword
-    | InKeyword
-    | InstanceofKeyword
-    | NewKeyword
-//    | 'null'
-    | 'return'
-    | SuperKeyword
-    | 'switch'
-    | ThisKeyword
-    | 'throw'
-//    | 'true'
-    | 'try'
-    | TypeofKeyword
-    | 'var'
-    | VoidKeyword
-    | 'while'
-    | 'with'
-    | YieldKeyword
-    ;
-
 AwaitKeyword
     : 'await'
     ;
 
+BreakKeyword
+    : 'break'
+    ;
+
+CaseKeyword
+    : 'case'
+    ;
+
+CatchKeyword
+    : 'catch'
+    ;
+
+ClassKeyword
+    : 'class'
+    ;
+
+ConstKeyword
+    : 'const'
+    ;
+
+ContinueKeyword
+    : 'continue'
+    ;
+
+DebuggerKeyword
+    : 'debugger'
+    ;
+
+DefaultKeyword
+    : 'default'
+    ;
+
 DeleteKeyword
     : 'delete'
+    ;
+
+DoKeyword
+    : 'do'
+    ;
+
+ElseKeyword
+    : 'else'
+    ;
+
+ExtendsKeyword
+    : 'extends'
+    ;
+
+FinallyKeyword
+    : 'finally'
+    ;
+
+ForKeyword
+    : 'for'
+    ;
+
+FunctionKeyword
+    : 'function'
+    ;
+
+IfKeyword
+    : 'if'
     ;
 
 ImportKeyword
@@ -771,12 +794,28 @@ InstanceofKeyword
     : 'instanceof'
     ;
 
+LetKeyword // Note: not part of ECMAScript 6.0 ReservedWord
+    : 'let'
+    ;
+
 NewKeyword
     : 'new'
     ;
 
+OfKeyword
+    : 'of'
+    ;
+
+ReturnKeyword
+    : 'return'
+    ;
+
 SuperKeyword
     : 'super'
+    ;
+
+SwitchKeyword
+    : 'switch'
     ;
 
 TargetLiteral
@@ -791,16 +830,94 @@ ThisKeyword
     : 'this'
     ;
 
+ThrowKeyword
+    : 'throw'
+    ;
+
+TryKeyword
+    : 'try'
+    ;
+
 TypeofKeyword
     : 'typeof'
+    ;
+
+VarKeyword
+    : 'var'
     ;
 
 VoidKeyword
     : 'void'
     ;
 
+WhileKeyword
+    : 'while'
+    ;
+
+WithKeyword
+    : 'with'
+    ;
+
 YieldKeyword
     : 'yield'
+    ;
+
+AsyncKeyword
+    : 'async'
+    ;
+
+GetKeyword
+    : 'get'
+    ;
+
+SetKeyword
+    : 'set'
+    ;
+
+StaticKeyword
+    : 'static'
+    ;
+
+ReservedWord // TODO: add strict reserved identifiers like 'let'
+    : AwaitKeyword
+    | BreakKeyword
+    | CaseKeyword
+    | CatchKeyword
+    | ClassKeyword
+    | ConstKeyword
+    | ContinueKeyword
+    | DebuggerKeyword
+    | DefaultKeyword
+    | DeleteKeyword
+    | DoKeyword
+    | ElseKeyword
+    | 'enum'
+    | 'export'
+    | ExtendsKeyword
+//    | 'false'
+    | FinallyKeyword
+    | ForKeyword
+    | FunctionKeyword
+    | IfKeyword
+    | ImportKeyword
+    | InKeyword
+    | InstanceofKeyword
+    | NewKeyword
+//    | 'null'
+    | OfKeyword
+    | ReturnKeyword
+    | SuperKeyword
+    | SwitchKeyword
+    | ThisKeyword
+    | ThrowKeyword
+//    | 'true'
+    | TryKeyword
+    | TypeofKeyword
+    | VarKeyword
+    | VoidKeyword
+    | WhileKeyword
+    | WithKeyword
+    | YieldKeyword
     ;
 
 PrivateIdentifier
@@ -876,12 +993,12 @@ fragment MultiLineComment
 
 fragment MultiLineCommentChars
     : MultiLineNotAsteriskChar MultiLineCommentChars?
-    | '*' PostAsteriskCommentChars?
+    | MultiplyPunctuator PostAsteriskCommentChars?
     ;
 
 fragment PostAsteriskCommentChars
     : MultiLineNotForwardSlashOrAsteriskChar MultiLineCommentChars?
-    | '*' PostAsteriskCommentChars?
+    | MultiplyPunctuator PostAsteriskCommentChars?
     ;
 
 fragment MultiLineNotAsteriskChar
