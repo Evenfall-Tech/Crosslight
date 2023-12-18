@@ -16,22 +16,23 @@
 #endif
 
 const char source_code[] =
-    u8"/* hi world */\n"
-    u8"/* h\n"
-    u8" * ey\n"
-    u8" * world\n"
-    u8" */\n"
-    u8"// hello world\n"
-    u8"#! some comment thingy\n"
-    u8"namespace D3.Shapes {\n"
-    u8"\tclass Vector {\r\n"
-    u8"\t\tdata: byte[];\n"
-    u8"\t\tlength: size;\r"
-    u8"\t\tpublic static VectorImpl = class {\n"
-    u8"\t\t\ttext: string;\n"
-    u8"\t\t}\n"
-    u8"\t}\n"
-    u8"}\n";
+    u8"async function a (){}";
+//    u8"/* hi world */\n"
+//    u8"/* h\n"
+//    u8" * ey\n"
+//    u8" * world\n"
+//    u8" */\n"
+//    u8"// hello world\n"
+//    u8"#! some comment thingy\n"
+//    u8"namespace D3.Shapes {\n"
+//    u8"\tclass Vector {\r\n"
+//    u8"\t\tdata: byte[];\n"
+//    u8"\t\tlength: size;\r"
+//    u8"\t\tpublic static VectorImpl = class {\n"
+//    u8"\t\t\ttext: string;\n"
+//    u8"\t\t}\n"
+//    u8"\t}\n"
+//    u8"}\n";
 const char source_type[] = "text/plain";
 
 static void*

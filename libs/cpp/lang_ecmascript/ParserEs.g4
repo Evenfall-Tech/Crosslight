@@ -15,6 +15,11 @@ options {
 
 // 16.1 Scripts
 
+program
+    : script EOF
+    | module EOF
+    ;
+
 script
     : scriptBody?
     ;
@@ -316,35 +321,35 @@ functionStatementList_Yield_Await
 // 15.3 Arrow Function Definitions
 
 arrowFunction
-    : arrowParameters /* TODO: no LineTerminator here */ ArrowPunctuator conciseBody
+    : {isNoLineTerminatorArrowFunction()}? arrowParameters ArrowPunctuator conciseBody
     ;
 
 arrowFunction_In
-    : arrowParameters /* TODO: no LineTerminator here */ ArrowPunctuator conciseBody_In
+    : {isNoLineTerminatorArrowFunction()}? arrowParameters ArrowPunctuator conciseBody_In
     ;
 
 arrowFunction_Yield
-    : arrowParameters_Yield /* TODO: no LineTerminator here */ ArrowPunctuator conciseBody
+    : {isNoLineTerminatorArrowFunction()}? arrowParameters_Yield ArrowPunctuator conciseBody
     ;
 
 arrowFunction_Await
-    : arrowParameters_Await /* TODO: no LineTerminator here */ ArrowPunctuator conciseBody
+    : {isNoLineTerminatorArrowFunction()}? arrowParameters_Await ArrowPunctuator conciseBody
     ;
 
 arrowFunction_In_Yield
-    : arrowParameters_Yield /* TODO: no LineTerminator here */ ArrowPunctuator conciseBody_In
+    : {isNoLineTerminatorArrowFunction()}? arrowParameters_Yield ArrowPunctuator conciseBody_In
     ;
 
 arrowFunction_In_Await
-    : arrowParameters_Await /* TODO: no LineTerminator here */ ArrowPunctuator conciseBody_In
+    : {isNoLineTerminatorArrowFunction()}? arrowParameters_Await ArrowPunctuator conciseBody_In
     ;
 
 arrowFunction_Yield_Await
-    : arrowParameters_Yield /* TODO: no LineTerminator here */ ArrowPunctuator conciseBody
+    : {isNoLineTerminatorArrowFunction()}? arrowParameters_Yield ArrowPunctuator conciseBody
     ;
 
 arrowFunction_In_Yield_Await
-    : arrowParameters_Yield_Await /* TODO: no LineTerminator here */ ArrowPunctuator conciseBody_In
+    : {isNoLineTerminatorArrowFunction()}? arrowParameters_Yield_Await ArrowPunctuator conciseBody_In
     ;
 
 arrowParameters
@@ -528,112 +533,112 @@ generatorBody
 
 yieldExpression
     : YieldKeyword
-    | YieldKeyword /* TODO: no LineTerminator here */ MultiplyPunctuator? assignmentExpression_Yield
+    | {isNoLineTerminatorAfterTerminal(ParserEs::YieldKeyword)}? YieldKeyword MultiplyPunctuator? assignmentExpression_Yield
     ;
 
 yieldExpression_In
     : YieldKeyword
-    | YieldKeyword /* TODO: no LineTerminator here */ MultiplyPunctuator? assignmentExpression_In_Yield
+    | {isNoLineTerminatorAfterTerminal(ParserEs::YieldKeyword)}? YieldKeyword MultiplyPunctuator? assignmentExpression_In_Yield
     ;
 
 yieldExpression_Await
     : YieldKeyword
-    | YieldKeyword /* TODO: no LineTerminator here */ MultiplyPunctuator? assignmentExpression_Yield_Await
+    | {isNoLineTerminatorAfterTerminal(ParserEs::YieldKeyword)}? YieldKeyword MultiplyPunctuator? assignmentExpression_Yield_Await
     ;
 
 yieldExpression_In_Await
     : YieldKeyword
-    | YieldKeyword /* TODO: no LineTerminator here */ MultiplyPunctuator? assignmentExpression_In_Yield_Await
+    | {isNoLineTerminatorAfterTerminal(ParserEs::YieldKeyword)}? YieldKeyword MultiplyPunctuator? assignmentExpression_In_Yield_Await
     ;
 
 // 15.6 Async Generator Function Definitions
 
 asyncGeneratorDeclaration
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator bindingIdentifier
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator bindingIdentifier
       LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
-    // | AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator
+    // | {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator
     //   LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
     //   LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorDeclaration_Yield
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield
       LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
-    // | AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator
+    // | {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator
     //   LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
     //   LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorDeclaration_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator bindingIdentifier_Await
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator bindingIdentifier_Await
       LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
-    // | AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator
+    // | {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator
     //   LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
     //   LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorDeclaration_Default
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator bindingIdentifier?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator bindingIdentifier?
       LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorDeclaration_Yield_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield_Await
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield_Await
       LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
-    // | AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator
+    // | {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator
     //   LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
     //   LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorDeclaration_Yield_Default
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield?
       LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorDeclaration_Await_Default
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator bindingIdentifier_Await?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator bindingIdentifier_Await?
       LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorDeclaration_Yield_Await_Default
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield_Await?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield_Await?
       LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorExpression
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield_Await?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword MultiplyPunctuator bindingIdentifier_Yield_Await?
       LeftParenthesesLiteral formalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorMethod
-    : AsyncKeyword /* TODO: no LineTerminator here */ MultiplyPunctuator classElementName
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword MultiplyPunctuator classElementName
       LeftParenthesesLiteral uniqueFormalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorMethod_Yield
-    : AsyncKeyword /* TODO: no LineTerminator here */ MultiplyPunctuator classElementName_Yield
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword MultiplyPunctuator classElementName_Yield
       LeftParenthesesLiteral uniqueFormalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorMethod_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ MultiplyPunctuator classElementName_Await
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword MultiplyPunctuator classElementName_Await
       LeftParenthesesLiteral uniqueFormalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
 
 asyncGeneratorMethod_Yield_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ MultiplyPunctuator classElementName_Yield_Await
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword MultiplyPunctuator classElementName_Yield_Await
       LeftParenthesesLiteral uniqueFormalParameters_Yield_Await RightParenthesesLiteral
       LeftBracesLiteral asyncGeneratorBody RightBracesLiteral
     ;
@@ -835,79 +840,79 @@ classStaticBlockStatementList
 // 15.8 Async Function Definitions
 
 asyncFunctionDeclaration
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword bindingIdentifier
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword bindingIdentifier
       LeftParenthesesLiteral formalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncFunctionDeclaration_Yield
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword bindingIdentifier_Yield
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword bindingIdentifier_Yield
       LeftParenthesesLiteral formalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncFunctionDeclaration_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword bindingIdentifier_Await
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword bindingIdentifier_Await
       LeftParenthesesLiteral formalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncFunctionDeclaration_Default
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword bindingIdentifier?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword bindingIdentifier?
       LeftParenthesesLiteral formalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncFunctionDeclaration_Yield_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword bindingIdentifier_Yield_Await
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword bindingIdentifier_Yield_Await
       LeftParenthesesLiteral formalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncFunctionDeclaration_Yield_Default
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword bindingIdentifier_Yield?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword bindingIdentifier_Yield?
       LeftParenthesesLiteral formalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncFunctionDeclaration_Await_Default
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword bindingIdentifier_Await?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword bindingIdentifier_Await?
       LeftParenthesesLiteral formalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncFunctionDeclaration_Yield_Await_Default
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword bindingIdentifier_Yield_Await?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword bindingIdentifier_Yield_Await?
       LeftParenthesesLiteral formalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncFunctionExpression
-    : AsyncKeyword /* TODO: no LineTerminator here */ FunctionKeyword bindingIdentifier_Await?
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword FunctionKeyword bindingIdentifier_Await?
       LeftParenthesesLiteral formalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncMethod
-    : AsyncKeyword /* TODO: no LineTerminator here */ classElementName
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword classElementName
       LeftParenthesesLiteral uniqueFormalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncMethod_Yield
-    : AsyncKeyword /* TODO: no LineTerminator here */ classElementName_Yield
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword classElementName_Yield
       LeftParenthesesLiteral uniqueFormalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncMethod_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ classElementName_Await
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword classElementName_Await
       LeftParenthesesLiteral uniqueFormalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
 
 asyncMethod_Yield_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ classElementName_Yield_Await
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword)}? AsyncKeyword classElementName_Yield_Await
       LeftParenthesesLiteral uniqueFormalParameters_Await RightParenthesesLiteral
       LeftBracesLiteral asyncFunctionBody RightBracesLiteral
     ;
@@ -927,58 +932,58 @@ awaitExpression_Yield
 // 15.9 Async Arrow Function Definitions
 
 asyncArrowFunction
-    : AsyncKeyword /* TODO: no LineTerminator here */ asyncArrowBindingIdentifier /* TODO: no LineTerminator here */
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword) && isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? AsyncKeyword asyncArrowBindingIdentifier
       ArrowPunctuator asyncConciseBody
-    | coverCallExpressionAndAsyncArrowHead /* TODO: no LineTerminator here */
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? coverCallExpressionAndAsyncArrowHead
       ArrowPunctuator asyncConciseBody
     ;
 
 asyncArrowFunction_In
-    : AsyncKeyword /* TODO: no LineTerminator here */ asyncArrowBindingIdentifier /* TODO: no LineTerminator here */
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword) && isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? AsyncKeyword asyncArrowBindingIdentifier
       ArrowPunctuator asyncConciseBody_In
-    | coverCallExpressionAndAsyncArrowHead /* TODO: no LineTerminator here */
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? coverCallExpressionAndAsyncArrowHead
       ArrowPunctuator asyncConciseBody_In
     ;
 
 asyncArrowFunction_Yield
-    : AsyncKeyword /* TODO: no LineTerminator here */ asyncArrowBindingIdentifier_Yield /* TODO: no LineTerminator here */
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword) && isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? AsyncKeyword asyncArrowBindingIdentifier_Yield
       ArrowPunctuator asyncConciseBody
-    | coverCallExpressionAndAsyncArrowHead_Yield /* TODO: no LineTerminator here */
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? coverCallExpressionAndAsyncArrowHead_Yield
       ArrowPunctuator asyncConciseBody
     ;
 
 asyncArrowFunction_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ asyncArrowBindingIdentifier /* TODO: no LineTerminator here */
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword) && isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? AsyncKeyword asyncArrowBindingIdentifier
       ArrowPunctuator asyncConciseBody
-    | coverCallExpressionAndAsyncArrowHead_Await /* TODO: no LineTerminator here */
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? coverCallExpressionAndAsyncArrowHead_Await
       ArrowPunctuator asyncConciseBody
     ;
 
 asyncArrowFunction_In_Yield
-    : AsyncKeyword /* TODO: no LineTerminator here */ asyncArrowBindingIdentifier_Yield /* TODO: no LineTerminator here */
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword) && isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? AsyncKeyword asyncArrowBindingIdentifier_Yield
       ArrowPunctuator asyncConciseBody_In
-    | coverCallExpressionAndAsyncArrowHead_Yield /* TODO: no LineTerminator here */
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? coverCallExpressionAndAsyncArrowHead_Yield
       ArrowPunctuator asyncConciseBody_In
     ;
 
 asyncArrowFunction_In_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ asyncArrowBindingIdentifier /* TODO: no LineTerminator here */
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword) && isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? AsyncKeyword asyncArrowBindingIdentifier
       ArrowPunctuator asyncConciseBody_In
-    | coverCallExpressionAndAsyncArrowHead_Await /* TODO: no LineTerminator here */
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? coverCallExpressionAndAsyncArrowHead_Await
       ArrowPunctuator asyncConciseBody_In
     ;
 
 asyncArrowFunction_Yield_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ asyncArrowBindingIdentifier_Yield /* TODO: no LineTerminator here */
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword) && isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? AsyncKeyword asyncArrowBindingIdentifier_Yield
       ArrowPunctuator asyncConciseBody
-    | coverCallExpressionAndAsyncArrowHead_Yield_Await /* TODO: no LineTerminator here */
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? coverCallExpressionAndAsyncArrowHead_Yield_Await
       ArrowPunctuator asyncConciseBody
     ;
 
 asyncArrowFunction_In_Yield_Await
-    : AsyncKeyword /* TODO: no LineTerminator here */ asyncArrowBindingIdentifier_Yield /* TODO: no LineTerminator here */
+    : {isNoLineTerminatorAfterTerminal(ParserEs::AsyncKeyword) && isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? AsyncKeyword asyncArrowBindingIdentifier_Yield
       ArrowPunctuator asyncConciseBody_In
-    | coverCallExpressionAndAsyncArrowHead_Yield_Await /* TODO: no LineTerminator here */
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::ArrowPunctuator)}? coverCallExpressionAndAsyncArrowHead_Yield_Await
       ArrowPunctuator asyncConciseBody_In
     ;
 
@@ -2321,66 +2326,66 @@ forBinding_Yield_Await
 
 continueStatement
     : ContinueKeyword SemicolonPunctuator
-    | ContinueKeyword /* TODO: no LineTerminator here */ labelIdentifier SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::ContinueKeyword)}? ContinueKeyword labelIdentifier SemicolonPunctuator
     ;
 
 continueStatement_Yield
     : ContinueKeyword SemicolonPunctuator
-    | ContinueKeyword /* TODO: no LineTerminator here */ labelIdentifier_Yield SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::ContinueKeyword)}? ContinueKeyword labelIdentifier_Yield SemicolonPunctuator
     ;
 
 continueStatement_Await
     : ContinueKeyword SemicolonPunctuator
-    | ContinueKeyword /* TODO: no LineTerminator here */ labelIdentifier_Await SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::ContinueKeyword)}? ContinueKeyword labelIdentifier_Await SemicolonPunctuator
     ;
 
 continueStatement_Yield_Await
     : ContinueKeyword SemicolonPunctuator
-    | ContinueKeyword /* TODO: no LineTerminator here */ labelIdentifier_Yield_Await SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::ContinueKeyword)}? ContinueKeyword labelIdentifier_Yield_Await SemicolonPunctuator
     ;
 
 // 14.9 The break Statement
 
 breakStatement
     : BreakKeyword SemicolonPunctuator
-    | BreakKeyword /* TODO: no LineTerminator here */ labelIdentifier SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::BreakKeyword)}? BreakKeyword labelIdentifier SemicolonPunctuator
     ;
 
 breakStatement_Yield
     : BreakKeyword SemicolonPunctuator
-    | BreakKeyword /* TODO: no LineTerminator here */ labelIdentifier_Yield SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::BreakKeyword)}? BreakKeyword labelIdentifier_Yield SemicolonPunctuator
     ;
 
 breakStatement_Await
     : BreakKeyword SemicolonPunctuator
-    | BreakKeyword /* TODO: no LineTerminator here */ labelIdentifier_Await SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::BreakKeyword)}? BreakKeyword labelIdentifier_Await SemicolonPunctuator
     ;
 
 breakStatement_Yield_Await
     : BreakKeyword SemicolonPunctuator
-    | BreakKeyword /* TODO: no LineTerminator here */ labelIdentifier_Yield_Await SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::BreakKeyword)}? BreakKeyword labelIdentifier_Yield_Await SemicolonPunctuator
     ;
 
 // 14.10 The return Statement
 
 returnStatement
     : ReturnKeyword SemicolonPunctuator
-    | ReturnKeyword /* TODO: no LineTerminator here */ expression_In SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::ReturnKeyword)}? ReturnKeyword expression_In SemicolonPunctuator
     ;
 
 returnStatement_Yield
     : ReturnKeyword SemicolonPunctuator
-    | ReturnKeyword /* TODO: no LineTerminator here */ expression_In_Yield SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::ReturnKeyword)}? ReturnKeyword expression_In_Yield SemicolonPunctuator
     ;
 
 returnStatement_Await
     : ReturnKeyword SemicolonPunctuator
-    | ReturnKeyword /* TODO: no LineTerminator here */ expression_In_Await SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::ReturnKeyword)}? ReturnKeyword expression_In_Await SemicolonPunctuator
     ;
 
 returnStatement_Yield_Await
     : ReturnKeyword SemicolonPunctuator
-    | ReturnKeyword /* TODO: no LineTerminator here */ expression_In_Yield_Await SemicolonPunctuator
+    | {isNoLineTerminatorAfterTerminal(ParserEs::ReturnKeyword)}? ReturnKeyword expression_In_Yield_Await SemicolonPunctuator
     ;
 
 // 14.11 The with Statement
@@ -2656,19 +2661,19 @@ labelledItem_Yield_Await_Return
 // 14.14 The throw Statement
 
 throwStatement
-    : ThrowKeyword /* TODO: no LineTerminator here */ expression_In SemicolonPunctuator
+    : {isNoLineTerminatorAfterTerminal(ParserEs::ThrowKeyword)}? ThrowKeyword expression_In SemicolonPunctuator
     ;
 
 throwStatement_Yield
-    : ThrowKeyword /* TODO: no LineTerminator here */ expression_In_Yield SemicolonPunctuator
+    : {isNoLineTerminatorAfterTerminal(ParserEs::ThrowKeyword)}? ThrowKeyword expression_In_Yield SemicolonPunctuator
     ;
 
 throwStatement_Await
-    : ThrowKeyword /* TODO: no LineTerminator here */ expression_In_Await SemicolonPunctuator
+    : {isNoLineTerminatorAfterTerminal(ParserEs::ThrowKeyword)}? ThrowKeyword expression_In_Await SemicolonPunctuator
     ;
 
 throwStatement_Yield_Await
-    : ThrowKeyword /* TODO: no LineTerminator here */ expression_In_Yield_Await SemicolonPunctuator
+    : {isNoLineTerminatorAfterTerminal(ParserEs::ThrowKeyword)}? ThrowKeyword expression_In_Yield_Await SemicolonPunctuator
     ;
 
 // 14.15 The try Statement
@@ -3695,32 +3700,32 @@ leftHandSideExpression_Yield_Await
 
 updateExpression
     : leftHandSideExpression
-    | leftHandSideExpression /* TODO: [no LineTerminator here] */ IncrementPunctuator
-    | leftHandSideExpression /* TODO: [no LineTerminator here] */ DecrementPunctuator
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::IncrementPunctuator)}? leftHandSideExpression IncrementPunctuator
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::DecrementPunctuator)}? leftHandSideExpression DecrementPunctuator
     | IncrementPunctuator unaryExpression
     | DecrementPunctuator unaryExpression
     ;
 
 updateExpression_Yield
     : leftHandSideExpression_Yield
-    | leftHandSideExpression_Yield /* TODO: [no LineTerminator here] */ IncrementPunctuator
-    | leftHandSideExpression_Yield /* TODO: [no LineTerminator here] */ DecrementPunctuator
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::IncrementPunctuator)}? leftHandSideExpression_Yield IncrementPunctuator
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::DecrementPunctuator)}? leftHandSideExpression_Yield DecrementPunctuator
     | IncrementPunctuator unaryExpression_Yield
     | DecrementPunctuator unaryExpression_Yield
     ;
 
 updateExpression_Await
     : leftHandSideExpression_Await
-    | leftHandSideExpression_Await /* TODO: [no LineTerminator here] */ IncrementPunctuator
-    | leftHandSideExpression_Await /* TODO: [no LineTerminator here] */ DecrementPunctuator
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::IncrementPunctuator)}? leftHandSideExpression_Await IncrementPunctuator
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::DecrementPunctuator)}? leftHandSideExpression_Await DecrementPunctuator
     | IncrementPunctuator unaryExpression_Await
     | DecrementPunctuator unaryExpression_Await
     ;
 
 updateExpression_Yield_Await
     : leftHandSideExpression_Yield_Await
-    | leftHandSideExpression_Yield_Await /* TODO: [no LineTerminator here] */ IncrementPunctuator
-    | leftHandSideExpression_Yield_Await /* TODO: [no LineTerminator here] */ DecrementPunctuator
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::IncrementPunctuator)}? leftHandSideExpression_Yield_Await IncrementPunctuator
+    | {isNoLineTerminatorBeforeTerminal(ParserEs::DecrementPunctuator)}? leftHandSideExpression_Yield_Await DecrementPunctuator
     | IncrementPunctuator unaryExpression_Yield_Await
     | DecrementPunctuator unaryExpression_Yield_Await
     ;
@@ -3736,11 +3741,11 @@ unaryExpression_Yield
     ;
 
 unaryExpression_Await
-    : (DeleteKeyword | VoidKeyword | TypeofKeyword | AddPunctuator | SubtractPunctuator | BitwiseNOTPunctuator | LogicalNOTPunctuator)* (updateExpression_Await) // TODO: | awaitExpression)
+    : (DeleteKeyword | VoidKeyword | TypeofKeyword | AddPunctuator | SubtractPunctuator | BitwiseNOTPunctuator | LogicalNOTPunctuator)* (updateExpression_Await | awaitExpression)
     ;
 
 unaryExpression_Yield_Await
-    : (DeleteKeyword | VoidKeyword | TypeofKeyword | AddPunctuator | SubtractPunctuator | BitwiseNOTPunctuator | LogicalNOTPunctuator)* (updateExpression_Yield_Await) // TODO: | awaitExpression_Yield)
+    : (DeleteKeyword | VoidKeyword | TypeofKeyword | AddPunctuator | SubtractPunctuator | BitwiseNOTPunctuator | LogicalNOTPunctuator)* (updateExpression_Yield_Await | awaitExpression_Yield)
     ;
 
 // 13.6 Exponentiation Operator
@@ -4507,8 +4512,4 @@ inputElementHashbangOrRegExp
     | CommonToken
     | HashbangComment
     | RegularExpressionLiteral
-    ;
-
-program
-    : EOF
     ;

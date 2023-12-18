@@ -14,6 +14,9 @@ namespace cl::lang::ecmascript {
         bool nextTextEq(const char* str);
         bool prevTextEq(const char* str);
         bool isValidExpressionStatement();
+        bool isNoLineTerminatorAfterTerminal(size_t terminal_type);
+        bool isNoLineTerminatorBeforeTerminal(size_t terminal_type);
+        bool isNoLineTerminatorArrowFunction();
     };
 
 } // namespace cl::lang::ecmascript

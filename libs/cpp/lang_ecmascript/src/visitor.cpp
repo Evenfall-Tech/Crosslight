@@ -30,3 +30,8 @@ struct cl_node*
 visitor::get_root() {
     return _root;
 }
+
+std::any
+visitor::visitArrowFunction_In(ParserEs::ArrowFunction_InContext *ctx) {
+    return ParserEsBaseVisitor::visitArrowFunction_In(ctx);
+}

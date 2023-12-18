@@ -17,22 +17,13 @@ public:
     explicit visitor(const language_options& options);
     struct cl_node* get_root();
 
+    std::any visitArrowFunction_In(ParserEs::ArrowFunction_InContext *ctx) override;
 protected:
 
 private:
     struct cl_node* _root;
     struct cl_node* _parent;
     const language_options& _options;
-
-    /**
-     * @brief Visit node and a custom child list.
-     *
-     * @param ctx ParseTree node, corresponding to the generated Crosslight node.
-     * @param payload Pointer to acquired payload memory.
-     * @param payload_type Type of the payload. Corresponds to @ref cl_node_type values.
-     * @param children List of children to visit. If `0`, visit all children.
-     * @param visit_children Should children be visited at all.
-     */
 };
 
 } // namespace cl::lang::ecmascript

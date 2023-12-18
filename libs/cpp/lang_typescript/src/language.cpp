@@ -92,7 +92,7 @@ language::transform_input(const struct cl_resource* resource) const {
             tokens.fill();
 
             ParserTs parser(&tokens);
-            tree::ParseTree* tree = parser.program();
+            tree::ParseTree* tree = parser.ex();
 
             if (tree == nullptr) {
                 return nullptr;

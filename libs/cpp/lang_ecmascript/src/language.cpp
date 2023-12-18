@@ -108,14 +108,14 @@ language::transform_input(const struct cl_resource* resource) const {
             ParserEs parser(&tokens);
             tree::ParseTree* tree = parser.program();
 
-            //if (tree == nullptr) {
+            if (tree == nullptr) {
                 return nullptr;
-            //}
+            }
+
+            std::cout << std::endl << tree->toStringTree(&parser, true) << std::endl << std::endl;
 
             visitor v{*_options};
             tree->accept(&v);
-
-            std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
 
             return v.get_root();
         }

@@ -1036,28 +1036,34 @@ fragment SingleLineCommentChar
 // 12.3 Line Terminators
 
 LineTerminator
-    : '\u000A' // Line Feed (LF)
+    : (
+      '\u000A' // Line Feed (LF)
     | '\u000D' // Carriage Return (CR)
     | '\u2028' // Line Separator (LS)
     | '\u2029' // Paragraph Separator (PS)
+      ) -> channel (HIDDEN)
     ;
 
-fragment LineTerminatorSequence
-    : '\u000A' // Line Feed (LF)
+LineTerminatorSequence
+    : (
+      '\u000A' // Line Feed (LF)
     | '\u000D\u000A' // (CRLF)
     | '\u000D' // Carriage Return (CR)
     | '\u2028' // Line Separator (LS)
     | '\u2029' // Paragraph Separator (PS)
+      ) -> channel (HIDDEN)
     ;
 
 // 12.2 White Space
 
 WhiteSpace
-    : '\u0009' // Character Tabulation (TAB)
+    : (
+      '\u0009' // Character Tabulation (TAB)
     | '\u000B' // Line Tabulation (VT)
     | '\u000C' // Form Feed (FF)
     | '\uFEFF' // Zero Width No-Break Space (ZWNBSP)
     | USP
+      ) -> channel (HIDDEN)
     ;
 
 fragment USP
